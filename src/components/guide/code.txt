@@ -1,0 +1,21 @@
+<el-tooltip class="item btn-margin guide-right" effect="dark" content="操作向导" placement="right">
+  <el-button
+    class="el-icon-position icon-guide"
+    type="success"
+    :size="btnBaseAttrs.size"
+    :disabled="btnDisabled"
+    @click="openGuide()"
+  />
+</el-tooltip>
+
+<!-- 操作向导 -->
+<guide :guide="guide" :content="excelMerge" @close-guide="closeGuide" />
+
+import Guide from '@/guide/guide'
+
+'guide': Guide
+
+guide: false
+
+
+

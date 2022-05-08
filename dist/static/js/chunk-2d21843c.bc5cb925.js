@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21843c"],{c9f6:function(n,c,e){"use strict";e.r(c);var a=function(){var n=this,c=n.$createElement,e=n._self._c||c;return e("div",{staticClass:"app-container"},[n._v("PDF转WORD")])},t=[],s={name:"Pdf2word"},r=s,i=e("2877"),o=Object(i["a"])(r,a,t,!1,null,"eaa2c3c4",null);c["default"]=o.exports}}]);
