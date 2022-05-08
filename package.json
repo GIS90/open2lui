@@ -1,5 +1,5 @@
 {
-  "name": "open2lbox",
+  "name": "open2lui",
   "version": "1.2.0",
   "description": "A open tool box platform",
   "author": {
@@ -95,7 +95,7 @@
     "last 2 versions"
   ],
   "bugs": {
-    "url": "https://github.com/PanJiaChen/vue-element-admin/issues"
+    "url": "https://github.com/GIS90/open2lui/issues"
   },
   "engines": {
     "node": ">=8.9",
