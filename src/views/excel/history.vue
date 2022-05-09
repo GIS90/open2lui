@@ -41,7 +41,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="文件名称" width="300" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="Sheet名称" :align="tableRowAttrs.align" width="200" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_sheet_name" label="Sheet名称" :align="tableRowAttrs.align" width="240" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="类别" :align="tableRowAttrs.align" width="120">
           <template slot-scope="scope">
             <el-tag
@@ -75,7 +75,7 @@
         <el-table-column prop="row" label="行数" :align="tableRowAttrs.align" width="120" />
         <el-table-column prop="col" label="列数" :align="tableRowAttrs.align" width="120" />
         <el-table-column prop="rtx_id" label="创建人RTX" :align="tableRowAttrs.align" width="160" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="210">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="240">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="handleEdit(scope.$index, scope.row)" />
@@ -354,7 +354,7 @@ export default {
 }
 
 .icon-item {
-  margin-left: 35px;
+  margin-left: 40px;
 }
 
 .table-sty {

@@ -65,8 +65,9 @@
             </el-popover>
           </template>
         </el-table-column>
+        <el-table-column prop="numopr" label="操作次数" :align="tableRowAttrs.align" width="120" />
         <el-table-column prop="rtx_id" label="上传人RTX" :align="tableRowAttrs.align" width="160" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="210">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="240">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="handleEdit(scope.$index, scope.row)" />
@@ -385,7 +386,7 @@ export default {
 }
 
 .icon-item {
-  margin-left: 35px;
+  margin-left: 40px;
 }
 
 .table-header {
