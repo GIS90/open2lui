@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21ad95"],{bcec:function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"app-container"},[e._v("角色管理")])},c=[],s={name:"Role"},i=s,l=t("2877"),o=Object(l["a"])(i,a,c,!1,null,"30271d1f",null);n["default"]=o.exports}}]);
