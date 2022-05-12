@@ -2,7 +2,7 @@
   <div ref="rightPanel" :class="{show:show}" class="rightPanel-container">
     <div class="rightPanel-background" />
     <div class="rightPanel">
-      <div :style="{'bottom':buttonBottom+'px','background-color':theme}" @click="show=!show">
+      <div class="handle-button" :style="{'bottom':buttonBottom+'px','background-color':theme}" @click="show=!show">
         <i id="right-panel-btn" :class="show?'el-icon-close':'el-icon-setting'" />
       </div>
       <div class="rightPanel-items">

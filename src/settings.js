@@ -52,7 +52,7 @@ module.exports = {
     name: 'OpenTool-Z',
     version: 'V1.2.1',
     author: 'PyGo²',
-    furl: 'https://github.com/GIS90',
+    furl: 'https://github.com/GIS90/open2liui.git',
     burl: 'https://github.com/GIS90/open2lisapi.git'
   }
 }
