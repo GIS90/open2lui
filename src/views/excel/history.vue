@@ -131,12 +131,12 @@ export default {
   data() {
     return {
       selBtnText: '全选', // 选择按钮内容
-      btnDeleteLoading: false, // 删除是否为加载中状态
-      btnDisabled: false, // 是否为禁用状态
+      btnDeleteLoading: false, // 删除按钮加载中状态
+      btnDisabled: false, // 按钮禁用状态
       selectAllStatus: false, // 全选状态
       // button attributes
       btnBaseAttrs: {
-        size: 'default', // 大小 large / default / small
+        size: 'medium', // 大小 medium / small / mini / ''
         type: 'primary', // 类型 primary / success / warning / danger / info / text
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
@@ -146,7 +146,7 @@ export default {
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
         border: true, // 是否带有纵向边框 true/false
-        size: 'default', // 尺寸 large / default /small
+        size: 'medium', // 尺寸 medium / small / mini / ''
         fit: true, // 列的宽度是否自撑开 true/false
         showHeader: true, // 是否显示表头 true/false
         hcr: true, // 是否要高亮当前行highlight-current-row true/false

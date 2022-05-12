@@ -17,10 +17,10 @@
     </el-row>
 
     <!-- 提示说明 -->
-    <excel-split-tip :show="drawerStatus" @close-tip="closeTip" />
+    <excel-split-tip :show="tipDialogStatus" @close-tip="closeTip" />
 
     <!-- 文件上传 -->
-    <excel-upload :dialog="dialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
+    <excel-upload :dialog="uploadDialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -137,25 +137,25 @@ export default {
     return {
       fileType: '2',
       selBtnText: '全选', // 选择按钮内容
-      btnUploadLoading: false, // 上传是否为加载中状态
-      btnSplitLoading: false, // 拆分是否为加载中状态
-      btnDeleteLoading: false, // 删除是否为加载中状态
-      btnDisabled: false, // 是否为禁用状态
+      btnUploadLoading: false, // 上传按钮加载中状态
+      btnSplitLoading: false, // 拆分按钮加载中状态
+      btnDeleteLoading: false, // 删除按钮加载中状态
+      btnDisabled: false, // 按钮禁用状态
       // button attributes
       btnBaseAttrs: {
-        size: 'default', // 大小 large / default / small
+        size: 'medium', // 大小 medium / small / mini / ''
         type: 'primary', // 类型 primary / success / warning / danger / info / text
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
-      drawerStatus: false, // 操作说明tip
-      dialogStatus: false, // 文件上传dialog
+      tipDialogStatus: false, // 操作说明tip
+      uploadDialogStatus: false, // 文件上传dialog
       // table attributes
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
         border: true, // 是否带有纵向边框 true/false
-        size: 'default', // 尺寸 large / default /small
+        size: 'medium', // 尺寸 medium / small / mini / ''
         fit: true, // 列的宽度是否自撑开 true/false
         showHeader: true, // 是否显示表头 true/false
         hcr: true, // 是否要高亮当前行highlight-current-row true/false
@@ -203,23 +203,17 @@ export default {
   },
   mounted() {},
   methods: {
-    openGuide() { // 开启向导（废弃）
-      this.guide = true
-    },
-    closeGuide() { // 关闭向导（废弃）
-      this.guide = false
-    },
     openTip() { // 开启tip
-      this.drawerStatus = true
+      this.tipDialogStatus = true
     },
     closeTip() { // 关闭tip
-      this.drawerStatus = false
+      this.tipDialogStatus = false
     },
     openFileUpload() { // 开启upload dialog
-      this.dialogStatus = true
+      this.uploadDialogStatus = true
     },
     closeFileUpload(isRefresh) { // 关闭upload dialog
-      this.dialogStatus = false
+      this.uploadDialogStatus = false
       if (isRefresh) {
         this.getExcelSourceList()
       }
@@ -395,10 +389,6 @@ export default {
 
 .icon-item {
   margin-left: 45px;
-}
-
-.table-header {
-  background-color: #2c3e50;
 }
 
 .page-div {

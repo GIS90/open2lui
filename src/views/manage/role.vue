@@ -2,8 +2,8 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-create" type="info" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="createRole">
-        <svg-icon icon-class="i_upload" />  创建
+      <el-button id="btn-create" type="info" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddRole">
+        <svg-icon icon-class="i_add" />  新增
       </el-button>
       <el-button id="btn-select" type="primary" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
@@ -38,13 +38,17 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="engname" label="英文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="chnname" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="240" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="create_operator" label="创建人RTX" :align="tableRowAttrs.align" width="160" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="240">
+        <el-table-column prop="chnname" label="名称" width="210" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="introduction" label="描述" width="260" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="320">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="设置" placement="top">
+            <el-tooltip effect="dark" content="详情" placement="top">
+              <i class="el-icon-document" @click="handleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="dark" content="设置" placement="top">
+              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="dark" content="授权" placement="top">
               <i class="el-icon-setting" @click="handleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
@@ -54,25 +58,31 @@
         </el-table-column>
       </el-table>
     </div>
+
+    <!-- 新增角色 -->
+    <role-add :show="addDialogStatus" @close-add-role="closeAddRole" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
 import { getRoleList } from '@/api/role'
+import RoleAdd from '@/components/manage/RoleAdd'
 
 export default {
   name: 'Role',
   emits: [],
-  components: {},
+  components: {
+    'role-add': RoleAdd
+  },
   props: {},
   data() {
     return {
-      btnDisabled: false, // 是否为禁用状态
+      btnDisabled: false, // 按钮禁用状态
       selBtnText: '全选', // 选择按钮内容
       // button attributes
       btnBaseAttrs: {
-        size: 'default', // 大小 large / default / small
+        size: 'medium', // 大小 medium / small / mini / ''
         type: 'primary', // 类型 primary / success / warning / danger / info / text
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
@@ -82,7 +92,7 @@ export default {
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
         border: true, // 是否带有纵向边框 true/false
-        size: 'default', // 尺寸 large / default /small
+        size: 'medium', // 尺寸 medium / small / mini / ''
         fit: true, // 列的宽度是否自撑开 true/false
         showHeader: true, // 是否显示表头 true/false
         hcr: true, // 是否要高亮当前行highlight-current-row true/false
@@ -111,7 +121,8 @@ export default {
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
-      deleteConfirm: false // 删除确认dialog状态
+      deleteConfirm: false, // 删除确认dialog状态
+      addDialogStatus: false // 新增角色
     }
   },
   computed: {},
@@ -215,7 +226,14 @@ export default {
     handleDelete(index, row) { // table row 删除
 
     },
-    createRole() {
+    openAddRole() {
+      this.addDialogStatus = true
+    },
+    closeAddRole(isRefresh) {
+      this.addDialogStatus = false
+      if (isRefresh) {
+        this.getRoleList()
+      }
     },
     openDeleteDialog() {
     }
