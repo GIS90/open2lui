@@ -8,3 +8,12 @@ export function getRoleList(data) {
     data
   })
 }
+
+// 新增角色
+export function addRole(data) {
+  return request({
+    url: '/auth/addrole',
+    method: 'post',
+    data
+  })
+}

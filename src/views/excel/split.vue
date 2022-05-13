@@ -67,7 +67,7 @@
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="320">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
-              <i class="el-icon-setting" @click="handleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="light" content="拆分" placement="top">
               <el-button
@@ -83,7 +83,7 @@
               <a :href="scope.row.url"><i class="el-icon-download" /></a>
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)" />
+              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -259,7 +259,7 @@ export default {
         color: '#606266'
       }
     },
-    handleEdit(index, row) { // table row 设置dialog
+    rowHandleEdit(index, row) { // table row 设置dialog
       if (!row) {
         return false
       }
@@ -277,7 +277,7 @@ export default {
         this.getExcelSourceList()
       }
     },
-    handleDelete(index, row) { // table row 删除
+    rowHandleDelete(index, row) { // table row 删除
       if (!row || !row?.md5_id) {
         return false
       }

@@ -38,21 +38,22 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="chnname" label="名称" width="210" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="260" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="320">
+        <el-table-column prop="engname" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="chnname" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="introduction" label="描述" width="270" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="300">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="详情" placement="top">
-              <i class="el-icon-document" @click="handleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="设置" placement="top">
-              <i class="el-icon-edit" @click="handleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="授权" placement="top">
-              <i class="el-icon-setting" @click="handleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="handleDelete(scope.$index, scope.row)" />
+              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -208,7 +209,7 @@ export default {
         color: '#606266'
       }
     },
-    handleEdit(index, row) { // table row 设置dialog
+    rowHandleEdit(index, row) { // table row 设置dialog
       if (!row) {
         return false
       }
@@ -223,7 +224,7 @@ export default {
         this.getRoleList()
       }
     },
-    handleDelete(index, row) { // table row 删除
+    rowHandleDelete(index, row) { // table row 删除
 
     },
     openAddRole() {

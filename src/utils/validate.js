@@ -107,3 +107,17 @@ export function validExcelFile(str) {
   const fileSuffix = fileNames[fileNames.length - 1]
   return fileExt.includes(fileSuffix)
 }
+
+/**
+ * @param {string} str
+ * @returns {Boolean}
+ * desc: 获取浏览器可用的宽度，高度
+ */
+export function validClientHW(str) {
+  const height = document.documentElement.clientHeight || 0
+  const width = document.documentElement.clientWidth || 0
+  return {
+    'height': height,
+    'width': width
+  }
+}

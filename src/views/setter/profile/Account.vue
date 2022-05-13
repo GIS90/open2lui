@@ -102,6 +102,12 @@ export default {
   data() {
     return {
       edit: false, // 编辑模式
+      inputAttrs: { // input attrs
+        size: 'medium', // 大小：medium / small / mini / ''
+        clear: true, // 可清空的输入框
+        length: '15', // 最大输入长度
+        limit: true // 展示字数统计
+      },
       clear: true, // Input输入框是否支持一键清除
       showWordLimit: true, // Input是否展示剩余字符数
       loading: false // 提交按钮是否处于loading状态
