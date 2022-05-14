@@ -46,7 +46,7 @@
             <el-tooltip effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="设置" placement="top">
+            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="授权" placement="top">
@@ -68,15 +68,19 @@
 
     <!-- 角色设置 -->
     <role-set :show="setDialogStatus" :table-row="oprSelectData" @close-set-role="closeSetRole" />
+
+    <!-- 删除dialog -->
+    <role-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
-import { getRoleList } from '@/api/role'
+import { deleteRole, getRoleList } from '@/api/role'
 import RoleAdd from '@/components/manage/RoleAdd'
 import RoleDetail from '@/components/manage/RoleDetail'
 import RoleSet from '@/components/manage/RoleSet'
+import RoleBatchDelete from '@/components/manage/RoleBatchDelete'
 import { adminRtx } from '@/settings.js'
 
 export default {
@@ -85,7 +89,8 @@ export default {
   components: {
     'role-add': RoleAdd,
     'role-detail': RoleDetail,
-    'role-set': RoleSet
+    'role-set': RoleSet,
+    'role-batch-delete': RoleBatchDelete
   },
   props: {},
   data() {
@@ -245,7 +250,30 @@ export default {
       }
     },
     rowHandleDelete(index, row) { // table row 删除
-
+      if (!row || !row?.md5_id) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': row.md5_id
+      }
+      return new Promise((resolve, reject) => {
+        deleteRole(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+            this.getRoleList()
+          }
+          resolve(response)
+        }).catch(error => {
+          this.loading = false
+          reject(error)
+        })
+      })
     },
     openAddRole() {
       this.addDialogStatus = true
@@ -265,7 +293,22 @@ export default {
         this.getRoleList()
       }
     },
-    openDeleteDialog() {
+    closeDeleteDialog(isRefresh) { // 开启删除Dialog
+      this.deleteConfirm = false
+      if (isRefresh) {
+        this.getRoleList()
+      }
+    },
+    openDeleteDialog() { // 关闭删除Dialog
+      if (this.selectList.length === 0) {
+        this.$message({
+          message: '请选择删除的角色',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      this.deleteConfirm = true
     }
   }
 }
