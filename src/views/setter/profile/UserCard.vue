@@ -5,6 +5,7 @@
     </div>
 
     <div class="user-profile">
+      <!-- user avatar -->
       <div class="box-center">
         <pan-thumb :image="user.avatar" :height="'120px'" :width="'120px'" :hoverable="false">
           <div style="margin-top: 10px;">Hello</div>
@@ -18,7 +19,7 @@
         <avatar :avatar="user.avatar" @update-avatar="updateAvatar" />
       </div>
     </div>
-
+    <!-- user introduction -->
     <div class="user-bio">
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>自我介绍</span></div>

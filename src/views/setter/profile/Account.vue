@@ -16,10 +16,12 @@
         v-model.trim="user.name"
         type="text"
         placeholder="请输入昵称"
-        :clearable="clear"
+        maxlength="30"
+        :clearable="inputAttrs.clear"
+        :show-word-limit="inputAttrs.limit"
+        :size="inputAttrs.size"
+        :prefix-icon="edit ? 'el-icon-edit' : ''"
         :disabled="!edit"
-        maxlength="10"
-        show-word-limit
       />
     </el-form-item>
     <el-form-item v-show="edit" label="密码">
@@ -32,10 +34,12 @@
         v-model.trim="user.email"
         type="text"
         placeholder="请输入邮箱"
-        :clearable="clear"
-        :disabled="!edit"
         maxlength="35"
-        show-word-limit
+        :clearable="inputAttrs.clear"
+        :show-word-limit="inputAttrs.limit"
+        :size="inputAttrs.size"
+        :prefix-icon="edit ? 'el-icon-edit' : ''"
+        :disabled="!edit"
       />
     </el-form-item>
     <!--电话-->
@@ -44,22 +48,27 @@
         v-model.trim="user.phone"
         type="text"
         placeholder="电话"
-        :clearable="clear"
-        :disabled="!edit"
         maxlength="11"
-        show-word-limit
+        :clearable="inputAttrs.clear"
+        :show-word-limit="inputAttrs.limit"
+        :size="inputAttrs.size"
+        :prefix-icon="edit ? 'el-icon-edit' : ''"
+        :disabled="!edit"
       />
     </el-form-item>
     <!--自我介绍-->
     <el-form-item label="自我介绍">
       <el-input
         v-model="user.introduction"
-        :autosize="{ minRows: 3, maxRows: 6 }"
         type="textarea"
         placeholder="请输入自我介绍"
+        :rows="textAreaAttrs.rows"
+        :autosize="{ minRows: 4, maxRows: 6 }"
+        :maxlength="textAreaAttrs.length"
+        :clearable="textAreaAttrs.clear"
+        :show-word-limit="textAreaAttrs.limit"
+        :prefix-icon="edit ? 'el-icon-edit' : ''"
         :disabled="!edit"
-        maxlength="255"
-        show-word-limit
       />
     </el-form-item>
     <el-form-item v-show="edit">
@@ -79,6 +88,7 @@ import Password from './Password.vue'
 
 export default {
   name: 'Account',
+  emits: [],
   components: {
     'password': Password
   },
@@ -102,17 +112,30 @@ export default {
   data() {
     return {
       edit: false, // 编辑模式
+      loading: false, // 提交按钮是否处于loading状态
       inputAttrs: { // input attrs
         size: 'medium', // 大小：medium / small / mini / ''
         clear: true, // 可清空的输入框
-        length: '15', // 最大输入长度
-        limit: true // 展示字数统计
+        length: '25', // 最大输入长度
+        limit: true, // 展示字数统计
+        prefixIcon: 'el-icon-edit', // input前缀icon
+        suffixIcon: '' // input后缀icon
       },
-      clear: true, // Input输入框是否支持一键清除
-      showWordLimit: true, // Input是否展示剩余字符数
-      loading: false // 提交按钮是否处于loading状态
+      textAreaAttrs: { // textArea attrs
+        rows: 4, // 输入框行数
+        autoSize: false, // 自适应内容高度
+        clear: true, // 可清空的输入框
+        length: '255', // 最大输入长度
+        limit: true, // 展示字数统计
+        prefixIcon: 'el-icon-edit', // input前缀icon
+        suffixIcon: '' // input后缀icon
+      }
     }
   },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
   methods: {
     checkRtx(value) {
       if (!value) {
@@ -134,9 +157,9 @@ export default {
           duration: 2.5 * 1000
         })
         return false
-      } else if (value.length > 35) {
+      } else if (value.length > 30) {
         this.$message({
-          message: '用户昵称最大长度为10',
+          message: '用户昵称最大长度为30',
           type: 'warning',
           duration: 2.5 * 1000
         })
