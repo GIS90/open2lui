@@ -44,15 +44,15 @@
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="300">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="详情" placement="top">
-              <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="设置" placement="top">
+            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="设置" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="授权" placement="top">
-              <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
+            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="授权" placement="top">
+              <i class="el-icon-setting" @click="rowHandleAuth(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
@@ -62,6 +62,12 @@
 
     <!-- 新增角色 -->
     <role-add :show="addDialogStatus" @close-add-role="closeAddRole" />
+
+    <!-- 角色详情 -->
+    <role-detail :show="detailDialogStatus" :table-row="oprSelectData" @close-detail-role="closeDetailRole" />
+
+    <!-- 角色设置 -->
+    <role-set :show="setDialogStatus" :table-row="oprSelectData" @close-set-role="closeSetRole" />
   </div>
 </template>
 
@@ -69,16 +75,22 @@
 import store from '@/store'
 import { getRoleList } from '@/api/role'
 import RoleAdd from '@/components/manage/RoleAdd'
+import RoleDetail from '@/components/manage/RoleDetail'
+import RoleSet from '@/components/manage/RoleSet'
+import { adminRtx } from '@/settings.js'
 
 export default {
   name: 'Role',
   emits: [],
   components: {
-    'role-add': RoleAdd
+    'role-add': RoleAdd,
+    'role-detail': RoleDetail,
+    'role-set': RoleSet
   },
   props: {},
   data() {
     return {
+      adminRtx: adminRtx, // admin rtx
       btnDisabled: false, // 按钮禁用状态
       selBtnText: '全选', // 选择按钮内容
       // button attributes
@@ -121,9 +133,10 @@ export default {
       selectList: [], // 选择列表
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
-      setDialogStatus: false, // 设置dialog状态
       deleteConfirm: false, // 删除确认dialog状态
-      addDialogStatus: false // 新增角色
+      detailDialogStatus: false, // 角色详情dialog
+      setDialogStatus: false, // 角色设置dialog
+      addDialogStatus: false // 新增角色dialog
     }
   },
   computed: {},
@@ -209,14 +222,21 @@ export default {
         color: '#606266'
       }
     },
+    rowHandleDetail(index, row) { // table row 详情dialog
+      if (!row) {
+        return false
+      }
+      this.oprSelectData = row
+      this.detailDialogStatus = true
+    },
     rowHandleEdit(index, row) { // table row 设置dialog
       if (!row) {
         return false
       }
-      this.oprSelectData = {
-        name: row
-      }
+      this.oprSelectData = row
       this.setDialogStatus = true
+    },
+    rowHandleAuth(index, row) { // table row 授权dialog
     },
     closeFileSet(isRefresh) { // 关闭table row 设置dialog
       this.setDialogStatus = false
@@ -232,6 +252,15 @@ export default {
     },
     closeAddRole(isRefresh) {
       this.addDialogStatus = false
+      if (isRefresh) {
+        this.getRoleList()
+      }
+    },
+    closeDetailRole() {
+      this.detailDialogStatus = false
+    },
+    closeSetRole(isRefresh) {
+      this.setDialogStatus = false
       if (isRefresh) {
         this.getRoleList()
       }

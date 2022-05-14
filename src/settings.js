@@ -44,6 +44,7 @@ module.exports = {
    * admin role code
    * */
   roleAdminCode: '21232f297a57a5a743894a0e4a801fc3',
+  adminRtx: 'admin',
 
   /**
    * base information

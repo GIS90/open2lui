@@ -17,3 +17,30 @@ export function addRole(data) {
     data
   })
 }
+
+// 更新角色
+export function updateRole(data) {
+  return request({
+    url: '/auth/updaterole',
+    method: 'post',
+    data
+  })
+}
+
+// 批量删除角色
+export function batchDeleteRole(data) {
+  return request({
+    url: '/auth/mdelrole',
+    method: 'post',
+    data
+  })
+}
+
+// 单个删除角色
+export function deleteRole(data) {
+  return request({
+    url: '/auth/delrole',
+    method: 'post',
+    data
+  })
+}

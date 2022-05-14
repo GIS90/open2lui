@@ -18,23 +18,23 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="addRoleForm" :label-position="labelPosition" :model="addRoleForm" :rules="addRoleRules" label-width="auto">
+      <el-form ref="setRoleForm" :label-position="labelPosition" :model="setRoleForm" :rules="addRoleRules" label-width="auto">
         <el-form-item label="RTX名称" prop="engname">
           <el-input
-            v-model.trim="addRoleForm.engname"
+            v-model.trim="setRoleForm.engname"
             type="text"
             placeholder="请输入角色RTX名称（建议使用英文）"
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
+            prefix-icon="el-icon-collection-tag"
+            :disabled="true"
           />
         </el-form-item>
         <el-form-item label="中文名称" prop="chnname">
           <el-input
-            v-model.trim="addRoleForm.chnname"
+            v-model.trim="setRoleForm.chnname"
             type="text"
             placeholder="请输入角色中文名称"
             :maxlength="inputAttrs.length"
@@ -47,7 +47,7 @@
         </el-form-item>
         <el-form-item label="描述" prop="introduction">
           <el-input
-            v-model.trim="addRoleForm.introduction"
+            v-model.trim="setRoleForm.introduction"
             type="textarea"
             placeholder="请输入角色相关描述"
             :rows="textAreaAttrs.rows"
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { addRole } from '@/api/role'
+import { updateRole } from '@/api/role'
 import store from '@/store'
 
 const validateRoleEName = (rule, value, callback) => {
@@ -106,8 +106,8 @@ const validateRoleIntrod = (rule, value, callback) => {
 }
 
 export default {
-  name: 'RoleAdd',
-  emits: ['close-add-role'],
+  name: 'RoleSet',
+  emits: ['close-set-role'],
   components: {},
   props: {
     show: {
@@ -117,6 +117,13 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
+    },
+    tableRow: {
+      type: Object,
+      require: true,
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
@@ -125,7 +132,7 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '新增角色',
+        title: '角色设置',
         width: '40%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -157,10 +164,10 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       // data
-      addRoleForm: {
-        engname: '', // 英文名称
-        chnname: '', // 中文名称
-        introduction: '' // 描述
+      setRoleForm: {
+        engname: this.tableRow.engname, // 英文名称
+        chnname: this.tableRow.engname, // 中文名称
+        introduction: this.tableRow.introduction // 描述
       },
       addRoleRules: {
         engname: [{ required: true, trigger: 'blur', validator: validateRoleEName }],
@@ -175,36 +182,37 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作
-      this.addRoleForm.engname = ''
-      this.addRoleForm.chnname = ''
-      this.addRoleForm.introduction = ''
+      this.setRoleForm.engname = this.tableRow.engname
+      this.setRoleForm.chnname = this.tableRow.chnname
+      this.setRoleForm.introduction = this.tableRow.introduction
     },
     closeDialog() {
-      this.$emit('close-add-role', false)
+      this.$emit('close-set-role', false)
     },
     submitAddRole() {
-      this.$refs.addRoleForm.validate(valid => {
+      this.$refs.setRoleForm.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'engname': this.addRoleForm.engname,
-            'chnname': this.addRoleForm.chnname,
-            'introduction': this.addRoleForm.introduction
+            'md5': this.tableRow.md5_id,
+            'engname': this.setRoleForm.engname,
+            'chnname': this.setRoleForm.chnname,
+            'introduction': this.setRoleForm.introduction
           }
           return new Promise((resolve, reject) => {
-            addRole(data).then(response => {
+            updateRole(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '角色新增成功' || message,
+                  message: '角色设置成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-add-role', true)
+                this.$emit('close-set-role', true)
               }
               resolve(response)
             }).catch(error => {
