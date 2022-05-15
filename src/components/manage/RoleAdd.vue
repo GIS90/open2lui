@@ -64,7 +64,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitAddRole()">提交</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitAddRole()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -179,10 +179,10 @@ export default {
       this.addRoleForm.chnname = ''
       this.addRoleForm.introduction = ''
     },
-    closeDialog() {
+    closeDialog() { // 关闭dialog
       this.$emit('close-add-role', false)
     },
-    submitAddRole() {
+    submitAddRole() { // 提交
       this.$refs.addRoleForm.validate(valid => {
         if (valid) {
           this.disabled = true

@@ -35,7 +35,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitSet()">提交</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitSet()">确定</el-button>
         </span>
       </template>
     </el-dialog>

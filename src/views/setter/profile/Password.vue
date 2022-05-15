@@ -46,7 +46,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="closeDialog()">取消</el-button>
-          <el-button :loading="loading" type="primary" @click="submitPassword()">确认</el-button>
+          <el-button :loading="loading" type="primary" @click="submitPassword()">确定</el-button>
         </span>
       </template>
     </el-dialog>

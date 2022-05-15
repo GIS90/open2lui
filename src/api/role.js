@@ -44,3 +44,21 @@ export function deleteRole(data) {
     data
   })
 }
+
+// 获取角色权限tree
+export function getAuthTree(data) {
+  return request({
+    url: '/auth/tree',
+    method: 'get',
+    params: data
+  })
+}
+
+// 保存角色权限tree
+export function submitAuthTree(data) {
+  return request({
+    url: '/auth/savetree',
+    method: 'post',
+    data
+  })
+}

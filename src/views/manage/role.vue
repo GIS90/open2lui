@@ -69,6 +69,9 @@
     <!-- 角色设置 -->
     <role-set :show="setDialogStatus" :table-row="oprSelectData" @close-set-role="closeSetRole" />
 
+    <!-- 权限设置 -->
+    <role-auth :show="authDialogStatus" :table-row="oprSelectData" @close-auth-role="closeAuthRole" />
+
     <!-- 删除dialog -->
     <role-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
   </div>
@@ -81,6 +84,7 @@ import RoleAdd from '@/components/manage/RoleAdd'
 import RoleDetail from '@/components/manage/RoleDetail'
 import RoleSet from '@/components/manage/RoleSet'
 import RoleBatchDelete from '@/components/manage/RoleBatchDelete'
+import RoleAuth from '@/components/manage/RoleAuth'
 import { adminRtx } from '@/settings.js'
 
 export default {
@@ -90,6 +94,7 @@ export default {
     'role-add': RoleAdd,
     'role-detail': RoleDetail,
     'role-set': RoleSet,
+    'role-auth': RoleAuth,
     'role-batch-delete': RoleBatchDelete
   },
   props: {},
@@ -141,7 +146,8 @@ export default {
       deleteConfirm: false, // 删除确认dialog状态
       detailDialogStatus: false, // 角色详情dialog
       setDialogStatus: false, // 角色设置dialog
-      addDialogStatus: false // 新增角色dialog
+      addDialogStatus: false, // 新增角色dialog
+      authDialogStatus: false // 角色权限dialog
     }
   },
   computed: {},
@@ -159,7 +165,7 @@ export default {
   },
   mounted() {},
   methods: {
-    getRoleList() {
+    getRoleList() { // 获取role list数据
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -242,6 +248,11 @@ export default {
       this.setDialogStatus = true
     },
     rowHandleAuth(index, row) { // table row 授权dialog
+      if (!row) {
+        return false
+      }
+      this.oprSelectData = row
+      this.authDialogStatus = true
     },
     closeFileSet(isRefresh) { // 关闭table row 设置dialog
       this.setDialogStatus = false
@@ -275,31 +286,31 @@ export default {
         })
       })
     },
-    openAddRole() {
+    openAddRole() { // 打开新增角色dialog
       this.addDialogStatus = true
     },
-    closeAddRole(isRefresh) {
+    closeAddRole(isRefresh) { // 关闭新增角色dialog
       this.addDialogStatus = false
       if (isRefresh) {
         this.getRoleList()
       }
     },
-    closeDetailRole() {
+    closeDetailRole() { // 关闭角色详情dialog
       this.detailDialogStatus = false
     },
-    closeSetRole(isRefresh) {
+    closeSetRole(isRefresh) { // 关闭角色设置dialog
       this.setDialogStatus = false
       if (isRefresh) {
         this.getRoleList()
       }
     },
-    closeDeleteDialog(isRefresh) { // 开启删除Dialog
+    closeDeleteDialog(isRefresh) { // 关闭批量删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
         this.getRoleList()
       }
     },
-    openDeleteDialog() { // 关闭删除Dialog
+    openDeleteDialog() { // 打开批量删除Dialog
       if (this.selectList.length === 0) {
         this.$message({
           message: '请选择删除的角色',
@@ -309,6 +320,9 @@ export default {
         return false
       }
       this.deleteConfirm = true
+    },
+    closeAuthRole() { // 关闭权限设置Dialog
+      this.authDialogStatus = false
     }
   }
 }
