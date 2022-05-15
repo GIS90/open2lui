@@ -84,15 +84,13 @@
     </div>
 
     <!-- page分页 -->
-    <div class="block page-div">
-      <excel-pagin
-        :page="pageCur"
-        :size="pageSize"
-        :total="pageTotal"
-        @pagin-size-change="paginSizeChange"
-        @pagin-current-change="paginCurrentChange"
-      />
-    </div>
+    <pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
 
     <!-- 文件设置 -->
     <excel-merge-set :show="setDialogStatus" :table-row="oprSelectData" @close-file-set="closeFileSet" />
@@ -112,8 +110,8 @@ import ExcelMergeTip from '@/components/excel/ExcelMergeTip'
 import ExcelUpload from '@/components/excel/ExcelUpload'
 import ExcelMergeSet from '@/components/excel/ExcelMergeSet'
 import ExcelMergeOpr from '@/components/excel/ExcelMergeOpr'
-import ExcelPagin from '@/components/excel/ExcelPagin'
 import ExcelBatchDelete from '@/components/excel/ExcelBatchDelete'
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Merge',
@@ -122,8 +120,8 @@ export default {
     'excel-upload': ExcelUpload,
     'excel-merge-set': ExcelMergeSet,
     'excel-merge-opr': ExcelMergeOpr,
-    'excel-pagin': ExcelPagin,
-    'excel-batch-delete': ExcelBatchDelete
+    'excel-batch-delete': ExcelBatchDelete,
+    'pagination': Pagination
   },
   props: {},
   data() {
@@ -381,10 +379,5 @@ export default {
 
 .icon-item {
   margin-left: 40px;
-}
-
-.page-div {
-  text-align: center;
-  margin-top: 25px;
 }
 </style>

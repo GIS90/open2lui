@@ -92,15 +92,13 @@
     </div>
 
     <!-- page分页 -->
-    <div class="block page-div">
-      <excel-pagin
-        :page="pageCur"
-        :size="pageSize"
-        :total="pageTotal"
-        @pagin-size-change="paginSizeChange"
-        @pagin-current-change="paginCurrentChange"
-      />
-    </div>
+    <pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
 
     <!-- 文件设置 -->
     <excel-history-set :show="setDialogStatus" :table-row="oprSelectData" @close-history-set="closeHistorySet" />
@@ -116,7 +114,7 @@ import store from '@/store'
 import ExcelHistorySet from '@/components/excel/ExcelHistorySet'
 import ExcelHistoryDelete from '@/components/excel/ExcelHistoryDelete'
 import ExcelHistoryFilter from '@/components/excel/ExcelHistoryFilter'
-import ExcelPagin from '@/components/excel/ExcelPagin'
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'History',
@@ -125,7 +123,7 @@ export default {
     'excel-history-set': ExcelHistorySet,
     'excel-history-delete': ExcelHistoryDelete,
     'excel-history-filter': ExcelHistoryFilter,
-    'excel-pagin': ExcelPagin
+    'pagination': Pagination
   },
   props: {},
   data() {
@@ -348,11 +346,6 @@ export default {
 </script>
 
 <style scoped>
-.page-div {
-  text-align: center;
-  margin-top: 25px;
-}
-
 .icon-item {
   margin-left: 40px;
 }

@@ -60,6 +60,15 @@
       </el-table>
     </div>
 
+    <!-- page分页 -->
+    <pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
+
     <!-- 新增角色 -->
     <role-add :show="addDialogStatus" @close-add-role="closeAddRole" />
 
@@ -85,6 +94,7 @@ import RoleDetail from '@/components/manage/RoleDetail'
 import RoleSet from '@/components/manage/RoleSet'
 import RoleBatchDelete from '@/components/manage/RoleBatchDelete'
 import RoleAuth from '@/components/manage/RoleAuth'
+import Pagination from '@/components/Pagination'
 import { adminRtx } from '@/settings.js'
 
 export default {
@@ -95,7 +105,8 @@ export default {
     'role-detail': RoleDetail,
     'role-set': RoleSet,
     'role-auth': RoleAuth,
-    'role-batch-delete': RoleBatchDelete
+    'role-batch-delete': RoleBatchDelete,
+    'pagination': Pagination
   },
   props: {},
   data() {
@@ -323,6 +334,14 @@ export default {
     },
     closeAuthRole() { // 关闭权限设置Dialog
       this.authDialogStatus = false
+    },
+    paginSizeChange(pageSize) { // pageSize 改变时会触发
+      this.pageSize = pageSize
+      this.getRoleList()
+    },
+    paginCurrentChange(page) { // currentPage 改变时会触发
+      this.pageCur = page
+      this.getRoleList()
     }
   }
 }

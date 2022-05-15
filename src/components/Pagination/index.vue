@@ -1,13 +1,18 @@
 <template>
-  <div :class="{'hidden':hidden}" class="pagination-container">
+  <div class="block page-div">
     <el-pagination
-      :background="background"
-      :current-page.sync="currentPage"
-      :page-size.sync="pageSize"
-      :layout="layout"
-      :page-sizes="pageSizes"
+      :background="pagAttrs.background"
+      :current-page="page"
       :total="total"
-      v-bind="$attrs"
+      :page-size="size"
+      :layout="pagAttrs.layout"
+      :page-sizes="pagAttrs.pageSizes"
+      :pager-count="pagAttrs.pagerCount"
+      :small="pagAttrs.small"
+      :disabled="pagAttrs.disabled"
+      :prev-text="pagAttrs.prevText"
+      :next-text="pagAttrs.nextText"
+      :hide-on-single-page="pagAttrs.hosp"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -15,87 +20,64 @@
 </template>
 
 <script>
-import { scrollTo } from '@/utils/scroll-to'
-
 export default {
   name: 'Pagination',
+  emits: [
+    'pagin-size-change',
+    'pagin-current-change'
+  ],
+  components: {},
   props: {
-    total: {
-      required: true,
-      type: Number
-    },
     page: {
       type: Number,
+      require: true,
       default: 1
     },
-    limit: {
+    size: {
       type: Number,
-      default: 20
+      require: true,
+      default: 15
     },
-    pageSizes: {
-      type: Array,
-      default() {
-        return [10, 20, 30, 50]
-      }
-    },
-    layout: {
-      type: String,
-      default: 'total, sizes, prev, pager, next, jumper'
-    },
-    background: {
-      type: Boolean,
-      default: true
-    },
-    autoScroll: {
-      type: Boolean,
-      default: true
-    },
-    hidden: {
-      type: Boolean,
-      default: false
+    total: {
+      type: Number,
+      require: true,
+      default: 0
     }
   },
-  computed: {
-    currentPage: {
-      get() {
-        return this.page
-      },
-      set(val) {
-        this.$emit('update:page', val)
-      }
-    },
-    pageSize: {
-      get() {
-        return this.limit
-      },
-      set(val) {
-        this.$emit('update:limit', val)
+  data() {
+    return {
+      // pagination attrs
+      pagAttrs: {
+        layout: 'total, sizes, prev, pager, next, jumper', // 组件布局
+        background: true, // 是否为分页按钮添加背景色
+        pageSizes: [15, 30, 50, 100], // 每页显示个数选择器的选项设置
+        pagerCount: 5, // 页码按钮的数量，当总页数超过该值时会折叠(大于等于 5 且小于等于 21 的奇数)
+        hosp: false, // hide-on-single-page 只有一页时是否隐藏
+        small: false, // 是否使用小型分页样式，默认false，可选值：true, false
+        prevText: '<',
+        nextText: '>',
+        disabled: false
       }
     }
   },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
   methods: {
-    handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
-      if (this.autoScroll) {
-        scrollTo(0, 800)
-      }
+    handleSizeChange(pageSize) { // pageSize 改变时会触发
+      this.$emit('pagin-size-change', pageSize)
     },
-    handleCurrentChange(val) {
-      this.$emit('pagination', { page: val, limit: this.pageSize })
-      if (this.autoScroll) {
-        scrollTo(0, 800)
-      }
+    handleCurrentChange(page) { // currentPage 改变时会触发
+      this.$emit('pagin-current-change', page)
     }
   }
 }
 </script>
 
 <style scoped>
-.pagination-container {
-  background: #fff;
-  padding: 32px 16px;
-}
-.pagination-container.hidden {
-  display: none;
+.page-div {
+  text-align: center;
+  margin-top: 25px;
 }
 </style>

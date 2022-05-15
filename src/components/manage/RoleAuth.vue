@@ -137,7 +137,6 @@ export default {
         'md5': this.tableRow.md5_id,
         'keys': checked.concat(halfChecked)
       }
-      console.log(data)
       return new Promise((resolve, reject) => {
         submitAuthTree(data).then(response => {
           this.disabled = false

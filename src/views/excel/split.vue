@@ -91,15 +91,13 @@
     </div>
 
     <!-- page分页 -->
-    <div class="block page-div">
-      <excel-pagin
-        :page="pageCur"
-        :size="pageSize"
-        :total="pageTotal"
-        @pagin-size-change="paginSizeChange"
-        @pagin-current-change="paginCurrentChange"
-      />
-    </div>
+    <pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
 
     <!-- 文件设置 -->
     <excel-split-set :show="setDialogStatus" :table-row="oprSelectData" @close-file-set="closeFileSet" />
@@ -119,8 +117,8 @@ import ExcelSplitTip from '@/components/excel/ExcelSplitTip'
 import ExcelUpload from '@/components/excel/ExcelUpload'
 import ExcelSplitSet from '@/components/excel/ExcelSplitSet'
 import ExcelSplitOpr from '@/components/excel/ExcelSplitOpr'
-import ExcelPagin from '@/components/excel/ExcelPagin'
 import ExcelBatchDelete from '@/components/excel/ExcelBatchDelete'
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Split',
@@ -129,8 +127,8 @@ export default {
     'excel-upload': ExcelUpload,
     'excel-split-set': ExcelSplitSet,
     'excel-split-opr': ExcelSplitOpr,
-    'excel-pagin': ExcelPagin,
-    'excel-batch-delete': ExcelBatchDelete
+    'excel-batch-delete': ExcelBatchDelete,
+    'pagination': Pagination
   },
   props: {},
   data() {
@@ -389,10 +387,5 @@ export default {
 
 .icon-item {
   margin-left: 45px;
-}
-
-.page-div {
-  text-align: center;
-  margin-top: 25px;
 }
 </style>
