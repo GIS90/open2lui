@@ -95,7 +95,7 @@ import RoleSet from '@/components/manage/RoleSet'
 import RoleBatchDelete from '@/components/manage/RoleBatchDelete'
 import RoleAuth from '@/components/manage/RoleAuth'
 import Pagination from '@/components/Pagination'
-import { adminRtx } from '@/settings.js'
+import { adminRoleRtx } from '@/settings.js'
 
 export default {
   name: 'Role',
@@ -111,7 +111,7 @@ export default {
   props: {},
   data() {
     return {
-      adminRtx: adminRtx, // admin rtx
+      adminRtx: adminRoleRtx, // admin rtx
       btnDisabled: false, // 按钮禁用状态
       selBtnText: '全选', // 选择按钮内容
       // button attributes

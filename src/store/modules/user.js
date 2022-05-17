@@ -77,7 +77,7 @@ const actions = {
           reject('初始化用户信息失败')
         }
 
-        commit('SET_ROLES', [role]) // api返回的role为code字符串，转化为数组
+        commit('SET_ROLES', role) // api返回的role为code字符串，转化为数组
         commit('SET_AVATAR', avatar)
         commit('SET_AUTH', true)
         commit('SET_USER', user)

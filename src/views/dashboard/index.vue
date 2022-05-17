@@ -8,7 +8,7 @@
 import { mapGetters } from 'vuex'
 import adminDashboard from './admin'
 import editorDashboard from './editor'
-import { roleAdminCode } from '@/settings.js'
+import { adminRoleRtx } from '@/settings.js'
 
 export default {
   name: 'Dashboard',
@@ -24,7 +24,8 @@ export default {
     ])
   },
   created() {
-    if (!this.roles.includes(roleAdminCode)) {
+    // 配置不同角色进入Dashboard展示内容
+    if (!this.roles.includes(adminRoleRtx)) {
       this.currentRole = 'editorDashboard'
     }
   }
