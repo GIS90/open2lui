@@ -23,8 +23,8 @@
           <el-input
             v-model.trim="addRoleForm.engname"
             type="text"
-            placeholder="请输入角色RTX名称（建议使用英文）"
-            :maxlength="inputAttrs.length"
+            placeholder="请输入RTX名称（建议使用英文）"
+            :maxlength="addRoleLimit.engname"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -36,8 +36,8 @@
           <el-input
             v-model.trim="addRoleForm.chnname"
             type="text"
-            placeholder="请输入角色中文名称"
-            :maxlength="inputAttrs.length"
+            placeholder="请输入中文名称"
+            :maxlength="addRoleLimit.chnname"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -49,10 +49,10 @@
           <el-input
             v-model.trim="addRoleForm.introduction"
             type="textarea"
-            placeholder="请输入角色相关描述"
+            placeholder="请输入相关描述"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
-            :maxlength="textAreaAttrs.length"
+            :maxlength="addRoleLimit.introduction"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="textAreaAttrs.prefixIcon"
@@ -72,14 +72,14 @@
 </template>
 
 <script>
-import { addRole } from '@/api/role'
+import { addRole } from '@/api/manage'
 import store from '@/store'
 
 const validateRoleEName = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入角色RTX名称'))
+    callback(new Error('请输入RTX名称'))
   } else if (value.length > 25) {
-    callback(new Error('角色RTX名称最大长度为15'))
+    callback(new Error('RTX名称最大长度为25'))
   } else {
     callback()
   }
@@ -87,9 +87,9 @@ const validateRoleEName = (rule, value, callback) => {
 
 const validateRoleCName = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入角色中文名称'))
-  } else if (value.length > 25) {
-    callback(new Error('角色中文名称最大长度为15'))
+    callback(new Error('请输入中文名称'))
+  } else if (value.length > 35) {
+    callback(new Error('中文名称最大长度为35'))
   } else {
     callback()
   }
@@ -97,9 +97,9 @@ const validateRoleCName = (rule, value, callback) => {
 
 const validateRoleIntrod = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入角色描述'))
+    callback(new Error('请输入描述'))
   } else if (value.length > 55) {
-    callback(new Error('角色描述最大长度为10'))
+    callback(new Error('描述最大长度为55'))
   } else {
     callback()
   }
@@ -161,6 +161,11 @@ export default {
         engname: '', // 英文名称
         chnname: '', // 中文名称
         introduction: '' // 描述
+      },
+      addRoleLimit: {
+        engname: '25',
+        chnname: '35',
+        introduction: '55'
       },
       addRoleRules: {
         engname: [{ required: true, trigger: 'blur', validator: validateRoleEName }],

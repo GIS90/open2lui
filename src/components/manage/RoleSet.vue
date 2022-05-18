@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { updateRole } from '@/api/role'
+import { updateRole } from '@/api/manage'
 import store from '@/store'
 
 const validateRoleEName = (rule, value, callback) => {

@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { batchDeleteRole } from '@/api/role'
+import { batchDeleteRole } from '@/api/manage'
 
 export default {
   name: 'RoleBatchDelete',

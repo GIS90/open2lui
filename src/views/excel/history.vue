@@ -2,10 +2,10 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-select" type="primary" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
+      <el-button id="btn-select" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
-      <el-button id="btn-delete" type="danger" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
+      <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
     </el-row>

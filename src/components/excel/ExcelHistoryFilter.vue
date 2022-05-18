@@ -2,7 +2,7 @@
   <el-collapse>
     <el-collapse-item name="1" class="filter-container-cus">
       <template slot="title" class="filter-title">
-        高级筛选<i class="header-icon el-icon-info icon-sx" />
+        高级筛选（点我）<i class="header-icon el-icon-info icon-sx" />
       </template>
       <div class="filter-desc">数据的高级筛选功能，支持模糊查询</div>
       <div class="filter-if">

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div id="guide-opr-container">
-      <el-button icon="el-icon-position" type="primary" @click.prevent.stop="guide">
+      <el-button icon="el-icon-position" type="primary" :plain="true" @click.prevent.stop="guide">
         开启向导
       </el-button>
     </div>

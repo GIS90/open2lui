@@ -51,7 +51,7 @@
 
 <script>
 import store from '@/store'
-import { getAuthTree, submitAuthTree } from '@/api/role'
+import { getAuthTree, submitAuthTree } from '@/api/manage'
 
 export default {
   name: 'RoleAuth',

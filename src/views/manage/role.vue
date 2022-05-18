@@ -2,13 +2,13 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-create" type="info" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddRole">
+      <el-button id="btn-create" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddRole">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
-      <el-button id="btn-select" type="primary" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
+      <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
-      <el-button id="btn-delete" type="danger" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
+      <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
     </el-row>
@@ -88,7 +88,7 @@
 
 <script>
 import store from '@/store'
-import { deleteRole, getRoleList } from '@/api/role'
+import { deleteRole, getRoleList } from '@/api/manage'
 import RoleAdd from '@/components/manage/RoleAdd'
 import RoleDetail from '@/components/manage/RoleDetail'
 import RoleSet from '@/components/manage/RoleSet'
