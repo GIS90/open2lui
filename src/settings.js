@@ -46,6 +46,11 @@ module.exports = {
   adminRoleRtx: 'admin',
 
   /**
+   * new user default password
+   * */
+  defaultUserPassword: 'abc1234',
+
+  /**
    * base information
    * */
   baseInfo: {

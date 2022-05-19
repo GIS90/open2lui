@@ -98,11 +98,38 @@ export function batchDeleteUser(data) {
   })
 }
 
-// 单个删除用户
-export function deleteUser(data) {
+// 改变用户状态
+export function changeUserStatus(data) {
   return request({
-    url: '/auth/deluser',
+    url: '/auth/userstatus',
     method: 'post',
     data
+  })
+}
+
+// 用户详情
+export function detailUser(params) {
+  return request({
+    url: '/auth/userinfo',
+    method: 'get',
+    params
+  })
+}
+
+// 更新用户信息
+export function updateUser(data) {
+  return request({
+    url: '/auth/updateuser',
+    method: 'post',
+    data
+  })
+}
+
+// 重置默认密码
+export function UserResetPw(params) {
+  return request({
+    url: '/auth/userrp',
+    method: 'get',
+    params
   })
 }

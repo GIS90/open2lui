@@ -4,10 +4,15 @@
     <el-form-item>
       <el-switch
         v-model="edit"
-        active-color="#ff4949"
-        inactive-color="#13ce66"
-        active-text="编辑模式"
-        inactive-text="视图模式"
+        style="display: block"
+        :disabled="switchAttrs.disabled"
+        :width="switchAttrs.width"
+        :active-text="switchAttrs.activeText"
+        :inactive-text="switchAttrs.inactiveText"
+        :active-color="switchAttrs.activeColor"
+        :inactive-color="switchAttrs.inactiveColor"
+        :active-value="switchAttrs.activeValue"
+        :inactive-value="switchAttrs.inactiveValue"
       />
     </el-form-item>
     <!--昵称-->
@@ -129,6 +134,16 @@ export default {
         limit: true, // 展示字数统计
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
+      },
+      switchAttrs: { // switch attrs
+        disabled: false, // 是否禁用
+        width: 35, // 宽度（像素），默认40
+        activeText: '编辑模式', // 打开时的文字描述
+        inactiveText: '视图模式', // 关闭时的文字描述
+        activeValue: true, // 打开时的value
+        inactiveValue: false, // 打开时的value
+        activeColor: '#ff4949', // 打开时的背景色
+        inactiveColor: '#13ce66' // 关闭时的背景色
       }
     }
   },

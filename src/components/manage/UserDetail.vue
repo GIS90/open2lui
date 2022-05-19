@@ -18,83 +18,89 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="addUserForm" :label-position="labelPosition" :model="addUserForm" :rules="addUserRules" label-width="auto">
-        <el-form-item label="RTX名称" prop="rtx">
+      <el-form ref="userForm" :label-position="labelPosition" :model="userForm" :rules="userRules" label-width="auto">
+        <!--模式-->
+        <el-form-item>
+          <el-switch
+            v-model="edit"
+            class="sw-sty"
+            style="display: block"
+            :disabled="switchAttrs.disabled"
+            :width="switchAttrs.width"
+            :active-text="switchAttrs.activeText"
+            :inactive-text="switchAttrs.inactiveText"
+            :active-color="switchAttrs.activeColor"
+            :inactive-color="switchAttrs.inactiveColor"
+            :active-value="switchAttrs.activeValue"
+            :inactive-value="switchAttrs.inactiveValue"
+            @change="changeStatus($event)"
+          />
+        </el-form-item>
+        <el-form-item label="RTX名称">
           <el-input
-            v-model.trim="addUserForm.rtx"
+            v-model.trim="rtxId"
             type="text"
             placeholder="请输入RTX名称（建议使用英文）"
-            :maxlength="addUserLimit.rtx"
+            :maxlength="userLimit.rtx"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
             :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
+            disabled
           />
         </el-form-item>
         <el-form-item label="昵称" prop="name">
           <el-input
-            v-model.trim="addUserForm.name"
+            v-model.trim="userForm.name"
             type="text"
             placeholder="请输入昵称"
-            :maxlength="addUserLimit.name"
+            :maxlength="userLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
+            :prefix-icon="edit ? 'el-icon-edit' : inputAttrs.prefixIcon"
+            :disabled="!edit"
           />
         </el-form-item>
         <el-form-item label="联系电话" prop="phone">
           <el-input
-            v-model.trim="addUserForm.phone"
+            v-model.trim="userForm.phone"
             type="text"
             placeholder="请输入联系电话，暂不支持国外电话"
-            :maxlength="addUserLimit.phone"
+            :maxlength="userLimit.phone"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
+            :prefix-icon="edit ? 'el-icon-edit' : inputAttrs.prefixIcon"
+            :disabled="!edit"
           />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input
-            v-model.trim="addUserForm.email"
+            v-model.trim="userForm.email"
             type="text"
             placeholder="请输入邮箱"
-            :maxlength="addUserLimit.email"
+            :maxlength="userLimit.email"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model.trim="addUserForm.password"
-            type="text"
-            placeholder="请输入密码，默认为abc1234"
-            show-password
-            :clearable="inputAttrs.clear"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
+            :prefix-icon="edit ? 'el-icon-edit' : inputAttrs.prefixIcon"
+            :disabled="!edit"
           />
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select
-            v-model.trim="addUserForm.role"
+            v-model.trim="userForm.role"
             style="width: 100%"
             :placeholder="selectAttrs.placeholder"
-            :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
-            :multiple-limit="addUserLimit.limit"
+            :multiple-limit="userLimit.limit"
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            :prefix-icon="edit ? 'el-icon-edit' : inputAttrs.prefixIcon"
+            :disabled="!edit"
           >
             <el-option
               v-for="(item, index) in roles"
@@ -106,24 +112,24 @@
         </el-form-item>
         <el-form-item label="自我介绍" prop="introduction">
           <el-input
-            v-model.trim="addUserForm.introduction"
+            v-model.trim="userForm.introduction"
             type="textarea"
             placeholder="请输入自我介绍"
             :rows="textAreaAttrs.rows"
             :autosize="{ minRows: 4, maxRows: 6 }"
-            :maxlength="addUserLimit.introduction"
+            :maxlength="userLimit.introduction"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
-            :disabled="disabled"
+            :prefix-icon="edit ? 'el-icon-edit' : inputAttrs.prefixIcon"
+            :disabled="!edit"
           />
         </el-form-item>
       </el-form>
       <!--footer-->
       <template #footer>
-        <span class="dialog-footer">
+        <span v-show="edit" class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitAddUser()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitUpdateUser()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -131,20 +137,9 @@
 </template>
 
 <script>
-import { addUser, initRoleSelect } from '@/api/manage'
 import store from '@/store'
+import { detailUser, updateUser } from '@/api/manage'
 import { validEmail, validPhone } from '@/utils/validate'
-import { defaultUserPassword } from '@/settings.js'
-
-const validateUserRtx = (rule, value, callback) => {
-  if (!value) {
-    callback(new Error('请输入RTX名称'))
-  } else if (value.length > 25) {
-    callback(new Error('RTX名称最大长度为25'))
-  } else {
-    callback()
-  }
-}
 
 const validateUserName = (rule, value, callback) => {
   if (!value) {
@@ -188,7 +183,7 @@ const validateUserRole = (rule, value, callback) => {
 
 export default {
   name: 'RoleAdd',
-  emits: ['close-add-user'],
+  emits: ['close-detail-user'],
   components: {},
   props: {
     show: {
@@ -198,15 +193,21 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
+    },
+    rtxId: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   data() {
     return {
+      edit: false, // 编辑状态
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '新增用户',
+        title: '用户详情',
         width: '40%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '3%', // Dialog CSS 中的 margin-top 值
@@ -225,7 +226,7 @@ export default {
         clear: true, // 可清空的输入框
         length: '25', // 最大输入长度
         limit: true, // 展示字数统计
-        prefixIcon: 'el-icon-edit', // input前缀icon
+        prefixIcon: '', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
       selectAttrs: { // select attrs
@@ -246,28 +247,33 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
+      switchAttrs: { // switch attrs
+        disabled: false, // 是否禁用
+        width: 35, // 宽度（像素），默认40
+        activeText: '编辑模式', // 打开时的文字描述
+        inactiveText: '视图模式', // 关闭时的文字描述
+        activeValue: true, // 打开时的value
+        inactiveValue: false, // 打开时的value
+        activeColor: '#ff4949', // 打开时的背景色
+        inactiveColor: '#13ce66' // 关闭时的背景色
+      },
       // data
       roles: [],
-      addUserForm: {
-        rtx: '', // rtx_id
+      userForm: {
         name: '', // 昵称
         phone: '', // 电话
-        password: defaultUserPassword || 'abc1234', // 密码
         email: '', // 邮箱
         introduction: '', // 描述
         role: [] // 角色
       },
-      addUserLimit: {
-        rtx: '25',
+      userLimit: {
         name: '30',
         phone: '11',
-        password: '',
         email: '35',
         introduction: '255',
         role: '0'
       },
-      addUserRules: {
-        rtx: [{ required: true, trigger: 'blur', validator: validateUserRtx }],
+      userRules: {
         name: [{ required: true, trigger: 'blur', validator: validateUserName }],
         phone: [{ required: true, trigger: 'blur', validator: validateUserPhone }],
         email: [{ required: false, trigger: 'blur', validator: validateUserEmail }],
@@ -277,31 +283,35 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {
-    this.initRoles()
-  },
+  created() {},
   mounted() {},
   methods: {
     openDialog() { // 初始化操作
-      this.addUserForm.rtx = ''
-      this.addUserForm.name = ''
-      this.addUserForm.phone = ''
-      this.addUserForm.password = ''
-      this.addUserForm.email = ''
-      this.addUserForm.introduction = ''
-      this.addUserForm.role = []
+      this.edit = false // 重置UPDATE状态
+      this.getUserInfo()
     },
     closeDialog() { // 关闭dialog
-      this.$emit('close-add-user', false)
+      this.$emit('close-detail-user', false)
     },
-    initRoles() { // 获取roles列表，初始化
+    getUserInfo() { // 获取User detail
+      if (!this.rtxId) {
+        this.$emit('close-detail-user', false)
+      }
+      const params = {
+        'rtx_id': this.rtxId
+      }
       return new Promise((resolve, reject) => {
-        initRoleSelect().then(response => {
+        detailUser(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.roles = data.list
+            this.userForm.name = data.name
+            this.userForm.phone = data.phone
+            this.userForm.email = data.email
+            this.userForm.introduction = data.introduction
+            this.userForm.role = data.role
+            this.roles = data.roles
           } else {
-            this.roles = [{ key: 'admin', value: 'admin' }] // 请求不成功，默认为admin角色列表
+            this.$emit('close-detail-user', false)
           }
           resolve(response)
         }).catch(error => {
@@ -309,36 +319,38 @@ export default {
         })
       })
     },
-    submitAddUser() { // 提交
-      this.$refs.addUserForm.validate(valid => {
+    submitUpdateUser() { // 提交 && 更新
+      this.$refs.userForm.validate(valid => {
         if (valid) {
+          this.edit = false
           this.disabled = true
           this.loading = true
           const data = {
-            'add_rtx_id': store.getters.rtx_id,
-            'rtx_id': this.addUserForm.rtx,
-            'name': this.addUserForm.name,
-            'phone': this.addUserForm.phone,
-            'password': this.addUserForm.password,
-            'email': this.addUserForm.email,
-            'role': this.addUserForm.role,
-            'introduction': this.addUserForm.introduction
+            'rtx_id': store.getters.rtx_id,
+            'to_rtx_id': this.rtxId,
+            'name': this.userForm.name,
+            'phone': this.userForm.phone,
+            'email': this.userForm.email,
+            'role': this.userForm.role,
+            'introduction': this.userForm.introduction
           }
           return new Promise((resolve, reject) => {
-            addUser(data).then(response => {
+            updateUser(data).then(response => {
+              this.edit = true
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '用户新增成功' || message,
+                  message: '用户更新成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-add-user', true)
+                this.$emit('close-detail-user', true)
               }
               resolve(response)
             }).catch(error => {
+              this.edit = true
               this.disabled = false
               this.loading = false
               reject(error)
@@ -346,11 +358,16 @@ export default {
           })
         }
       })
+    },
+    changeStatus(value) {
+      this.edit = value
     }
   }
 }
 </script>
 
 <style scoped>
-
+.sw-sty {
+  text-align: right;
+}
 </style>

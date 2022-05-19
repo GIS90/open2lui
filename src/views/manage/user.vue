@@ -32,31 +32,33 @@
         @select-all="selectAll"
       >
         <el-table-column fixed="left" type="selection" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="创建时间" :align="tableRowAttrs.align" width="220" sortable>
+        <el-table-column fixed="left" label="创建时间" :align="tableRowAttrs.align" width="240" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="rtx_id" label="RTX名称" width="160" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="name" label="姓名" width="160" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="phone" label="电话" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="department" label="部门" width="240" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="email" label="邮箱" width="240" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="320" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="rtx_id" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="姓名" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="phone" label="电话" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="email" label="邮箱" width="250" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="department" label="部门" width="250" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="introduction" label="描述" width="320" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="delete_time" label="注销时间" width="220" :align="tableRowAttrs.align" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="300">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="详情" placement="top">
-              <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />
-            </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="编辑" placement="top">
+            <el-tooltip effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="注销" placement="top">
-              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
+            <el-tooltip class="icon-item" effect="dark" content="重置密码" placement="top">
+              <i class="el-icon-setting" @click="rowHandlePw(scope.$index, scope.row)" />
             </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="200">
+          <template slot-scope="scope">
+            <user-status :row="scope.row" />
           </template>
         </el-table-column>
       </el-table>
@@ -74,34 +76,36 @@
     <!-- 新增用户 -->
     <user-add :show="addDialogStatus" @close-add-user="closeAddUser" />
 
-    <!-- 用户详情 -->
-    <role-detail :show="detailDialogStatus" :table-row="oprSelectData" @close-detail-role="closeDetailRole" />
-
-    <!-- 用户设置 -->
-    <role-set :show="setDialogStatus" :table-row="oprSelectData" @close-set-role="closeSetRole" />
+    <!-- 编辑详情 -->
+    <user-detail :show="setDialogStatus" :rtx-id="oprSelectRtx" @close-detail-user="closeDetailUser" />
 
     <!-- 删除dialog -->
-    <role-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
+    <user-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
+
+    <!-- 重置密码 -->
+    <user-reset-pw :show="pwDialogStatus" :rtx-id="oprSelectRtx" @close-pw-user="closePwUser" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
-import { deleteUser, getUserList } from '@/api/manage'
+import { getUserList } from '@/api/manage'
 import UserAdd from '@/components/manage/UserAdd'
-import RoleDetail from '@/components/manage/RoleDetail'
-import RoleSet from '@/components/manage/RoleSet'
-import RoleBatchDelete from '@/components/manage/RoleBatchDelete'
+import UserBatchDelete from '@/components/manage/UserBatchDelete'
+import UserStatus from '@/components/manage/UserStatus'
 import Pagination from '@/components/Pagination'
+import UserDetail from '@/components/manage/UserDetail'
+import UserResetPw from '@/components/manage/UserResetPw'
 
 export default {
   name: 'User',
   emits: [],
   components: {
     'user-add': UserAdd,
-    'role-detail': RoleDetail,
-    'role-set': RoleSet,
-    'role-batch-delete': RoleBatchDelete,
+    'user-batch-delete': UserBatchDelete,
+    'user-status': UserStatus,
+    'user-detail': UserDetail,
+    'user-reset-pw': UserResetPw,
     'pagination': Pagination
   },
   props: {},
@@ -148,12 +152,12 @@ export default {
       selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
-      oprSelectData: {}, // 当前选择data
+      oprSelectRtx: '', // 当前选择数据的RTX
       deleteConfirm: false, // 删除确认dialog状态
-      detailDialogStatus: false, // 角色详情dialog
-      setDialogStatus: false, // 角色设置dialog
-      addDialogStatus: false, // 新增角色dialog
-      authDialogStatus: false // 角色权限dialog
+      pwDialogStatus: false, // 重置密码dialog
+      setDialogStatus: false, // 编辑dialog
+      addDialogStatus: false, // 新增dialog
+      userStatus: true // 状态管理
     }
   },
   computed: {},
@@ -171,16 +175,15 @@ export default {
   },
   mounted() {},
   methods: {
-    getUserList() { // 获取role list数据
+    getUserList() { // 获取user list数据
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
-      this.oprSelectData = {}
+      this.oprSelectRtx = ''
 
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'type': this.fileType,
         'limit': this.pageSize || 15,
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
@@ -239,45 +242,19 @@ export default {
         color: '#606266'
       }
     },
-    rowHandleDetail(index, row) { // table row 详情dialog
+    rowHandlePw(index, row) { // table row 重置密码
       if (!row) {
         return false
       }
-      this.oprSelectData = row
-      this.detailDialogStatus = true
+      this.oprSelectRtx = row.rtx_id
+      this.pwDialogStatus = true
     },
-    rowHandleEdit(index, row) { // table row 设置dialog
+    rowHandleEdit(index, row) { // table row 编辑详情
       if (!row) {
         return false
       }
-      this.oprSelectData = row
+      this.oprSelectRtx = row.rtx_id
       this.setDialogStatus = true
-    },
-    rowHandleDelete(index, row) { // table row 删除
-      if (!row || !row?.md5_id) {
-        return false
-      }
-      const data = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': row.md5_id
-      }
-      return new Promise((resolve, reject) => {
-        deleteUser(data).then(response => {
-          const { status_id, message } = response
-          if (status_id === 100) {
-            this.$message({
-              message: '删除成功' || message,
-              type: 'success',
-              duration: 2.0 * 1000
-            })
-            this.getUserList()
-          }
-          resolve(response)
-        }).catch(error => {
-          this.loading = false
-          reject(error)
-        })
-      })
     },
     openAddUser() { // 打开新增用户dialog
       this.addDialogStatus = true
@@ -288,14 +265,14 @@ export default {
         this.getUserList()
       }
     },
-    closeDetailRole() { // 关闭用户详情dialog
-      this.detailDialogStatus = false
-    },
-    closeSetRole(isRefresh) { // 关闭用户设置dialog
+    closeDetailUser(isRefresh) { // 关闭table row编辑
       this.setDialogStatus = false
       if (isRefresh) {
         this.getUserList()
       }
+    },
+    closePwUser() { // 关闭重置密码
+      this.pwDialogStatus = false
     },
     closeDeleteDialog(isRefresh) { // 关闭批量删除Dialog
       this.deleteConfirm = false
