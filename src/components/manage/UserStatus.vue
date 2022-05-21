@@ -50,7 +50,7 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    changeStatus(value) { // change status
+    changeStatus(value) { // change status 启用 && 注销
       if (!this.row || !this.row?.rtx_id) {
         return false
       }

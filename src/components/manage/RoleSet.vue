@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { updateRole } from '@/api/manage'
+import { detailRole, updateRole } from '@/api/manage'
 import store from '@/store'
 
 const validateRoleEName = (rule, value, callback) => {
@@ -118,12 +118,10 @@ export default {
         return [true, false].includes(value)
       }
     },
-    tableRow: {
-      type: Object,
+    rowMd5: {
+      type: String,
       require: true,
-      default: () => {
-        return {}
-      }
+      default: ''
     }
   },
   data() {
@@ -165,9 +163,9 @@ export default {
       },
       // data
       setRoleForm: {
-        engname: this.tableRow.engname, // 英文名称
-        chnname: this.tableRow.engname, // 中文名称
-        introduction: this.tableRow.introduction // 描述
+        engname: '', // 英文名称
+        chnname: '', // 中文名称
+        introduction: '' // 描述
       },
       addRoleRules: {
         engname: [{ required: true, trigger: 'blur', validator: validateRoleEName }],
@@ -181,13 +179,35 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    openDialog() { // 初始化操作
-      this.setRoleForm.engname = this.tableRow.engname
-      this.setRoleForm.chnname = this.tableRow.chnname
-      this.setRoleForm.introduction = this.tableRow.introduction
+    openDialog() { // 初始化操作，获取最新数据
+      if (!this.rowMd5) {
+        this.$emit('close-set-role', true)
+        return false
+      }
+      this.getRoleInfo()
     },
-    closeDialog() {
+    closeDialog() { // 关闭dg
       this.$emit('close-set-role', false)
+    },
+    getRoleInfo() { // 获取role最新数据
+      const params = {
+        'md5': this.rowMd5
+      }
+      return new Promise((resolve, reject) => {
+        detailRole(params).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            this.setRoleForm.engname = data.engname
+            this.setRoleForm.chnname = data.chnname
+            this.setRoleForm.introduction = data.introduction
+          } else {
+            this.$emit('close-set-role')
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
     },
     submitAddRole() {
       this.$refs.setRoleForm.validate(valid => {
@@ -196,7 +216,7 @@ export default {
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'md5': this.tableRow.md5_id,
+            'md5': this.rowMd5,
             'engname': this.setRoleForm.engname,
             'chnname': this.setRoleForm.chnname,
             'introduction': this.setRoleForm.introduction

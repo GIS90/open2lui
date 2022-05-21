@@ -66,12 +66,10 @@ export default {
         return [true, false].includes(value)
       }
     },
-    tableRow: {
-      type: Object,
+    rowMd5: {
+      type: String,
       require: true,
-      default: () => {
-        return {}
-      }
+      default: ''
     }
   },
   data() {
@@ -130,12 +128,12 @@ export default {
       this.$emit('close-auth-role', false)
     },
     saveAuthRole() { // 提交权限
-      const halfChecked = this.$refs.menuTree.getHalfCheckedKeys() // 半选状态，主要是有子节点的
+      // const halfChecked = this.$refs.menuTree.getHalfCheckedKeys() // 半选状态，主要是有子节点的
       const checked = this.$refs.menuTree.getCheckedKeys() // 选择
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'md5': this.tableRow.md5_id,
-        'keys': checked.concat(halfChecked)
+        'md5': this.rowMd5,
+        'keys': checked // [...checked, ...halfChecked] // checked.concat(halfChecked)
       }
       return new Promise((resolve, reject) => {
         submitAuthTree(data).then(response => {
@@ -159,8 +157,12 @@ export default {
       })
     },
     initAuthTree() { // 获取权限tree
+      if (!this.rowMd5) {
+        this.$emit('close-auth-role', false)
+        return false
+      }
       const params = {
-        'md5': this.tableRow.md5_id
+        'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
         getAuthTree(params).then(response => {
@@ -169,6 +171,8 @@ export default {
             this.menuTree = data.menus
             this.defaultCheckedKeys = data.auths
             this.defaultExpandedKeys = data.expand
+          } else {
+            this.$emit('close-auth-role', false)
           }
           resolve(response)
         }).catch(error => {
@@ -176,9 +180,9 @@ export default {
         })
       })
     },
-    checkNode(node, nodeStatus) { // 选择节点事件
+    checkNode(node, nodeStatus) { // 选择节点事件 TODO
     },
-    checkNodeChange(node, nodeStatus, subNodeStatus) { // 节点状态改变事件
+    checkNodeChange(node, nodeStatus, subNodeStatus) { // 节点状态改变事件 TODO
     }
   }
 }

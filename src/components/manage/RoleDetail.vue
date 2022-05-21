@@ -15,12 +15,13 @@
       :show-close="dialogAttrs.showClose"
       :draggable="dialogAttrs.draggable"
       :center="dialogAttrs.center"
-      @close="closeDialog()"
+      @open="openDialog"
+      @close="closeDialog"
     >
       <el-form ref="addRoleForm" :label-position="labelPosition" label-width="auto">
         <el-form-item label="RTX名称">
           <el-input
-            v-model.trim="tableRow.engname"
+            v-model.trim="role.engname"
             type="text"
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
@@ -32,7 +33,7 @@
         </el-form-item>
         <el-form-item label="中文名称">
           <el-input
-            v-model.trim="tableRow.chnname"
+            v-model.trim="role.chnname"
             type="text"
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
@@ -44,7 +45,7 @@
         </el-form-item>
         <el-form-item label="描述">
           <el-input
-            v-model.trim="tableRow.introduction"
+            v-model.trim="role.introduction"
             type="textarea"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
@@ -57,7 +58,7 @@
         </el-form-item>
         <el-form-item label="创建人RTX">
           <el-input
-            v-model.trim="tableRow.create_rtx"
+            v-model.trim="role.create_rtx"
             type="text"
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
@@ -69,7 +70,7 @@
         </el-form-item>
         <el-form-item label="创建时间">
           <el-input
-            v-model.trim="tableRow.create_time"
+            v-model.trim="role.create_time"
             type="text"
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
@@ -85,6 +86,8 @@
 </template>
 
 <script>
+import { detailRole } from '@/api/manage'
+
 export default {
   name: 'RoleDetail',
   emits: ['close-detail-role'],
@@ -98,12 +101,10 @@ export default {
         return [true, false].includes(value)
       }
     },
-    tableRow: {
-      type: Object,
+    rowMd5: {
+      type: String,
       require: true,
-      default: () => {
-        return {}
-      }
+      default: ''
     }
   },
   data() {
@@ -142,7 +143,8 @@ export default {
         limit: true, // 展示字数统计
         prefixIcon: '', // input前缀icon
         suffixIcon: '' // input后缀icon
-      }
+      },
+      role: {} // role object
     }
   },
   computed: {},
@@ -152,6 +154,28 @@ export default {
   methods: {
     closeDialog() {
       this.$emit('close-detail-role')
+    },
+    openDialog() {
+      if (!this.rowMd5) {
+        this.$emit('close-detail-role')
+        return false
+      }
+      const params = {
+        'md5': this.rowMd5
+      }
+      return new Promise((resolve, reject) => {
+        detailRole(params).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            this.role = data
+          } else {
+            this.$emit('close-detail-role')
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
     }
   }
 }

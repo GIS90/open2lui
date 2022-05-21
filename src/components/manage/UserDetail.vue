@@ -288,7 +288,7 @@ export default {
   methods: {
     openDialog() { // 初始化操作
       this.edit = false // 重置UPDATE状态
-      this.getUserInfo()
+      this.getUserInfo() // 信息初始化
     },
     closeDialog() { // 关闭dialog
       this.$emit('close-detail-user', false)
@@ -311,7 +311,7 @@ export default {
             this.userForm.role = data.role
             this.roles = data.roles
           } else {
-            this.$emit('close-detail-user', false)
+            this.$emit('close-detail-user', false) // 初始化信息失败，关闭dg
           }
           resolve(response)
         }).catch(error => {

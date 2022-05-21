@@ -309,7 +309,7 @@ export default {
         })
       })
     },
-    submitAddUser() { // 提交
+    submitAddUser() { // 提交 and 关闭dg
       this.$refs.addUserForm.validate(valid => {
         if (valid) {
           this.disabled = true

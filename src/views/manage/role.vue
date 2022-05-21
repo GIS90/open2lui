@@ -73,13 +73,13 @@
     <role-add :show="addDialogStatus" @close-add-role="closeAddRole" />
 
     <!-- 角色详情 -->
-    <role-detail :show="detailDialogStatus" :table-row="oprSelectData" @close-detail-role="closeDetailRole" />
+    <role-detail :show="detailDialogStatus" :row-md5="oprSelectRowMd5" @close-detail-role="closeDetailRole" />
 
     <!-- 角色设置 -->
-    <role-set :show="setDialogStatus" :table-row="oprSelectData" @close-set-role="closeSetRole" />
+    <role-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-role="closeSetRole" />
 
     <!-- 权限设置 -->
-    <role-auth :show="authDialogStatus" :table-row="oprSelectData" @close-auth-role="closeAuthRole" />
+    <role-auth :show="authDialogStatus" :row-md5="oprSelectRowMd5" @close-auth-role="closeAuthRole" />
 
     <!-- 删除dialog -->
     <role-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
@@ -153,7 +153,7 @@ export default {
       selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
-      oprSelectData: {}, // 当前选择data
+      oprSelectRowMd5: '', // 当前选择data rtx
       deleteConfirm: false, // 删除确认dialog状态
       detailDialogStatus: false, // 角色详情dialog
       setDialogStatus: false, // 角色设置dialog
@@ -180,7 +180,7 @@ export default {
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
-      this.oprSelectData = {}
+      this.oprSelectRowMd5 = ''
 
       // list列表参数
       const data = {
@@ -245,24 +245,24 @@ export default {
       }
     },
     rowHandleDetail(index, row) { // table row 详情dialog
-      if (!row) {
+      if (!row || !row.md5_id) {
         return false
       }
-      this.oprSelectData = row
+      this.oprSelectRowMd5 = row.md5_id
       this.detailDialogStatus = true
     },
     rowHandleEdit(index, row) { // table row 设置dialog
-      if (!row) {
+      if (!row || !row.md5_id) {
         return false
       }
-      this.oprSelectData = row
+      this.oprSelectRowMd5 = row.md5_id
       this.setDialogStatus = true
     },
     rowHandleAuth(index, row) { // table row 授权dialog
-      if (!row) {
+      if (!row || !row.md5_id) {
         return false
       }
-      this.oprSelectData = row
+      this.oprSelectRowMd5 = row.md5_id
       this.authDialogStatus = true
     },
     closeFileSet(isRefresh) { // 关闭table row 设置dialog

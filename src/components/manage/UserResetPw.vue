@@ -73,10 +73,10 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    cancel() {
+    cancel() { // 取消
       this.$emit('close-pw-user')
     },
-    confirm() {
+    confirm() { // 确认重置密码
       if (!this.rtxId) {
         this.$emit('close-pw-user')
       }

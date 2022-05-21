@@ -32,7 +32,7 @@
         @select-all="selectAll"
       >
         <el-table-column fixed="left" type="selection" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="创建时间" :align="tableRowAttrs.align" width="240" sortable>
+        <el-table-column fixed="left" label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
@@ -41,8 +41,8 @@
         <el-table-column prop="rtx_id" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="name" label="姓名" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="phone" label="电话" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="email" label="邮箱" width="250" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="department" label="部门" width="250" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="email" label="邮箱" width="270" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="department" label="部门" width="270" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="introduction" label="描述" width="320" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="delete_time" label="注销时间" width="220" :align="tableRowAttrs.align" />
@@ -314,6 +314,6 @@ export default {
 }
 
 .icon-item {
-  margin-left: 40px;
+  margin-left: 45px;
 }
 </style>

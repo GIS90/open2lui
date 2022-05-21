@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       dialogAttrs: {
-        title: '角色删除',
+        title: '用户删除',
         width: '30%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -73,10 +73,10 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    cancelDelete() {
+    cancelDelete() { // 关闭dg
       this.$emit('close-delete-dialog', false)
     },
-    confirmDelete() {
+    confirmDelete() { // 确认删除
       if (this.list.length === 0) {
         this.$message({
           message: '请选择注销的用户',

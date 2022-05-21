@@ -27,6 +27,15 @@ export function updateRole(data) {
   })
 }
 
+// 角色详情
+export function detailRole(params) {
+  return request({
+    url: '/auth/roleinfo',
+    method: 'get',
+    params
+  })
+}
+
 // 批量删除角色
 export function batchDeleteRole(data) {
   return request({
