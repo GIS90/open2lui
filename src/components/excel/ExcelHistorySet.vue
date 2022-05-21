@@ -98,13 +98,21 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    closeDialog() {
+    closeDialog() { // 关闭dg
       this.$emit('close-history-set', false)
     },
-    submitSet() {
+    submitSet() { // 提交设置
       if (!this.tableRow.name) {
         this.$message({
           message: '文件名称不允许为空',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      if (this.tableRow.name.length > 55) { // check new file name length
+        this.$message({
+          message: '文件名称超出限制',
           type: 'warning',
           duration: 2.0 * 1000
         })

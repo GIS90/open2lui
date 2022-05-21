@@ -73,10 +73,10 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    cancelDelete() {
+    cancelDelete() { // 关闭dg
       this.$emit('close-delete-dialog', false)
     },
-    confirmDelete() {
+    confirmDelete() { // 确认删除
       if (this.list.length === 0) {
         this.$message({
           message: '请选择删除的文件',

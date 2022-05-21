@@ -17,8 +17,8 @@
           <ol>
             <li>上传需要合并的Excel子文件，平台目前只支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式的Excel文件。</li>
             <li>点击文件列表最后列的设置按钮，配置需要合并的Sheet（单文件可以多选Sheet）。</li>
-            <li>合并操作，操作过程中需要等待（如果合并的子文件过多，建议去Github上逛逛，<el-link type="primary" href="https://element.eleme.io" target="_blank">点击我</el-link>）。</li>
-            <li>下载合并文件：
+            <li>平台运行过程中需要等待，如果合并的子文件过多，建议去Github上逛逛（<el-link type="primary" href="https://element.eleme.io" target="_blank">点击我</el-link>）或者喝杯水。</li>
+            <li>合并完成后，下载合并文件：
               <router-link :to="{ path: '/excel/history' }">
                 <a class="history_a">我的历史</a>
               </router-link>
@@ -30,7 +30,7 @@
           <h3>注意要点</h3>
           <ol>
             <li>.xls格式文件最大支持为<strong>65535</strong>行数，如果超出最大行数请转换为.xlsx格式文件，再进行上传。</li>
-            <li>合并的Excel数据默认为文件的第一个Sheet，如需多个Sheet合并，请点击配置，设置需要合并的Sheet选项。</li>
+            <li>合并的Excel数据默认为文件的第一个Sheet，如需文件设置多个Sheet合并，请点击配置，设置需要合并的Sheet选项。</li>
             <li>平台处理过程中请勿做其他操作，合并完成后的文件请到
               <router-link :to="{ path: '/excel/history' }">
                 <a class="history_a">我的历史</a>

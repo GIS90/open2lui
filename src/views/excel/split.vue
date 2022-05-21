@@ -40,17 +40,17 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="上传时间" :align="tableRowAttrs.align" width="220" sortable>
+        <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
+        <el-table-column fixed="left" label="上传时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="300" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="合并Sheet" :align="tableRowAttrs.align" width="260" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="ftypev" label="类别" :align="tableRowAttrs.align" width="120" />
-        <el-table-column label="Sheet数" :align="tableRowAttrs.align" width="120">
+        <el-table-column prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_sheet_name" label="合并Sheet" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="ftypev" label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
+        <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
           <template slot-scope="scope">
             <el-popover v-show="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
@@ -62,9 +62,9 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="numopr" label="操作次数" :align="tableRowAttrs.align" width="120" />
-        <el-table-column prop="rtx_id" label="上传人RTX" :align="tableRowAttrs.align" width="160" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="320">
+        <el-table-column prop="numopr" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
+        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="320">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -182,7 +182,7 @@ export default {
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
-      splitDialogStatus: false, // 合并dialog状态
+      splitDialogStatus: false, // 拆分dialog状态
       deleteConfirm: false // 删除确认dialog状态
     }
   },
@@ -354,13 +354,13 @@ export default {
         this.getExcelSourceList()
       }
     },
-    closeDeleteDialog(isRefresh) { // 开启删除Dialog
+    closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
         this.getExcelSourceList()
       }
     },
-    openDeleteDialog() { // 关闭删除Dialog
+    openDeleteDialog() { // 打开删除Dialog
       if (this.selectList.length === 0) {
         this.$message({
           message: '请选择删除的文件',

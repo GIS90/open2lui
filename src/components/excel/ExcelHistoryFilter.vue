@@ -167,7 +167,7 @@ export default {
         }]
       }
     },
-    filterQuery() {
+    filterQuery() { // 回调给history进行高级搜索
       const data = {
         'name': this.dataFilter.name || '',
         'startTime': this.dataFilter.date[0] || '',

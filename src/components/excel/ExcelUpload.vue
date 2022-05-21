@@ -145,7 +145,7 @@ export default {
         title: '文件上传',
         width: '55%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '10%', // Dialog CSS 中的 margin-top 值
+        top: '5%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒

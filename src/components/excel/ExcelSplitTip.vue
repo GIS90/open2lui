@@ -15,10 +15,10 @@
         <div>
           <h3>操作流程</h3>
           <ol>
-            <li>上传需要拆分的Excel子文件，平台目前只支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式的Excel文件。</li>
+            <li>上传需要拆分的Excel文件，平台目前只支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式的Excel文件。</li>
             <li>点击文件列表最后列的设置按钮，配置需要拆分的Sheet（单选）。</li>
             <li>拆分操作中需要配置拆分的操作选项，具体配置请参考拆分功能中的说明。</li>
-            <li>下载拆分文件：
+            <li>拆分完成后，下载拆分文件：
               <router-link :to="{ path: '/excel/history' }">
                 <a class="history_a">我的历史</a>
               </router-link>

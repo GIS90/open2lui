@@ -288,7 +288,7 @@ export default {
       }
       this.initParams()
     },
-    submitSplit() {
+    submitSplit() { // split
       // check: sheet index
       if (!this.sheetIndex) {
         this.$message({
@@ -369,7 +369,7 @@ export default {
         })
       })
     },
-    initParams() {
+    initParams() { // 初始化split参数
       const data = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.tableRow.md5
@@ -385,6 +385,8 @@ export default {
             this.sheetNames = data.sheet_names
             this.columnNames = data.column_names
             this.boolType = data.bool_type
+          } else {
+            this.$emit('close-file-split', false) // 初始化失败，关闭split，手动重新打开
           }
           resolve(response)
         }).catch(error => {
@@ -392,7 +394,7 @@ export default {
         })
       })
     },
-    changeSheet(value) {
+    changeSheet(value) { // change sheet to refresh to sheet headers
       if (!value) {
         return false
       }

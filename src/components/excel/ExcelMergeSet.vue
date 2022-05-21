@@ -129,11 +129,11 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    closeDialog() {
+    closeDialog() { // 关闭dialog
       this.$emit('close-file-set', false)
     },
-    submitSet() {
-      if (!this.tableRow.name) {
+    submitSet() { // 提交设置
+      if (!this.tableRow.name) { // value name is not allow null
         this.$message({
           message: '文件名称不允许为空',
           type: 'warning',
@@ -141,7 +141,15 @@ export default {
         })
         return false
       }
-      if (!validExcelFile(this.tableRow.name)) {
+      if (this.tableRow.name.length > 55) { // check new file name length
+        this.$message({
+          message: '文件名称超出限制',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      if (!validExcelFile(this.tableRow.name)) { // check new file name format
         this.$message({
           message: '文件格式不正确',
           type: 'warning',
@@ -149,7 +157,7 @@ export default {
         })
         return false
       }
-      if (this.tableRow.setSheetIndex.length < 1) {
+      if (this.tableRow.setSheetIndex.length < 1) { // check sheet index value
         this.$message({
           message: '文件Sheet不允许为空',
           type: 'warning',

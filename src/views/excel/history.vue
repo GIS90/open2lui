@@ -33,16 +33,16 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="创建时间" :align="tableRowAttrs.align" width="220" sortable>
+        <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
+        <el-table-column fixed="left" label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="300" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="Sheet名称" :align="tableRowAttrs.align" width="240" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column label="类别" :align="tableRowAttrs.align" width="120">
+        <el-table-column prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_sheet_name" label="Sheet名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.ftypek == 1 ? 'success' : 'warning'"
@@ -52,7 +52,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Sheet数" :align="tableRowAttrs.align" width="120">
+        <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
           <template slot-scope="scope">
             <el-popover v-show="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
@@ -64,18 +64,18 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="ZIP压缩" :align="tableRowAttrs.align" width="120">
+        <el-table-column label="ZIP压缩" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
           <template slot-scope="scope">
             <div>
               {{ scope.row.compress ? '是' : '否' }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nfile" label="文件数" :align="tableRowAttrs.align" width="120" />
-        <el-table-column prop="row" label="行数" :align="tableRowAttrs.align" width="120" />
-        <el-table-column prop="col" label="列数" :align="tableRowAttrs.align" width="120" />
-        <el-table-column prop="rtx_id" label="创建人RTX" :align="tableRowAttrs.align" width="160" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="240">
+        <el-table-column prop="nfile" label="文件数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
+        <el-table-column prop="row" label="行数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
+        <el-table-column prop="col" label="列数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
+        <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -334,7 +334,7 @@ export default {
       }
       this.deleteConfirm = true
     },
-    filterResultList(data) {
+    filterResultList(data) { // 高级筛选参数赋值 && 刷新
       this.dataFilter.name = data.name
       this.dataFilter.typeList = data.typeList
       this.dataFilter.startTime = data.startTime
@@ -347,7 +347,7 @@ export default {
 
 <style scoped>
 .icon-item {
-  margin-left: 40px;
+  margin-left: 45px;
 }
 
 .table-sty {
