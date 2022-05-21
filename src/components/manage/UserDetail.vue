@@ -107,7 +107,10 @@
               :key="index"
               :label="item.value"
               :value="item.key"
-            />
+            >
+              <span style="float: left">{{ item.value }}</span>
+              <span style="float: right; color: #8492a6; font-size: 14px">{{ item.key }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="自我介绍" prop="introduction">

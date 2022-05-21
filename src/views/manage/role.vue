@@ -46,13 +46,13 @@
             <el-tooltip effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="编辑" placement="top">
+            <el-tooltip v-if="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="授权" placement="top">
+            <el-tooltip v-if="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="授权" placement="top">
               <i class="el-icon-setting" @click="rowHandleAuth(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-show="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="删除" placement="top">
+            <el-tooltip v-if="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>

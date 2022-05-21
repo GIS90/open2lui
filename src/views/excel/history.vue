@@ -54,7 +54,7 @@
         </el-table-column>
         <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
           <template slot-scope="scope">
-            <el-popover v-show="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
+            <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
                 <p>{{ item.key }}: {{ item.value }}</p>
               </div>
