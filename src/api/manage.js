@@ -12,7 +12,7 @@ export function getRoleList(data) {
 // 新增角色
 export function addRole(data) {
   return request({
-    url: '/auth/addrole',
+    url: '/auth/roleadd',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function addRole(data) {
 // 更新角色
 export function updateRole(data) {
   return request({
-    url: '/auth/updaterole',
+    url: '/auth/roleupdate',
     method: 'post',
     data
   })
@@ -39,7 +39,7 @@ export function detailRole(params) {
 // 批量删除角色
 export function batchDeleteRole(data) {
   return request({
-    url: '/auth/mdelrole',
+    url: '/auth/rolemdel',
     method: 'post',
     data
   })
@@ -48,7 +48,7 @@ export function batchDeleteRole(data) {
 // 单个删除角色
 export function deleteRole(data) {
   return request({
-    url: '/auth/delrole',
+    url: '/auth/roledel',
     method: 'post',
     data
   })
@@ -66,7 +66,7 @@ export function getAuthTree(data) {
 // 保存角色权限tree
 export function submitAuthTree(data) {
   return request({
-    url: '/auth/savetree',
+    url: '/auth/rolesavetree',
     method: 'post',
     data
   })
@@ -92,7 +92,7 @@ export function getUserList(data) {
 // 新增用户
 export function addUser(data) {
   return request({
-    url: '/auth/adduser',
+    url: '/auth/useradd',
     method: 'post',
     data
   })
@@ -101,7 +101,7 @@ export function addUser(data) {
 // 批量删除用户
 export function batchDeleteUser(data) {
   return request({
-    url: '/auth/mdeluser',
+    url: '/auth/usermdel',
     method: 'post',
     data
   })
@@ -128,7 +128,7 @@ export function detailUser(params) {
 // 更新用户信息
 export function updateUser(data) {
   return request({
-    url: '/auth/updateuser',
+    url: '/auth/userupdate',
     method: 'post',
     data
   })

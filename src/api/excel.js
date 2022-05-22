@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取source文件列表
 export function getSourceList(data) {
   return request({
-    url: '/excel/list',
+    url: '/excel/source',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function getResultList(data) {
 // 更新source文件信息
 export function updateSourceFile(data) {
   return request({
-    url: '/excel/updates',
+    url: '/excel/supdate',
     method: 'post',
     data
   })
@@ -30,7 +30,7 @@ export function updateSourceFile(data) {
 // 更新result文件信息
 export function updateResultFile(data) {
   return request({
-    url: '/excel/updater',
+    url: '/excel/rupdate',
     method: 'post',
     data
   })
@@ -39,7 +39,7 @@ export function updateResultFile(data) {
 // 删除source单个文件
 export function deleteSourceFile(data) {
   return request({
-    url: '/excel/delete',
+    url: '/excel/sdelete',
     method: 'post',
     data
   })
@@ -48,7 +48,7 @@ export function deleteSourceFile(data) {
 // 删除source多个文件
 export function deleteSourceFiles(data) {
   return request({
-    url: '/excel/deletes',
+    url: '/excel/sdeletes',
     method: 'post',
     data
   })
@@ -75,7 +75,7 @@ export function mergeFiles(data) {
 // 删除result单个文件
 export function deleteResultFile(data) {
   return request({
-    url: '/excel/deleter',
+    url: '/excel/rdelete',
     method: 'post',
     data
   })
@@ -84,7 +84,7 @@ export function deleteResultFile(data) {
 // 删除result多个文件
 export function deleteResultFiles(data) {
   return request({
-    url: '/excel/deletesr',
+    url: '/excel/rdeletes',
     method: 'post',
     data
   })
