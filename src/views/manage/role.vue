@@ -88,7 +88,7 @@
 
 <script>
 import store from '@/store'
-import { deleteRole, getRoleList } from '@/api/manage'
+import { roleDelete, getRoleList } from '@/api/manage'
 import RoleAdd from '@/components/manage/RoleAdd'
 import RoleDetail from '@/components/manage/RoleDetail'
 import RoleSet from '@/components/manage/RoleSet'
@@ -280,7 +280,7 @@ export default {
         'md5': row.md5_id
       }
       return new Promise((resolve, reject) => {
-        deleteRole(data).then(response => {
+        roleDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

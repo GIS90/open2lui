@@ -141,7 +141,7 @@
 
 <script>
 import store from '@/store'
-import { detailUser, updateUser } from '@/api/manage'
+import { userDetail, userUpdate } from '@/api/manage'
 import { validEmail, validPhone } from '@/utils/validate'
 
 const validateUserName = (rule, value, callback) => {
@@ -304,7 +304,7 @@ export default {
         'rtx_id': this.rtxId
       }
       return new Promise((resolve, reject) => {
-        detailUser(params).then(response => {
+        userDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.userForm.name = data.name
@@ -338,7 +338,7 @@ export default {
             'introduction': this.userForm.introduction
           }
           return new Promise((resolve, reject) => {
-            updateUser(data).then(response => {
+            userUpdate(data).then(response => {
               this.edit = true
               this.disabled = false
               this.loading = false

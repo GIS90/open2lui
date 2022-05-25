@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { detailRole } from '@/api/manage'
+import { roleDetail } from '@/api/manage'
 
 export default {
   name: 'RoleDetail',
@@ -164,7 +164,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        detailRole(params).then(response => {
+        roleDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.role = data

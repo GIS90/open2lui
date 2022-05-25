@@ -175,7 +175,7 @@ export default {
   },
   mounted() {},
   methods: {
-    getUserList() { // 获取user list数据
+    getUserList() { // 请求后台API初始化表格数据
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []

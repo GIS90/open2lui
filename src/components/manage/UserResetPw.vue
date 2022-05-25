@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { UserResetPw } from '@/api/manage'
+import { userResetPw } from '@/api/manage'
 
 export default {
   name: 'UserResetPw',
@@ -84,7 +84,7 @@ export default {
         'rtx_id': this.rtxId
       }
       return new Promise((resolve, reject) => {
-        UserResetPw(params).then(response => {
+        userResetPw(params).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

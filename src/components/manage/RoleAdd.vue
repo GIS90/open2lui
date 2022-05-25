@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { addRole } from '@/api/manage'
+import { roleAdd } from '@/api/manage'
 import store from '@/store'
 
 const validateRoleEName = (rule, value, callback) => {
@@ -199,7 +199,7 @@ export default {
             'introduction': this.addRoleForm.introduction
           }
           return new Promise((resolve, reject) => {
-            addRole(data).then(response => {
+            roleAdd(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response

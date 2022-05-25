@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import { addUser, initRoleSelect } from '@/api/manage'
+import { userAdd, initRoleSelect } from '@/api/manage'
 import store from '@/store'
 import { validEmail, validPhone } from '@/utils/validate'
 import { defaultUserPassword } from '@/settings.js'
@@ -328,7 +328,7 @@ export default {
             'introduction': this.addUserForm.introduction
           }
           return new Promise((resolve, reject) => {
-            addUser(data).then(response => {
+            userAdd(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response

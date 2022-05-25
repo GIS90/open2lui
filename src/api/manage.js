@@ -10,7 +10,7 @@ export function getRoleList(data) {
 }
 
 // 新增角色
-export function addRole(data) {
+export function roleAdd(data) {
   return request({
     url: '/auth/roleadd',
     method: 'post',
@@ -19,7 +19,7 @@ export function addRole(data) {
 }
 
 // 更新角色
-export function updateRole(data) {
+export function roleUpdate(data) {
   return request({
     url: '/auth/roleupdate',
     method: 'post',
@@ -28,7 +28,7 @@ export function updateRole(data) {
 }
 
 // 角色详情
-export function detailRole(params) {
+export function roleDetail(params) {
   return request({
     url: '/auth/roleinfo',
     method: 'get',
@@ -46,7 +46,7 @@ export function batchDeleteRole(data) {
 }
 
 // 单个删除角色
-export function deleteRole(data) {
+export function roleDelete(data) {
   return request({
     url: '/auth/roledel',
     method: 'post',
@@ -90,7 +90,7 @@ export function getUserList(data) {
 }
 
 // 新增用户
-export function addUser(data) {
+export function userAdd(data) {
   return request({
     url: '/auth/useradd',
     method: 'post',
@@ -117,7 +117,7 @@ export function changeUserStatus(data) {
 }
 
 // 用户详情
-export function detailUser(params) {
+export function userDetail(params) {
   return request({
     url: '/auth/userinfo',
     method: 'get',
@@ -126,7 +126,7 @@ export function detailUser(params) {
 }
 
 // 更新用户信息
-export function updateUser(data) {
+export function userUpdate(data) {
   return request({
     url: '/auth/userupdate',
     method: 'post',
@@ -135,10 +135,19 @@ export function updateUser(data) {
 }
 
 // 重置默认密码
-export function UserResetPw(params) {
+export function userResetPw(params) {
   return request({
     url: '/auth/userrp',
     method: 'get',
     params
+  })
+}
+
+// 获取菜单列表
+export function getMenuList(data) {
+  return request({
+    url: '/auth/user',
+    method: 'post',
+    data
   })
 }

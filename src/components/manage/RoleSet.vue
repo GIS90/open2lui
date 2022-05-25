@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { detailRole, updateRole } from '@/api/manage'
+import { roleDetail, roleUpdate } from '@/api/manage'
 import store from '@/store'
 
 const validateRoleEName = (rule, value, callback) => {
@@ -194,7 +194,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        detailRole(params).then(response => {
+        roleDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.setRoleForm.engname = data.engname
@@ -222,7 +222,7 @@ export default {
             'introduction': this.setRoleForm.introduction
           }
           return new Promise((resolve, reject) => {
-            updateRole(data).then(response => {
+            roleUpdate(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
