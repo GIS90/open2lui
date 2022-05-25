@@ -40,7 +40,7 @@
         </el-table-column>
         <el-table-column prop="engname" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="chnname" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="270" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="introduction" label="描述" width="350" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="300">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="详情" placement="top">

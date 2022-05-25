@@ -4,7 +4,18 @@
 
 <script>
 export default {
-  name: 'Menu'
+  name: 'Menu',
+  emits: [],
+  components: {},
+  props: {},
+  data() {
+    return {}
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {}
 }
 </script>
 

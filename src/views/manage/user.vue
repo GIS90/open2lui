@@ -90,7 +90,7 @@
 <script>
 import store from '@/store'
 import { getUserList } from '@/api/manage'
-import UserAdd from '@/components/manage/UserAdd'
+import UserAdd from '@/components/manage/UserAdd-M'
 import UserBatchDelete from '@/components/manage/UserBatchDelete'
 import UserStatus from '@/components/manage/UserStatus'
 import Pagination from '@/components/Pagination'

@@ -39,7 +39,7 @@
           />
         </el-form-item>
         <el-form-item label="备注" style="margin-top: 20px">
-          <div class="info_red">密码重置成功后，会自动退出，请重新登录！</div>
+          <div class="info_red">密码重置成功后，会自动退出，重新登录请使用新密码！</div>
         </el-form-item>
       </el-form>
       <!--footer-->
