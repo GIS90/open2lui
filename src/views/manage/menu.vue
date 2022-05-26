@@ -53,10 +53,10 @@
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="详情" placement="top">
-              <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row, 'detail')" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row, 'info')" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -67,6 +67,12 @@
 
     <!-- 提示说明 -->
     <menu-tip :show="tipDialogStatus" @close-tip="closeTip" />
+
+    <!-- 详情 -->
+    <menu-detail :show="detailDialogStatus" :row-md5="oprSelectRtx" @close-detail-menu="closeDetailMenu" />
+
+    <!-- 编辑 -->
+    <menu-set :show="setDialogStatus" :row-md5="oprSelectRtx" @close-set-menu="closeSetMenu" />
   </div>
 </template>
 
@@ -75,13 +81,17 @@ import store from '@/store'
 import { getMenuList } from '@/api/manage'
 import MenuExpand from '@/components/manage/MenuExpand'
 import MenuTip from '@/components/manage/MenuTip'
+import MenuDetail from '@/components/manage/MenuDetail'
+import MenuSet from '@/components/manage/MenuSet'
 
 export default {
   name: 'Menu',
   emits: [],
   components: {
     'menu-expand': MenuExpand,
-    'menu-tip': MenuTip
+    'menu-tip': MenuTip,
+    'menu-detail': MenuDetail,
+    'menu-set': MenuSet
   },
   props: {},
   data() {
@@ -139,6 +149,7 @@ export default {
       tipDialogStatus: false, // tip
       oprSelectRtx: '', // 当前选择数据的RTX
       deleteConfirm: false, // 删除确认dialog状态
+      detailDialogStatus: false, // 详情dialog
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false // 新增dialog
     }
@@ -178,12 +189,28 @@ export default {
         color: '#606266'
       }
     },
-    rowHandleEdit(index, row) { // table row 编辑详情
-      if (!row) {
+    rowHandleEdit(index, row, type) { // table row 编辑详情
+      console.log(index)
+      console.log(row)
+      console.log(type)
+      if (!row || !type) {
         return false
       }
       this.oprSelectRtx = row.rtx_id
-      this.setDialogStatus = true
+      if (type === 'detail') {
+        this.detailDialogStatus = true
+      } else if (type === 'info') {
+        this.setDialogStatus = true
+      }
+    },
+    closeDetailMenu() { // 关闭菜单详情dg
+      this.detailDialogStatus = false
+    },
+    closeSetMenu(isRefresh) { // 关闭编辑菜单dg
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getMenuList()
+      }
     },
     openAddMenu() { // 打开新增菜单dg
       this.addDialogStatus = true
@@ -199,12 +226,6 @@ export default {
       this.tableOneKeys.map(item => {
         return this.$refs.multipleSourceTableRef.toggleRowExpansion(item, status)
       })
-    },
-    closeDetailMenu(isRefresh) { // 关闭编辑菜单dg
-      this.setDialogStatus = false
-      if (isRefresh) {
-        this.getMenuList()
-      }
     },
     openTip() { // 开启tip
       this.tipDialogStatus = true
