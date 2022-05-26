@@ -146,7 +146,7 @@ export function userResetPw(params) {
 // 获取菜单列表
 export function getMenuList(data) {
   return request({
-    url: '/auth/user',
+    url: '/auth/menu',
     method: 'post',
     data
   })

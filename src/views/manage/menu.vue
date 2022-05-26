@@ -5,29 +5,89 @@
       <el-button id="btn-create" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddMenu">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
-      <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
-        <svg-icon icon-class="i_select" />  {{ selBtnText }}
+      <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip()">
+        <svg-icon icon-class="i_sm" />  字段说明
       </el-button>
-      <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
-        <svg-icon icon-class="i_delete" />  禁用
-      </el-button>
+      <!-- 是否展开 -->
+      <menu-expand :expand="expandStatus" @menu-expand-status="menuExpandStatus" />
     </el-row>
+
+    <!--Table表格-->
+    <div id="data-container" class="table-sty">
+      <el-table
+        ref="multipleSourceTableRef"
+        :data="tableData"
+        :row-key="tableAttrs.rowKey"
+        :size="tableAttrs.size"
+        :fit="tableAttrs.fit"
+        :show-header="tableAttrs.showHeader"
+        :highlight-current-row="tableAttrs.hcr"
+        :border="tableAttrs.border"
+        style="width: 100%;margin-bottom: 30px;"
+        :default-expand-all="tableAttrs.expand"
+        :default-sort="{ prop: 'id', order: 'asc' }"
+        :empty-text="tableAttrs.emptyText"
+        :header-cell-style="setTableHeaderStyle"
+        :tree-props="tableAttrs.treeProps"
+        :expand-row-keys="tableOneKeys"
+      >
+        <el-table-column fixed="left" prop="id" label="菜单ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="title" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="path" label="请求地址" width="180" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="level" label="级别" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="icon" label="菜单图标" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="component" label="组件" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="hidden" label="隐藏属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="redirect" label="重定向" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="noCache" label="Cache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="affix" label="Affix属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
+          <template slot-scope="scope">
+            <el-tooltip effect="dark" content="详情" placement="top">
+              <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="dark" content="编辑" placement="top">
+              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!-- 暂定table、tree 2种显示模式，不做page分页 -->
+
+    <!-- 提示说明 -->
+    <menu-tip :show="tipDialogStatus" @close-tip="closeTip" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
 import { getMenuList } from '@/api/manage'
+import MenuExpand from '@/components/manage/MenuExpand'
+import MenuTip from '@/components/manage/MenuTip'
 
 export default {
   name: 'Menu',
   emits: [],
-  components: {},
+  components: {
+    'menu-expand': MenuExpand,
+    'menu-tip': MenuTip
+  },
   props: {},
   data() {
     return {
       btnDisabled: false, // 按钮禁用状态
-      selBtnText: '全选', // 选择按钮内容
+      expandStatus: false, // 是否展开
       // button attributes
       btnBaseAttrs: {
         size: 'medium', // 大小 medium / small / mini / ''
@@ -36,8 +96,20 @@ export default {
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
+      // switch attrs
+      switchAttrs: { // switch attrs
+        disabled: false, // 是否禁用
+        width: 40, // 宽度（像素），默认40
+        activeText: '展开', // 打开时的文字描述
+        inactiveText: '关闭', // 关闭时的文字描述
+        activeValue: true, // 打开时的value
+        inactiveValue: false, // 打开时的value
+        activeColor: '#ff4949', // 打开时的背景色
+        inactiveColor: '#13ce66' // 关闭时的背景色
+      },
       // table attributes
       tableAttrs: {
+        rowKey: 'id',
         stripe: true, // 是否为斑马纹 true/false
         border: true, // 是否带有纵向边框 true/false
         size: 'medium', // 尺寸 medium / small / mini / ''
@@ -46,6 +118,8 @@ export default {
         hcr: true, // 是否要高亮当前行highlight-current-row true/false
         height: 450, // 高度
         maxHeight: 450, // 最大高度(属性为Table指定最大高度，此时若表格所需的高度大于最大高度，则会显示一个滚动条。)
+        expand: false, // default-expand-all 是否默认展开所有行，当 Table 包含展开行存在或者为树形表格时有效
+        treeProps: { children: 'children' }, // treeProps
         showSum: true, // 表尾合计
         sumText: '统计', // 合计行第一列的文
         emptyText: '暂无数据' // 空数据时显示的文本内容
@@ -60,13 +134,9 @@ export default {
         headerAlign: 'center', // 表头对齐方式，若不设置该项，则使用表格的对齐方式 left / center / right
         sot: true // showOverflowTooltip 多余的内容会在hover时以tooltip的形式显示出来
       },
-      // pagination attrs
-      pageCur: 1, // 当前page
-      pageSize: 15, // 每页显示条目个数
-      pageTotal: 0, // 总条数
-      selectAllStatus: false, // 全选状态
-      selectList: [], // 选择列表
       tableData: [], // table data
+      tableOneKeys: [], // 一级菜单的key
+      tipDialogStatus: false, // tip
       oprSelectRtx: '', // 当前选择数据的RTX
       deleteConfirm: false, // 删除确认dialog状态
       setDialogStatus: false, // 编辑dialog
@@ -74,15 +144,7 @@ export default {
     }
   },
   computed: {},
-  watch: {
-    selectAllStatus(newVal, oldVal) {
-      if (newVal) {
-        this.selBtnText = '取消'
-      } else {
-        this.selBtnText = '全选'
-      }
-    }
-  },
+  watch: {},
   created() {
     this.getMenuList()
   },
@@ -90,22 +152,18 @@ export default {
   methods: {
     getMenuList() { // 请求后台API初始化表格数据
       // 初始化选择参数
-      this.selectAllStatus = false
-      this.selectList = []
       this.oprSelectRtx = ''
 
       // list列表参数
       const data = {
-        'rtx_id': store.getters.rtx_id,
-        'limit': this.pageSize || 15,
-        'offset': (this.pageCur - 1) * this.pageSize || 0
+        'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
         getMenuList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
-            this.pageTotal = data.total
+            this.tableOneKeys = data.keys
           }
           resolve(response)
         }).catch(error => {
@@ -113,41 +171,6 @@ export default {
           reject(error)
         })
       })
-    },
-    selectRow(selection, row) { // table row 单行
-      if (!row) {
-        return
-      }
-
-      // add select list
-      if (row?.md5_id && !this.selectList.includes(row.md5_id)) {
-        this.selectList.push(row.md5_id)
-      } else if (row?.md5_id && this.selectList.includes(row.md5_id)) {
-        const index = this.selectList.indexOf(row.md5_id)
-        if (index > -1) {
-          this.selectList.splice(index, 1)
-        }
-        // this.selectList.remove(row.md5_id)
-      } else {
-        console.log('Add data is not have md5-id')
-      }
-
-      // change select button status
-      this.selectAllStatus = this.tableData.length === this.selectList.length
-    },
-    selectChange(selection) {
-      // console.log(selection)
-      // this.selectAllStatus = this.tableData.length === selection.length
-    },
-    selectAll(selection) { // table row 全选
-      if (!selection) {
-        return
-      }
-      this.selectAllStatus = !this.selectAllStatus
-      this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
-    },
-    manualSelectALL() { // 手工table row 全选
-      this.$refs.multipleSourceTableRef.toggleAllSelection()
     },
     setTableHeaderStyle() { // table title样式
       return {
@@ -171,41 +194,38 @@ export default {
         this.getMenuList()
       }
     },
+    menuExpandStatus(status) { // 打开/关闭table 子菜单
+      this.expandStatus = status
+      this.tableOneKeys.map(item => {
+        return this.$refs.multipleSourceTableRef.toggleRowExpansion(item, status)
+      })
+    },
     closeDetailMenu(isRefresh) { // 关闭编辑菜单dg
       this.setDialogStatus = false
       if (isRefresh) {
         this.getMenuList()
       }
     },
-    closeDeleteDialog(isRefresh) { // 关闭批量禁用功能的dg
-      this.deleteConfirm = false
-      if (isRefresh) {
-        this.getMenuList()
-      }
+    openTip() { // 开启tip
+      this.tipDialogStatus = true
     },
-    openDeleteDialog() { // 打开批量禁用功能的dg
-      if (this.selectList.length === 0) {
-        this.$message({
-          message: '请选择禁用的功能菜单',
-          type: 'warning',
-          duration: 2.0 * 1000
-        })
-        return false
-      }
-      this.deleteConfirm = true
-    },
-    paginSizeChange(pageSize) { // pageSize 改变时会触发
-      this.pageSize = pageSize
-      this.getMenuList()
-    },
-    paginCurrentChange(page) { // currentPage 改变时会触发
-      this.pageCur = page
-      this.getMenuList()
+    closeTip() { // 关闭tip
+      this.tipDialogStatus = false
     }
   }
 }
 </script>
 
 <style scoped>
+.btn-margin {
+  margin-left: 20px;
+}
 
+.table-sty {
+  margin-top: 25px;
+}
+
+.icon-item {
+  margin-left: 45px;
+}
 </style>

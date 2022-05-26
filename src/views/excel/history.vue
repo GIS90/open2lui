@@ -271,16 +271,25 @@ export default {
         })
       })
     },
+    closeHistorySet(isRefresh) { // 关闭文件设置Dialog
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getExcelResultList()
+      }
+    },
     setTableHeaderStyle() { // 设置table title样式
       return {
         background: '#eee',
         color: '#606266'
       }
     },
-    closeHistorySet(isRefresh) { // 关闭文件设置Dialog
-      this.setDialogStatus = false
-      if (isRefresh) {
-        this.getExcelResultList()
+    tableRowClassName({ row, rowIndex }) { // 指定行添加class
+      if (row.ftypek === '1') {
+        return 'row-merge'
+      } else if (row.ftypek === '2') {
+        return 'row-split'
+      } else {
+        return ''
       }
     },
     selectRow(selection, row) { // 手工条选数据
@@ -356,5 +365,21 @@ export default {
 
 .btn-margin {
   margin-left: 20px;
+}
+
+.row-merge {
+  background-color: #2c3e50;
+}
+
+.row-split {
+  background-color: #00ff00;
+}
+
+.el-table .row-merge {
+  background: oldlace;
+}
+
+.el-table .row-split {
+  background: #f0f9eb;
 }
 </style>
