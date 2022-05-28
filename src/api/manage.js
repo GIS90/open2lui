@@ -151,3 +151,12 @@ export function getMenuList(data) {
     data
   })
 }
+
+// 获取菜单列表
+export function menuDetail(data) {
+  return request({
+    url: '/auth/menuinfo',
+    method: 'post',
+    data
+  })
+}

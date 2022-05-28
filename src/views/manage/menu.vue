@@ -23,7 +23,7 @@
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        style="width: 100%;margin-bottom: 30px;"
+        style="width: 100%;margin-bottom: 20px;"
         :default-expand-all="tableAttrs.expand"
         :default-sort="{ prop: 'id', order: 'asc' }"
         :empty-text="tableAttrs.emptyText"
@@ -35,14 +35,21 @@
         <el-table-column prop="name" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="title" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="path" label="请求地址" width="180" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="level" label="级别" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="icon" label="菜单图标" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="component" label="组件" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="hidden" label="隐藏属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="redirect" label="重定向" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="noCache" label="Cache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="affix" label="Affix属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="level" label="级别" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column label="上级菜单信息" :align="tableRowAttrs.align">
+          <el-table-column prop="pid" label="上级菜单ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="pname" label="上级菜单RTX" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="ptitle" label="上级菜单名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        </el-table-column>
+        <el-table-column label="开发者配置信息" :align="tableRowAttrs.align">
+          <el-table-column prop="component" label="组件" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="redirect" label="重定向" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="hidden" label="隐藏属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="noCache" label="noCache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="affix" label="Affix属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        </el-table-column>
         <el-table-column label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
@@ -190,13 +197,10 @@ export default {
       }
     },
     rowHandleEdit(index, row, type) { // table row 编辑详情
-      console.log(index)
-      console.log(row)
-      console.log(type)
-      if (!row || !type) {
+      if (!row || !type || !row.md5_id) {
         return false
       }
-      this.oprSelectRtx = row.rtx_id
+      this.oprSelectRtx = row.md5_id
       if (type === 'detail') {
         this.detailDialogStatus = true
       } else if (type === 'info') {
