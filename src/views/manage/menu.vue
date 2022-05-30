@@ -28,6 +28,7 @@
         :default-sort="{ prop: 'id', order: 'asc' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
+        :row-style="setTableRowStyle"
         :tree-props="tableAttrs.treeProps"
         :expand-row-keys="tableOneKeys"
       >
@@ -206,6 +207,16 @@ export default {
       return {
         background: '#eee',
         color: '#606266'
+      }
+    },
+    setTableRowStyle({ row, rowIndex }) { // table row样式
+      console.log(row)
+      console.log(row.level)
+      if (row && row.level === '1') {
+        return {
+          background: '#EEFFBB',
+          color: '#606266'
+        }
       }
     },
     rowHandleEdit(index, row, type) { // table row 编辑详情
