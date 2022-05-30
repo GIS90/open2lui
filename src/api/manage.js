@@ -152,10 +152,28 @@ export function getMenuList(data) {
   })
 }
 
+// 添加菜单
+export function menuAdd(data) {
+  return request({
+    url: '/auth/menuadd',
+    method: 'post',
+    data
+  })
+}
+
 // 获取菜单列表
 export function menuDetail(data) {
   return request({
     url: '/auth/menuinfo',
+    method: 'post',
+    data
+  })
+}
+
+// 更新菜单信息
+export function menuUpdate(data) {
+  return request({
+    url: '/auth/menuupdate',
     method: 'post',
     data
   })

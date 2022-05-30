@@ -45,7 +45,7 @@
         <el-table-column label="开发者配置信息" :align="tableRowAttrs.align">
           <el-table-column prop="component" label="组件" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="redirect" label="重定向" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="hidden" label="隐藏属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="hidden" label="Hidden属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="noCache" label="noCache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="affix" label="Affix属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -152,7 +152,7 @@ export default {
         sot: true // showOverflowTooltip 多余的内容会在hover时以tooltip的形式显示出来
       },
       tableData: [], // table data
-      tableOneKeys: [], // 一级菜单的key
+      tableOneKeys: [], // 一级菜单的key，格式为[{id: 1}, {id: 2}...]，用于开关闭菜单折叠
       tipDialogStatus: false, // tip
       oprSelectRtx: '', // 当前选择数据的RTX
       deleteConfirm: false, // 删除确认dialog状态

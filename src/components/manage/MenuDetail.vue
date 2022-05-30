@@ -18,7 +18,7 @@
       @open="openDialog"
       @close="closeDialog"
     >
-      <el-form ref="addMenuForm" :label-position="labelPosition" label-width="auto">
+      <el-form ref="menuForm" :label-position="labelPosition" label-width="auto">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="菜单ID">
@@ -42,7 +42,7 @@
               <el-input
                 v-model.trim="menuObject.name"
                 type="text"
-                placeholder="请输入RTX名称"
+                placeholder="请输入唯一RTX名称（建议使用英文）"
                 :maxlength="menuLimit.name"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -57,7 +57,7 @@
               <el-input
                 v-model.trim="menuObject.title"
                 type="text"
-                placeholder="请输入昵称"
+                placeholder="请输入菜单左侧显示名称"
                 :maxlength="menuLimit.title"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -76,7 +76,7 @@
               <el-input
                 v-model.trim="menuObject.path"
                 type="text"
-                placeholder="请输入RTX名称"
+                placeholder="请输入功能访问URL"
                 :maxlength="menuLimit.path"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -91,7 +91,7 @@
               <el-input
                 v-model.trim="menuObject.icon"
                 type="text"
-                placeholder="请输入图标"
+                placeholder="请输入菜单左侧显示图标"
                 :maxlength="menuLimit.icon"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -164,7 +164,7 @@
               <el-input
                 v-model.trim="menuObject.component"
                 type="text"
-                placeholder="请输入组件"
+                placeholder="请输入菜单mapping组件"
                 :maxlength="menuLimit.component"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -179,7 +179,7 @@
               <el-input
                 v-model.trim="menuObject.redirect"
                 type="text"
-                placeholder="请输入组件"
+                placeholder="请输入重定向的URL"
                 :maxlength="menuLimit.redirect"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -192,11 +192,11 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="隐藏属性">
+            <el-form-item label="Hidden属性">
               <el-select
                 v-model="menuObject.hidden"
                 style="width: 100%"
-                placeholder="请选择隐藏属性"
+                placeholder="请选择Hidden属性"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
                 :multiple-limit="selectAttrs.limit"
@@ -215,11 +215,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="noCache属性">
+            <el-form-item label="NoCache属性">
               <el-select
                 v-model="menuObject.noCache"
                 style="width: 100%"
-                placeholder="请选择noCache属性"
+                placeholder="请选择NoCache属性"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
                 :multiple-limit="selectAttrs.limit"
@@ -240,11 +240,11 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="affix属性">
+            <el-form-item label="Affix属性">
               <el-select
                 v-model="menuObject.affix"
                 style="width: 100%"
-                placeholder="请选择affix属性"
+                placeholder="请选择Affix属性"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
                 :multiple-limit="selectAttrs.limit"
@@ -263,11 +263,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="breadcrumb属性">
+            <el-form-item label="Breadcrumb属性">
               <el-select
                 v-model="menuObject.breadcrumb"
                 style="width: 100%"
-                placeholder="请选择breadcrumb属性"
+                placeholder="请选择Breadcrumb属性"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
                 :multiple-limit="selectAttrs.limit"
@@ -286,15 +286,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- 开发者配置 -->
+        <!-- 拓展信息 -->
         <el-row><h3>拓展信息：</h3></el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="创建时间">
+            <el-form-item label="创建者RTX">
               <el-input
-                v-model.trim="menuObject.create_time"
+                v-model.trim="menuObject.create_rtx"
                 type="text"
-                placeholder="请输入RTX名称"
+                placeholder="创建者RTX"
                 :maxlength="menuLimit.name"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -305,12 +305,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="创建者RTX">
+            <el-form-item label="创建时间">
               <el-input
-                v-model.trim="menuObject.create_rtx"
+                v-model.trim="menuObject.create_time"
                 type="text"
-                placeholder="请输入昵称"
-                :maxlength="menuLimit.name"
+                placeholder="创建时间"
+                :maxlength="menuLimit.time"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -323,10 +323,11 @@
         <div v-show="menuObject.is_del">
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="禁用时间">
+              <el-form-item label="禁用者RTX">
                 <el-input
-                  v-model.trim="menuObject.delete_time"
+                  v-model.trim="menuObject.delete_rtx"
                   type="text"
+                  placeholder="禁用者RTX"
                   :maxlength="menuLimit.name"
                   :clearable="inputAttrs.clear"
                   :show-word-limit="inputAttrs.limit"
@@ -337,11 +338,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="禁用者RTX">
+              <el-form-item label="禁用时间">
                 <el-input
-                  v-model.trim="menuObject.delete_rtx"
+                  v-model.trim="menuObject.delete_time"
                   type="text"
-                  :maxlength="menuLimit.name"
+                  placeholder="禁用时间"
+                  :maxlength="menuLimit.time"
                   :clearable="inputAttrs.clear"
                   :show-word-limit="inputAttrs.limit"
                   :size="inputAttrs.size"
@@ -387,7 +389,7 @@ export default {
       disabled: true, // 禁用组件
       labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '菜单详情',
+        title: '详情',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -431,18 +433,13 @@ export default {
         icon: 25,
         noCache: 1,
         affix: 1,
-        breadcrumb: 1
+        breadcrumb: 1,
+        time: 25
       },
       menuObject: {}, // menu object
       menuSelect: {}, // menu select list
-      levelEnum: [
-        { 'value': 1, 'label': '一级菜单' },
-        { 'value': 2, 'label': '二级菜单' }
-      ],
-      boolEnum: [
-        { 'value': 1, 'label': '是' },
-        { 'value': 0, 'label': '否' }
-      ]
+      levelEnum: [],
+      boolEnum: []
     }
   },
   computed: {},
@@ -453,7 +450,7 @@ export default {
     closeDialog() {
       this.$emit('close-detail-menu')
     },
-    openDialog() {
+    openDialog() { // 初始化数据 && 枚举列表
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5

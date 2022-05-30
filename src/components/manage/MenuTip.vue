@@ -17,11 +17,12 @@
           <li>RTX名称：唯一标识，子菜单基于父菜单（一级）RTX名称进行拓展，采用驼峰写法，不可更改信息</li>
           <li>中文名称：菜单中文名称，为系统左侧的菜单栏显示内容</li>
           <li>请求地址：访问菜单功能的URL地址信息</li>
-          <li>级别：一级菜单、二级菜单</li>
           <li>菜单图标：显示左侧菜单栏的图标</li>
+          <li>上级菜单：菜单的父节点</li>
+          <li>级别：一级菜单、二级菜单</li>
           <li>组件：配置菜单对应VUE前端开发组件名称（<span class="info_red">开发者参数配置</span>）</li>
-          <li>隐藏属性：是否在菜单栏显示，默认值为false，如果设置为true，项目将不会显示在菜单栏中（<span class="info_red">开发者参数配置</span>）</li>
           <li>重定向：用于一级菜单配置，访问或者转发URL时进行的Redirect URL跳转（<span class="info_red">开发者参数配置</span>）</li>
+          <li>Hidden属性：是否在菜单栏显示，默认值为false，如果设置为true，项目将不会显示在菜单栏中（<span class="info_red">开发者参数配置</span>）</li>
           <li>noCache属性：是否缓存菜单页码，默认为false（缓存），如果设置为true，则不会缓存页面（<span class="info_red">开发者参数配置</span>）</li>
           <li>Affix属性：是否固定在TagView（标签视图）中，默认为false（不固定），如果设置为true，菜单标签将固定在TagView（<span class="info_red">开发者参数配置</span>）</li>
           <li>Breadcrumb属性：是否在顶部菜单面包屑中进行显示，默认为true（显示），如果设置为false，则隐藏在面包屑中（<span class="info_red">开发者参数配置</span>）</li>
@@ -74,7 +75,7 @@ export default {
 
 <style scoped>
 .tip {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 180%;
   letter-spacing: 1px;
 }
