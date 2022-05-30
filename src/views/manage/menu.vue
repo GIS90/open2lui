@@ -67,6 +67,11 @@
             </el-tooltip>
           </template>
         </el-table-column>
+        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="200">
+          <template slot-scope="scope">
+            <menu-status :row="scope.row" />
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -94,6 +99,7 @@ import MenuTip from '@/components/manage/MenuTip'
 import MenuDetail from '@/components/manage/MenuDetail'
 import MenuAdd from '@/components/manage/MenuAdd'
 import MenuSet from '@/components/manage/MenuSet'
+import MenuStatus from '@/components/manage/MenuStatus'
 
 export default {
   name: 'Menu',
@@ -103,7 +109,8 @@ export default {
     'menu-tip': MenuTip,
     'menu-detail': MenuDetail,
     'menu-add': MenuAdd,
-    'menu-set': MenuSet
+    'menu-set': MenuSet,
+    'menu-status': MenuStatus
   },
   props: {},
   data() {

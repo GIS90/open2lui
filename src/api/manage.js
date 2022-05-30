@@ -186,3 +186,12 @@ export function menuUpdate(data) {
     data
   })
 }
+
+// 改变菜单状态
+export function menuStatus(data) {
+  return request({
+    url: '/auth/menustatus',
+    method: 'post',
+    data
+  })
+}
