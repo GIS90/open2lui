@@ -75,6 +75,9 @@
     <!-- 提示说明 -->
     <menu-tip :show="tipDialogStatus" @close-tip="closeTip" />
 
+    <!-- 新增 -->
+    <menu-add :show="addDialogStatus" @close-add-menu="closeAddMenu" />
+
     <!-- 详情 -->
     <menu-detail :show="detailDialogStatus" :row-md5="oprSelectRtx" @close-detail-menu="closeDetailMenu" />
 
@@ -89,6 +92,7 @@ import { getMenuList } from '@/api/manage'
 import MenuExpand from '@/components/manage/MenuExpand'
 import MenuTip from '@/components/manage/MenuTip'
 import MenuDetail from '@/components/manage/MenuDetail'
+import MenuAdd from '@/components/manage/MenuAdd'
 import MenuSet from '@/components/manage/MenuSet'
 
 export default {
@@ -98,6 +102,7 @@ export default {
     'menu-expand': MenuExpand,
     'menu-tip': MenuTip,
     'menu-detail': MenuDetail,
+    'menu-add': MenuAdd,
     'menu-set': MenuSet
   },
   props: {},

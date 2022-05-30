@@ -161,6 +161,14 @@ export function menuAdd(data) {
   })
 }
 
+// 添加菜单
+export function menuAddInit() {
+  return request({
+    url: '/auth/menuaddinit',
+    method: 'get'
+  })
+}
+
 // 获取菜单列表
 export function menuDetail(data) {
   return request({

@@ -22,10 +22,10 @@
           <li>级别：一级菜单、二级菜单</li>
           <li>组件：配置菜单对应VUE前端开发组件名称（<span class="info_red">开发者参数配置</span>）</li>
           <li>重定向：用于一级菜单配置，访问或者转发URL时进行的Redirect URL跳转（<span class="info_red">开发者参数配置</span>）</li>
-          <li>Hidden属性：是否在菜单栏显示，默认值为false，如果设置为true，项目将不会显示在菜单栏中（<span class="info_red">开发者参数配置</span>）</li>
-          <li>noCache属性：是否缓存菜单页码，默认为false（缓存），如果设置为true，则不会缓存页面（<span class="info_red">开发者参数配置</span>）</li>
-          <li>Affix属性：是否固定在TagView（标签视图）中，默认为false（不固定），如果设置为true，菜单标签将固定在TagView（<span class="info_red">开发者参数配置</span>）</li>
-          <li>Breadcrumb属性：是否在顶部菜单面包屑中进行显示，默认为true（显示），如果设置为false，则隐藏在面包屑中（<span class="info_red">开发者参数配置</span>）</li>
+          <li>Hidden属性：是否在菜单栏中隐藏，建议值为否（显示），如果设置为是，项目将不会显示在菜单栏中（<span class="info_red">开发者参数配置</span>）</li>
+          <li>noCache属性：是否缓存菜单页码，建议值为否（缓存），如果设置为是，则不会缓存页面（<span class="info_red">开发者参数配置</span>）</li>
+          <li>Affix属性：是否固定在TagView（标签视图）中，建议值为否（不固定），如果设置为是，菜单标签将固定在TagView（<span class="info_red">开发者参数配置</span>）</li>
+          <li>Breadcrumb属性：是否在顶部菜单面包屑中进行显示，建议值为是（显示），如果设置为否，则隐藏在面包屑中（<span class="info_red">开发者参数配置</span>）</li>
           <li>创建时间：菜单创建时间</li>
           <li>创建者RTX：菜单创建用户的RTX-ID</li>
         </ol>

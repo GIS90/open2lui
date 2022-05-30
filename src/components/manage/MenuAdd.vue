@@ -31,7 +31,7 @@
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
                 :prefix-icon="inputAttrs.prefixIcon"
-                disabled
+                :disabled="disabled"
               />
             </el-form-item>
           </el-col>
@@ -292,13 +292,13 @@
 </template>
 
 <script>
-import { menuDetail, menuUpdate } from '@/api/manage'
+import { menuAddInit, menuAdd } from '@/api/manage'
 import store from '@/store'
 
 export default {
-  name: 'MenuSet',
+  name: 'MenuAdd',
   emits: [
-    'close-set-menu'
+    'close-add-menu'
   ],
   components: {},
   props: {
@@ -309,11 +309,6 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
-    },
-    rowMd5: {
-      type: String,
-      require: true,
-      default: ''
     }
   },
   data() {
@@ -322,7 +317,7 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '编辑',
+        title: '新增',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -355,7 +350,6 @@ export default {
         placeholder: '' // 默认显示内容
       },
       menuLimit: {
-        id: 3,
         name: 15,
         path: 35,
         title: 25,
@@ -433,19 +427,31 @@ export default {
   mounted() {},
   methods: {
     closeDialog() {
-      this.$emit('close-set-menu', false)
+      this.$emit('close-add-menu', false)
     },
     openDialog() { // 初始化数据 && 枚举列表
+      // 清空参数
+      this.menuForm.name = ''
+      this.menuForm.title = ''
+      this.menuForm.path = ''
+      this.menuForm.icon = ''
+      this.menuForm.pid = ''
+      this.menuForm.level = ''
+      this.menuForm.component = ''
+      this.menuForm.redirect = ''
+      this.menuForm.hidden = ''
+      this.menuForm.noCache = ''
+      this.menuForm.affix = ''
+      this.menuForm.breadcrumb = ''
+      // 获取初始化枚举列表
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
       }
-      // model detail && enums
       return new Promise((resolve, reject) => {
-        menuDetail(params).then(response => {
+        menuAddInit(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.menuForm = data.menu
             this.levelEnum = data.level_enmus
             this.boolEnum = data.bool_enmus
             this.menuSelect = data.menu_options
@@ -457,9 +463,6 @@ export default {
       })
     },
     submitSetMenu() {
-      if (!this.rowMd5) {
-        return false
-      }
       const data = {
         rtx_id: store.getters.rtx_id,
         md5: this.rowMd5,
@@ -476,23 +479,23 @@ export default {
         affix: this.menuForm.affix,
         breadcrumb: this.menuForm.breadcrumb
       }
-      // menu update
+      // menu add
       this.$refs.menuForm.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           return new Promise((resolve, reject) => {
-            menuUpdate(data).then(response => {
+            menuAdd(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '菜单编辑成功' || message,
+                  message: '菜单新增成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-set-menu', true)
+                this.$emit('close-add-menu', true)
               }
               resolve(response)
             }).catch(error => {
