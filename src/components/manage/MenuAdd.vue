@@ -161,17 +161,19 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="重定向" prop="redirect">
-              <el-input
-                v-model.trim="menuForm.redirect"
-                type="text"
-                placeholder="请输入重定向的URL"
-                :maxlength="menuLimit.redirect"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
+              <el-tooltip content="一级菜单的重定向属性" placement="top" effect="light">
+                <el-input
+                  v-model.trim="menuForm.redirect"
+                  type="text"
+                  placeholder="请输入重定向的URL"
+                  :maxlength="menuLimit.redirect"
+                  :clearable="inputAttrs.clear"
+                  :show-word-limit="inputAttrs.limit"
+                  :size="inputAttrs.size"
+                  :prefix-icon="inputAttrs.prefixIcon"
+                  :disabled="disabled"
+                />
+              </el-tooltip>
             </el-form-item>
           </el-col>
         </el-row>

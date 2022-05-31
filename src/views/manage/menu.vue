@@ -210,11 +210,9 @@ export default {
       }
     },
     setTableRowStyle({ row, rowIndex }) { // table row样式
-      console.log(row)
-      console.log(row.level)
       if (row && row.level === '1') {
         return {
-          background: '#EEFFBB',
+          background: '#EEFFBB', // 42B984 FFFF00
           color: '#606266'
         }
       }
