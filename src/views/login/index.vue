@@ -4,7 +4,7 @@
 
       <!--标题-->
       <div class="title-container">
-        <h3 class="title">{{ loginTitle }}</h3>
+        <h3 class="titleName">{{ loginTitle }}</h3>
       </div>
 
       <!--用户名-->
@@ -316,5 +316,25 @@ $light_gray:#eee;
 }
 .slide-verify {
   margin: 20px 0 30px 0;
+}
+
+.titleName {
+  margin-left: -1rem;
+  background-image: -webkit-linear-gradient(left,blue,#66ffff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+  -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
+  -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 4s linear infinite;
+  font-size: 2.2rem !important;
+  text-align: center;
+  font-weight: bold;
+}
+
+.titleName1 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2.2rem !important;
+  margin-left: -1rem;
+  text-shadow: 5px 5px 5px black, 0px 0px 2px red, 2px 2px 3px green;
 }
 </style>
