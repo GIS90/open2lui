@@ -10,7 +10,7 @@
       :close-on-press-escape="drawerAttrs.closeOnEsc"
       @close="close()"
     >
-      <div class="app-container tip">
+      <div class="tip">
         帮助快速了解菜单信息。
         <ol>
           <li>菜单ID：ID</li>
@@ -38,6 +38,7 @@
 export default {
   name: 'MenuTip',
   emits: ['close-tip'],
+  components: {},
   props: {
     show: {
       type: Boolean,
@@ -75,7 +76,8 @@ export default {
 
 <style scoped>
 .tip {
-  font-size: 14px;
+  padding: 0 20px 20px 20px;
+  font-size: 15px;
   line-height: 180%;
   letter-spacing: 1px;
 }
