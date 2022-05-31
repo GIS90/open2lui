@@ -358,11 +358,11 @@ export default {
       },
       menuLimit: {
         id: 3,
-        name: 15,
+        name: 25,
         path: 35,
         title: 25,
         level: 1,
-        component: 15,
+        component: 25,
         hidden: 1,
         redirect: 55,
         icon: 25,
@@ -387,7 +387,7 @@ export default {
       menuFormRules: {
         name: [
           { required: true, message: '请输入RTX名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 15, message: 'RTX名称最大长度为15', trigger: ['blur', 'change'] }
+          { min: 1, max: 25, message: 'RTX名称最大长度为25', trigger: ['blur', 'change'] }
         ],
         path: [
           { required: true, message: '请输入功能访问URL', trigger: ['blur', 'change'] },
@@ -409,7 +409,7 @@ export default {
         ],
         component: [
           { required: true, message: '请输入菜单组件', trigger: ['blur', 'change'] },
-          { min: 1, max: 15, message: '菜单组件最大长度为15', trigger: ['blur', 'change'] }
+          { min: 1, max: 25, message: '菜单组件最大长度为25', trigger: ['blur', 'change'] }
         ],
         hidden: [
           { required: true, message: '请选择Hidden属性', trigger: ['blur', 'change'] }

@@ -423,11 +423,11 @@ export default {
       },
       menuLimit: {
         id: 3,
-        name: 15,
+        name: 25,
         path: 35,
         title: 25,
         level: 1,
-        component: 15,
+        component: 25,
         hidden: 1,
         redirect: 55,
         icon: 25,
