@@ -412,7 +412,7 @@ export default {
           { min: 1, max: 25, message: '菜单组件最大长度为25', trigger: ['blur', 'change'] }
         ],
         redirect: [
-          { min: 1, max: 55, message: '重定向最大长度为55', trigger: ['blur', 'change'] }
+          { min: 0, max: 55, message: '重定向最大长度为55', trigger: ['blur', 'change'] }
         ],
         hidden: [
           { required: true, message: '请选择Hidden属性', trigger: ['blur', 'change'] }
