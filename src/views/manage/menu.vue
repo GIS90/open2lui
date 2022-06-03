@@ -212,8 +212,8 @@ export default {
     setTableRowStyle({ row, rowIndex }) { // table row样式
       if (row && row.level === '1') {
         return {
-          background: '#EEFFBB', // 42B984 FFFF00
-          color: '#606266'
+          background: '#FFEE99', // 42B984 FFFF00
+          color: '#000000'
         }
       }
     },
