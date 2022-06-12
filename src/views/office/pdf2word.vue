@@ -14,7 +14,7 @@
     </el-row>
 
     <!-- 文件上传 -->
-    <convert-upload :dialog="uploadDialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
+    <pdf-upload :dialog="uploadDialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
 
   </div>
 </template>
@@ -22,13 +22,13 @@
 <script>
 import store from '@/store'
 import { getPdf2WordList } from '@/api/office'
-import ConvertUpload from '@/components/office/ConvertUpload'
+import PdfToWordUpload from '@/components/office/Pdf2WordUpload'
 
 export default {
   name: 'Pdf2word',
   emits: [],
   components: {
-    'convert-upload': ConvertUpload
+    'pdf-upload': PdfToWordUpload
   },
   props: {},
   data() {

@@ -93,7 +93,7 @@ import { validExcelFile } from '@/utils/validate'
 // const path = require('path')
 
 export default {
-  name: 'ConvertUpload',
+  name: 'PdfToWordUpload',
   emits: ['close-file-upload'],
   components: {},
   props: {
