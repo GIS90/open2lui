@@ -204,12 +204,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="NoCache属性" prop="noCache">
+            <el-form-item label="Cache属性" prop="cache">
               <el-tooltip content="是否缓存菜单页码，建议值为否（缓存）" placement="top" effect="light">
                 <el-select
-                  v-model="menuForm.noCache"
+                  v-model="menuForm.cache"
                   style="width: 100%"
-                  placeholder="请选择NoCache属性"
+                  placeholder="请选择Cache属性"
                   :filterable="selectAttrs.filterable"
                   :multiple="selectAttrs.multiple"
                   :multiple-limit="selectAttrs.limit"
@@ -366,7 +366,7 @@ export default {
         hidden: 1,
         redirect: 55,
         icon: 25,
-        noCache: 1,
+        cache: 1,
         affix: 1,
         breadcrumb: 1
       },
@@ -380,7 +380,7 @@ export default {
         component: '',
         redirect: '',
         hidden: '',
-        noCache: '',
+        cache: '',
         affix: '',
         breadcrumb: ''
       },
@@ -417,8 +417,8 @@ export default {
         hidden: [
           { required: true, message: '请选择Hidden属性', trigger: ['blur', 'change'] }
         ],
-        noCache: [
-          { required: true, message: '请选择NoCache属性', trigger: ['blur', 'change'] }
+        cache: [
+          { required: true, message: '请选择Cache属性', trigger: ['blur', 'change'] }
         ],
         affix: [
           { required: true, message: '请选择Affix属性', trigger: ['blur', 'change'] }
@@ -477,7 +477,7 @@ export default {
         component: this.menuForm.component,
         redirect: this.menuForm.redirect,
         hidden: this.menuForm.hidden,
-        noCache: this.menuForm.noCache,
+        cache: this.menuForm.cache,
         affix: this.menuForm.affix,
         breadcrumb: this.menuForm.breadcrumb
       }

@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { getSourceList, deleteSourceFile } from '@/api/excel'
+import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
 import ExcelSplitTip from '@/components/excel/ExcelSplitTip'
 import ExcelUpload from '@/components/excel/ExcelUpload'
@@ -197,7 +197,7 @@ export default {
     }
   },
   created() {
-    this.getExcelSourceList()
+    this.getTableData()
   },
   mounted() {},
   methods: {
@@ -213,7 +213,7 @@ export default {
     closeFileUpload(isRefresh) { // 关闭upload dialog
       this.uploadDialogStatus = false
       if (isRefresh) {
-        this.getExcelSourceList()
+        this.getTableData()
       }
     },
     selectRow(selection, row) { // table row 单行
@@ -272,7 +272,7 @@ export default {
     closeFileSet(isRefresh) { // 关闭table row 设置dialog
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getExcelSourceList()
+        this.getTableData()
       }
     },
     rowHandleDelete(index, row) { // table row 删除
@@ -284,7 +284,7 @@ export default {
         'md5': row.md5_id
       }
       return new Promise((resolve, reject) => {
-        deleteSourceFile(data).then(response => {
+        deleteExcelSourceFile(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -292,7 +292,7 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.getExcelSourceList()
+            this.getTableData()
           }
           resolve(response)
         }).catch(error => {
@@ -301,7 +301,7 @@ export default {
         })
       })
     },
-    getExcelSourceList() { // get source list data
+    getTableData() { // get source list data
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -315,7 +315,7 @@ export default {
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
-        getSourceList(data).then(response => {
+        getExcelSourceList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -330,11 +330,11 @@ export default {
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
-      this.getExcelSourceList()
+      this.getTableData()
     },
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
-      this.getExcelSourceList()
+      this.getTableData()
     },
     openFileSplit(index, row) { // 开启split dialog
       if (!row) {
@@ -351,13 +351,13 @@ export default {
     closeFileSplit(isRefresh) { // 关闭split dialog
       this.splitDialogStatus = false
       if (isRefresh) {
-        this.getExcelSourceList()
+        this.getTableData()
       }
     },
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
-        this.getExcelSourceList()
+        this.getTableData()
       }
     },
     openDeleteDialog() { // 打开删除Dialog

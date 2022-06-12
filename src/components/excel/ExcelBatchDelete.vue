@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { deleteSourceFiles } from '@/api/excel'
+import { deleteExcelSourceFiles } from '@/api/office'
 
 export default {
   name: 'ExcelBatchDelete',
@@ -92,7 +92,7 @@ export default {
       this.btnDisabled = true
       this.btnLoading = true
       return new Promise((resolve, reject) => {
-        deleteSourceFiles(data).then(response => {
+        deleteExcelSourceFiles(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

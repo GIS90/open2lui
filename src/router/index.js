@@ -8,11 +8,10 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import searchRouter from './modules/search'
-import excelRouter from './modules/excel'
+import officeRouter from './modules/office'
 import notifyRouter from './modules/notify'
-import convertRouter from './modules/convert'
-import manageRouter from './modules/manage'
 import infoRouter from './modules/info'
+import manageRouter from './modules/manage'
 import setterRouter from './modules/setter'
 
 /**
@@ -90,11 +89,10 @@ export const constantRoutes = [
 export const asyncRoutes = [
 
   searchRouter,
-  excelRouter,
+  officeRouter,
   notifyRouter,
-  convertRouter,
-  manageRouter,
   infoRouter,
+  manageRouter,
   setterRouter,
 
   {

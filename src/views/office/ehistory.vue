@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { deleteResultFile, getResultList } from '@/api/excel'
+import { deleteExcelResultFile, getExcelResultList } from '@/api/office'
 import store from '@/store'
 import ExcelHistorySet from '@/components/excel/ExcelHistorySet'
 import ExcelHistoryDelete from '@/components/excel/ExcelHistoryDelete'
@@ -192,11 +192,11 @@ export default {
     }
   },
   created() {
-    this.getExcelResultList()
+    this.getTableData()
   },
   mounted() {},
   methods: {
-    getExcelResultList() { // get result list data
+    getTableData() { // get result list data
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -214,7 +214,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        getResultList(data).then(response => {
+        getExcelResultList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -229,11 +229,11 @@ export default {
     },
     paginSizeChange(value) { // pageSize 改变时会触发
       this.pageSize = value
-      this.getExcelResultList()
+      this.getTableData()
     },
     paginCurrentChange(value) { // currentPage 改变时会触发
       this.pageCur = value
-      this.getExcelResultList()
+      this.getTableData()
     },
     rowHandleEdit(index, row) { // 操作table row
       if (!row) {
@@ -254,7 +254,7 @@ export default {
         'md5': row.md5_id
       }
       return new Promise((resolve, reject) => {
-        deleteResultFile(data).then(response => {
+        deleteExcelResultFile(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -262,7 +262,7 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.getExcelResultList()
+            this.getTableData()
           }
           resolve(response)
         }).catch(error => {
@@ -274,7 +274,7 @@ export default {
     closeHistorySet(isRefresh) { // 关闭文件设置Dialog
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getExcelResultList()
+        this.getTableData()
       }
     },
     setTableHeaderStyle() { // 设置table title样式
@@ -329,7 +329,7 @@ export default {
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
-        this.getExcelResultList()
+        this.getTableData()
       }
     },
     openDeleteDialog() { // 打开删除Dialog
@@ -348,7 +348,7 @@ export default {
       this.dataFilter.typeList = data.typeList
       this.dataFilter.startTime = data.startTime
       this.dataFilter.endTime = data.endTime
-      this.getExcelResultList()
+      this.getTableData()
     }
   }
 }

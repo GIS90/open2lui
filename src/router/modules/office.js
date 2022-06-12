@@ -1,22 +1,35 @@
 import Layout from '@/layout'
 
-const excelRouter = {
-  path: '/excel',
+const officeRouter = {
+  path: '/office',
   hidden: false,
   component: Layout,
-  redirect: '/excel/merge',
+  redirect: '/office/pdf2word',
   name: 'Excel',
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
     title: '表格工具',
-    icon: 'i_excel'
+    icon: 'i_office'
   },
   children: [
     {
-      path: 'merge',
+      path: 'pdf2word',
       hidden: false,
-      component: () => import('@/views/excel/merge.vue'),
+      component: () => import('@/views/office/pdf2word.vue'),
+      name: 'PdfToWord',
+      meta: {
+        title: 'PDF转WORD',
+        icon: 'i_word',
+        noCache: false,
+        affix: false,
+        breadcrumb: true
+      }
+    },
+    {
+      path: 'emerge',
+      hidden: false,
+      component: () => import('@/views/office/emerge.vue'),
       name: 'ExcelMerge',
       meta: {
         title: '表格合并',
@@ -27,9 +40,9 @@ const excelRouter = {
       }
     },
     {
-      path: 'split',
+      path: 'esplit',
       hidden: false,
-      component: () => import('@/views/excel/split.vue'),
+      component: () => import('@/views/office/esplit.vue'),
       name: 'ExcelSplit',
       meta: {
         title: '表格拆分',
@@ -40,13 +53,13 @@ const excelRouter = {
       }
     },
     {
-      path: 'history',
+      path: 'ehistory',
       hidden: false,
-      component: () => import('@/views/excel/history.vue'),
+      component: () => import('@/views/office/ehistory.vue'),
       name: 'ExcelHistory',
       meta: {
-        title: '表格拆分',
-        icon: 'i_split',
+        title: '表格历史',
+        icon: 'i_history',
         noCache: false,
         affix: false,
         breadcrumb: true
@@ -55,4 +68,4 @@ const excelRouter = {
   ]
 }
 
-export default excelRouter
+export default officeRouter

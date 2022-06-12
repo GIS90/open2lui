@@ -46,7 +46,7 @@
           <div class="el-upload__text">拖拽或者 <em>点击上传</em></div>
           <template #tip>
             <div class="el-upload__tip">
-              <strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。
+              <strong>提示</strong>：仅支持<span class="info_red">.pdf</span>格式文件上传。
               <p>上传文件数量： <strong>{{ fileList.length }}</strong>（{{ uploadAttrs.limit>0 ? '单次上传限制'+uploadAttrs.limit : '无限制' }}）</p>
             </div>
           </template>
@@ -93,7 +93,7 @@ import { validExcelFile } from '@/utils/validate'
 // const path = require('path')
 
 export default {
-  name: 'ExcelUpload',
+  name: 'ConvertUpload',
   emits: ['close-file-upload'],
   components: {},
   props: {
@@ -118,7 +118,7 @@ export default {
       // true：manualUpload 上传所有文件
       uploadApis: {
         url: process.env.VUE_APP_BASE_API + process.env.VUE_APP_OFFICE_FILES_API || '', // 文件上传URL，默认为空，动态配置文件中获取
-        accept: '.xls,.xlsx', // 接受上传的文件类型
+        accept: '.pdf', // 接受上传的文件类型
         headers: { // 设置上传的请求头部
           'Access-Control-Allow-Origin': '*',
           'X-Token': getToken(),

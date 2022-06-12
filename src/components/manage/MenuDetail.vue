@@ -215,11 +215,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="NoCache属性">
+            <el-form-item label="Cache属性">
               <el-select
-                v-model="menuObject.noCache"
+                v-model="menuObject.cache"
                 style="width: 100%"
-                placeholder="请选择NoCache属性"
+                placeholder="请选择cache属性"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
                 :multiple-limit="selectAttrs.limit"
@@ -431,7 +431,7 @@ export default {
         hidden: 1,
         redirect: 55,
         icon: 25,
-        noCache: 1,
+        cache: 1,
         affix: 1,
         breadcrumb: 1,
         time: 25

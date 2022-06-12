@@ -65,7 +65,7 @@
 
 <script>
 import store from '@/store'
-import { updateSourceFile } from '@/api/excel'
+import { updateExcelSourceFile } from '@/api/office'
 import { validExcelFile } from '@/utils/validate.js'
 
 export default {
@@ -175,7 +175,7 @@ export default {
         'md5': this.tableRow.md5
       }
       return new Promise((resolve, reject) => {
-        updateSourceFile(data).then(response => {
+        updateExcelSourceFile(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id, message } = response

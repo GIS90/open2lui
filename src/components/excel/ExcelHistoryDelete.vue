@@ -10,7 +10,7 @@
 
 <script>
 import store from '@/store'
-import { deleteResultFiles } from '@/api/excel'
+import { deleteExcelResultFiles } from '@/api/office'
 
 export default {
   name: 'ExcelHistoryDelete',
@@ -61,7 +61,7 @@ export default {
       this.btnDisabled = true
       this.btnLoading = true
       return new Promise((resolve, reject) => {
-        deleteResultFiles(data).then(response => {
+        deleteExcelResultFiles(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

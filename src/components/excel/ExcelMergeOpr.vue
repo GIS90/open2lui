@@ -72,7 +72,7 @@
 
 <script>
 import store from '@/store'
-import { mergeFiles } from '@/api/excel'
+import { excelMerge } from '@/api/office'
 
 export default {
   name: 'ExcelMergeOpr',
@@ -171,7 +171,7 @@ export default {
       this.disabled = true
       this.loading = true
       return new Promise((resolve, reject) => {
-        mergeFiles(data).then(response => {
+        excelMerge(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id } = response

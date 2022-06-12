@@ -178,7 +178,7 @@
 
 <script>
 import store from '@/store'
-import { splitFiles, initSplitParams, getSheetHeader } from '@/api/excel'
+import { excelSplit, initExcelSplitParams, getExcelSheetHeader } from '@/api/office'
 
 export default {
   name: 'ExcelSplitOpr',
@@ -349,7 +349,7 @@ export default {
       this.disabled = true
       this.loading = true
       return new Promise((resolve, reject) => {
-        splitFiles(data).then(response => {
+        excelSplit(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id } = response
@@ -376,7 +376,7 @@ export default {
       }
       this.curMd5 = this.tableRow.md5
       return new Promise((resolve, reject) => {
-        initSplitParams(data).then(response => {
+        initExcelSplitParams(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.excelSplitStore = data.excel_split_store
@@ -404,7 +404,7 @@ export default {
         'sheet': value
       }
       return new Promise((resolve, reject) => {
-        getSheetHeader(data).then(response => {
+        getExcelSheetHeader(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.columnNames = data.headers
