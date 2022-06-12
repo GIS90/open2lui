@@ -9,7 +9,7 @@ const notifyRouter = {
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
-    title: '通知管理',
+    title: '通知消息',
     icon: 'i_notify'
   },
   children: [

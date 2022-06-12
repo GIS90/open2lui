@@ -59,7 +59,7 @@ const officeRouter = {
       name: 'ExcelHistory',
       meta: {
         title: '表格历史',
-        icon: 'i_history',
+        icon: 'i_excel',
         noCache: false,
         affix: false,
         breadcrumb: true
