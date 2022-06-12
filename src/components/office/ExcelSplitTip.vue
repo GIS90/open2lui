@@ -19,7 +19,7 @@
             <li>点击文件列表最后列的设置按钮，配置需要拆分的Sheet（单选）。</li>
             <li>拆分操作中需要配置拆分的操作选项，具体配置请参考拆分功能中的说明。</li>
             <li>拆分完成后，下载拆分文件：
-              <router-link :to="{ path: '/excel/history' }">
+              <router-link :to="{ path: '/office/history' }">
                 <a class="history_a">我的历史</a>
               </router-link>
             </li>

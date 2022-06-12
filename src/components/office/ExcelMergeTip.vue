@@ -19,7 +19,7 @@
             <li>点击文件列表最后列的设置按钮，配置需要合并的Sheet（单文件可以多选Sheet）。</li>
             <li>平台运行过程中需要等待，如果合并的子文件过多，建议去Github上逛逛（<el-link type="primary" href="https://element.eleme.io" target="_blank">点击我</el-link>）或者喝杯水。</li>
             <li>合并完成后，下载合并文件：
-              <router-link :to="{ path: '/excel/history' }">
+              <router-link :to="{ path: '/office/history' }">
                 <a class="history_a">我的历史</a>
               </router-link>
             </li>
