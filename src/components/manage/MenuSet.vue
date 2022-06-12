@@ -205,7 +205,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="Cache属性" prop="cache">
-              <el-tooltip content="是否缓存菜单页码，建议值为否（缓存）" placement="top" effect="light">
+              <el-tooltip content="是否缓存菜单页码，建议值为是（缓存）" placement="top" effect="light">
                 <el-select
                   v-model="menuForm.cache"
                   style="width: 100%"

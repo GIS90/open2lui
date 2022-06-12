@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取角色列表
 export function getRoleList(data) {
   return request({
-    url: '/auth/role',
+    url: '/auth/role_list',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function getRoleList(data) {
 // 新增角色
 export function roleAdd(data) {
   return request({
-    url: '/auth/roleadd',
+    url: '/auth/role_add',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function roleAdd(data) {
 // 更新角色
 export function roleUpdate(data) {
   return request({
-    url: '/auth/roleupdate',
+    url: '/auth/role_update',
     method: 'post',
     data
   })
@@ -30,7 +30,7 @@ export function roleUpdate(data) {
 // 角色详情
 export function roleDetail(params) {
   return request({
-    url: '/auth/roleinfo',
+    url: '/auth/role_detail',
     method: 'get',
     params
   })
@@ -39,7 +39,7 @@ export function roleDetail(params) {
 // 批量删除角色
 export function batchDeleteRole(data) {
   return request({
-    url: '/auth/rolemdel',
+    url: '/auth/role_del_m',
     method: 'post',
     data
   })
@@ -48,7 +48,7 @@ export function batchDeleteRole(data) {
 // 单个删除角色
 export function roleDelete(data) {
   return request({
-    url: '/auth/roledel',
+    url: '/auth/role_del',
     method: 'post',
     data
   })
@@ -57,7 +57,7 @@ export function roleDelete(data) {
 // 获取角色权限tree
 export function getAuthTree(data) {
   return request({
-    url: '/auth/tree',
+    url: '/auth/role_auth',
     method: 'get',
     params: data
   })
@@ -66,7 +66,7 @@ export function getAuthTree(data) {
 // 保存角色权限tree
 export function submitAuthTree(data) {
   return request({
-    url: '/auth/rolesavetree',
+    url: '/auth/role_save_tree',
     method: 'post',
     data
   })
@@ -75,7 +75,7 @@ export function submitAuthTree(data) {
 // 初始化roles list参数(key, value数据格式)
 export function initRoleSelect() {
   return request({
-    url: '/auth/roleselect',
+    url: '/auth/role_select',
     method: 'get'
   })
 }
@@ -83,7 +83,7 @@ export function initRoleSelect() {
 // 获取用户列表
 export function getUserList(data) {
   return request({
-    url: '/auth/user',
+    url: '/auth/user_list',
     method: 'post',
     data
   })
@@ -92,7 +92,7 @@ export function getUserList(data) {
 // 新增用户
 export function userAdd(data) {
   return request({
-    url: '/auth/useradd',
+    url: '/auth/user_add',
     method: 'post',
     data
   })
@@ -101,7 +101,7 @@ export function userAdd(data) {
 // 批量删除用户
 export function batchDeleteUser(data) {
   return request({
-    url: '/auth/usermdel',
+    url: '/auth/user_del_m',
     method: 'post',
     data
   })
@@ -110,7 +110,7 @@ export function batchDeleteUser(data) {
 // 改变用户状态
 export function changeUserStatus(data) {
   return request({
-    url: '/auth/userstatus',
+    url: '/auth/user_status',
     method: 'post',
     data
   })
@@ -119,7 +119,7 @@ export function changeUserStatus(data) {
 // 用户详情
 export function userDetail(params) {
   return request({
-    url: '/auth/userinfo',
+    url: '/auth/user_detail',
     method: 'get',
     params
   })
@@ -128,7 +128,7 @@ export function userDetail(params) {
 // 更新用户信息
 export function userUpdate(data) {
   return request({
-    url: '/auth/userupdate',
+    url: '/auth/user_update',
     method: 'post',
     data
   })
@@ -137,7 +137,7 @@ export function userUpdate(data) {
 // 重置默认密码
 export function userResetPw(params) {
   return request({
-    url: '/auth/userrp',
+    url: '/auth/user_reset_pw',
     method: 'get',
     params
   })
@@ -146,7 +146,7 @@ export function userResetPw(params) {
 // 获取菜单列表
 export function getMenuList(data) {
   return request({
-    url: '/auth/menu',
+    url: '/auth/menu_list',
     method: 'post',
     data
   })
@@ -155,7 +155,7 @@ export function getMenuList(data) {
 // 添加菜单
 export function menuAdd(data) {
   return request({
-    url: '/auth/menuadd',
+    url: '/auth/menu_add',
     method: 'post',
     data
   })
@@ -164,7 +164,7 @@ export function menuAdd(data) {
 // 添加菜单
 export function menuAddInit() {
   return request({
-    url: '/auth/menuaddinit',
+    url: '/auth/menu_add_init',
     method: 'get'
   })
 }
@@ -172,7 +172,7 @@ export function menuAddInit() {
 // 获取菜单列表
 export function menuDetail(data) {
   return request({
-    url: '/auth/menuinfo',
+    url: '/auth/menu_detail',
     method: 'post',
     data
   })
@@ -181,7 +181,7 @@ export function menuDetail(data) {
 // 更新菜单信息
 export function menuUpdate(data) {
   return request({
-    url: '/auth/menuupdate',
+    url: '/auth/menu_update',
     method: 'post',
     data
   })
@@ -190,7 +190,7 @@ export function menuUpdate(data) {
 // 改变菜单状态
 export function menuStatus(data) {
   return request({
-    url: '/auth/menustatus',
+    url: '/auth/menu_status',
     method: 'post',
     data
   })

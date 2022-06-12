@@ -47,7 +47,7 @@
           <el-table-column prop="component" label="组件" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="redirect" label="重定向" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="hidden" label="Hidden属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="cache" label="cache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="cache" label="Cache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="affix" label="Affix属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         </el-table-column>
