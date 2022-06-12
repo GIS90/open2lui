@@ -2,23 +2,30 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-select" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
+      <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openFileUpload">
+        <svg-icon icon-class="i_upload" />  上传
+      </el-button>
+      <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
+      <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip()">
+        <svg-icon icon-class="i_sm" />  操作说明
+      </el-button>
     </el-row>
 
-    <!-- 高级筛选-->
-    <div class="table-sty">
-      <excel-history-filter @filter-result-list="filterResultList" />
-    </div>
+    <!-- 提示说明 -->
+    <excel-split-tip :show="tipDialogStatus" @close-tip="closeTip" />
+
+    <!-- 文件上传 -->
+    <excel-upload :dialog="uploadDialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
       <el-table
-        ref="multipleResultTableRef"
+        ref="multipleSourceTableRef"
         :data="tableData"
         :size="tableAttrs.size"
         :fit="tableAttrs.fit"
@@ -34,24 +41,15 @@
         @select-all="selectAll"
       >
         <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
+        <el-table-column fixed="left" label="上传时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="Sheet名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
-          <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.ftypek == 1 ? 'success' : 'warning'"
-              disable-transitions
-            >
-              {{ scope.row.ftypev }}
-            </el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column prop="set_sheet_name" label="合并Sheet" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="ftypev" label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
         <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
           <template slot-scope="scope">
             <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
@@ -64,21 +62,22 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="ZIP压缩" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
-          <template slot-scope="scope">
-            <div>
-              {{ scope.row.compress ? '是' : '否' }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="nfile" label="文件数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="row" label="行数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="col" label="列数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
-        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240">
+        <el-table-column prop="numopr" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
+        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="320">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="light" content="拆分" placement="top">
+              <el-button
+                icon="el-icon-edit"
+                type="primary"
+                size="mini"
+                round
+                plain
+                @click="openFileSplit(scope.$index, scope.row)"
+              />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="下载" placement="top">
               <a :href="scope.row.url"><i class="el-icon-download" /></a>
@@ -101,37 +100,45 @@
     />
 
     <!-- 文件设置 -->
-    <excel-history-set :show="setDialogStatus" :table-row="oprSelectData" @close-history-set="closeHistorySet" />
+    <excel-split-set :show="setDialogStatus" :table-row="oprSelectData" @close-file-set="closeFileSet" />
+
+    <!-- 文件合并 -->
+    <excel-split-opr :show="splitDialogStatus" :table-row="oprSelectData" @close-file-split="closeFileSplit" />
 
     <!-- 删除dialog -->
-    <excel-history-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
+    <excel-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
 <script>
-import { deleteExcelResultFile, getExcelResultList } from '@/api/office'
+import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
-import ExcelHistorySet from '@/components/excel/ExcelHistorySet'
-import ExcelHistoryDelete from '@/components/excel/ExcelHistoryDelete'
-import ExcelHistoryFilter from '@/components/excel/ExcelHistoryFilter'
+import ExcelSplitTip from '@/components/office/ExcelSplitTip'
+import ExcelUpload from '@/components/office/ExcelUpload'
+import ExcelSplitSet from '@/components/office/ExcelSplitSet'
+import ExcelSplitOpr from '@/components/office/ExcelSplitOpr'
+import ExcelBatchDelete from '@/components/office/ExcelBatchDelete'
 import Pagination from '@/components/Pagination'
 
 export default {
-  name: 'History',
-  emits: [],
+  name: 'Split',
   components: {
-    'excel-history-set': ExcelHistorySet,
-    'excel-history-delete': ExcelHistoryDelete,
-    'excel-history-filter': ExcelHistoryFilter,
+    'excel-split-tip': ExcelSplitTip,
+    'excel-upload': ExcelUpload,
+    'excel-split-set': ExcelSplitSet,
+    'excel-split-opr': ExcelSplitOpr,
+    'excel-batch-delete': ExcelBatchDelete,
     'pagination': Pagination
   },
   props: {},
   data() {
     return {
+      fileType: '2',
       selBtnText: '全选', // 选择按钮内容
+      btnUploadLoading: false, // 上传按钮加载中状态
+      btnSplitLoading: false, // 拆分按钮加载中状态
       btnDeleteLoading: false, // 删除按钮加载中状态
       btnDisabled: false, // 按钮禁用状态
-      selectAllStatus: false, // 全选状态
       // button attributes
       btnBaseAttrs: {
         size: 'medium', // 大小 medium / small / mini / ''
@@ -140,6 +147,8 @@ export default {
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
+      tipDialogStatus: false, // 操作说明tip
+      uploadDialogStatus: false, // 文件上传dialog
       // table attributes
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
@@ -168,22 +177,18 @@ export default {
       pageCur: 1, // 当前page
       pageSize: 15, // 每页显示条目个数
       pageTotal: 0, // 总条数
+      selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
-      deleteConfirm: false, // 删除确认dialog状态
-      dataFilter: { // 高级筛选
-        name: '', // 名称
-        typeList: [], // 文件类别选择的类型
-        startTime: '', // 开始日期
-        endTime: '' // 结束日期
-      }
+      splitDialogStatus: false, // 拆分dialog状态
+      deleteConfirm: false // 删除确认dialog状态
     }
   },
   computed: {},
   watch: {
-    selectAllStatus(newVal, oldVal) { // 监听全选按钮文本
+    selectAllStatus(newVal, oldVal) {
       if (newVal) {
         this.selBtnText = '取消'
       } else {
@@ -196,54 +201,79 @@ export default {
   },
   mounted() {},
   methods: {
-    getTableData() { // get result list data
-      // 初始化选择参数
-      this.selectAllStatus = false
-      this.selectList = []
-      this.oprSelectData = {}
-
-      // list列表参数
-      const data = {
-        'rtx_id': store.getters.rtx_id,
-        'name': this.dataFilter.name || '',
-        'type': this.dataFilter.typeList || [],
-        'start_time': this.dataFilter.startTime || '',
-        'end_time': this.dataFilter.endTime || '',
-        'limit': this.pageSize || 15,
-        'offset': (this.pageCur - 1) * this.pageSize || 0
+    openTip() { // 开启tip
+      this.tipDialogStatus = true
+    },
+    closeTip() { // 关闭tip
+      this.tipDialogStatus = false
+    },
+    openFileUpload() { // 开启upload dialog
+      this.uploadDialogStatus = true
+    },
+    closeFileUpload(isRefresh) { // 关闭upload dialog
+      this.uploadDialogStatus = false
+      if (isRefresh) {
+        this.getTableData()
+      }
+    },
+    selectRow(selection, row) { // table row 单行
+      if (!row) {
+        return
       }
 
-      return new Promise((resolve, reject) => {
-        getExcelResultList(data).then(response => {
-          const { status_id, data } = response
-          if (status_id === 100 || status_id === 101) {
-            this.tableData = data.list
-            this.pageTotal = data.total
-          }
-          resolve(response)
-        }).catch(error => {
-          this.loading = false
-          reject(error)
-        })
-      })
+      // add select list
+      if (row?.md5_id && !this.selectList.includes(row.md5_id)) {
+        this.selectList.push(row.md5_id)
+      } else if (row?.md5_id && this.selectList.includes(row.md5_id)) {
+        const index = this.selectList.indexOf(row.md5_id)
+        if (index > -1) {
+          this.selectList.splice(index, 1)
+        }
+        // this.selectList.remove(row.md5_id)
+      } else {
+        console.log('Add data is not have md5-id')
+      }
+
+      // change select button status
+      this.selectAllStatus = this.tableData.length === this.selectList.length
     },
-    paginSizeChange(value) { // pageSize 改变时会触发
-      this.pageSize = value
-      this.getTableData()
+    selectChange(selection) {
+      // console.log(selection)
+      // this.selectAllStatus = this.tableData.length === selection.length
     },
-    paginCurrentChange(value) { // currentPage 改变时会触发
-      this.pageCur = value
-      this.getTableData()
+    selectAll(selection) { // table row 全选
+      if (!selection) {
+        return
+      }
+      this.selectAllStatus = !this.selectAllStatus
+      this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
     },
-    rowHandleEdit(index, row) { // 操作table row
+    manualSelectALL() { // 手工table row 全选
+      this.$refs.multipleSourceTableRef.toggleAllSelection()
+    },
+    setTableHeaderStyle() { // table title样式
+      return {
+        background: '#eee',
+        color: '#606266'
+      }
+    },
+    rowHandleEdit(index, row) { // table row 设置dialog
       if (!row) {
         return false
       }
       this.oprSelectData = {
         name: row.name,
+        setSheetIndex: row.set_sheet_index[0] || '0',
+        sheetNames: row.sheet_names || [],
         md5: row.md5_id
       }
       this.setDialogStatus = true
+    },
+    closeFileSet(isRefresh) { // 关闭table row 设置dialog
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getTableData()
+      }
     },
     rowHandleDelete(index, row) { // table row 删除
       if (!row || !row?.md5_id) {
@@ -254,7 +284,7 @@ export default {
         'md5': row.md5_id
       }
       return new Promise((resolve, reject) => {
-        deleteExcelResultFile(data).then(response => {
+        deleteExcelSourceFile(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -271,60 +301,58 @@ export default {
         })
       })
     },
-    closeHistorySet(isRefresh) { // 关闭文件设置Dialog
-      this.setDialogStatus = false
+    getTableData() { // get source list data
+      // 初始化选择参数
+      this.selectAllStatus = false
+      this.selectList = []
+      this.oprSelectData = {}
+
+      // list列表参数
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'type': this.fileType,
+        'limit': this.pageSize || 15,
+        'offset': (this.pageCur - 1) * this.pageSize || 0
+      }
+      return new Promise((resolve, reject) => {
+        getExcelSourceList(data).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100 || status_id === 101) {
+            this.tableData = data.list
+            this.pageTotal = data.total
+          }
+          resolve(response)
+        }).catch(error => {
+          this.loading = false
+          reject(error)
+        })
+      })
+    },
+    paginSizeChange(pageSize) { // pageSize 改变时会触发
+      this.pageSize = pageSize
+      this.getTableData()
+    },
+    paginCurrentChange(page) { // currentPage 改变时会触发
+      this.pageCur = page
+      this.getTableData()
+    },
+    openFileSplit(index, row) { // 开启split dialog
+      if (!row) {
+        return false
+      }
+      this.oprSelectData = {
+        name: row.name,
+        setSheetIndex: row.set_sheet_index[0] || '0',
+        sheetNames: row.sheet_names || [],
+        md5: row.md5_id
+      }
+      this.splitDialogStatus = true
+    },
+    closeFileSplit(isRefresh) { // 关闭split dialog
+      this.splitDialogStatus = false
       if (isRefresh) {
         this.getTableData()
       }
-    },
-    setTableHeaderStyle() { // 设置table title样式
-      return {
-        background: '#eee',
-        color: '#606266'
-      }
-    },
-    tableRowClassName({ row, rowIndex }) { // 指定行添加class
-      if (row.ftypek === '1') {
-        return 'row-merge'
-      } else if (row.ftypek === '2') {
-        return 'row-split'
-      } else {
-        return ''
-      }
-    },
-    selectRow(selection, row) { // 手工条选数据
-      if (!row) {
-        return
-      }
-
-      // add select list
-      if (row?.md5_id && !this.selectList.includes(row.md5_id)) {
-        this.selectList.push(row.md5_id)
-      } else if (row?.md5_id && this.selectList.includes(row.md5_id)) {
-        const index = this.selectList.indexOf(row.md5_id)
-        if (index > -1) {
-          this.selectList.splice(index, 1)
-        }
-      } else {
-        console.log('Add data is not have md5-id')
-      }
-
-      // change select button status
-      this.selectAllStatus = this.tableData.length === this.selectList.length
-    },
-    selectChange(selection) {
-      // console.log(selection)
-      // this.selectAllStatus = this.tableData.length === selection.length
-    },
-    selectAll(selection) { // 全选
-      if (!selection) {
-        return
-      }
-      this.selectAllStatus = !this.selectAllStatus
-      this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
-    },
-    manualSelectALL() { // 手工全选
-      this.$refs.multipleResultTableRef.toggleAllSelection()
     },
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
@@ -342,44 +370,22 @@ export default {
         return false
       }
       this.deleteConfirm = true
-    },
-    filterResultList(data) { // 高级筛选参数赋值 && 刷新
-      this.dataFilter.name = data.name
-      this.dataFilter.typeList = data.typeList
-      this.dataFilter.startTime = data.startTime
-      this.dataFilter.endTime = data.endTime
-      this.getTableData()
     }
   }
 }
 </script>
 
 <style scoped>
-.icon-item {
-  margin-left: 45px;
+
+.btn-margin {
+  margin-left: 20px;
 }
 
 .table-sty {
   margin-top: 25px;
 }
 
-.btn-margin {
-  margin-left: 20px;
-}
-
-.row-merge {
-  background-color: #2c3e50;
-}
-
-.row-split {
-  background-color: #00ff00;
-}
-
-.el-table .row-merge {
-  background: oldlace;
-}
-
-.el-table .row-split {
-  background: #f0f9eb;
+.icon-item {
+  margin-left: 45px;
 }
 </style>

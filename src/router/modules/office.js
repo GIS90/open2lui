@@ -29,7 +29,7 @@ const officeRouter = {
     {
       path: 'emerge',
       hidden: false,
-      component: () => import('@/views/office/emerge.vue'),
+      component: () => import('@/views/office/merge.vue'),
       name: 'ExcelMerge',
       meta: {
         title: '表格合并',
@@ -42,7 +42,7 @@ const officeRouter = {
     {
       path: 'esplit',
       hidden: false,
-      component: () => import('@/views/office/esplit.vue'),
+      component: () => import('@/views/office/split.vue'),
       name: 'ExcelSplit',
       meta: {
         title: '表格拆分',
@@ -55,7 +55,7 @@ const officeRouter = {
     {
       path: 'ehistory',
       hidden: false,
-      component: () => import('@/views/office/ehistory.vue'),
+      component: () => import('@/views/office/history.vue'),
       name: 'ExcelHistory',
       meta: {
         title: '表格历史',

@@ -22,7 +22,7 @@
 <script>
 import store from '@/store'
 import { getPdf2WordList } from '@/api/office'
-import ConvertUpload from '@/components/convert/ConvertUpload'
+import ConvertUpload from '@/components/office/ConvertUpload'
 
 export default {
   name: 'Pdf2word',

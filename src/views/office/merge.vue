@@ -106,11 +106,11 @@
 <script>
 import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
-import ExcelMergeTip from '@/components/excel/ExcelMergeTip'
-import ExcelUpload from '@/components/excel/ExcelUpload'
-import ExcelMergeSet from '@/components/excel/ExcelMergeSet'
-import ExcelMergeOpr from '@/components/excel/ExcelMergeOpr'
-import ExcelBatchDelete from '@/components/excel/ExcelBatchDelete'
+import ExcelMergeTip from '@/components/office/ExcelMergeTip'
+import ExcelUpload from '@/components/office/ExcelUpload'
+import ExcelMergeSet from '@/components/office/ExcelMergeSet'
+import ExcelMergeOpr from '@/components/office/ExcelMergeOpr'
+import ExcelBatchDelete from '@/components/office/ExcelBatchDelete'
 import Pagination from '@/components/Pagination'
 
 export default {
