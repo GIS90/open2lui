@@ -12,7 +12,7 @@
       <menu-expand :expand="expandStatus" @menu-expand-status="menuExpandStatus" />
     </el-row>
 
-    <!--Table表格-->
+    <!-- Table表格 order_id进行默认排序 -->
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleSourceTableRef"
@@ -25,7 +25,7 @@
         :border="tableAttrs.border"
         style="width: 100%;margin-bottom: 20px;"
         :default-expand-all="tableAttrs.expand"
-        :default-sort="{ prop: 'id', order: 'asc' }"
+        :default-sort="{ prop: 'order_id', order: 'asc' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
@@ -38,6 +38,7 @@
         <el-table-column prop="path" label="请求地址" width="180" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="icon" label="菜单图标" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="level" label="级别" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="order_id" label="排序ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="上级菜单信息" :align="tableRowAttrs.align">
           <el-table-column prop="pid" label="上级菜单ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="pname" label="上级菜单RTX" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />

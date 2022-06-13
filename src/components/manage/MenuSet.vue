@@ -139,6 +139,23 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="排序ID" prop="order_id">
+              <el-input
+                v-model.trim="menuForm.order_id"
+                type="text"
+                placeholder="请输入菜单左侧排序ID，ID值越小位置在前面"
+                :maxlength="menuLimit.order_id"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 开发者配置 -->
         <el-row><h3>开发者配置：</h3></el-row>
         <el-row :gutter="20">
@@ -368,7 +385,8 @@ export default {
         icon: 25,
         cache: 1,
         affix: 1,
-        breadcrumb: 1
+        breadcrumb: 1,
+        order_id: 5
       },
       menuForm: { // menu object
         name: '',
@@ -382,7 +400,8 @@ export default {
         hidden: '',
         cache: '',
         affix: '',
-        breadcrumb: ''
+        breadcrumb: '',
+        order_id: ''
       },
       menuFormRules: {
         name: [
@@ -479,7 +498,8 @@ export default {
         hidden: this.menuForm.hidden,
         cache: this.menuForm.cache,
         affix: this.menuForm.affix,
-        breadcrumb: this.menuForm.breadcrumb
+        breadcrumb: this.menuForm.breadcrumb,
+        order_id: this.menuForm.order_id
       }
       // menu update
       this.$refs.menuForm.validate(valid => {

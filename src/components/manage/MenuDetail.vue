@@ -156,6 +156,23 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="排序ID">
+              <el-input
+                v-model.trim="menuObject.order_id"
+                type="text"
+                placeholder="请输入菜单左侧排序ID，ID值越小位置在前面"
+                :maxlength="menuLimit.order_id"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 开发者配置 -->
         <el-row><h3>开发者配置：</h3></el-row>
         <el-row :gutter="20">
@@ -431,6 +448,7 @@ export default {
         hidden: 1,
         redirect: 55,
         icon: 25,
+        order_id: 5,
         cache: 1,
         affix: 1,
         breadcrumb: 1,
