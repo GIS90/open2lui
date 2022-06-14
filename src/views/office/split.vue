@@ -20,12 +20,12 @@
     <excel-split-tip :show="tipDialogStatus" @close-tip="closeTip" />
 
     <!-- 文件上传 -->
-    <excel-upload :dialog="uploadDialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
+    <office-upload :dialog="uploadDialogStatus" :file-type="fileType" :excel-sub-type="excelType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
       <el-table
-        ref="multipleSourceTableRef"
+        ref="multipleTableRef"
         :data="tableData"
         :size="tableAttrs.size"
         :fit="tableAttrs.fit"
@@ -114,7 +114,7 @@
 import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
 import ExcelSplitTip from '@/components/office/ExcelSplitTip'
-import ExcelUpload from '@/components/office/ExcelUpload'
+import OfficeUpload from '@/components/office/OfficeUpload'
 import ExcelSplitSet from '@/components/office/ExcelSplitSet'
 import ExcelSplitOpr from '@/components/office/ExcelSplitOpr'
 import ExcelBatchDelete from '@/components/office/ExcelBatchDelete'
@@ -124,7 +124,7 @@ export default {
   name: 'Split',
   components: {
     'excel-split-tip': ExcelSplitTip,
-    'excel-upload': ExcelUpload,
+    'office-upload': OfficeUpload,
     'excel-split-set': ExcelSplitSet,
     'excel-split-opr': ExcelSplitOpr,
     'excel-batch-delete': ExcelBatchDelete,
@@ -133,7 +133,8 @@ export default {
   props: {},
   data() {
     return {
-      fileType: '2',
+      fileType: '2', // 文件类型：1:word 2:excel 3:ppt 4:文本 5:pdf 6:其他
+      excelType: '2', // 文件类型：merge-1 split-2
       selBtnText: '全选', // 选择按钮内容
       btnUploadLoading: false, // 上传按钮加载中状态
       btnSplitLoading: false, // 拆分按钮加载中状态
@@ -249,7 +250,7 @@ export default {
       this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
     },
     manualSelectALL() { // 手工table row 全选
-      this.$refs.multipleSourceTableRef.toggleAllSelection()
+      this.$refs.multipleTableRef.toggleAllSelection()
     },
     setTableHeaderStyle() { // table title样式
       return {
@@ -310,7 +311,7 @@ export default {
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'type': this.fileType,
+        'type': this.excelType,
         'limit': this.pageSize || 15,
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }

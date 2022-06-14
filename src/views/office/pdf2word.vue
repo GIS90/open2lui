@@ -14,7 +14,7 @@
     </el-row>
 
     <!-- 文件上传 -->
-    <pdf-upload :dialog="uploadDialogStatus" :type="fileType" @close-file-upload="closeFileUpload" />
+    <office-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
 
   </div>
 </template>
@@ -22,18 +22,18 @@
 <script>
 import store from '@/store'
 import { getPdf2WordList } from '@/api/office'
-import PdfToWordUpload from '@/components/office/Pdf2WordUpload'
+import OfficeUpload from '@/components/office/OfficeUpload'
 
 export default {
   name: 'Pdf2word',
   emits: [],
   components: {
-    'pdf-upload': PdfToWordUpload
+    'office-upload': OfficeUpload
   },
   props: {},
   data() {
     return {
-      fileType: '1', // 文件类型：1:word 2:excel 3:ppt 4:文本 5:PDF 6:其他
+      fileType: '5', // 文件类型：1:word 2:excel 3:ppt 4:文本 5:pdf 6:其他
       selBtnText: '全选', // 选择按钮内容
       btnUploadLoading: false, // 上传按钮加载中状态
       btnMergeLoading: false, // 合并按钮加载中状态
@@ -106,7 +106,7 @@ export default {
     closeFileUpload(isRefresh) { // 关闭upload dialog
       this.uploadDialogStatus = false
       if (isRefresh) {
-        this.getExcelSourceList()
+        this.getTableList()
       }
     },
     selectRow(selection, row) { // table row 单行
@@ -142,7 +142,7 @@ export default {
       this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
     },
     manualSelectALL() { // 手工table row 全选
-      this.$refs.multipleSourceTableRef.toggleAllSelection()
+      // this.$refs.multipleTableRef.toggleAllSelection()
     },
     setTableHeaderStyle() { // table title样式
       return {

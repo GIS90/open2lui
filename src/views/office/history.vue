@@ -18,7 +18,7 @@
     <!--Table表格-->
     <div id="data-container" class="table-sty">
       <el-table
-        ref="multipleResultTableRef"
+        ref="multipleTableRef"
         :data="tableData"
         :size="tableAttrs.size"
         :fit="tableAttrs.fit"
@@ -324,7 +324,7 @@ export default {
       this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
     },
     manualSelectALL() { // 手工全选
-      this.$refs.multipleResultTableRef.toggleAllSelection()
+      this.$refs.multipleTableRef.toggleAllSelection()
     },
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
