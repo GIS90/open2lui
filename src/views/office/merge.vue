@@ -107,17 +107,17 @@
 import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
 import ExcelMergeTip from '@/components/office/ExcelMergeTip'
-import OfficeUpload from '@/components/office/OfficeUpload'
 import ExcelMergeSet from '@/components/office/ExcelMergeSet'
 import ExcelMergeOpr from '@/components/office/ExcelMergeOpr'
 import ExcelBatchDelete from '@/components/office/ExcelBatchDelete'
+import Upload from '@/components/office/Upload'
 import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Merge',
   components: {
     'excel-merge-tip': ExcelMergeTip,
-    'office-upload': OfficeUpload,
+    'office-upload': Upload,
     'excel-merge-set': ExcelMergeSet,
     'excel-merge-opr': ExcelMergeOpr,
     'excel-batch-delete': ExcelBatchDelete,

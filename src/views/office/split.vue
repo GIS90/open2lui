@@ -114,17 +114,17 @@
 import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
 import ExcelSplitTip from '@/components/office/ExcelSplitTip'
-import OfficeUpload from '@/components/office/OfficeUpload'
 import ExcelSplitSet from '@/components/office/ExcelSplitSet'
 import ExcelSplitOpr from '@/components/office/ExcelSplitOpr'
 import ExcelBatchDelete from '@/components/office/ExcelBatchDelete'
+import Upload from '@/components/office/Upload'
 import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Split',
   components: {
     'excel-split-tip': ExcelSplitTip,
-    'office-upload': OfficeUpload,
+    'office-upload': Upload,
     'excel-split-set': ExcelSplitSet,
     'excel-split-opr': ExcelSplitOpr,
     'excel-batch-delete': ExcelBatchDelete,

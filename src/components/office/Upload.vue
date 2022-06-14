@@ -18,6 +18,7 @@
       @close="handleClose"
       @open="handleOpen"
     >
+      <!-- upload -->
       <div style="text-align: center;">
         <el-upload
           ref="uploadRef"
@@ -46,7 +47,8 @@
           <div class="el-upload__text">拖拽或者 <em>点击上传</em></div>
           <template #tip>
             <div class="el-upload__tip">
-              <strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。
+              <!-- 提示说明 支持html显示-->
+              <p v-html="tips" />
               <p>上传文件数量： <strong>{{ fileList.length }}</strong>（{{ uploadAttrs.limit>0 ? '单次上传限制'+uploadAttrs.limit : '无限制' }}）</p>
             </div>
           </template>
@@ -93,7 +95,7 @@ import { validExcelFile } from '@/utils/validate'
 // const path = require('path')
 
 export default {
-  name: 'ExcelUpload',
+  name: 'Upload',
   emits: ['close-file-upload'],
   components: {},
   props: {
@@ -105,31 +107,41 @@ export default {
         return [true, false].includes(value)
       }
     },
-    type: {
+    // 上传文件类型：1-word, 2-excel, 3-ppt, 4-文本, 5-pdf, 99-其他
+    fileType: {
       type: String,
       require: true,
+      default: '1'
+    },
+    // 非必需参数，只有excel类型才有（Excel操作类型：EXCEL_MERGE = 1 EXCEL_SPLIT = 2）
+    excelSubType: {
+      type: String,
+      require: false,
       default: '1'
     }
   },
   data() {
     return {
-      fileList: [],
-      isManualUpload: true, // 是否手动上传，值为false：upload组件自带的每次只上传一个
+      // 依据上传文件类型定制tip，1: word, 2: excel, 3: ppt, 4: 文本, 5: pdf, 99: 其他
+      tips: this.getUploadTip(),
+      fileList: [], // 文件列表
+      isManualUpload: true, // 是否手动上传，值为false：upload组件自带的每次只上传一个，多文件为循环上传
       // true：manualUpload 上传所有文件
       uploadApis: {
-        url: process.env.VUE_APP_BASE_API + process.env.VUE_APP_OFFICE_FILES_API || '', // 文件上传URL，默认为空，动态配置文件中获取
-        accept: '.xls,.xlsx', // 接受上传的文件类型
-        headers: { // 设置上传的请求头部
+        url: process.env.VUE_APP_BASE_API + process.env.VUE_APP_OFFICE_FILES_API || '', // 使用组件自带上传功能URL，默认为空，动态配置文件中获取
+        accept: this.getUploadAccept(), // 上传文件的类型
+        headers: { // 设置请求上传的请求头部，token验证
           'Access-Control-Allow-Origin': '*',
           'X-Token': getToken(),
           'X-Rtx-Id': store.getters.rtx_id
         },
         method: 'POST', // 设置上传请求方法
-        data: {
+        data: { // 上传时附带的额外参数
           'rtx_id': store.getters.rtx_id,
-          'type': this.type
-        }, // 上传时附带的额外参数
-        name: 'files', // 上传的文件字段名
+          'file_type': this.fileType,
+          'excel_sub_type': this.excelSubType
+        },
+        name: 'files', // 上传的文件字段名，后台API用
         cookie: true // 发送 cookie 凭证信息
       },
       uploadAttrs: {
@@ -156,10 +168,12 @@ export default {
         draggable: false, // 为 Dialog 启用可拖拽功能
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
       },
+      // 上传button
       uploadBtnAttrs: {
         disabled: false,
         loading: false
       },
+      // 是否上传过文件状态
       isUpload: false
     }
   },
@@ -168,21 +182,58 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    getUploadTip() { // upload tip内容，支持html
+      // 上传文件类型：1-word, 2-excel, 3-ppt, 4-文本, 5-pdf, 99-其他
+      if (this.fileType === '1') {
+        return '.doc,.docx'
+      } else if (this.fileType === '2') {
+        return '<strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。'
+      } else if (this.fileType === '3') {
+        return '.ppt,.pptx'
+      } else if (this.fileType === '4') {
+        return '.txt'
+      } else if (this.fileType === '5') {
+        return '<strong>提示</strong>：仅支持<span class=\"info_red\">.pdf</span>格式文件上传。'
+      } else {
+        return ''
+      }
+    },
+    getUploadAccept() { // upload accept
+      // 上传文件类型：1-word, 2-excel, 3-ppt, 4-文本, 5-pdf, 99-其他
+      if (this.fileType === '1') {
+        return '.doc,.docx'
+      } else if (this.fileType === '2') {
+        return '.xls,.xlsx'
+      } else if (this.fileType === '3') {
+        return '.ppt,.pptx'
+      } else if (this.fileType === '4') {
+        return '.txt'
+      } else if (this.fileType === '5') {
+        return '.pdf'
+      } else {
+        return ''
+      }
+    },
     handleClose() {
+      /* 手动清空文件 */
       this.$refs.uploadRef.clearFiles()
       this.$emit('close-file-upload', this.isUpload)
     },
     handleOpen() {
+      /* 初始化fileList */
       this.fileList = []
     },
     handleClear() {
+      /* 手动清空上传文件 */
       this.$refs.uploadRef.clearFiles()
       this.fileList = []
     },
     cancelUpload() {
+      /* 取消上传 */
       this.$refs.uploadRef.abort()
     },
     submitUpload() {
+      /* 手动提交上传文件 */
       this.isManualUpload ? this.manualUpload() : this.$refs.uploadRef.submit()
     },
     getUploadUrl() {
@@ -195,7 +246,8 @@ export default {
       }
       */
     },
-    uploadSuccess(response, uploadFile) { // 文件上传成功的hook
+    uploadSuccess(response, uploadFile) {
+      /* 文件上传成功的hook */
       const { status_id, message } = response
       this.$message({
         message: status_id === 100 ? (uploadFile?.name ? uploadFile.name + '上传成功' : '文件上传成功') : message,
@@ -203,14 +255,16 @@ export default {
         duration: 2 * 1000
       })
     },
-    uploadExceed(files, UploadFiles) { // 文件上传超过限制的hook
+    uploadExceed(files, UploadFiles) {
+      /* 文件上传超过限制的hook */
       this.$message({
         message: '文件个数超过上传限制',
         type: 'warning',
         duration: 2.0 * 1000
       })
     },
-    uploadRemove(uploadFile, uploadFiles) { // 文件移除列表成功的hook
+    uploadRemove(uploadFile, uploadFiles) {
+      /* 文件移除列表成功的hook */
       this.fileList = uploadFiles
       this.$message({
         message: uploadFile?.name ? uploadFile.name + '移除列表成功' : '文件移除列表成功',
@@ -218,13 +272,16 @@ export default {
         duration: 2.0 * 1000
       })
     },
-    uploadChange(uploadFile, uploadFiles) { // 文件上个数发生改变的hook
+    uploadChange(uploadFile, uploadFiles) { //
+      /* 文件上个数发生改变的hook */
       this.fileList = uploadFiles
     },
-    beforeUpload(uploadFile) { // 文件上传前的hook，主要用来格式、大小验证
+    beforeUpload(uploadFile) {
+      /* 文件上传前的hook，主要用来格式、大小验证 */
       return uploadFile?.name ? validExcelFile(uploadFile.name) : true
     },
-    manualUpload() { // 手动上传的hook
+    manualUpload() {
+      /* 手动上传的hook */
       if (this.fileList.length < 1) {
         this.$message({
           message: '请选择上传文件',
@@ -248,9 +305,11 @@ export default {
       this.uploadAttrs.disabled = true
       this.uploadBtnAttrs.disabled = true
       this.uploadBtnAttrs.loading = true
+      // data form parameters
       const uploadForm = new FormData()
       uploadForm.append('rtx_id', this.$store.getters.rtx_id)
-      uploadForm.append('type', this.type)
+      uploadForm.append('file_type', this.fileType)
+      uploadForm.append('excel_sub_type', this.excelSubType)
       this.fileList.forEach(file => {
         uploadForm.append(file.name, file.raw)
       })

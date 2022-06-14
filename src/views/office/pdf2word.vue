@@ -22,13 +22,13 @@
 <script>
 import store from '@/store'
 import { getPdf2WordList } from '@/api/office'
-import OfficeUpload from '@/components/office/OfficeUpload'
+import Upload from '@/components/office/Upload'
 
 export default {
   name: 'Pdf2word',
   emits: [],
   components: {
-    'office-upload': OfficeUpload
+    'office-upload': Upload
   },
   props: {},
   data() {
