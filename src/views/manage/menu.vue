@@ -264,15 +264,5 @@ export default {
 </script>
 
 <style scoped>
-.btn-margin {
-  margin-left: 20px;
-}
 
-.table-sty {
-  margin-top: 25px;
-}
-
-.icon-item {
-  margin-left: 45px;
-}
 </style>

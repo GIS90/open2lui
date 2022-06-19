@@ -125,3 +125,30 @@ export function getPdf2WordList(data) {
     data
   })
 }
+
+// 更新Office PDF文件信息
+export function updateOfficePDFFile(data) {
+  return request({
+    url: '/office/office_pdf_update',
+    method: 'post',
+    data
+  })
+}
+
+// 删除Office PDF单个文件
+export function deleteOfficePDFFile(data) {
+  return request({
+    url: '/office/office_pdf_delete',
+    method: 'post',
+    data
+  })
+}
+
+// 删除Office PDF多个文件
+export function deleteOfficePDFFiles(data) {
+  return request({
+    url: '/office/office_pdf_deletes',
+    method: 'post',
+    data
+  })
+}

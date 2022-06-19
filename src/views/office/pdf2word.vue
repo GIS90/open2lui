@@ -16,19 +16,88 @@
     <!-- 文件上传 -->
     <office-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
 
+    <!--Table表格-->
+    <div id="data-container" class="table-sty">
+      <el-table
+        ref="multipleTableRef"
+        :data="tableData"
+        :size="tableAttrs.size"
+        :fit="tableAttrs.fit"
+        :show-header="tableAttrs.showHeader"
+        :highlight-current-row="tableAttrs.hcr"
+        :border="tableAttrs.border"
+        style="width: 100%"
+        :default-sort="{ prop: 'create_time', order: 'descending' }"
+        :empty-text="tableAttrs.emptyText"
+        :header-cell-style="setTableHeaderStyle"
+        @select="selectRow"
+        @selection-change="selectChange"
+        @select-all="selectAll"
+      >
+        <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
+        <el-table-column fixed="left" label="上传时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="文件名称" width="340" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="transfer" label="转换状态" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="transfer_time" label="转换时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="start" label="开始页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="end" label="结束页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="pages" label="指标页列表" width="270" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="360">
+          <template slot-scope="scope">
+            <el-tooltip effect="dark" content="设置" placement="top">
+              <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="light" content="转换" placement="top">
+              <el-button
+                icon="el-icon-refresh"
+                type="primary"
+                size="mini"
+                round
+                plain
+                @click="rowHandleTo(scope.$index, scope.row)"
+              />
+            </el-tooltip>
+            <el-tooltip v-if="scope.row.transfer_url" class="icon-item" effect="dark" content="下载" placement="top">
+              <a :href="scope.row.transfer_url"><i class="el-icon-download" /></a>
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!-- page分页 -->
+    <pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
+
   </div>
 </template>
 
 <script>
 import store from '@/store'
-import { getPdf2WordList } from '@/api/office'
+import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
 import Upload from '@/components/office/Upload'
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Pdf2word',
   emits: [],
   components: {
-    'office-upload': Upload
+    'office-upload': Upload,
+    'pagination': Pagination
   },
   props: {},
   data() {
@@ -81,6 +150,7 @@ export default {
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
+      toDialogStatus: false, // PDF转WORD-dialog状态
       mergeDialogStatus: false, // 合并dialog状态
       deleteConfirm: false // 删除确认dialog状态
     }
@@ -96,7 +166,7 @@ export default {
     }
   },
   created() {
-    // this.getTableList()
+    this.getTableList()
   },
   mounted() {},
   methods: {
@@ -159,7 +229,6 @@ export default {
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'type': this.fileType,
         'limit': this.pageSize || 15,
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
@@ -201,6 +270,53 @@ export default {
         return false
       }
       this.deleteConfirm = true
+    },
+    rowHandleDetail(index, row) { // table row 详情dialog
+      if (!row || !row.md5_id) {
+        return false
+      }
+      this.oprSelectRowMd5 = row.md5_id
+      this.detailDialogStatus = true
+    },
+    rowHandleEdit(index, row) { // table row 设置dialog
+      if (!row || !row.md5_id) {
+        return false
+      }
+      this.oprSelectRowMd5 = row.md5_id
+      this.setDialogStatus = true
+    },
+    rowHandleTo(index, row) { // PDF转WORD
+      if (!row || !row.md5_id) {
+        return false
+      }
+      this.oprSelectRowMd5 = row.md5_id
+      this.toDialogStatus = true
+    },
+    rowHandleDelete(index, row) { // table row 删除
+      if (!row || !row?.md5_id) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': row.md5_id
+      }
+      return new Promise((resolve, reject) => {
+        deleteOfficePDFFile(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+            this.getTableList()
+          }
+          resolve(response)
+        }).catch(error => {
+          this.loading = false
+          reject(error)
+        })
+      })
     }
   }
 }

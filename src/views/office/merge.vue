@@ -67,7 +67,7 @@
         </el-table-column>
         <el-table-column prop="numopr" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
         <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
-        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240">
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -370,15 +370,4 @@ export default {
 
 <style scoped>
 
-.btn-margin {
-  margin-left: 20px;
-}
-
-.table-sty {
-  margin-top: 25px;
-}
-
-.icon-item {
-  margin-left: 45px;
-}
 </style>

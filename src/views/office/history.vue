@@ -75,7 +75,7 @@
         <el-table-column prop="row" label="行数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
         <el-table-column prop="col" label="列数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
         <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
-        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240">
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -355,18 +355,6 @@ export default {
 </script>
 
 <style scoped>
-.icon-item {
-  margin-left: 45px;
-}
-
-.table-sty {
-  margin-top: 25px;
-}
-
-.btn-margin {
-  margin-left: 20px;
-}
-
 .row-merge {
   background-color: #2c3e50;
 }
