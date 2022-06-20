@@ -99,7 +99,7 @@
     <excel-merge-opr :show="mergeDialogStatus" :list="selectList" @close-file-merge="closeFileMerge" />
 
     <!-- 删除dialog -->
-    <excel-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
+    <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
@@ -109,7 +109,7 @@ import store from '@/store'
 import ExcelMergeTip from '@/components/office/ExcelMergeTip'
 import ExcelMergeSet from '@/components/office/ExcelMergeSet'
 import ExcelMergeOpr from '@/components/office/ExcelMergeOpr'
-import ExcelBatchDelete from '@/components/office/ExcelBatchDelete'
+import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
 import Upload from '@/components/office/Upload'
 import Pagination from '@/components/Pagination'
 
@@ -120,7 +120,7 @@ export default {
     'office-upload': Upload,
     'excel-merge-set': ExcelMergeSet,
     'excel-merge-opr': ExcelMergeOpr,
-    'excel-batch-delete': ExcelBatchDelete,
+    'office-batch-delete': OfficeBatchDelete,
     'pagination': Pagination
   },
   props: {},
@@ -177,6 +177,7 @@ export default {
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
       mergeDialogStatus: false, // 合并dialog状态
+      deleteSource: 'excel-source', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },

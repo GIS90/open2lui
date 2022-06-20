@@ -26,10 +26,10 @@
 
 <script>
 import store from '@/store'
-import { deleteExcelSourceFiles } from '@/api/office'
+import { deleteExcelSourceFiles, deleteExcelResultFiles, deleteOfficePDFFiles } from '@/api/office'
 
 export default {
-  name: 'ExcelBatchDelete',
+  name: 'OfficeBatchDelete',
   emits: ['close-delete-dialog'],
   components: {},
   props: {
@@ -45,6 +45,11 @@ export default {
       type: Array,
       require: true,
       default: function() {}
+    },
+    source: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   data() {
@@ -85,14 +90,73 @@ export default {
         })
         return false
       }
+      // 无删除source
+      if (!this.source) {
+        return false
+      }
       const data = {
         'rtx_id': store.getters.rtx_id,
         'list': this.list
       }
       this.btnDisabled = true
       this.btnLoading = true
+      if (this.source === 'excel-source') {
+        this.deleteExcelSource(data)
+      } else if (this.source === 'excel-result') {
+        this.deleteExcelResult(data)
+      } else if (this.source === 'office-pdf') {
+        this.deleteOfficePDF(data)
+      } else {
+        return false
+      }
+    },
+    deleteOfficePDF(data) {
+      return new Promise((resolve, reject) => {
+        deleteOfficePDFFiles(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        })
+      })
+    },
+    deleteExcelSource(data) {
       return new Promise((resolve, reject) => {
         deleteExcelSourceFiles(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        })
+      })
+    },
+    deleteExcelResult(data) {
+      return new Promise((resolve, reject) => {
+        deleteExcelResultFiles(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

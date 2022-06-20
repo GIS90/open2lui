@@ -83,6 +83,8 @@
       @pagin-current-change="paginCurrentChange"
     />
 
+    <!-- 删除dialog -->
+    <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
@@ -91,12 +93,14 @@ import store from '@/store'
 import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
 import Upload from '@/components/office/Upload'
 import Pagination from '@/components/Pagination'
+import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
 
 export default {
   name: 'Pdf2word',
   emits: [],
   components: {
     'office-upload': Upload,
+    'office-batch-delete': OfficeBatchDelete,
     'pagination': Pagination
   },
   props: {},
@@ -152,6 +156,7 @@ export default {
       setDialogStatus: false, // 设置dialog状态
       toDialogStatus: false, // PDF转WORD-dialog状态
       mergeDialogStatus: false, // 合并dialog状态
+      deleteSource: 'office-pdf', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },
@@ -212,7 +217,7 @@ export default {
       this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
     },
     manualSelectALL() { // 手工table row 全选
-      // this.$refs.multipleTableRef.toggleAllSelection()
+      this.$refs.multipleTableRef.toggleAllSelection()
     },
     setTableHeaderStyle() { // table title样式
       return {
@@ -248,16 +253,16 @@ export default {
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
-      this.getExcelSourceList()
+      this.getTableList()
     },
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
-      this.getExcelSourceList()
+      this.getTableList()
     },
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
-        this.getExcelSourceList()
+        this.getTableList()
       }
     },
     openDeleteDialog() { // 打开删除Dialog
