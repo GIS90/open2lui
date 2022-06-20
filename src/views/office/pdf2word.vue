@@ -85,6 +85,9 @@
 
     <!-- 删除dialog -->
     <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+
+    <!-- 文件设置dg -->
+    <office-pdf-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
   </div>
 </template>
 
@@ -94,6 +97,7 @@ import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
 import Upload from '@/components/office/Upload'
 import Pagination from '@/components/Pagination'
 import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
+import OfficePDFSet from '@/components/office/OfficePDFSet'
 
 export default {
   name: 'Pdf2word',
@@ -101,6 +105,7 @@ export default {
   components: {
     'office-upload': Upload,
     'office-batch-delete': OfficeBatchDelete,
+    'office-pdf-set': OfficePDFSet,
     'pagination': Pagination
   },
   props: {},
@@ -152,7 +157,7 @@ export default {
       selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
-      oprSelectData: {}, // 当前选择data
+      oprSelectRowMd5: '', // 当前选择data rtx
       setDialogStatus: false, // 设置dialog状态
       toDialogStatus: false, // PDF转WORD-dialog状态
       mergeDialogStatus: false, // 合并dialog状态
@@ -229,7 +234,6 @@ export default {
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
-      this.oprSelectData = {}
 
       // list列表参数
       const data = {
@@ -322,6 +326,12 @@ export default {
           reject(error)
         })
       })
+    },
+    closeSetDialog(isRefresh) { // 关闭设置dg
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     }
   }
 }

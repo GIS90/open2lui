@@ -126,6 +126,15 @@ export function getPdf2WordList(data) {
   })
 }
 
+// 获取Office PDF文件详情
+export function detailOfficePDFFile(data) {
+  return request({
+    url: '/office/office_pdf_detail',
+    method: 'post',
+    data
+  })
+}
+
 // 更新Office PDF文件信息
 export function updateOfficePDFFile(data) {
   return request({
