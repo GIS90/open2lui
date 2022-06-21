@@ -25,7 +25,7 @@
             v-model="formData.mode"
             class="sw-sty"
             style="display: block"
-            :disabled="switchAttrs.disabled"
+            :disabled="disabled"
             :width="switchAttrs.width"
             :active-text="switchAttrs.activeText"
             :inactive-text="switchAttrs.inactiveText"
@@ -44,7 +44,7 @@
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
-            :disabled="disabled"
+            :disabled="!formData.mode"
             prefix-icon="el-icon-edit"
           />
         </el-form-item>
@@ -56,7 +56,7 @@
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
-            :disabled="disabled"
+            :disabled="!formData.mode"
             prefix-icon="el-icon-edit"
           />
         </el-form-item>
@@ -68,7 +68,7 @@
             :maxlength="inputAttrs.length"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
-            :disabled="disabled"
+            :disabled="formData.mode"
             prefix-icon="el-icon-edit"
           />
         </el-form-item>
@@ -180,6 +180,7 @@ export default {
             this.formData.start = data.start
             this.formData.end = data.end
             this.formData.pages = data.pages
+            this.formData.mode = data.mode
           } else {
             this.$emit('close-set-dg')
           }
@@ -190,6 +191,17 @@ export default {
       })
     },
     submitSet() { // 提交
+      // 页码判断
+      if (this.formData.start && this.formData.end) {
+        if (this.formData.start > this.formData.end) {
+          this.$message({
+            message: '起始页码不允许小于结束页码',
+            type: 'warning',
+            duration: 2.0 * 1000
+          })
+          return false
+        }
+      }
       this.disabled = true
       this.loading = true
       const data = {
