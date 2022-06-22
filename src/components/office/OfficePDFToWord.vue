@@ -36,6 +36,19 @@
             @change="changeStatus($event)"
           />
         </el-form-item>
+        <el-form-item label="文件名称">
+          <el-input
+            v-model.trim="formData.name"
+            type="text"
+            placeholder="新文件docx文档名称，不填写则默认以当前PDF文件名称命名"
+            :size="inputAttrs.size"
+            :maxlength="formDataLimit.name"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
         <el-form-item label="起始页码">
           <el-input
             v-model.trim="formData.start"
@@ -80,7 +93,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitSet()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitConvert()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -89,11 +102,11 @@
 
 <script>
 import store from '@/store'
-import { updateOfficePDFFile, detailOfficePDFFile } from '@/api/office'
+import { detailOfficePDFFile, toOfficePDFFiles } from '@/api/office'
 
 export default {
-  name: 'OfficePDFSet',
-  emits: ['close-set-dg'],
+  name: 'OfficePDFToWord',
+  emits: ['close-to-dg'],
   props: {
     show: {
       type: Boolean,
@@ -115,17 +128,17 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '文件设置',
-        width: '45%', // Dialog 的宽度
+        title: '转换',
+        width: '50%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
         closeDelay: 0, // Dialog 关闭的延时时间，单位毫秒
-        closeOnClickModal: true, // 是否可以通过点击 modal 关闭 Dialog
-        closeOnPressEscape: true, // 是否可以通过按下 ESC 关闭 Dialog
-        showClose: true, // 是否显示关闭按钮
+        closeOnClickModal: false, // 是否可以通过点击 modal 关闭 Dialog
+        closeOnPressEscape: false, // 是否可以通过按下 ESC 关闭 Dialog
+        showClose: false, // 是否显示关闭按钮
         draggable: false, // 为 Dialog 启用可拖拽功能
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
       },
@@ -148,12 +161,14 @@ export default {
         inactiveColor: '#13ce66' // 关闭时的背景色
       },
       formDataLimit: {
+        name: 85,
         start: 4,
         end: 4,
         pages: 85
       },
       // data
       formData: {
+        name: '', // 新文件名称
         start: '', // 英文名称
         end: '', // 中文名称
         pages: '', // 描述
@@ -172,18 +187,20 @@ export default {
     },
     openDialog() { // 初始化操作，获取最新数据
       if (!this.rowMd5) {
-        this.$emit('close-set-dg', true)
+        this.$emit('close-to-dg', true)
         return false
       }
+      this.formData.name = ''
       this.getDNewInfo()
     },
     closeDialog() { // 关闭dg
-      this.$emit('close-set-dg', false)
+      this.$emit('close-to-dg', false)
     },
     getDNewInfo() {
       const params = {
         'md5': this.rowMd5
       }
+      // 获取tablerow最新数据
       return new Promise((resolve, reject) => {
         detailOfficePDFFile(params).then(response => {
           const { status_id, data } = response
@@ -193,7 +210,7 @@ export default {
             this.formData.pages = data.pages
             this.formData.mode = data.mode
           } else {
-            this.$emit('close-set-dg')
+            this.$emit('close-to-dg')
           }
           resolve(response)
         }).catch(error => {
@@ -201,8 +218,24 @@ export default {
         })
       })
     },
-    submitSet() { // 提交
+    submitConvert() { // 提交
       // 页码判断
+      if (this.formData.start === '0') {
+        this.$message({
+          message: '起始页码不允许设置0',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      if (this.formData.end === '0') {
+        this.$message({
+          message: '结束页码不允许设置0',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
       if (this.formData.start && this.formData.end) {
         if (this.formData.start > this.formData.end) {
           this.$message({
@@ -217,6 +250,7 @@ export default {
       this.loading = true
       const data = {
         'rtx_id': store.getters.rtx_id,
+        'name': this.formData.name,
         'start': this.formData.start,
         'end': this.formData.end,
         'pages': this.formData.pages,
@@ -224,17 +258,17 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        updateOfficePDFFile(data).then(response => {
+        toOfficePDFFiles(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
-              message: '文件设置成功' || message,
+              message: '文件转换成功' || message,
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.$emit('close-set-dg', true)
+            this.$emit('close-to-dg', true)
           }
           resolve(response)
         }).catch(error => {

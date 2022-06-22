@@ -89,6 +89,9 @@
 
     <!-- 文件设置dg -->
     <office-pdf-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
+
+    <!-- 转换 -->
+    <office-pdf-to-word :show="toDialogStatus" :row-md5="oprSelectRowMd5" @close-to-dg="closeToDialog" />
   </div>
 </template>
 
@@ -99,6 +102,7 @@ import Upload from '@/components/office/Upload'
 import Pagination from '@/components/Pagination'
 import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
 import OfficePDFSet from '@/components/office/OfficePDFSet'
+import OfficePDFToWord from '@/components/office/OfficePDFToWord'
 
 export default {
   name: 'Pdf2word',
@@ -107,6 +111,7 @@ export default {
     'office-upload': Upload,
     'office-batch-delete': OfficeBatchDelete,
     'office-pdf-set': OfficePDFSet,
+    'office-pdf-to-word': OfficePDFToWord,
     'pagination': Pagination
   },
   props: {},
@@ -330,6 +335,12 @@ export default {
     },
     closeSetDialog(isRefresh) { // 关闭设置dg
       this.setDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
+    },
+    closeToDialog(isRefresh) { // 关闭转换dg
+      this.toDialogStatus = false
       if (isRefresh) {
         this.getTableList()
       }

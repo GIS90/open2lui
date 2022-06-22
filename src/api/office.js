@@ -161,3 +161,12 @@ export function deleteOfficePDFFiles(data) {
     data
   })
 }
+
+// Office PDF转WORD文件
+export function toOfficePDFFiles(data) {
+  return request({
+    url: '/office/office_pdf_to',
+    method: 'post',
+    data
+  })
+}

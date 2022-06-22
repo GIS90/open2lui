@@ -206,7 +206,7 @@ export default {
       curMd5: '',
       dialogAttrs: {
         title: '文件拆分',
-        width: '40%', // Dialog 的宽度
+        width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
