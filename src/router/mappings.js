@@ -2,7 +2,7 @@ const routerMappings = {
   layout: () => import('@/layout/index.vue'),
   // search
   searchProbase: () => import('@/views/search/probase.vue'),
-  search_sqlbase: () => import('@/views/search/sqlbase.vue'),
+  searchSqlbase: () => import('@/views/search/sqlbase.vue'),
   // office
   pdf2Word: () => import('@/views/office/pdf2word.vue'),
   excelMerge: () => import('@/views/office/merge.vue'),
