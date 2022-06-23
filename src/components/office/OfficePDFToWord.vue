@@ -18,7 +18,15 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form :label-position="labelPosition" label-width="auto">
+      <!-- 加入loading -->
+      <el-form
+        v-loading="loading"
+        :label-position="labelPosition"
+        label-width="auto"
+        :element-loading-text="loadingAttrs.text"
+        :element-loading-spinner="loadingAttrs.icon"
+        :element-loading-background="loadingAttrs.bg"
+      >
         <!--模式-->
         <el-form-item>
           <el-switch
@@ -93,7 +101,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitConvert()">确定</el-button>
+          <el-button :disabled="disabled" type="primary" @click="submitConvert()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -125,6 +133,12 @@ export default {
   data() {
     return {
       loading: false, // 组件loading，主要用于button
+      loadingAttrs: {
+        text: '拼命转换中......', // 文字
+        icon: 'el-icon-loading', // 图标
+        bg: '', // 背景 rgba(0, 0, 0, 0.8)
+        class: '' // 自定义样式类
+      },
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
@@ -286,4 +300,5 @@ export default {
 .sw-sty {
   text-align: right;
 }
+
 </style>
