@@ -5,16 +5,16 @@
 ![](https://img.shields.io/badge/UI-ElementUI-green)
 
 项目简称：**_open2lui_**  
-采用ES6语言进行研发，是支撑***OPENTOOL-Z***项目的前端UI。
+采用VUE框架进行研发，是支撑***OPENTOOL-Z***项目的前端UI。
 
 后端 **_open2lisapi_**：https://github.com/GIS90/open2lisapi.git
 
 ### 平台地址
 
 ```
-线上地址：http://tool.pygo2.top/  
-测试账号：test  
-密码：123456
+线上地址：http://2l.pygo2.top/  
+测试账号：tester  
+密码：abc1234
 ```
 
 
@@ -28,8 +28,8 @@
 - VUE JS框架
 - ElementUI UI开发框架
 - vue-element-admin VUE前端脚手架（VUE + ElementUI）
-- supervisor 项目进程的启动、停止、重启等管理
- 
+
+
 ### 开发进度记录
 
 记录信息采用了腾讯共享文档的方式记录API接口、数据库模型、开发周期等信息。
