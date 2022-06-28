@@ -102,7 +102,7 @@
     <!-- 文件设置 -->
     <excel-split-set :show="setDialogStatus" :table-row="oprSelectData" @close-file-set="closeFileSet" />
 
-    <!-- 文件合并 -->
+    <!-- 文件拆分 -->
     <excel-split-opr :show="splitDialogStatus" :table-row="oprSelectData" @close-file-split="closeFileSplit" />
 
     <!-- 删除dialog -->

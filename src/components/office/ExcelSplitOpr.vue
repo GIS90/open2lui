@@ -18,7 +18,8 @@
       @close="handleClose"
       @open="handleOpen"
     >
-      <div style="text-align: center;">
+      <!-- form -->
+      <div id="main-opr-div" style="text-align: center;">
         <el-form :label-position="labelPosition" label-width="auto">
           <el-form-item label="新文件名称">
             <el-input
@@ -155,19 +156,11 @@
       <!-- dialog footer -->
       <template #footer>
         <span class="dialog-footer">
-          <el-button
-            :disabled="disabled"
-            @click="handleClose"
-          >
+          <el-button :disabled="disabled" @click="handleClose">
             取消
           </el-button>
-          <el-button
-            type="primary"
-            :disabled="disabled"
-            :loading="loading"
-            @click="submitSplit"
-          >
-            开始
+          <el-button type="primary" :disabled="disabled" @click="submitSplit">
+            确认
           </el-button>
         </span>
       </template>
@@ -205,7 +198,7 @@ export default {
     return {
       curMd5: '',
       dialogAttrs: {
-        title: '文件拆分',
+        title: '表格拆分',
         width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -242,7 +235,6 @@ export default {
         noDataText: '暂无数据', // 选项为空时显示的文字
         placeholder: '' // 默认显示内容
       },
-      loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // initialize split parameters
@@ -346,8 +338,19 @@ export default {
         'header': this.headerIndex
       }
 
+      // 组件状态
       this.disabled = true
-      this.loading = true
+      // loading
+      const loading = this.$loading({
+        target: document.querySelector('#main-opr-div'), // DOM
+        body: false, // 遮罩插入至DOM中的body上，默认false
+        fullscreen: true, // 是否全屏
+        lock: true, // 是否锁屏
+        text: '努力工作中......', // 加载文案
+        spinner: 'el-icon-loading', // 加载icon
+        background: '', // 背景rgba(0, 0, 0, 0.8)
+        class: '' // 自定义样式类
+      })
       return new Promise((resolve, reject) => {
         excelSplit(data).then(response => {
           this.disabled = false
@@ -359,12 +362,16 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
+
+            // 关闭loading
+            loading.close()
             this.$emit('close-file-split', true)
           }
           resolve(response)
         }).catch(error => {
+          // 关闭loading
+          loading.close()
           this.disabled = false
-          this.loading = false
           reject(error)
         })
       })

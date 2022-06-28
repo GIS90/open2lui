@@ -18,85 +18,80 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <!-- 加入loading -->
-      <el-form
-        v-loading="loading"
-        :label-position="labelPosition"
-        label-width="auto"
-        :element-loading-text="loadingAttrs.text"
-        :element-loading-spinner="loadingAttrs.icon"
-        :element-loading-background="loadingAttrs.bg"
-      >
-        <!--模式-->
-        <el-form-item>
-          <el-switch
-            v-model="formData.mode"
-            class="sw-sty"
-            style="display: block"
-            :disabled="disabled"
-            :width="switchAttrs.width"
-            :active-text="switchAttrs.activeText"
-            :inactive-text="switchAttrs.inactiveText"
-            :active-color="switchAttrs.activeColor"
-            :inactive-color="switchAttrs.inactiveColor"
-            :active-value="switchAttrs.activeValue"
-            :inactive-value="switchAttrs.inactiveValue"
-            @change="changeStatus($event)"
-          />
-        </el-form-item>
-        <el-form-item label="文件名称">
-          <el-input
-            v-model.trim="formData.name"
-            type="text"
-            placeholder="新文件docx文档名称，不填写则默认以当前PDF文件名称命名"
-            :size="inputAttrs.size"
-            :maxlength="formDataLimit.name"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
-        <el-form-item label="起始页码">
-          <el-input
-            v-model.trim="formData.start"
-            placeholder="文档转换的起始页码，默认首页开始"
-            :size="inputAttrs.size"
-            :maxlength="formDataLimit.start"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="!formData.mode"
-            oninput="this.value=this.value.replace(/[^\d]/g,'');"
-          />
-        </el-form-item>
-        <el-form-item label="结束页码">
-          <el-input
-            v-model.trim="formData.end"
-            placeholder="文档转换的结束页码，默认最后一页结束"
-            :size="inputAttrs.size"
-            :maxlength="formDataLimit.end"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="!formData.mode"
-            oninput="this.value=this.value.replace(/[^\d]/g,'');"
-          />
-        </el-form-item>
-        <el-form-item label="指定页码">
-          <el-input
-            v-model.trim="formData.pages"
-            type="text"
-            placeholder="请输入指定转换的指定页码，以,（英文逗号）分割"
-            :size="inputAttrs.size"
-            :maxlength="formDataLimit.pages"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="formData.mode"
-          />
-        </el-form-item>
-      </el-form>
+      <!-- form -->
+      <div id="main-opr-div" style="text-align: center;">
+        <el-form :label-position="labelPosition" label-width="auto">
+          <!--模式-->
+          <el-form-item>
+            <el-switch
+              v-model="formData.mode"
+              class="sw-sty"
+              style="display: block"
+              :disabled="disabled"
+              :width="switchAttrs.width"
+              :active-text="switchAttrs.activeText"
+              :inactive-text="switchAttrs.inactiveText"
+              :active-color="switchAttrs.activeColor"
+              :inactive-color="switchAttrs.inactiveColor"
+              :active-value="switchAttrs.activeValue"
+              :inactive-value="switchAttrs.inactiveValue"
+              @change="changeStatus($event)"
+            />
+          </el-form-item>
+          <el-form-item label="文件名称">
+            <el-input
+              v-model.trim="formData.name"
+              type="text"
+              placeholder="新文件docx文档名称，不填写则默认以当前PDF文件名称命名"
+              :size="inputAttrs.size"
+              :maxlength="formDataLimit.name"
+              :clearable="inputAttrs.clear"
+              :show-word-limit="inputAttrs.limit"
+              :prefix-icon="inputAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </el-form-item>
+          <el-form-item label="起始页码">
+            <el-input
+              v-model.trim="formData.start"
+              placeholder="文档转换的起始页码，默认首页开始"
+              :size="inputAttrs.size"
+              :maxlength="formDataLimit.start"
+              :clearable="inputAttrs.clear"
+              :show-word-limit="inputAttrs.limit"
+              :prefix-icon="inputAttrs.prefixIcon"
+              :disabled="!formData.mode"
+              oninput="this.value=this.value.replace(/[^\d]/g,'');"
+            />
+          </el-form-item>
+          <el-form-item label="结束页码">
+            <el-input
+              v-model.trim="formData.end"
+              placeholder="文档转换的结束页码，默认最后一页结束"
+              :size="inputAttrs.size"
+              :maxlength="formDataLimit.end"
+              :clearable="inputAttrs.clear"
+              :show-word-limit="inputAttrs.limit"
+              :prefix-icon="inputAttrs.prefixIcon"
+              :disabled="!formData.mode"
+              oninput="this.value=this.value.replace(/[^\d]/g,'');"
+            />
+          </el-form-item>
+          <el-form-item label="指定页码">
+            <el-input
+              v-model.trim="formData.pages"
+              type="text"
+              placeholder="请输入指定转换的指定页码，以,（英文逗号）分割"
+              :size="inputAttrs.size"
+              :maxlength="formDataLimit.pages"
+              :clearable="inputAttrs.clear"
+              :show-word-limit="inputAttrs.limit"
+              :prefix-icon="inputAttrs.prefixIcon"
+              :disabled="formData.mode"
+            />
+          </el-form-item>
+        </el-form>
+      </div>
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
@@ -132,17 +127,10 @@ export default {
   },
   data() {
     return {
-      loading: false, // 组件loading，主要用于button
-      loadingAttrs: {
-        text: '拼命转换中......', // 文字
-        icon: 'el-icon-loading', // 图标
-        bg: '', // 背景 rgba(0, 0, 0, 0.8)
-        class: '' // 自定义样式类
-      },
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '转换',
+        title: '文档转换',
         width: '50%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -260,8 +248,19 @@ export default {
           return false
         }
       }
+      // 组件状态
       this.disabled = true
-      this.loading = true
+      // loading
+      const loading = this.$loading({
+        target: document.querySelector('#main-opr-div'), // DOM
+        body: false, // 遮罩插入至DOM中的body上，默认false
+        fullscreen: true, // 是否全屏
+        lock: true, // 是否锁屏
+        text: '努力工作中......', // 加载文案
+        spinner: 'el-icon-loading', // 加载icon
+        background: '', // 背景rgba(0, 0, 0, 0.8)
+        class: '' // 自定义样式类
+      })
       const data = {
         'rtx_id': store.getters.rtx_id,
         'name': this.formData.name,
@@ -282,6 +281,9 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
+
+            // 关闭loading
+            loading.close()
             this.$emit('close-to-dg', true)
           }
           resolve(response)

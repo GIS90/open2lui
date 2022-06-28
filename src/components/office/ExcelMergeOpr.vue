@@ -18,13 +18,14 @@
       @close="handleClose"
       @open="handleOpen"
     >
-      <div style="text-align: center;">
+      <!-- form -->
+      <div id="main-opr-div" style="text-align: center;">
         <el-form :label-position="labelPosition" label-width="auto">
           <el-form-item label="新文件名称">
             <el-input
-              v-model.trim="name"
+              v-model.trim="formData.name"
               type="text"
-              placeholder="请输入新文件名称"
+              placeholder="请输入新文件名称，默认为.xlsx格式"
               :maxlength="inputAttrs.length"
               :clearable="inputAttrs.clear"
               :show-word-limit="inputAttrs.limit"
@@ -34,7 +35,7 @@
           </el-form-item>
           <el-form-item label="间隔行数">
             <el-input-number
-              v-model="blank"
+              v-model="formData.blank"
               style="width: 100%"
               :min="inputNumberAttrs.min"
               :controls="inputNumberAttrs.controls"
@@ -49,19 +50,11 @@
       <!-- dialog footer -->
       <template #footer>
         <span class="dialog-footer">
-          <el-button
-            :disabled="disabled"
-            @click="handleClose"
-          >
+          <el-button :disabled="disabled" @click="handleClose">
             取消
           </el-button>
-          <el-button
-            type="primary"
-            :disabled="disabled"
-            :loading="loading"
-            @click="submitMerge"
-          >
-            开始
+          <el-button type="primary" :disabled="disabled" @click="submitMerge">
+            确认
           </el-button>
         </span>
       </template>
@@ -96,8 +89,8 @@ export default {
   data() {
     return {
       dialogAttrs: {
-        title: '文件合并',
-        width: '40%', // Dialog 的宽度
+        title: '表格合并',
+        width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
@@ -124,11 +117,12 @@ export default {
         controls: true, // 是否使用控制按钮
         cp: 'right' // controls-position: right top
       },
-      loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
-      name: '', // 新文件名称
-      blank: 0 // 合并设置：合并文件之间的空行数
+      formData: {
+        name: '', // 新文件名称
+        blank: 0 // 合并设置：合并文件之间的空行数
+      }
     }
   },
   computed: {},
@@ -140,11 +134,11 @@ export default {
       this.$emit('close-file-merge', false)
     },
     handleOpen() {
-      this.name = ''
-      this.blank = 0
+      this.formData.name = ''
+      this.formData.blank = 0
     },
     submitMerge() {
-      if (!this.name) {
+      if (!this.formData.name) {
         this.$message({
           message: '请输入新文件名称',
           type: 'warning',
@@ -163,13 +157,23 @@ export default {
 
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'name': this.name,
         'list': this.list,
-        'blank': this.blank
+        'name': this.formData.name,
+        'blank': this.formData.blank
       }
-
+      // 组件状态
       this.disabled = true
-      this.loading = true
+      // loading
+      const loading = this.$loading({
+        target: document.querySelector('#main-opr-div'), // DOM
+        body: false, // 遮罩插入至DOM中的body上，默认false
+        fullscreen: true, // 是否全屏
+        lock: true, // 是否锁屏
+        text: '努力工作中......', // 加载文案
+        spinner: 'el-icon-loading', // 加载icon
+        background: '', // 背景rgba(0, 0, 0, 0.8)
+        class: '' // 自定义样式类
+      })
       return new Promise((resolve, reject) => {
         excelMerge(data).then(response => {
           this.disabled = false
@@ -177,12 +181,15 @@ export default {
           const { status_id } = response
           if (status_id === 100) {
             this.$message({
-              message: '文件合并成功',
+              message: '表格合并成功',
               type: 'success',
               duration: 2.0 * 1000
             })
+            // 关闭loading
+            loading.close()
             this.$emit('close-file-merge', true)
           }
+
           resolve(response)
         }).catch(error => {
           this.disabled = false
