@@ -16,7 +16,7 @@
     <!--Table表格-->
     <div id="data-container" class="table-sty">
       <el-table
-        ref="multipleSourceTableRef"
+        ref="multipleTableRef"
         :data="tableData"
         :size="tableAttrs.size"
         :fit="tableAttrs.fit"
@@ -234,7 +234,7 @@ export default {
       this.selectList = this.selectAllStatus ? selection.map(row => row?.md5_id || '') : []
     },
     manualSelectALL() { // 手工table row 全选
-      this.$refs.multipleSourceTableRef.toggleAllSelection()
+      this.$refs.multipleTableRef.toggleAllSelection()
     },
     setTableHeaderStyle() { // table title样式
       return {

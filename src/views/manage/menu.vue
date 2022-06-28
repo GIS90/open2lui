@@ -15,7 +15,7 @@
     <!-- Table表格 order_id进行默认排序 -->
     <div id="data-container" class="table-sty">
       <el-table
-        ref="multipleSourceTableRef"
+        ref="multipleTableRef"
         :data="tableData"
         :row-key="tableAttrs.rowKey"
         :size="tableAttrs.size"
@@ -250,7 +250,7 @@ export default {
     menuExpandStatus(status) { // 打开/关闭table 子菜单
       this.expandStatus = status
       this.tableOneKeys.map(item => {
-        return this.$refs.multipleSourceTableRef.toggleRowExpansion(item, status)
+        return this.$refs.multipleTableRef.toggleRowExpansion(item, status)
       })
     },
     openTip() { // 开启tip
