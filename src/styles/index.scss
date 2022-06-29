@@ -212,8 +212,22 @@ aside {
   margin-left: 50px;
 }
 
-// 覆盖loading-mask样式
+
+// ======================================= 覆盖原UI样式 =======================================
+
+// loading-mask样式
 .el-loading-mask {
   font-size: 3rem !important;
 }
-// ======================================= 自定义样式 =======================================
+
+// dialog header样式
+.el-dialog__header {
+  background: #f8f8f8;
+  //text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+// dialog footer样式
+.el-dialog__footer {
+  border-top: 1px solid #e8eaec;
+}
