@@ -174,6 +174,7 @@ export default {
         background: '', // 背景rgba(0, 0, 0, 0.8)
         class: '' // 自定义样式类
       })
+
       return new Promise((resolve, reject) => {
         excelMerge(data).then(response => {
           this.disabled = false
