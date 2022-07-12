@@ -20,10 +20,11 @@
   "main": "src/main.js",
   "scripts": {
     "dev": "vue-cli-service serve --open --mode development",
+    "https": "vue-cli-service serve --open --copy --https --mode development",
     "lint": "eslint --ext .js,.vue src",
     "build": "vue-cli-service build --report",
-    "build:prod": "vue-cli-service build --report",
-    "build:dev": "vue-cli-service build --report --mode development",
+    "build:prod": "vue-cli-service build --report --mode production --dest dist",
+    "build:dev": "vue-cli-service build --report --mode development --dest dist",
     "preview": "node build/index.js --preview",
     "new": "plop",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
