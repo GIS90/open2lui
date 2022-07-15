@@ -98,27 +98,49 @@
 说明：在文件的(162-163)处位置，登录成功后指定跳转到首页，否则会有redirect进行跳转   
 
 
-- 5.api请求100为正常，非100下会显示报错信息   
+> ## 后台API交互
+
+在src->utils->request.js文件可以创建多个axios request实例，根据项目的情况而定。
+
+- 1.api请求100为正常，非100下会显示报错信息   
 文件位置：src->utils->request.js（68行）
 说明：项目中使用axios方法去请求后台API，在request.js中进行请求前、请求后的hook，想修改其他内容，可以在此进行修改
 
-- 6.修改axios请求后台API超时设置【timeout】  
+- 2.修改axios请求后台API超时设置【timeout】  
   文件位置：src->utils->request.js（10行）
   说明：正常一个API请求时间很短，如果做长时间后台处理的话可以设置久一点，根据项目情况定。
 
 
 > ## 自定义样式
 
-基于ElementUI的样式满足基本需求还是够的，然而毕竟每个人审美不一样，所以改了一些ElementUI原有的样式进行覆盖。
-样式文件位置：src->style->index.scss
-目前，主要有加了：
-- 自定义样式
-- 覆盖原UI样式
+基于ElementUI的样式满足基本需求还是够的，然而毕竟每个人审美不一样，所以改了一些ElementUI原有的样式进行覆盖以及对这个框架的样式进行了部分修改。
+
+> 全局通用样式
+
+位置：src->style->index.scss
+添加样式内容：
+- btn-margin：页面按钮区域button直接的间距
+- table-sty：页面table表格距离button样式
+- icon-item：页码table表格的最后操作列icon样式
+
+> 覆盖ElementUI样式   
+
+位置：src->style->element-ui.scss
+添加样式内容：
+- el-loading-mask：loading大样式
+- el-loading-spinner i：loading内部spinner图标样式
+- el-dialog__header：Dialog页眉样式
+- el-dialog__footer：Dialog页脚样式
+
+> Sidebar
+
+位置：src->style->sidebar.scss
+
 
 
 > ## 感谢
 
-再次感谢***panjiachen***以及***脚手架的其他贡献者***，在这里页推荐大家使用这个VUE前端脚手架：   
+再次感谢***Panjiachen***以及***脚手架的其他贡献者***，在这里页推荐大家使用这个VUE前端脚手架：   
 https://panjiachen.github.io/vue-element-admin-site/zh/guide/
 
 > ## 联系方式
