@@ -22,6 +22,7 @@
     "dev": "vue-cli-service serve --open --mode development",
     "https": "vue-cli-service serve --open --copy --https --mode development",
     "lint": "eslint --ext .js,.vue src",
+    "lint-fix": "eslint --ext .js,.vue src --fix",
     "build": "vue-cli-service build --report",
     "build:prod": "vue-cli-service build --report --mode production --dest dist",
     "build:dev": "vue-cli-service build --report --mode development --dest dist",
