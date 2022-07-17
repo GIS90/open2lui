@@ -102,13 +102,17 @@
 
 在src->utils->request.js文件可以创建多个axios request实例，根据项目的情况而定。
 
-- 1.api请求100为正常，非100下会显示报错信息   
-文件位置：src->utils->request.js（68行）
-说明：项目中使用axios方法去请求后台API，在request.js中进行请求前、请求后的hook，想修改其他内容，可以在此进行修改
+- 1.api请求100为正常，非100下会显示报错信息 
+  文件位置：src->utils->request.js（68行）
+  说明：项目中使用axios方法去请求后台API，在request.js中进行请求前、请求后的hook，想修改其他内容，可以在此进行修改
 
 - 2.修改axios请求后台API超时设置【timeout】  
   文件位置：src->utils->request.js（10行）
   说明：正常一个API请求时间很短，如果做长时间后台处理的话可以设置久一点，根据项目情况定。
+
+- 3.请求页码404处理
+  文件位置：src->utils->request.js（60行）
+  说明：请求后台API都会返回json结果，依据json response中的status_id进行判断处理。
 
 
 > ## 自定义样式
