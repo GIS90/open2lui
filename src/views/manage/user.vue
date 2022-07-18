@@ -65,7 +65,7 @@
     </div>
 
     <!-- page分页 -->
-    <pagination
+    <public-pagination
       :page="pageCur"
       :size="pageSize"
       :total="pageTotal"
@@ -106,7 +106,7 @@ export default {
     'user-status': UserStatus,
     'user-detail': UserDetail,
     'user-reset-pw': UserResetPw,
-    'pagination': Pagination
+    'public-pagination': Pagination
   },
   props: {},
   data() {

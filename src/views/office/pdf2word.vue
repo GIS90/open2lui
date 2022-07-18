@@ -14,7 +14,7 @@
     </el-row>
 
     <!-- 文件上传 -->
-    <office-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
+    <public-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -76,7 +76,7 @@
     </div>
 
     <!-- page分页 -->
-    <pagination
+    <public-pagination
       :page="pageCur"
       :size="pageSize"
       :total="pageTotal"
@@ -98,7 +98,7 @@
 <script>
 import store from '@/store'
 import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
-import Upload from '@/components/office/Upload'
+import Upload from '@/components/Upload'
 import Pagination from '@/components/Pagination'
 import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
 import OfficePDFSet from '@/components/office/OfficePDFSet'
@@ -108,16 +108,16 @@ export default {
   name: 'Pdf2word',
   emits: [],
   components: {
-    'office-upload': Upload,
     'office-batch-delete': OfficeBatchDelete,
     'office-pdf-set': OfficePDFSet,
     'office-pdf-to-word': OfficePDFToWord,
-    'pagination': Pagination
+    'public-upload': Upload,
+    'public-pagination': Pagination
   },
   props: {},
   data() {
     return {
-      fileType: '5', // 文件类型：1:word 2:excel 3:ppt 4:文本 5:pdf 6:其他
+      fileType: '6', // 文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       selBtnText: '全选', // 选择按钮内容
       btnUploadLoading: false, // 上传按钮加载中状态
       btnMergeLoading: false, // 合并按钮加载中状态

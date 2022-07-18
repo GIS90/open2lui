@@ -92,7 +92,7 @@
     </div>
 
     <!-- page分页 -->
-    <pagination
+    <public-pagination
       :page="pageCur"
       :size="pageSize"
       :total="pageTotal"
@@ -123,7 +123,7 @@ export default {
     'excel-history-set': ExcelHistorySet,
     'office-batch-delete': OfficeBatchDelete,
     'excel-history-filter': ExcelHistoryFilter,
-    'pagination': Pagination
+    'public-pagination': Pagination
   },
   props: {},
   data() {

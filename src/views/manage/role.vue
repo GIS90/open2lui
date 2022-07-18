@@ -61,7 +61,7 @@
     </div>
 
     <!-- page分页 -->
-    <pagination
+    <public-pagination
       :page="pageCur"
       :size="pageSize"
       :total="pageTotal"
@@ -106,7 +106,7 @@ export default {
     'role-set': RoleSet,
     'role-auth': RoleAuth,
     'role-batch-delete': RoleBatchDelete,
-    'pagination': Pagination
+    'public-pagination': Pagination
   },
   props: {},
   data() {

@@ -20,7 +20,7 @@
     <excel-split-tip :show="tipDialogStatus" @close-tip="closeTip" />
 
     <!-- 文件上传 -->
-    <office-upload :dialog="uploadDialogStatus" :file-type="fileType" :excel-sub-type="excelType" @close-file-upload="closeFileUpload" />
+    <public-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -91,7 +91,7 @@
     </div>
 
     <!-- page分页 -->
-    <pagination
+    <public-pagination
       :page="pageCur"
       :size="pageSize"
       :total="pageTotal"
@@ -117,24 +117,23 @@ import ExcelSplitTip from '@/components/office/ExcelSplitTip'
 import ExcelSplitSet from '@/components/office/ExcelSplitSet'
 import ExcelSplitOpr from '@/components/office/ExcelSplitOpr'
 import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
-import Upload from '@/components/office/Upload'
+import Upload from '@/components/Upload'
 import Pagination from '@/components/Pagination'
 
 export default {
   name: 'Split',
   components: {
     'excel-split-tip': ExcelSplitTip,
-    'office-upload': Upload,
     'excel-split-set': ExcelSplitSet,
     'excel-split-opr': ExcelSplitOpr,
     'office-batch-delete': OfficeBatchDelete,
-    'pagination': Pagination
+    'public-upload': Upload,
+    'public-pagination': Pagination
   },
   props: {},
   data() {
     return {
-      fileType: '2', // 文件类型：1:word 2:excel 3:ppt 4:文本 5:pdf 6:其他
-      excelType: '2', // 文件类型：merge-1 split-2
+      fileType: '2', // 文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       selBtnText: '全选', // 选择按钮内容
       btnUploadLoading: false, // 上传按钮加载中状态
       btnSplitLoading: false, // 拆分按钮加载中状态

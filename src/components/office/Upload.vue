@@ -128,7 +128,7 @@ export default {
       isManualUpload: true, // 是否手动上传，值为false：upload组件自带的每次只上传一个，多文件为循环上传
       // true：manualUpload 上传所有文件
       uploadApis: {
-        url: process.env.VUE_APP_BASE_API + process.env.VUE_APP_OFFICE_FILES_API || '', // 使用组件自带上传功能URL，默认为空，动态配置文件中获取
+        url: process.env.VUE_APP_BASE_API + process.env.VUE_APP_UPLOAD_FILES_API || '', // 使用组件自带上传功能URL，默认为空，动态配置文件中获取
         accept: this.getUploadAccept(), // 上传文件的类型
         headers: { // 设置请求上传的请求头部，token验证
           'Access-Control-Allow-Origin': '*',
@@ -239,8 +239,8 @@ export default {
     getUploadUrl() {
       return !this.isManualUpload ? this.uploadApis.url : ''
       /*
-      if (process.env.VUE_APP_BASE_API && process.env.VUE_APP_OFFICE_FILES_API) {
-        return (process.env.VUE_APP_BASE_API + process.env.VUE_APP_OFFICE_FILES_API)
+      if (process.env.VUE_APP_BASE_API && process.env.VUE_APP_UPLOAD_FILES_API) {
+        return (process.env.VUE_APP_BASE_API + process.env.VUE_APP_UPLOAD_FILES_API)
       } else {
         return 'http://121.4.56.169:9999/excel/upload'
       }

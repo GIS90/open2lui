@@ -272,8 +272,9 @@ export default {
       }
       return new Promise((resolve, reject) => {
         toOfficePDFFiles(data).then(response => {
+          // 关闭loading
           this.disabled = false
-          this.loading = false
+          loading.close()
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -281,15 +282,13 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-
-            // 关闭loading
-            loading.close()
             this.$emit('close-to-dg', true)
           }
           resolve(response)
         }).catch(error => {
+          // 关闭loading
           this.disabled = false
-          this.loading = false
+          loading.close()
           reject(error)
         })
       })
