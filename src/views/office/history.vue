@@ -129,7 +129,6 @@ export default {
   data() {
     return {
       selBtnText: '全选', // 选择按钮内容
-      btnDeleteLoading: false, // 删除按钮加载中状态
       btnDisabled: false, // 按钮禁用状态
       selectAllStatus: false, // 全选状态
       // button attributes
@@ -223,7 +222,6 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.loading = false
           reject(error)
         })
       })
@@ -254,6 +252,7 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'md5': row.md5_id
       }
+      this.btnDisabled = true
       return new Promise((resolve, reject) => {
         deleteExcelResultFile(data).then(response => {
           const { status_id, message } = response
@@ -265,9 +264,10 @@ export default {
             })
             this.getTableData()
           }
+          this.btnDisabled = false
           resolve(response)
         }).catch(error => {
-          this.loading = false
+          this.btnDisabled = false
           reject(error)
         })
       })

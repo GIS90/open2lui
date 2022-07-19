@@ -119,9 +119,6 @@ export default {
     return {
       fileType: '6', // 文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       selBtnText: '全选', // 选择按钮内容
-      btnUploadLoading: false, // 上传按钮加载中状态
-      btnMergeLoading: false, // 合并按钮加载中状态
-      btnDeleteLoading: false, // 删除按钮加载中状态
       btnDisabled: false, // 按钮禁用状态
       // button attributes
       btnBaseAttrs: {
@@ -163,10 +160,9 @@ export default {
       selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
-      oprSelectRowMd5: '', // 当前选择data rtx
+      oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       toDialogStatus: false, // PDF转WORD-dialog状态
-      mergeDialogStatus: false, // 合并dialog状态
       deleteSource: 'office-pdf', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
@@ -256,7 +252,6 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.loading = false
           reject(error)
         })
       })
@@ -315,6 +310,7 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'md5': row.md5_id
       }
+      this.btnDisabled = true
       return new Promise((resolve, reject) => {
         deleteOfficePDFFile(data).then(response => {
           const { status_id, message } = response
@@ -326,9 +322,10 @@ export default {
             })
             this.getTableList()
           }
+          this.btnDisabled = false
           resolve(response)
         }).catch(error => {
-          this.loading = false
+          this.btnDisabled = false
           reject(error)
         })
       })

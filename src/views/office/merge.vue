@@ -128,9 +128,6 @@ export default {
     return {
       fileType: '1', // 文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       selBtnText: '全选', // 选择按钮内容
-      btnUploadLoading: false, // 上传按钮加载中状态
-      btnMergeLoading: false, // 合并按钮加载中状态
-      btnDeleteLoading: false, // 删除按钮加载中状态
       btnDisabled: false, // 按钮禁用状态
       // button attributes
       btnBaseAttrs: {
@@ -277,6 +274,7 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'md5': row.md5_id
       }
+      this.btnDisabled = true
       return new Promise((resolve, reject) => {
         deleteExcelSourceFile(data).then(response => {
           const { status_id, message } = response
@@ -288,9 +286,10 @@ export default {
             })
             this.getTableData()
           }
+          this.btnDisabled = false
           resolve(response)
         }).catch(error => {
-          this.loading = false
+          this.btnDisabled = false
           reject(error)
         })
       })
@@ -317,7 +316,6 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.loading = false
           reject(error)
         })
       })

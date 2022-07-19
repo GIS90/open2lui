@@ -198,7 +198,6 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.loading = false
           reject(error)
         })
       })
@@ -279,6 +278,7 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'md5': row.md5_id
       }
+      this.btnDisabled = true
       return new Promise((resolve, reject) => {
         roleDelete(data).then(response => {
           const { status_id, message } = response
@@ -290,9 +290,10 @@ export default {
             })
             this.getRoleList()
           }
+          this.btnDisabled = false
           resolve(response)
         }).catch(error => {
-          this.loading = false
+          this.btnDisabled = false
           reject(error)
         })
       })

@@ -56,7 +56,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="count" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
-        <el-table-column prop="number" label="发送次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
+        <el-table-column prop="number" label="发送条数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
         <el-table-column prop="title" label="消息标题" :header-align="tableRowAttrs.headerAlign" align="left" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
@@ -121,9 +121,6 @@ export default {
     return {
       fileType: '7', // 文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       selBtnText: '全选', // 选择按钮内容
-      btnUploadLoading: false, // 上传按钮加载中状态
-      btnMergeLoading: false, // 合并按钮加载中状态
-      btnDeleteLoading: false, // 删除按钮加载中状态
       btnDisabled: false, // 按钮禁用状态
       // button attributes
       btnBaseAttrs: {
@@ -165,10 +162,9 @@ export default {
       selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
-      oprSelectRowMd5: '', // 当前选择data rtx
+      oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
-      toDialogStatus: false, // PDF转WORD-dialog状态
-      mergeDialogStatus: false, // 合并dialog状态
+      sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
       deleteSource: 'office-pdf', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
@@ -317,6 +313,7 @@ export default {
       //   'rtx_id': store.getters.rtx_id,
       //   'md5': row.md5_id
       // }
+      // this.btnDisabled = true
       // return new Promise((resolve, reject) => {
       //   deleteOfficePDFFile(data).then(response => {
       //     const { status_id, message } = response
@@ -328,9 +325,10 @@ export default {
       //       })
       //       this.getTableList()
       //     }
+      //     this.btnDisabled = false
       //     resolve(response)
       //   }).catch(error => {
-      //     this.loading = false
+      //     this.btnDisabled = false
       //     reject(error)
       //   })
       // })
@@ -341,7 +339,7 @@ export default {
         this.getTableList()
       }
     },
-    closeToDialog(isRefresh) { // 关闭转换dg
+    closeSendDialog(isRefresh) { // 关闭发送dg
       this.toDialogStatus = false
       if (isRefresh) {
         this.getTableList()
