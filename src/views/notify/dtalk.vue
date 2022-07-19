@@ -95,7 +95,7 @@
     />
 
     <!-- 删除dialog -->
-    <!--    <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />-->
+    <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 文件设置dg -->
     <!--    <office-pdf-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />-->
@@ -104,15 +104,17 @@
 </template>
 
 <script>
+import store from '@/store'
+import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
-import store from '@/store'
-import { getNotifyDtalkList } from '@/api/notify'
+import { getNotifyDtalkList, deleteNotifyDtalk } from '@/api/notify'
 
 export default {
   name: 'Dtalk',
   emits: [],
   components: {
+    'notify-batch-delete': NotifyBatchDelete,
     'public-pagination': Pagination,
     'public-upload-file': UploadFile
   },
@@ -165,7 +167,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
-      deleteSource: 'office-pdf', // delete source
+      deleteSource: 'dtalk', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },
@@ -284,13 +286,6 @@ export default {
       }
       this.deleteConfirm = true
     },
-    rowHandleDetail(index, row) { // table row 详情dialog
-      if (!row || !row.md5_id) {
-        return false
-      }
-      this.oprSelectRowMd5 = row.md5_id
-      this.detailDialogStatus = true
-    },
     rowHandleEdit(index, row) { // table row 设置dialog
       if (!row || !row.md5_id) {
         return false
@@ -298,40 +293,40 @@ export default {
       this.oprSelectRowMd5 = row.md5_id
       this.setDialogStatus = true
     },
-    rowHandleSend(index, row) { // PDF转WORD
+    rowHandleSend(index, row) { // 打开发送dtalk dg
       if (!row || !row.md5_id) {
         return false
       }
       this.oprSelectRowMd5 = row.md5_id
-      this.toDialogStatus = true
+      this.sendDialogStatus = true
     },
     rowHandleDelete(index, row) { // table row 删除
       if (!row || !row?.md5_id) {
         return false
       }
-      // const data = {
-      //   'rtx_id': store.getters.rtx_id,
-      //   'md5': row.md5_id
-      // }
-      // this.btnDisabled = true
-      // return new Promise((resolve, reject) => {
-      //   deleteOfficePDFFile(data).then(response => {
-      //     const { status_id, message } = response
-      //     if (status_id === 100) {
-      //       this.$message({
-      //         message: '删除成功' || message,
-      //         type: 'success',
-      //         duration: 2.0 * 1000
-      //       })
-      //       this.getTableList()
-      //     }
-      //     this.btnDisabled = false
-      //     resolve(response)
-      //   }).catch(error => {
-      //     this.btnDisabled = false
-      //     reject(error)
-      //   })
-      // })
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': row.md5_id
+      }
+      this.btnDisabled = true
+      return new Promise((resolve, reject) => {
+        deleteNotifyDtalk(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+            this.getTableList()
+          }
+          this.btnDisabled = false
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          reject(error)
+        })
+      })
     },
     closeSetDialog(isRefresh) { // 关闭设置dg
       this.setDialogStatus = false
@@ -340,7 +335,7 @@ export default {
       }
     },
     closeSendDialog(isRefresh) { // 关闭发送dg
-      this.toDialogStatus = false
+      this.sendDialogStatus = false
       if (isRefresh) {
         this.getTableList()
       }
