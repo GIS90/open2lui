@@ -97,6 +97,8 @@
 文件位置：src->views->login->index.vue
 说明：在文件的(162-163)处位置，登录成功后指定跳转到首页，否则会有redirect进行跳转   
 
+- 5.添加了services目录，用来存储views下的页面开发组件，目录位置：src/services。  
+而components主要用来存储公共使用到的子组件。
 
 > ## 后台API交互
 
