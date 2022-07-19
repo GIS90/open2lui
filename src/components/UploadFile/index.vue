@@ -88,17 +88,18 @@
 </template>
 
 <script>
-import { uploadMulFiles } from '@/api/office'
+import { uploadMulFiles } from '@/api/common'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { validExcelFile } from '@/utils/validate'
 // const path = require('path')
 
 export default {
-  name: 'Upload',
+  name: 'UploadFile',
   emits: ['close-file-upload'],
   components: {},
   props: {
+    // 是否显示dg，value：true or false
     dialog: {
       type: Boolean,
       require: true,
@@ -107,22 +108,16 @@ export default {
         return [true, false].includes(value)
       }
     },
-    // 上传文件类型：1-word, 2-excel, 3-ppt, 4-文本, 5-pdf, 99-其他
+    // 上传文件类型: 1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
     fileType: {
       type: String,
       require: true,
-      default: '1'
-    },
-    // 非必需参数，只有excel类型才有（Excel操作类型：EXCEL_MERGE = 1 EXCEL_SPLIT = 2）
-    excelSubType: {
-      type: String,
-      require: false,
       default: '1'
     }
   },
   data() {
     return {
-      // 依据上传文件类型定制tip，1: word, 2: excel, 3: ppt, 4: 文本, 5: pdf, 99: 其他
+      // 依据上传文件类型定制tip，1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       tips: this.getUploadTip(),
       fileList: [], // 文件列表
       isManualUpload: true, // 是否手动上传，值为false：upload组件自带的每次只上传一个，多文件为循环上传
@@ -138,8 +133,7 @@ export default {
         method: 'POST', // 设置上传请求方法
         data: { // 上传时附带的额外参数
           'rtx_id': store.getters.rtx_id,
-          'file_type': this.fileType,
-          'excel_sub_type': this.excelSubType
+          'file_type': this.fileType
         },
         name: 'files', // 上传的文件字段名，后台API用
         cookie: true // 发送 cookie 凭证信息
@@ -148,7 +142,7 @@ export default {
         multiple: true, // 是否支持多选文件
         showFileList: true, // 是否显示已上传文件列表
         drag: true, // 是否启用拖拽上传
-        listType: 'text', // 文件列表的类型	"text" | "picture" | "picture-card"
+        listType: 'text', // 文件列表的类型 "text" | "picture" | "picture-card"
         autoUpload: false, // 是否自动上传文件
         limit: process.env.VUE_APP_UPLOAD_FILES_LIMIT ? process.env.VUE_APP_UPLOAD_FILES_LIMIT - 0 : 20, // 允许上传文件的最大数量, 0无限制
         disabled: false
@@ -183,32 +177,36 @@ export default {
   mounted() {},
   methods: {
     getUploadTip() { // upload tip内容，支持html
-      // 上传文件类型：1-word, 2-excel, 3-ppt, 4-文本, 5-pdf, 99-其他
+      // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       if (this.fileType === '1') {
-        return '.doc,.docx'
+        return '<strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。'
       } else if (this.fileType === '2') {
         return '<strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。'
       } else if (this.fileType === '3') {
-        return '.ppt,.pptx'
+        return '.doc,.docx'
       } else if (this.fileType === '4') {
-        return '.txt'
+        return '.ppt,.pptx'
       } else if (this.fileType === '5') {
+        return '.txt'
+      } else if (this.fileType === '6') {
         return '<strong>提示</strong>：仅支持<span class=\"info_red\">.pdf</span>格式文件上传。'
+      } else if (this.fileType === '7') {
+        return '<strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。'
       } else {
         return ''
       }
     },
     getUploadAccept() { // upload accept
-      // 上传文件类型：1-word, 2-excel, 3-ppt, 4-文本, 5-pdf, 99-其他
-      if (this.fileType === '1') {
-        return '.doc,.docx'
-      } else if (this.fileType === '2') {
+      // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
+      if (['1', '2', '7'].includes(this.fileType)) {
         return '.xls,.xlsx'
       } else if (this.fileType === '3') {
-        return '.ppt,.pptx'
+        return '.doc,.docx'
       } else if (this.fileType === '4') {
-        return '.txt'
+        return '.ppt,.pptx'
       } else if (this.fileType === '5') {
+        return '.txt'
+      } else if (this.fileType === '6') {
         return '.pdf'
       } else {
         return ''
@@ -309,7 +307,6 @@ export default {
       const uploadForm = new FormData()
       uploadForm.append('rtx_id', this.$store.getters.rtx_id)
       uploadForm.append('file_type', this.fileType)
-      uploadForm.append('excel_sub_type', this.excelSubType)
       this.fileList.forEach(file => {
         uploadForm.append(file.name, file.raw)
       })

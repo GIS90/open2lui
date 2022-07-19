@@ -40,9 +40,9 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="Sheet名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
+        <el-table-column prop="name" label="文件名称" width="370" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_sheet_name" label="Sheet名称" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable>
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.ftypek == 1 ? 'success' : 'warning'"
@@ -52,7 +52,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
+        <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable>
           <template slot-scope="scope">
             <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
@@ -64,17 +64,17 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="ZIP压缩" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
+        <el-table-column label="ZIP压缩" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable>
           <template slot-scope="scope">
             <div>
               {{ scope.row.compress ? '是' : '否' }}
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="nfile" label="文件数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="row" label="行数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="col" label="列数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column prop="nfile" label="文件数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
+        <el-table-column prop="row" label="行数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
+        <el-table-column prop="col" label="列数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
+        <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
@@ -109,12 +109,12 @@
 </template>
 
 <script>
-import { deleteExcelResultFile, getExcelResultList } from '@/api/office'
 import store from '@/store'
-import ExcelHistorySet from '@/components/office/ExcelHistorySet'
-import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
-import ExcelHistoryFilter from '@/components/office/ExcelHistoryFilter'
+import ExcelHistorySet from '@/services/office/ExcelHistorySet'
+import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
+import ExcelHistoryFilter from '@/services/office/ExcelHistoryFilter'
 import Pagination from '@/components/Pagination'
+import { deleteExcelResultFile, getExcelResultList } from '@/api/office'
 
 export default {
   name: 'History',

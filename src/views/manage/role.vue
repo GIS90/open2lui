@@ -38,8 +38,8 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="engname" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="chnname" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="engname" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="chnname" label="中文名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="introduction" label="描述" width="350" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="330">
           <template slot-scope="scope">
@@ -88,13 +88,13 @@
 
 <script>
 import store from '@/store'
-import { roleDelete, getRoleList } from '@/api/manage'
-import RoleAdd from '@/components/manage/RoleAdd'
-import RoleDetail from '@/components/manage/RoleDetail'
-import RoleSet from '@/components/manage/RoleSet'
-import RoleBatchDelete from '@/components/manage/RoleBatchDelete'
-import RoleAuth from '@/components/manage/RoleAuth'
+import RoleAdd from '@/services/manage/RoleAdd'
+import RoleDetail from '@/services/manage/RoleDetail'
+import RoleSet from '@/services/manage/RoleSet'
+import RoleBatchDelete from '@/services/manage/RoleBatchDelete'
+import RoleAuth from '@/services/manage/RoleAuth'
 import Pagination from '@/components/Pagination'
+import { roleDelete, getRoleList } from '@/api/manage'
 import { adminRoleRtx } from '@/settings.js'
 
 export default {

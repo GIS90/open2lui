@@ -33,24 +33,24 @@
         :expand-row-keys="tableOneKeys"
       >
         <el-table-column fixed="left" prop="id" label="菜单ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="name" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="title" label="中文名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="path" label="请求地址" width="180" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="icon" label="菜单图标" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="level" label="级别" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="order_id" label="排序ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="title" label="中文名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="path" label="请求地址" width="200" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="icon" label="菜单图标" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="level" label="级别" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="order_id" label="排序ID" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="上级菜单信息" :align="tableRowAttrs.align">
-          <el-table-column prop="pid" label="上级菜单ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="pname" label="上级菜单RTX" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="ptitle" label="上级菜单名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="pid" label="上级菜单ID" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="pname" label="上级菜单RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="ptitle" label="上级菜单名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         </el-table-column>
         <el-table-column label="开发者配置信息" :align="tableRowAttrs.align">
-          <el-table-column prop="component" label="组件" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="redirect" label="重定向" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="hidden" label="Hidden属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="cache" label="Cache属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="affix" label="Affix属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="component" label="组件" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="redirect" label="重定向" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="hidden" label="Hidden属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="cache" label="Cache属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="affix" label="Affix属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         </el-table-column>
         <el-table-column label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
           <template slot-scope="scope">
@@ -95,13 +95,13 @@
 
 <script>
 import store from '@/store'
+import MenuExpand from '@/services/manage/MenuExpand'
+import MenuTip from '@/services/manage/MenuTip'
+import MenuDetail from '@/services/manage/MenuDetail'
+import MenuAdd from '@/services/manage/MenuAdd'
+import MenuSet from '@/services/manage/MenuSet'
+import MenuStatus from '@/services/manage/MenuStatus'
 import { getMenuList } from '@/api/manage'
-import MenuExpand from '@/components/manage/MenuExpand'
-import MenuTip from '@/components/manage/MenuTip'
-import MenuDetail from '@/components/manage/MenuDetail'
-import MenuAdd from '@/components/manage/MenuAdd'
-import MenuSet from '@/components/manage/MenuSet'
-import MenuStatus from '@/components/manage/MenuStatus'
 
 export default {
   name: 'Menu',

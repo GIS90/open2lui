@@ -20,7 +20,7 @@
     <excel-split-tip :show="tipDialogStatus" @close-tip="closeTip" />
 
     <!-- 文件上传 -->
-    <public-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
+    <public-upload-file :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -47,10 +47,10 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="合并Sheet" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="ftypev" label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130">
+        <el-table-column prop="name" label="文件名称" width="350" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_sheet_name" label="合并Sheet" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="ftypev" label="类别" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" />
+        <el-table-column label="Sheet数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable>
           <template slot-scope="scope">
             <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
@@ -62,8 +62,8 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column prop="numopr" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="130" />
-        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column prop="numopr" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
+        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
@@ -111,14 +111,14 @@
 </template>
 
 <script>
-import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 import store from '@/store'
-import ExcelSplitTip from '@/components/office/ExcelSplitTip'
-import ExcelSplitSet from '@/components/office/ExcelSplitSet'
-import ExcelSplitOpr from '@/components/office/ExcelSplitOpr'
-import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
-import Upload from '@/components/Upload'
+import ExcelSplitTip from '@/services/office/ExcelSplitTip'
+import ExcelSplitSet from '@/services/office/ExcelSplitSet'
+import ExcelSplitOpr from '@/services/office/ExcelSplitOpr'
+import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
+import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
+import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
 
 export default {
   name: 'Split',
@@ -127,7 +127,7 @@ export default {
     'excel-split-set': ExcelSplitSet,
     'excel-split-opr': ExcelSplitOpr,
     'office-batch-delete': OfficeBatchDelete,
-    'public-upload': Upload,
+    'public-upload-file': UploadFile,
     'public-pagination': Pagination
   },
   props: {},
@@ -311,7 +311,7 @@ export default {
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'type': this.excelType,
+        'type': this.fileType,
         'limit': this.pageSize || 15,
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }

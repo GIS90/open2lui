@@ -38,13 +38,13 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="left" prop="rtx_id" label="RTX名称" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="name" label="姓名" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="phone" label="电话" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="rtx_id" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="姓名" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="phone" label="电话" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="email" label="邮箱" width="270" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="department" label="部门" width="270" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="320" :header-align="tableRowAttrs.align" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="introduction" label="描述" width="350" :header-align="tableRowAttrs.align" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="创建者RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="delete_time" label="注销时间" width="220" :align="tableRowAttrs.align" sortable />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
@@ -89,13 +89,13 @@
 
 <script>
 import store from '@/store'
-import { getUserList } from '@/api/manage'
-import UserAdd from '@/components/manage/UserAdd-M'
-import UserBatchDelete from '@/components/manage/UserBatchDelete'
-import UserStatus from '@/components/manage/UserStatus'
+import UserAdd from '@/services/manage/UserAdd-M'
+import UserBatchDelete from '@/services/manage/UserBatchDelete'
+import UserStatus from '@/services/manage/UserStatus'
+import UserDetail from '@/services/manage/UserDetail'
+import UserResetPw from '@/services/manage/UserResetPw'
 import Pagination from '@/components/Pagination'
-import UserDetail from '@/components/manage/UserDetail'
-import UserResetPw from '@/components/manage/UserResetPw'
+import { getUserList } from '@/api/manage'
 
 export default {
   name: 'User',

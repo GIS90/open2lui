@@ -60,7 +60,7 @@
 
 <script>
 import { loginTitle } from '@/settings.js'
-import SliderCheck from './component/SliderCheck.vue'
+import SliderCheck from './components/SliderCheck.vue'
 
 export default {
   name: 'Login',

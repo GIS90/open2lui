@@ -14,7 +14,7 @@
     </el-row>
 
     <!-- 文件上传 -->
-    <public-upload :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
+    <public-upload-file :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -41,14 +41,14 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="340" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="文件名称" width="370" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="transfer" label="转换状态" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="mode" label="转换模式" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="transfer_time" label="转换时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="start" label="开始页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="end" label="结束页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="pages" label="指标页列表" width="270" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="180" />
+        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">
             <el-tooltip effect="dark" content="设置" placement="top">
@@ -97,12 +97,12 @@
 
 <script>
 import store from '@/store'
-import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
-import Upload from '@/components/Upload'
+import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
+import OfficePDFSet from '@/services/office/OfficePDFSet'
+import OfficePDFToWord from '@/services/office/OfficePDFToWord'
+import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
-import OfficeBatchDelete from '@/components/office/OfficeBatchDelete'
-import OfficePDFSet from '@/components/office/OfficePDFSet'
-import OfficePDFToWord from '@/components/office/OfficePDFToWord'
+import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
 
 export default {
   name: 'Pdf2word',
@@ -111,7 +111,7 @@ export default {
     'office-batch-delete': OfficeBatchDelete,
     'office-pdf-set': OfficePDFSet,
     'office-pdf-to-word': OfficePDFToWord,
-    'public-upload': Upload,
+    'public-upload-file': UploadFile,
     'public-pagination': Pagination
   },
   props: {},
