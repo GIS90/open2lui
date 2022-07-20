@@ -98,7 +98,7 @@
     <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 文件设置dg -->
-    <!--    <office-pdf-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />-->
+    <dtalk-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
   </div>
 </template>
@@ -106,6 +106,7 @@
 <script>
 import store from '@/store'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
+import DtalkSet from '@/services/notify/DtalkSet'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
 import { getNotifyDtalkList, deleteNotifyDtalk } from '@/api/notify'
@@ -115,6 +116,7 @@ export default {
   emits: [],
   components: {
     'notify-batch-delete': NotifyBatchDelete,
+    'dtalk-set': DtalkSet,
     'public-pagination': Pagination,
     'public-upload-file': UploadFile
   },
