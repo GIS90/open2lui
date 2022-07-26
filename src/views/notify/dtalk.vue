@@ -41,7 +41,7 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="370" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="file_name" label="文件名称" width="370" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="set_sheet_name" label="操作Sheet" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="280" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="Sheet数" sortable :align="tableRowAttrs.align" width="150">
           <template slot-scope="scope">
@@ -57,7 +57,7 @@
         </el-table-column>
         <el-table-column prop="count" label="操作次数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
         <el-table-column prop="number" label="发送条数" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="150" sortable />
-        <el-table-column prop="title" label="消息标题" :header-align="tableRowAttrs.headerAlign" align="left" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_title" label="消息标题" :header-align="tableRowAttrs.headerAlign" align="left" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">

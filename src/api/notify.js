@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { getExcelSheetHeader } from '@/api/office'
 
 // 获取dtalk list
 export function getNotifyDtalkList(data) {
@@ -40,6 +41,15 @@ export function getNotifyDtalkDetail(data) {
 export function getNotifyDtalkUpdate(data) {
   return request({
     url: '/notify/dtalk_update',
+    method: 'post',
+    data
+  })
+}
+
+// sheet 改变获取新的title与column
+export function getChangeSheet(data) {
+  return request({
+    url: '/notify/dtalk_change_sheet',
     method: 'post',
     data
   })

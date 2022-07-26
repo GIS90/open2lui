@@ -19,6 +19,7 @@
       @close="closeDialog()"
     >
       <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto">
+        <el-divider content-position="left">基础信息</el-divider>
         <el-form-item label="文件名称">
           <el-input
             v-model.trim="formData.name"
@@ -31,19 +32,7 @@
             prefix-icon="el-icon-edit"
           />
         </el-form-item>
-        <el-form-item label="消息标题">
-          <el-input
-            v-model.trim="formData.title"
-            type="text"
-            placeholder="请输入消息标题"
-            :maxlength="formDataLimit.title"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :disabled="disabled"
-            prefix-icon="el-icon-edit"
-          />
-        </el-form-item>
-        <el-form-item label="选择Sheet">
+        <el-form-item label="消息Sheet">
           <el-select
             v-model="formData.sheetIndexs"
             style="width: 100%"
@@ -66,12 +55,73 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-divider content-position="left">SHEET设置</el-divider>
+        <el-form-item label="设置Sheet">
+          <el-select
+            v-model="formData.curSheet"
+            style="width: 100%"
+            :placeholder="selectAttrs.placeholder"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="!selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+            @change="changeSheet"
+          >
+            <el-option v-for="(item, index) in formData.sheetNames" :key="index" :label="item.value" :value="item.key">
+              <span style="float: left">
+                {{ item.value }}
+              </span>
+              <span style="float: right; color: #8492a6;">
+                {{ item.key }}
+              </span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="消息标题">
+          <el-input
+            v-model.trim="formData.title"
+            type="text"
+            placeholder="请输入消息标题"
+            :maxlength="formDataLimit.title"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :disabled="disabled"
+            prefix-icon="el-icon-edit"
+          />
+        </el-form-item>
+        <el-form-item label="消息列头">
+          <el-select
+            v-model="formData.sheetColumnIndexs"
+            style="width: 100%"
+            placeholder="请选择消息列表，可多选"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+          >
+            <el-option v-for="(item, index) in formData.sheetColumns" :key="index" :label="item.value" :value="item.key">
+              <span style="float: left">
+                {{ item.value }}
+              </span>
+              <span style="float: right; color: #8492a6;">
+                {{ item.key }}
+              </span>
+            </el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitSet()">确定</el-button>
+          <el-button :disabled="disabled" type="success" @click="submitSet(0)">保存</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submitSet(1)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -81,7 +131,7 @@
 <script>
 import store from '@/store'
 import { validExcelFile } from '@/utils/validate.js'
-import { getNotifyDtalkDetail, getNotifyDtalkUpdate } from '@/api/notify'
+import { getChangeSheet, getNotifyDtalkDetail, getNotifyDtalkUpdate } from '@/api/notify'
 
 export default {
   name: 'DtalkSet',
@@ -108,7 +158,7 @@ export default {
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
         title: '文件设置',
-        width: '40%', // Dialog 的宽度
+        width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
@@ -141,13 +191,18 @@ export default {
       // data
       formData: {
         name: '', // 文件名称
-        title: '', // 消息标题
         sheetNames: [], // 选中的SheetNames
-        sheetIndexs: [] // 选中的Sheet，列表格式
+        sheetIndexs: [], // 需要选中多个Sheet，列表格式
+        // -------------- sheet 配置
+        curSheet: "0",  // 当前Sheet设置索引
+        title: '', // 消息标题
+        sheetColumns: [], // 选中的全部Columns枚举
+        sheetColumnIndexs: [], // 需要选中Column索引
+
       },
       formDataLimit: {
-        name: 45,
-        title: 45
+        name: 55,
+        title: 25
       }
     }
   },
@@ -175,10 +230,14 @@ export default {
         getNotifyDtalkDetail(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.formData.name = data.name
-            this.formData.title = data.title
+            this.formData.name = data.file_name
             this.formData.sheetNames = data.sheet_names
             this.formData.sheetIndexs = data.set_sheet_index
+            // -------------- sheet 配置
+            this.formData.curSheet = data.cur_sheet
+            this.formData.title = data.set_title
+            this.formData.sheetColumns = data.set_columns
+            this.formData.sheetColumnIndexs = data.set_select_column
           } else {
             this.$emit('close-set-dg')
           }
@@ -188,7 +247,7 @@ export default {
         })
       })
     },
-    submitSet() { // 提交设置
+    submitSet(close) { // 提交设置
       if (!this.formData.name) { // value name is not allow null
         this.$message({
           message: '文件名称不允许为空',
@@ -248,6 +307,29 @@ export default {
         }).catch(error => {
           this.disabled = false
           this.loading = false
+          reject(error)
+        })
+      })
+    },
+    changeSheet(value) { // change sheet to refresh to sheet headers
+      if (!value) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': this.rowMd5,
+        'sheet': this.formData.curSheet
+      }
+      return new Promise((resolve, reject) => {
+        getChangeSheet(data).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            this.formData.title = data.set_title
+            this.formData.sheetColumns = data.set_columns
+            this.formData.sheetColumnIndexs = data.set_select_column
+          }
+          resolve(response)
+        }).catch(error => {
           reject(error)
         })
       })
