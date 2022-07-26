@@ -36,7 +36,7 @@
           <el-select
             v-model="formData.sheetIndexs"
             style="width: 100%"
-            :placeholder="selectAttrs.placeholder"
+            placeholder="请选择消息Sheet，可多个"
             :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
@@ -60,7 +60,7 @@
           <el-select
             v-model="formData.curSheet"
             style="width: 100%"
-            :placeholder="selectAttrs.placeholder"
+            placeholder="请选择设置的Sheet，单选"
             :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="!selectAttrs.multiple"
@@ -84,7 +84,7 @@
           <el-input
             v-model.trim="formData.title"
             type="text"
-            placeholder="请输入消息标题"
+            placeholder="请输入当前Sheet消息标题"
             :maxlength="formDataLimit.title"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
@@ -96,7 +96,7 @@
           <el-select
             v-model="formData.sheetColumnIndexs"
             style="width: 100%"
-            placeholder="请选择消息列表，可多选"
+            placeholder="请选择当前Sheet消息列表，可多选"
             :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
@@ -186,7 +186,7 @@ export default {
         collapseTags: false, // 多个合并成一个
         limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
         noDataText: '暂无数据', // 选项为空时显示的文字
-        placeholder: '请选择消息的Sheet' // 默认显示内容
+        placeholder: '' // 默认显示内容
       },
       // data
       formData: {
@@ -194,10 +194,10 @@ export default {
         sheetNames: [], // 选中的SheetNames
         sheetIndexs: [], // 需要选中多个Sheet，列表格式
         // -------------- sheet 配置
-        curSheet: "0",  // 当前Sheet设置索引
+        curSheet: '0', // 当前Sheet设置索引
         title: '', // 消息标题
         sheetColumns: [], // 选中的全部Columns枚举
-        sheetColumnIndexs: [], // 需要选中Column索引
+        sheetColumnIndexs: [] // 需要选中Column索引
 
       },
       formDataLimit: {
@@ -256,7 +256,7 @@ export default {
         })
         return false
       }
-      if (this.formData.name.length > 45) { // check new file name length
+      if (this.formData.name.length > 55) { // check new file name length
         this.$message({
           message: '文件名称超出限制',
           type: 'warning',
@@ -266,7 +266,7 @@ export default {
       }
       if (!validExcelFile(this.formData.name)) { // check new file name format
         this.$message({
-          message: '文件格式不正确',
+          message: '文件只支持.xls、.xlsx格式',
           type: 'warning',
           duration: 2.0 * 1000
         })
@@ -274,7 +274,23 @@ export default {
       }
       if (this.formData.sheetIndexs.length < 1) { // check sheet index value
         this.$message({
-          message: '文件Sheet不允许为空',
+          message: '消息Sheet不允许为空',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      if (!this.formData.curSheet) { // check current select sheet index value
+        this.$message({
+          message: '设置Sheet不允许为空',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      if (this.formData.sheetColumnIndexs.length < 1) { // check current sheet index column
+        this.$message({
+          message: '设置Sheet消息列头不允许为空',
           type: 'warning',
           duration: 2.0 * 1000
         })
@@ -286,8 +302,11 @@ export default {
       const data = {
         'rtx_id': store.getters.rtx_id,
         'name': this.formData.name,
-        'title': this.formData.title,
-        'set_sheet': this.formData.sheetIndexs,
+        'set_sheet': this.formData.sheetIndexs, // 发送sheet-多选
+        // -------------- sheet 配置
+        'cur_sheet': this.formData.curSheet, // 当前sheet索引
+        'title': this.formData.title, // 当前sheet消息标题
+        'column': this.formData.sheetColumnIndexs, // 发送sheet columns
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
@@ -301,7 +320,9 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.$emit('close-set-dg', true)
+            if (close === 1) {
+              this.$emit('close-set-dg', true)
+            }
           }
           resolve(response)
         }).catch(error => {
