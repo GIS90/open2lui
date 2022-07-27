@@ -53,3 +53,12 @@ export function getChangeSheet(data) {
     data
   })
 }
+
+// 获取dtalk robot list
+export function getNotifyDtalkRobotList(data) {
+  return request({
+    url: '/notify/dtalk_robot_list',
+    method: 'post',
+    data
+  })
+}

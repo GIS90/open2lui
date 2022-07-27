@@ -11,7 +11,7 @@
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
-      <el-button id="btn-robot" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="">
+      <el-button id="btn-robot" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openRobotDialog">
         <svg-icon icon-class="i_robot" />  Robot配置
       </el-button>
       <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip">
@@ -24,6 +24,9 @@
 
     <!-- 文件上传 -->
     <public-upload-file :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
+
+    <!-- Robot配置 -->
+    <dtalk-robot :show="robotDialogStatus" @close-robot-dg="closeRobotDialog" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -117,6 +120,7 @@ import store from '@/store'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import DtalkSet from '@/services/notify/DtalkSet'
 import DtalkTip from '@/services/notify/DtalkTip'
+import DtalkRobot from '@/services/notify/DtalkRobot'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
 import { getNotifyDtalkList, deleteNotifyDtalk } from '@/api/notify'
@@ -128,6 +132,7 @@ export default {
     'notify-batch-delete': NotifyBatchDelete,
     'dtalk-set': DtalkSet,
     'dtalk-tip': DtalkTip,
+    'dtalk-robot': DtalkRobot,
     'public-pagination': Pagination,
     'public-upload-file': UploadFile
   },
@@ -182,7 +187,8 @@ export default {
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
       deleteSource: 'dtalk', // delete source
-      deleteConfirm: false // 删除确认dialog状态
+      deleteConfirm: false, // 删除确认dialog状态
+      robotDialogStatus: false // Robot配置dg状态
     }
   },
   computed: {},
@@ -359,6 +365,12 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    openRobotDialog() { // 打开Robot配置
+      this.robotDialogStatus = true
+    },
+    closeRobotDialog() { // 关闭Robot配置
+      this.robotDialogStatus = false
     }
   }
 }
