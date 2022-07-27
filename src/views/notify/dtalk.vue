@@ -11,7 +11,16 @@
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
+      <el-button id="btn-robot" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="">
+        <svg-icon icon-class="i_robot" />  Robot配置
+      </el-button>
+      <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip">
+        <svg-icon icon-class="i_sm" />  操作说明
+      </el-button>
     </el-row>
+
+    <!-- 提示说明 -->
+    <dtalk-tip :show="tipDialogStatus" @close-tip="closeTip" />
 
     <!-- 文件上传 -->
     <public-upload-file :dialog="uploadDialogStatus" :file-type="fileType" @close-file-upload="closeFileUpload" />
@@ -107,6 +116,7 @@
 import store from '@/store'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import DtalkSet from '@/services/notify/DtalkSet'
+import DtalkTip from '@/services/notify/DtalkTip'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
 import { getNotifyDtalkList, deleteNotifyDtalk } from '@/api/notify'
@@ -117,6 +127,7 @@ export default {
   components: {
     'notify-batch-delete': NotifyBatchDelete,
     'dtalk-set': DtalkSet,
+    'dtalk-tip': DtalkTip,
     'public-pagination': Pagination,
     'public-upload-file': UploadFile
   },
@@ -134,6 +145,7 @@ export default {
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
+      tipDialogStatus: false, // 操作说明tip
       uploadDialogStatus: false, // 文件上传dialog
       // table attributes
       tableAttrs: {
@@ -188,6 +200,12 @@ export default {
   },
   mounted() {},
   methods: {
+    openTip() { // 开启tip
+      this.tipDialogStatus = true
+    },
+    closeTip() { // 关闭tip
+      this.tipDialogStatus = false
+    },
     openFileUpload() { // 开启upload dialog
       this.uploadDialogStatus = true
     },
