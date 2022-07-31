@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { deleteNotifyDtalks } from '@/api/notify'
+import { notifyDtalkDeletes } from '@/api/notify'
 
 export default {
   name: 'NotifyBatchDelete',
@@ -110,7 +110,7 @@ export default {
     },
     deleteDtalk(data) {
       return new Promise((resolve, reject) => {
-        deleteNotifyDtalks(data).then(response => {
+        notifyDtalkDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

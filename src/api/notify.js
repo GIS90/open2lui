@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 获取dtalk list
-export function getNotifyDtalkList(data) {
+export function notifyDtalkList(data) {
   return request({
     url: '/notify/dtalk_list',
     method: 'post',
@@ -10,7 +10,7 @@ export function getNotifyDtalkList(data) {
 }
 
 // 删除dtalk单个文件
-export function deleteNotifyDtalk(data) {
+export function notifyDtalkDelete(data) {
   return request({
     url: '/notify/dtalk_delete',
     method: 'post',
@@ -19,7 +19,7 @@ export function deleteNotifyDtalk(data) {
 }
 
 // 删除dtalk多个文件
-export function deleteNotifyDtalks(data) {
+export function notifyDtalkDeletes(data) {
   return request({
     url: '/notify/dtalk_deletes',
     method: 'post',
@@ -27,8 +27,8 @@ export function deleteNotifyDtalks(data) {
   })
 }
 
-// dtalk详情
-export function getNotifyDtalkDetail(data) {
+// 获取dtalk详情
+export function notifyDtalkDetail(data) {
   return request({
     url: '/notify/dtalk_detail',
     method: 'post',
@@ -36,8 +36,8 @@ export function getNotifyDtalkDetail(data) {
   })
 }
 
-// dtalk详情
-export function getNotifyDtalkUpdate(data) {
+// 更新dtalk详情
+export function notifyDtalkUpdate(data) {
   return request({
     url: '/notify/dtalk_update',
     method: 'post',
@@ -45,8 +45,8 @@ export function getNotifyDtalkUpdate(data) {
   })
 }
 
-// sheet 改变获取新的title与column
-export function getChangeSheet(data) {
+// dtalk sheet 改变获取新的title与column
+export function notifyDtalkChangeSheet(data) {
   return request({
     url: '/notify/dtalk_change_sheet',
     method: 'post',
@@ -55,9 +55,36 @@ export function getChangeSheet(data) {
 }
 
 // 获取dtalk robot list
-export function getNotifyDtalkRobotList(data) {
+export function notifyDtalkRobotList(data) {
   return request({
     url: '/notify/dtalk_robot_list',
+    method: 'post',
+    data
+  })
+}
+
+// 新增dtalk robot
+export function notifyDtalkRobotAdd(data) {
+  return request({
+    url: '/notify/dtalk_robot_add',
+    method: 'post',
+    data
+  })
+}
+
+// 删除dtalk robot单个文件
+export function notifyDtalkRobotDelete(data) {
+  return request({
+    url: '/notify/dtalk_robot_delete',
+    method: 'post',
+    data
+  })
+}
+
+// 删除dtalk robot多个文件
+export function notifyDtalkRobotDeletes(data) {
+  return request({
+    url: '/notify/dtalk_robot_deletes',
     method: 'post',
     data
   })

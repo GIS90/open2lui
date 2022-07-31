@@ -131,7 +131,7 @@
 <script>
 import store from '@/store'
 import { validExcelFile } from '@/utils/validate.js'
-import { getChangeSheet, getNotifyDtalkDetail, getNotifyDtalkUpdate } from '@/api/notify'
+import { notifyDtalkChangeSheet, notifyDtalkDetail, notifyDtalkUpdate } from '@/api/notify'
 
 export default {
   name: 'DtalkSet',
@@ -227,7 +227,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        getNotifyDtalkDetail(data).then(response => {
+        notifyDtalkDetail(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.formData.name = data.file_name
@@ -310,7 +310,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        getNotifyDtalkUpdate(data).then(response => {
+        notifyDtalkUpdate(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id, message } = response
@@ -342,7 +342,7 @@ export default {
         'sheet': this.formData.curSheet
       }
       return new Promise((resolve, reject) => {
-        getChangeSheet(data).then(response => {
+        notifyDtalkChangeSheet(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.formData.title = data.set_title

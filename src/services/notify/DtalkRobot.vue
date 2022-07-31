@@ -20,8 +20,8 @@
     >
       <!-- 按钮 -->
       <el-row>
-        <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="addRobot">
-          <svg-icon icon-class="i_upload" />  新增
+        <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openRobotAdd">
+          <svg-icon icon-class="i_add" />  新增
         </el-button>
         <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
           <svg-icon icon-class="i_select" />  {{ selBtnText }}
@@ -56,17 +56,18 @@
               <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="key" label="KEY" :header-align="tableRowAttrs.headerAlign" align="left" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="secret" label="SECRET" :header-align="tableRowAttrs.headerAlign" align="left" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="name" label="名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="240" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="key" label="KEY" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="secret" label="SECRET" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="description" label="描述" :header-align="tableRowAttrs.headerAlign" align="left" width="320" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
-          <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240">
+          <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
             <template slot-scope="scope">
               <el-tooltip effect="dark" content="设置" placement="top">
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="选择" placement="top">
-                <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
+                <i :class="scope.row.select === true ? 'el-icon-success' : 'el-icon-error'" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -91,18 +92,24 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 新增用户 -->
+    <dtalk-robot-add :show="addDialogStatus" @close-robot-add="closeRobotAdd" />
+
   </div>
 </template>
 
 <script>
 import store from '@/store'
+import DtalkRobotAdd from '@/services/notify/DtalkRobotAdd'
 import Pagination from '@/components/Pagination'
-import { deleteNotifyDtalk, getNotifyDtalkRobotList } from '@/api/notify'
+import { notifyDtalkRobotDelete, notifyDtalkRobotList } from '@/api/notify'
 
 export default {
   name: 'DtalkRobot',
   emits: [],
   components: {
+    'dtalk-robot-add': DtalkRobotAdd,
     'public-pagination': Pagination
   },
   props: {
@@ -197,7 +204,7 @@ export default {
         'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        getNotifyDtalkRobotList(data).then(response => {
+        notifyDtalkRobotList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -280,7 +287,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        deleteNotifyDtalk(data).then(response => {
+        notifyDtalkRobotDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -306,8 +313,14 @@ export default {
       this.pageCur = page
       this.getTableList()
     },
-    addRobot() {
+    openRobotAdd() {
       this.addDialogStatus = true
+    },
+    closeRobotAdd(isRefresh) {
+      this.addDialogStatus = false
+      if (isRefresh) {
+        this.getList()
+      }
     }
   }
 }

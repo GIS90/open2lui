@@ -123,7 +123,7 @@ import DtalkTip from '@/services/notify/DtalkTip'
 import DtalkRobot from '@/services/notify/DtalkRobot'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
-import { getNotifyDtalkList, deleteNotifyDtalk } from '@/api/notify'
+import { notifyDtalkList, notifyDtalkDelete } from '@/api/notify'
 
 export default {
   name: 'Dtalk',
@@ -274,7 +274,7 @@ export default {
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
-        getNotifyDtalkList(data).then(response => {
+        notifyDtalkList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -336,7 +336,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        deleteNotifyDtalk(data).then(response => {
+        notifyDtalkDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
