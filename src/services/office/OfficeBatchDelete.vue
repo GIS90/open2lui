@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       dialogAttrs: {
-        title: '文件删除',
+        title: '提示',
         width: '30%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -121,6 +121,8 @@ export default {
               duration: 2.0 * 1000
             })
           }
+          this.btnDisabled = false
+          this.btnLoading = false
           this.$emit('close-delete-dialog', true)
           resolve(response)
         }).catch(error => {

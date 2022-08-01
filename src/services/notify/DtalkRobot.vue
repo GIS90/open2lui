@@ -67,7 +67,7 @@
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="选择" placement="top">
-                <i :class="scope.row.select === true ? 'el-icon-success' : 'el-icon-error'" @click="rowHandleEdit(scope.$index, scope.row)" />
+                <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -96,12 +96,19 @@
     <!-- 新增用户 -->
     <dtalk-robot-add :show="addDialogStatus" @close-robot-add="closeRobotAdd" />
 
+    <!-- 删除dialog -->
+    <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+
+    <!-- 文件设置dg -->
+    <dtalk-robot-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeDialogSet" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
 import DtalkRobotAdd from '@/services/notify/DtalkRobotAdd'
+import DtalkRobotSet from '@/services/notify/DtalkRobotSet'
+import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import Pagination from '@/components/Pagination'
 import { notifyDtalkRobotDelete, notifyDtalkRobotList } from '@/api/notify'
 
@@ -109,7 +116,9 @@ export default {
   name: 'DtalkRobot',
   emits: [],
   components: {
+    'notify-batch-delete': NotifyBatchDelete,
     'dtalk-robot-add': DtalkRobotAdd,
+    'dtalk-robot-set': DtalkRobotSet,
     'public-pagination': Pagination
   },
   props: {
@@ -185,7 +194,9 @@ export default {
       tableData: [], // table data
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
-      addDialogStatus: false // 新增dg状态
+      addDialogStatus: false, // 新增dg状态
+      deleteSource: 'dtalk-robot', // delete source
+      deleteConfirm: false // 删除确认dialog状态
     }
   },
   computed: {},
@@ -194,12 +205,12 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作，获取最新数据
-      this.getList()
+      this.getTableList()
     },
     closeDialog() { // 关闭dg
       this.$emit('close-robot-dg', false)
     },
-    getList() {
+    getTableList() {
       const data = {
         'rtx_id': store.getters.rtx_id
       }
@@ -266,6 +277,12 @@ export default {
       this.oprSelectRowMd5 = row.md5_id
       this.setDialogStatus = true
     },
+    closeDeleteDialog(isRefresh) { // 关闭删除Dialog
+      this.deleteConfirm = false
+      if (isRefresh) {
+        this.getTableList()
+      }
+    },
     openDeleteDialog() { // 打开删除Dialog
       if (this.selectList.length === 0) {
         this.$message({
@@ -319,7 +336,13 @@ export default {
     closeRobotAdd(isRefresh) {
       this.addDialogStatus = false
       if (isRefresh) {
-        this.getList()
+        this.getTableList()
+      }
+    },
+    closeDialogSet(isRefresh) {
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
       }
     }
   }

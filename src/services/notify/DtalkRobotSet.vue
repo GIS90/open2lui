@@ -18,13 +18,13 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="addForm" :label-position="labelPosition" :model="addForm" :rules="addRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="名称" prop="name">
           <el-input
-            v-model.trim="addForm.name"
+            v-model.trim="formData.name"
             type="text"
             placeholder="请输入Robot名称"
-            :maxlength="addLimit.name"
+            :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -34,10 +34,10 @@
         </el-form-item>
         <el-form-item label="KEY" prop="key">
           <el-input
-            v-model.trim="addForm.key"
+            v-model.trim="formData.key"
             type="text"
             placeholder="请输入Robot-KEY"
-            :maxlength="addLimit.key"
+            :maxlength="formDataLimit.key"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -47,10 +47,10 @@
         </el-form-item>
         <el-form-item label="SECRET" prop="secret">
           <el-input
-            v-model.trim="addForm.secret"
+            v-model.trim="formData.secret"
             type="text"
             placeholder="请输入中Robot-SECRET"
-            :maxlength="addLimit.secret"
+            :maxlength="formDataLimit.secret"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -60,12 +60,12 @@
         </el-form-item>
         <el-form-item label="描述" prop="description">
           <el-input
-            v-model.trim="addForm.description"
+            v-model.trim="formData.description"
             type="textarea"
             placeholder="请输入Robot描述"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
-            :maxlength="addLimit.description"
+            :maxlength="formDataLimit.description"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="textAreaAttrs.prefixIcon"
@@ -74,7 +74,7 @@
         </el-form-item>
         <el-form-item label="默认" prop="select">
           <el-switch
-            v-model="addForm.select"
+            v-model="formData.select"
             style="display: block; margin-top: 6px;"
             :disabled="switchAttrs.disabled"
             :width="switchAttrs.width"
@@ -100,7 +100,7 @@
 
 <script>
 import store from '@/store'
-import { notifyDtalkRobotAdd } from '@/api/notify'
+import { notifyDtalkDetail, notifyDtalkRobotDetail, notifyDtalkRobotUpdate } from '@/api/notify'
 
 const validateName = (rule, value, callback) => {
   if (!value) {
@@ -143,8 +143,8 @@ const validateDesc = (rule, value, callback) => {
 }
 
 export default {
-  name: 'DtalkRobotAdd',
-  emits: ['close-robot-add'],
+  name: 'DtalkRobotSet',
+  emits: ['close-set-dg'],
   components: {},
   props: {
     show: {
@@ -154,6 +154,11 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
+    },
+    rowMd5: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   data() {
@@ -162,7 +167,7 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '新增Robot',
+        title: '编辑Robot',
         width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -204,20 +209,20 @@ export default {
         inactiveColor: '#ff4949' // 关闭时的背景色
       },
       // data
-      addForm: {
+      formData: {
         name: '',
         key: '',
         secret: '',
         description: '',
         select: false
       },
-      addLimit: {
+      formDataLimit: {
         name: 30,
         key: 30,
         secret: 70,
         description: 120
       },
-      addRules: {
+      formDataRules: {
         name: [{ required: true, trigger: 'blur', validator: validateName }],
         key: [{ required: true, trigger: 'blur', validator: validateKey }],
         secret: [{ required: true, trigger: 'blur', validator: validateSecret }],
@@ -230,41 +235,66 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    openDialog() { // 初始化操作
-      this.addForm.name = ''
-      this.addForm.key = ''
-      this.addForm.secret = ''
-      this.addForm.description = ''
+    openDialog() { // 初始化操作，获取最新数据
+      if (!this.rowMd5) {
+        this.$emit('close-set-dg', true)
+        return false
+      }
+      this.getDNewInfo()
     },
-    closeDialog() { // 关闭dialog
-      this.$emit('close-robot-add', false)
+    closeDialog() { // 关闭dg
+      this.$emit('close-set-dg', false)
+    },
+    getDNewInfo() {
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': this.rowMd5
+      }
+      return new Promise((resolve, reject) => {
+        notifyDtalkRobotDetail(data).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            this.formData.name = data.name
+            this.formData.key = data.key
+            this.formData.secret = data.secret
+            this.formData.description = data.description
+            this.formData.select = data.select
+          } else {
+            this.$emit('close-set-dg')
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
     },
     submit() { // 提交
-      this.$refs.addForm.validate(valid => {
+      this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'name': this.addForm.name,
-            'key': this.addForm.key,
-            'secret': this.addForm.secret,
-            'description': this.addForm.description,
-            'select': this.addForm.select
+            'name': this.formData.name,
+            'key': this.formData.key,
+            'secret': this.formData.secret,
+            'description': this.formData.description,
+            'select': this.formData.select,
+            'md5': this.rowMd5
           }
 
           return new Promise((resolve, reject) => {
-            notifyDtalkRobotAdd(data).then(response => {
+            notifyDtalkRobotUpdate(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '新增成功' || message,
+                  message: '更新成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-robot-add', true)
+                this.$emit('close-set-dg', true)
               }
               resolve(response)
             }).catch(error => {

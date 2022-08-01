@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { notifyDtalkDeletes } from '@/api/notify'
+import { notifyDtalkDeletes, notifyDtalkRobotDeletes } from '@/api/notify'
 
 export default {
   name: 'NotifyBatchDelete',
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       dialogAttrs: {
-        title: '文件删除',
+        title: '提示',
         width: '30%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
@@ -102,8 +102,8 @@ export default {
       this.btnLoading = true
       if (this.source === 'dtalk') {
         this.deleteDtalk(data)
-      } else if (this.source === 'dtalk1') {
-        this.deleteDtalk(data)
+      } else if (this.source === 'dtalk-robot') {
+        this.deleteDtalkRobot(data)
       } else {
         return false
       }
@@ -119,6 +119,31 @@ export default {
               duration: 2.0 * 1000
             })
           }
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        })
+      })
+    },
+    deleteDtalkRobot(data) {
+      return new Promise((resolve, reject) => {
+        notifyDtalkRobotDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.btnDisabled = false
+          this.btnLoading = false
           this.$emit('close-delete-dialog', true)
           resolve(response)
         }).catch(error => {

@@ -89,3 +89,21 @@ export function notifyDtalkRobotDeletes(data) {
     data
   })
 }
+
+// 获取dtalk robot详情
+export function notifyDtalkRobotDetail(data) {
+  return request({
+    url: '/notify/dtalk_robot_detail',
+    method: 'post',
+    data
+  })
+}
+
+// 更新dtalk robot详情
+export function notifyDtalkRobotUpdate(data) {
+  return request({
+    url: '/notify/dtalk_robot_update',
+    method: 'post',
+    data
+  })
+}
