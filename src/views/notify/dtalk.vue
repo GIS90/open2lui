@@ -14,6 +14,9 @@
       <el-button id="btn-robot" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openRobotDialog">
         <svg-icon icon-class="i_robot" />  Robot配置
       </el-button>
+      <el-button id="btn-download" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled">
+        <a href="http://store.pygo2.top/__template/钉钉消息通知模板.xlsx"><i class="el-icon-paperclip" />  模板下载</a>
+      </el-button>
       <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip">
         <svg-icon icon-class="i_sm" />  操作说明
       </el-button>
