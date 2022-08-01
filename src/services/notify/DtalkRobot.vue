@@ -66,8 +66,8 @@
               <el-tooltip effect="dark" content="设置" placement="top">
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
-              <el-tooltip class="icon-item" effect="dark" content="选择" placement="top">
-                <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" @click="rowHandleEdit(scope.$index, scope.row)" />
+              <el-tooltip class="icon-item" effect="dark" :content="scope.row.select === true ? '启用' : '关闭'" placement="top">
+                <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -140,7 +140,7 @@ export default {
         title: 'Robot配置',
         width: '80%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '10%', // Dialog CSS 中的 margin-top 值
+        top: '6%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒

@@ -100,7 +100,7 @@
 
 <script>
 import store from '@/store'
-import { notifyDtalkDetail, notifyDtalkRobotDetail, notifyDtalkRobotUpdate } from '@/api/notify'
+import { notifyDtalkRobotDetail, notifyDtalkRobotUpdate } from '@/api/notify'
 
 const validateName = (rule, value, callback) => {
   if (!value) {
