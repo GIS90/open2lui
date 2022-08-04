@@ -67,7 +67,7 @@
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" :content="scope.row.select === true ? '启用' : '关闭'" placement="top">
-                <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" />
+                <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" @click="setSelectStatus(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -110,7 +110,7 @@ import DtalkRobotAdd from '@/services/notify/DtalkRobotAdd'
 import DtalkRobotSet from '@/services/notify/DtalkRobotSet'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import Pagination from '@/components/Pagination'
-import { notifyDtalkRobotDelete, notifyDtalkRobotList } from '@/api/notify'
+import { notifyDtalkRobotDelete, notifyDtalkRobotList, notifyDtalkRobotSelect } from '@/api/notify'
 
 export default {
   name: 'DtalkRobot',
@@ -344,6 +344,35 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    setSelectStatus(index, row) {
+      if (!row || !row?.md5_id) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': row.md5_id,
+        'select': row.select
+      }
+      this.btnDisabled = true
+      return new Promise((resolve, reject) => {
+        notifyDtalkRobotSelect(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '设置成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+            this.getTableList()
+          }
+          this.btnDisabled = false
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          reject(error)
+        })
+      })
     }
   }
 }

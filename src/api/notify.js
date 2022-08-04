@@ -107,3 +107,12 @@ export function notifyDtalkRobotUpdate(data) {
     data
   })
 }
+
+// 更新dtalk robot选择状态
+export function notifyDtalkRobotSelect(data) {
+  return request({
+    url: '/notify/dtalk_robot_select',
+    method: 'post',
+    data
+  })
+}
