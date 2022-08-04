@@ -18,13 +18,13 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="addForm" :label-position="labelPosition" :model="addForm" :rules="addRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="名称" prop="name">
           <el-input
-            v-model.trim="addForm.name"
+            v-model.trim="formData.name"
             type="text"
             placeholder="请输入Robot名称"
-            :maxlength="addLimit.name"
+            :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -34,10 +34,10 @@
         </el-form-item>
         <el-form-item label="KEY" prop="key">
           <el-input
-            v-model.trim="addForm.key"
+            v-model.trim="formData.key"
             type="text"
             placeholder="请输入Robot-KEY"
-            :maxlength="addLimit.key"
+            :maxlength="formDataLimit.key"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -47,10 +47,10 @@
         </el-form-item>
         <el-form-item label="SECRET" prop="secret">
           <el-input
-            v-model.trim="addForm.secret"
+            v-model.trim="formData.secret"
             type="text"
             placeholder="请输入中Robot-SECRET"
-            :maxlength="addLimit.secret"
+            :maxlength="formDataLimit.secret"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -60,12 +60,12 @@
         </el-form-item>
         <el-form-item label="描述" prop="description">
           <el-input
-            v-model.trim="addForm.description"
+            v-model.trim="formData.description"
             type="textarea"
             placeholder="请输入Robot描述"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
-            :maxlength="addLimit.description"
+            :maxlength="formDataLimit.description"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="textAreaAttrs.prefixIcon"
@@ -74,7 +74,7 @@
         </el-form-item>
         <el-form-item label="默认" prop="select">
           <el-switch
-            v-model="addForm.select"
+            v-model="formData.select"
             style="display: block; margin-top: 6px;"
             :disabled="switchAttrs.disabled"
             :width="switchAttrs.width"
@@ -204,20 +204,20 @@ export default {
         inactiveColor: '#ff4949' // 关闭时的背景色
       },
       // data
-      addForm: {
+      formData: {
         name: '',
         key: '',
         secret: '',
         description: '',
         select: false
       },
-      addLimit: {
+      formDataLimit: {
         name: 30,
         key: 30,
         secret: 70,
         description: 120
       },
-      addRules: {
+      formDataRules: {
         name: [{ required: true, trigger: 'blur', validator: validateName }],
         key: [{ required: true, trigger: 'blur', validator: validateKey }],
         secret: [{ required: true, trigger: 'blur', validator: validateSecret }],
@@ -231,26 +231,26 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作
-      this.addForm.name = ''
-      this.addForm.key = ''
-      this.addForm.secret = ''
-      this.addForm.description = ''
+      this.formData.name = ''
+      this.formData.key = ''
+      this.formData.secret = ''
+      this.formData.description = ''
     },
     closeDialog() { // 关闭dialog
       this.$emit('close-robot-add', false)
     },
     submit() { // 提交
-      this.$refs.addForm.validate(valid => {
+      this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'name': this.addForm.name,
-            'key': this.addForm.key,
-            'secret': this.addForm.secret,
-            'description': this.addForm.description,
-            'select': this.addForm.select
+            'name': this.formData.name,
+            'key': this.formData.key,
+            'secret': this.formData.secret,
+            'description': this.formData.description,
+            'select': this.formData.select
           }
 
           return new Promise((resolve, reject) => {
