@@ -15,7 +15,7 @@
         <svg-icon icon-class="i_robot" />  Robot配置
       </el-button>
       <el-button id="btn-download" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled">
-        <a href="http://store.pygo2.top/__template/钉钉消息通知模板.xlsx"><i class="el-icon-paperclip" />  模板下载</a>
+        <a href="http://store.pygo2.top/__template/钉钉消息通知模板V1.0.xlsx"><i class="el-icon-paperclip" />  模板下载</a>
       </el-button>
       <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip">
         <svg-icon icon-class="i_sm" />  操作说明
@@ -115,6 +115,9 @@
     <!-- 文件设置dg -->
     <dtalk-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
+    <!-- 消息发送dg -->
+    <dtalk-send :show="sendDialogStatus" :row-md5="oprSelectRowMd5" @close-send-dg="closeSendDialog" />
+
   </div>
 </template>
 
@@ -124,6 +127,7 @@ import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import DtalkSet from '@/services/notify/DtalkSet'
 import DtalkTip from '@/services/notify/DtalkTip'
 import DtalkRobot from '@/services/notify/DtalkRobot'
+import DtalkSend from '@/services/notify/DtalkSend'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
 import { notifyDtalkList, notifyDtalkDelete } from '@/api/notify'
@@ -136,6 +140,7 @@ export default {
     'dtalk-set': DtalkSet,
     'dtalk-tip': DtalkTip,
     'dtalk-robot': DtalkRobot,
+    'dtalk-send': DtalkSend,
     'public-pagination': Pagination,
     'public-upload-file': UploadFile
   },

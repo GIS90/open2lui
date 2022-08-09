@@ -116,3 +116,21 @@ export function notifyDtalkRobotSelect(data) {
     data
   })
 }
+
+// dtalk消息发送dg数据初始化
+export function notifyDtalkSendInit(data) {
+  return request({
+    url: '/notify/dtalk_send_init',
+    method: 'post',
+    data
+  })
+}
+
+// dtalk消息发送
+export function notifyDtalkSend(data) {
+  return request({
+    url: '/notify/dtalk_send',
+    method: 'post',
+    data
+  })
+}

@@ -19,7 +19,7 @@
       @close="closeDialog()"
     >
       <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto">
-        <el-divider content-position="left">基础信息</el-divider>
+        <el-divider content-position="left">文件设置</el-divider>
         <el-form-item label="文件名称">
           <el-input
             v-model.trim="formData.name"
