@@ -15,7 +15,7 @@
         <svg-icon icon-class="i_robot" />  Robot配置
       </el-button>
       <el-button id="btn-download" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled">
-        <a href="http://store.pygo2.top/__template/钉钉消息通知模板V1.0.xlsx"><i class="el-icon-paperclip" />  模板下载</a>
+        <a :href="dtalkTemplateFile"><i class="el-icon-paperclip" />  模板下载</a>
       </el-button>
       <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip">
         <svg-icon icon-class="i_sm" />  操作说明
@@ -196,7 +196,8 @@ export default {
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
       deleteSource: 'dtalk', // delete source
       deleteConfirm: false, // 删除确认dialog状态
-      robotDialogStatus: false // Robot配置dg状态
+      robotDialogStatus: false, // Robot配置dg状态
+      dtalkTemplateFile: 'http://store.pygo2.top/__template/钉钉消息通知模板V1.0.xlsx' // dtalk模板文件
     }
   },
   computed: {},

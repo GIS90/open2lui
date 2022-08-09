@@ -28,7 +28,7 @@
             :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
-            :disabled="disabled"
+            disabled
             prefix-icon="el-icon-edit"
           />
         </el-form-item>

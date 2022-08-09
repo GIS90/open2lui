@@ -59,6 +59,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
+    // console.log(response)
     // if the custom status_id is not 100, it is judged as an error.
     if (res.status_id !== 100) {
       // status_id大于500均为Server故障

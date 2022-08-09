@@ -200,7 +200,15 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    selectAllStatus(newVal, oldVal) { // watch select button status
+      if (newVal) {
+        this.selBtnText = '取消'
+      } else {
+        this.selBtnText = '全选'
+      }
+    }
+  },
   created() {},
   mounted() {},
   methods: {
@@ -211,6 +219,10 @@ export default {
       this.$emit('close-robot-dg', false)
     },
     getTableList() {
+      // 初始化选择参数
+      this.selectAllStatus = false
+      this.selectList = []
+
       const data = {
         'rtx_id': store.getters.rtx_id
       }
