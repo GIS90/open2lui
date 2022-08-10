@@ -18,13 +18,13 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="setRoleForm" :label-position="labelPosition" :model="setRoleForm" :rules="addRoleRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
         <el-form-item label="RTX名称" prop="engname">
           <el-input
-            v-model.trim="setRoleForm.engname"
+            v-model.trim="formData.engname"
             type="text"
             placeholder="请输入角色RTX名称（建议使用英文）"
-            :maxlength="inputAttrs.length"
+            :maxlength="formDataLimit.engname"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -34,10 +34,10 @@
         </el-form-item>
         <el-form-item label="中文名称" prop="chnname">
           <el-input
-            v-model.trim="setRoleForm.chnname"
+            v-model.trim="formData.chnname"
             type="text"
             placeholder="请输入角色中文名称"
-            :maxlength="inputAttrs.length"
+            :maxlength="formDataLimit.chnname"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -47,12 +47,12 @@
         </el-form-item>
         <el-form-item label="描述" prop="introduction">
           <el-input
-            v-model.trim="setRoleForm.introduction"
+            v-model.trim="formData.introduction"
             type="textarea"
             placeholder="请输入角色相关描述"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
-            :maxlength="textAreaAttrs.length"
+            :maxlength="formDataLimit.introduction"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="textAreaAttrs.prefixIcon"
@@ -162,12 +162,17 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       // data
-      setRoleForm: {
+      formData: {
         engname: '', // 英文名称
         chnname: '', // 中文名称
         introduction: '' // 描述
       },
-      addRoleRules: {
+      formDataLimit: {
+        engname: '25',
+        chnname: '35',
+        introduction: '55'
+      },
+      formDataRules: {
         engname: [{ required: true, trigger: 'blur', validator: validateRoleEName }],
         chnname: [{ required: true, trigger: 'blur', validator: validateRoleCName }],
         introduction: [{ required: true, trigger: 'blur', validator: validateRoleIntrod }]
@@ -197,9 +202,9 @@ export default {
         roleDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.setRoleForm.engname = data.engname
-            this.setRoleForm.chnname = data.chnname
-            this.setRoleForm.introduction = data.introduction
+            this.formData.engname = data.engname
+            this.formData.chnname = data.chnname
+            this.formData.introduction = data.introduction
           } else {
             this.$emit('close-set-role')
           }
@@ -210,16 +215,16 @@ export default {
       })
     },
     submitSetRole() {
-      this.$refs.setRoleForm.validate(valid => {
+      this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
             'md5': this.rowMd5,
-            'engname': this.setRoleForm.engname,
-            'chnname': this.setRoleForm.chnname,
-            'introduction': this.setRoleForm.introduction
+            'engname': this.formData.engname,
+            'chnname': this.formData.chnname,
+            'introduction': this.formData.introduction
           }
           return new Promise((resolve, reject) => {
             roleUpdate(data).then(response => {

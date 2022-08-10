@@ -18,7 +18,7 @@
       @open="openDialog"
       @close="closeDialog"
     >
-      <el-form ref="addRoleForm" :label-position="labelPosition" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" label-width="auto">
         <el-form-item label="RTX名称">
           <el-input
             v-model.trim="role.engname"
