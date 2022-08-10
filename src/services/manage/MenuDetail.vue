@@ -69,7 +69,7 @@
           </el-col>
         </el-row>
         <!-- 通用参数 -->
-        <el-row><h3>通用参数：</h3></el-row>
+        <el-divider content-position="left">通用参数</el-divider>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="请求地址">
@@ -174,7 +174,7 @@
           </el-col>
         </el-row>
         <!-- 开发者配置 -->
-        <el-row><h3>开发者配置：</h3></el-row>
+        <el-divider content-position="left">开发者配置</el-divider>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="组件">
@@ -304,7 +304,7 @@
           </el-col>
         </el-row>
         <!-- 拓展信息 -->
-        <el-row><h3>拓展信息：</h3></el-row>
+        <el-divider content-position="left">拓展信息</el-divider>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="创建者RTX">

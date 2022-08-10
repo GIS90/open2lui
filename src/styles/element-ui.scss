@@ -86,24 +86,51 @@
 
 // ======================================= 覆盖原UI样式 =======================================
 
-// loading-mask样式
+// ------------------------- loading -------------------------
+// mask样式
 .el-loading-mask {
   font-size: 3rem !important;
 }
 
+// 图标样式
 .el-loading-spinner i {
   margin-bottom: 1rem;
   font-size: 4rem !important;
 }
 
-// dialog header样式
+// ------------------------- dialog -------------------------
+// header样式
 .el-dialog__header {
   background: #f8f8f8;
   text-align: left;
   border-bottom: 1px solid #eee;
 }
 
-// dialog footer样式
+// footer样式
 .el-dialog__footer {
   border-top: 1px solid #e8eaec;
+}
+
+// ------------------------- el-upload -------------------------
+// 文件框
+.el-upload-dragger {
+  width: 500px;
+  height: 180px;
+  border: 2px dashed #42B984;
+  border-radius: 5px;
+}
+
+// 文件框-图标
+.el-upload-dragger .el-icon-upload {
+  font-size: 150px !important;
+}
+
+// 文件框-文本
+//.el-upload-dragger .el-upload__text {
+//
+//}
+
+// 文字tip提示样式
+.el-upload__tip {
+  font-size: 14px !important;
 }

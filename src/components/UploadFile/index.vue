@@ -78,7 +78,7 @@
             :loading="uploadBtnAttrs.loading"
             @click="submitUpload"
           >
-            确定
+            上传
           </el-button>
         </span>
       </template>
