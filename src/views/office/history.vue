@@ -114,7 +114,7 @@ import ExcelHistorySet from '@/services/office/ExcelHistorySet'
 import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
 import ExcelHistoryFilter from '@/services/office/ExcelHistoryFilter'
 import Pagination from '@/components/Pagination'
-import { deleteExcelResultFile, getExcelResultList } from '@/api/office'
+import { officeExcelResultDelete, officeExcelResultList } from '@/api/office'
 
 export default {
   name: 'History',
@@ -214,7 +214,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        getExcelResultList(data).then(response => {
+        officeExcelResultList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -254,7 +254,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        deleteExcelResultFile(data).then(response => {
+        officeExcelResultDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

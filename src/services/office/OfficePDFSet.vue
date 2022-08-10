@@ -89,7 +89,7 @@
 
 <script>
 import store from '@/store'
-import { updateOfficePDFFile, detailOfficePDFFile } from '@/api/office'
+import { officePDFUpdate, officePDFDetail } from '@/api/office'
 
 export default {
   name: 'OfficePDFSet',
@@ -185,7 +185,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        detailOfficePDFFile(params).then(response => {
+        officePDFDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.formData.start = data.start
@@ -224,7 +224,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        updateOfficePDFFile(data).then(response => {
+        officePDFUpdate(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id, message } = response

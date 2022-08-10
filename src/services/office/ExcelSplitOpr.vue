@@ -171,7 +171,7 @@
 
 <script>
 import store from '@/store'
-import { excelSplit, initExcelSplitParams, getExcelSheetHeader } from '@/api/office'
+import { officeExcelSplit, officeExcelSplitInit, officeExcelSheetHeader } from '@/api/office'
 
 export default {
   name: 'ExcelSplitOpr',
@@ -352,7 +352,7 @@ export default {
         class: '' // 自定义样式类
       })
       return new Promise((resolve, reject) => {
-        excelSplit(data).then(response => {
+        officeExcelSplit(data).then(response => {
           // 关闭loading
           this.disabled = false
           loading.close()
@@ -381,7 +381,7 @@ export default {
       }
       this.curMd5 = this.tableRow.md5
       return new Promise((resolve, reject) => {
-        initExcelSplitParams(data).then(response => {
+        officeExcelSplitInit(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.excelSplitStore = data.excel_split_store
@@ -409,7 +409,7 @@ export default {
         'sheet': value
       }
       return new Promise((resolve, reject) => {
-        getExcelSheetHeader(data).then(response => {
+        officeExcelSheetHeader(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.columnNames = data.headers

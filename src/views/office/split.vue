@@ -118,7 +118,7 @@ import ExcelSplitOpr from '@/services/office/ExcelSplitOpr'
 import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
-import { getExcelSourceList, deleteExcelSourceFile } from '@/api/office'
+import { officeExcelSourceList, officeExcelSourceDelete } from '@/api/office'
 
 export default {
   name: 'Split',
@@ -283,7 +283,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        deleteExcelSourceFile(data).then(response => {
+        officeExcelSourceDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -315,7 +315,7 @@ export default {
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
-        getExcelSourceList(data).then(response => {
+        officeExcelSourceList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list

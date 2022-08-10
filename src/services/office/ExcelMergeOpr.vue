@@ -65,7 +65,7 @@
 
 <script>
 import store from '@/store'
-import { excelMerge } from '@/api/office'
+import { officeExcelMerge } from '@/api/office'
 
 export default {
   name: 'ExcelMergeOpr',
@@ -176,7 +176,7 @@ export default {
       })
 
       return new Promise((resolve, reject) => {
-        excelMerge(data).then(response => {
+        officeExcelMerge(data).then(response => {
           // 关闭loading
           this.disabled = false
           loading.close()

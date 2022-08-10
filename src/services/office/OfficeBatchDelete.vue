@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { deleteExcelSourceFiles, deleteExcelResultFiles, deleteOfficePDFFiles } from '@/api/office'
+import { officeExcelSourceDeletes, officeExcelResultDeletes, officePDFDeletes } from '@/api/office'
 
 export default {
   name: 'OfficeBatchDelete',
@@ -112,7 +112,7 @@ export default {
     },
     deleteOfficePDF(data) {
       return new Promise((resolve, reject) => {
-        deleteOfficePDFFiles(data).then(response => {
+        officePDFDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -135,7 +135,7 @@ export default {
     },
     deleteExcelSource(data) {
       return new Promise((resolve, reject) => {
-        deleteExcelSourceFiles(data).then(response => {
+        officeExcelSourceDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -158,7 +158,7 @@ export default {
     },
     deleteExcelResult(data) {
       return new Promise((resolve, reject) => {
-        deleteExcelResultFiles(data).then(response => {
+        officeExcelResultDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

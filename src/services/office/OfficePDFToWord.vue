@@ -105,7 +105,7 @@
 
 <script>
 import store from '@/store'
-import { detailOfficePDFFile, toOfficePDFFiles } from '@/api/office'
+import { officePDFDetail, officePDFTo } from '@/api/office'
 
 export default {
   name: 'OfficePDFToWord',
@@ -204,7 +204,7 @@ export default {
       }
       // 获取tablerow最新数据
       return new Promise((resolve, reject) => {
-        detailOfficePDFFile(params).then(response => {
+        officePDFDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.formData.start = data.start
@@ -271,7 +271,7 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        toOfficePDFFiles(data).then(response => {
+        officePDFTo(data).then(response => {
           // 关闭loading
           this.disabled = false
           loading.close()

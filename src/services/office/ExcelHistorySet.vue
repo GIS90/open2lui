@@ -44,7 +44,7 @@
 
 <script>
 import store from '@/store'
-import { updateExcelResultFile } from '@/api/office'
+import { officeExcelResultUpdate } from '@/api/office'
 
 export default {
   name: 'ExcelHistorySet',
@@ -127,7 +127,7 @@ export default {
         'md5': this.tableRow.md5
       }
       return new Promise((resolve, reject) => {
-        updateExcelResultFile(data).then(response => {
+        officeExcelResultUpdate(data).then(response => {
           this.disabled = false
           this.loading = false
           const { status_id, message } = response

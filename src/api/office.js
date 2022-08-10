@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 获取Excel source文件列表
-export function getExcelSourceList(data) {
+export function officeExcelSourceList(data) {
   return request({
     url: '/office/excel_source_list',
     method: 'post',
@@ -10,7 +10,7 @@ export function getExcelSourceList(data) {
 }
 
 // 更新Excel source文件信息
-export function updateExcelSourceFile(data) {
+export function officeExcelSourceUpdate(data) {
   return request({
     url: '/office/excel_source_update',
     method: 'post',
@@ -19,7 +19,7 @@ export function updateExcelSourceFile(data) {
 }
 
 // 删除Excel source单个文件
-export function deleteExcelSourceFile(data) {
+export function officeExcelSourceDelete(data) {
   return request({
     url: '/office/excel_source_delete',
     method: 'post',
@@ -28,7 +28,7 @@ export function deleteExcelSourceFile(data) {
 }
 
 // 删除Excel source多个文件
-export function deleteExcelSourceFiles(data) {
+export function officeExcelSourceDeletes(data) {
   return request({
     url: '/office/excel_source_deletes',
     method: 'post',
@@ -37,7 +37,7 @@ export function deleteExcelSourceFiles(data) {
 }
 
 // Excel合并文件
-export function excelMerge(data) {
+export function officeExcelMerge(data) {
   return request({
     url: '/office/excel_merge',
     method: 'post',
@@ -46,7 +46,7 @@ export function excelMerge(data) {
 }
 
 // 获取Excel result文件列表
-export function getExcelResultList(data) {
+export function officeExcelResultList(data) {
   return request({
     url: '/office/excel_history_list',
     method: 'post',
@@ -55,7 +55,7 @@ export function getExcelResultList(data) {
 }
 
 // 更新Excel result文件信息
-export function updateExcelResultFile(data) {
+export function officeExcelResultUpdate(data) {
   return request({
     url: '/office/excel_result_update',
     method: 'post',
@@ -64,7 +64,7 @@ export function updateExcelResultFile(data) {
 }
 
 // 删除Excel result单个文件
-export function deleteExcelResultFile(data) {
+export function officeExcelResultDelete(data) {
   return request({
     url: '/office/excel_result_delete',
     method: 'post',
@@ -73,7 +73,7 @@ export function deleteExcelResultFile(data) {
 }
 
 // 删除Excel result多个文件
-export function deleteExcelResultFiles(data) {
+export function officeExcelResultDeletes(data) {
   return request({
     url: '/office/excel_result_deletes',
     method: 'post',
@@ -82,7 +82,7 @@ export function deleteExcelResultFiles(data) {
 }
 
 // Excel拆分文件
-export function excelSplit(data) {
+export function officeExcelSplit(data) {
   return request({
     url: '/office/excel_split',
     method: 'post',
@@ -91,7 +91,7 @@ export function excelSplit(data) {
 }
 
 // 初始化Excel拆分参数
-export function initExcelSplitParams(data) {
+export function officeExcelSplitInit(data) {
   return request({
     url: '/office/excel_init_split',
     method: 'post',
@@ -100,7 +100,7 @@ export function initExcelSplitParams(data) {
 }
 
 // 获取Excel Sheet header by sheet index
-export function getExcelSheetHeader(data) {
+export function officeExcelSheetHeader(data) {
   return request({
     url: '/office/excel_sheet_header',
     method: 'post',
@@ -109,7 +109,7 @@ export function getExcelSheetHeader(data) {
 }
 
 // 获取Pdf2Word文件列表
-export function getPdf2WordList(data) {
+export function officePdf2WordList(data) {
   return request({
     url: '/office/pdf2word_list',
     method: 'post',
@@ -118,7 +118,7 @@ export function getPdf2WordList(data) {
 }
 
 // 获取Office PDF文件详情
-export function detailOfficePDFFile(data) {
+export function officePDFDetail(data) {
   return request({
     url: '/office/office_pdf_detail',
     method: 'post',
@@ -127,7 +127,7 @@ export function detailOfficePDFFile(data) {
 }
 
 // 更新Office PDF文件信息
-export function updateOfficePDFFile(data) {
+export function officePDFUpdate(data) {
   return request({
     url: '/office/office_pdf_update',
     method: 'post',
@@ -136,7 +136,7 @@ export function updateOfficePDFFile(data) {
 }
 
 // 删除Office PDF单个文件
-export function deleteOfficePDFFile(data) {
+export function officePDFDelete(data) {
   return request({
     url: '/office/office_pdf_delete',
     method: 'post',
@@ -145,7 +145,7 @@ export function deleteOfficePDFFile(data) {
 }
 
 // 删除Office PDF多个文件
-export function deleteOfficePDFFiles(data) {
+export function officePDFDeletes(data) {
   return request({
     url: '/office/office_pdf_deletes',
     method: 'post',
@@ -154,7 +154,7 @@ export function deleteOfficePDFFiles(data) {
 }
 
 // Office PDF转WORD文件
-export function toOfficePDFFiles(data) {
+export function officePDFTo(data) {
   return request({
     url: '/office/office_pdf_to',
     method: 'post',

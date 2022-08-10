@@ -102,7 +102,7 @@ import OfficePDFSet from '@/services/office/OfficePDFSet'
 import OfficePDFToWord from '@/services/office/OfficePDFToWord'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
-import { deleteOfficePDFFile, getPdf2WordList } from '@/api/office'
+import { officePDFDelete, officePdf2WordList } from '@/api/office'
 
 export default {
   name: 'Pdf2word',
@@ -244,7 +244,7 @@ export default {
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
-        getPdf2WordList(data).then(response => {
+        officePdf2WordList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -312,7 +312,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        deleteOfficePDFFile(data).then(response => {
+        officePDFDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
