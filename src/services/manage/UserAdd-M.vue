@@ -18,15 +18,15 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="addUserForm" :label-position="labelPosition" :model="addUserForm" :rules="addUserRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="RTX名称" prop="rtx">
               <el-input
-                v-model.trim="addUserForm.rtx"
+                v-model.trim="formData.rtx"
                 type="text"
                 placeholder="请输入RTX名称（建议使用英文）"
-                :maxlength="addUserLimit.rtx"
+                :maxlength="formDataLimit.rtx"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -38,10 +38,10 @@
           <el-col :span="12">
             <el-form-item label="昵称" prop="name">
               <el-input
-                v-model.trim="addUserForm.name"
+                v-model.trim="formData.name"
                 type="text"
                 placeholder="请输入昵称"
-                :maxlength="addUserLimit.name"
+                :maxlength="formDataLimit.name"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -55,10 +55,10 @@
           <el-col :span="12">
             <el-form-item label="联系电话" prop="phone">
               <el-input
-                v-model.trim="addUserForm.phone"
+                v-model.trim="formData.phone"
                 type="text"
                 placeholder="请输入联系电话，暂不支持国外电话"
-                :maxlength="addUserLimit.phone"
+                :maxlength="formDataLimit.phone"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -70,10 +70,10 @@
         </el-row>
         <el-form-item label="邮箱" prop="email">
           <el-input
-            v-model.trim="addUserForm.email"
+            v-model.trim="formData.email"
             type="text"
             placeholder="请输入邮箱"
-            :maxlength="addUserLimit.email"
+            :maxlength="formDataLimit.email"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -83,7 +83,7 @@
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input
-            v-model.trim="addUserForm.password"
+            v-model.trim="formData.password"
             type="text"
             placeholder="请输入密码，默认为abc1234"
             show-password
@@ -95,13 +95,13 @@
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select
-            v-model.trim="addUserForm.role"
+            v-model.trim="formData.role"
             style="width: 100%"
             :placeholder="selectAttrs.placeholder"
             :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
-            :multiple-limit="addUserLimit.limit"
+            :multiple-limit="formDataLimit.limit"
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
@@ -119,12 +119,12 @@
         </el-form-item>
         <el-form-item label="自我介绍" prop="introduction">
           <el-input
-            v-model.trim="addUserForm.introduction"
+            v-model.trim="formData.introduction"
             type="textarea"
             placeholder="请输入自我介绍"
             :rows="textAreaAttrs.rows"
             :autosize="{ minRows: 4, maxRows: 6 }"
-            :maxlength="addUserLimit.introduction"
+            :maxlength="formDataLimit.introduction"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="textAreaAttrs.prefixIcon"
@@ -261,7 +261,7 @@ export default {
       },
       // data
       roles: [],
-      addUserForm: {
+      formData: {
         rtx: '', // rtx_id
         name: '', // 昵称
         phone: '', // 电话
@@ -270,7 +270,7 @@ export default {
         introduction: '', // 描述
         role: [] // 角色
       },
-      addUserLimit: {
+      formDataLimit: {
         rtx: '25',
         name: '30',
         phone: '11',
@@ -279,7 +279,7 @@ export default {
         introduction: '255',
         role: '0'
       },
-      addUserRules: {
+      formDataRules: {
         rtx: [{ required: true, trigger: 'blur', validator: validateUserRtx }],
         name: [{ required: true, trigger: 'blur', validator: validateUserName }],
         phone: [{ required: true, trigger: 'blur', validator: validateUserPhone }],
@@ -296,13 +296,13 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作
-      this.addUserForm.rtx = ''
-      this.addUserForm.name = ''
-      this.addUserForm.phone = ''
-      this.addUserForm.password = ''
-      this.addUserForm.email = ''
-      this.addUserForm.introduction = ''
-      this.addUserForm.role = []
+      this.formData.rtx = ''
+      this.formData.name = ''
+      this.formData.phone = ''
+      this.formData.password = ''
+      this.formData.email = ''
+      this.formData.introduction = ''
+      this.formData.role = []
     },
     closeDialog() { // 关闭dialog
       this.$emit('close-add-user', false)
@@ -323,19 +323,19 @@ export default {
       })
     },
     submitAddUser() { // 提交 and 关闭dg
-      this.$refs.addUserForm.validate(valid => {
+      this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'add_rtx_id': store.getters.rtx_id,
-            'rtx_id': this.addUserForm.rtx,
-            'name': this.addUserForm.name,
-            'phone': this.addUserForm.phone,
-            'password': this.addUserForm.password,
-            'email': this.addUserForm.email,
-            'role': this.addUserForm.role,
-            'introduction': this.addUserForm.introduction
+            'rtx_id': this.formData.rtx,
+            'name': this.formData.name,
+            'phone': this.formData.phone,
+            'password': this.formData.password,
+            'email': this.formData.email,
+            'role': this.formData.role,
+            'introduction': this.formData.introduction
           }
           return new Promise((resolve, reject) => {
             userAdd(data).then(response => {

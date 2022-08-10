@@ -18,7 +18,7 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="userForm" :label-position="labelPosition" :model="userForm" :rules="userRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
         <!--模式-->
         <el-form-item>
           <el-switch
@@ -41,7 +41,7 @@
             v-model.trim="rtxId"
             type="text"
             placeholder="请输入RTX名称（建议使用英文）"
-            :maxlength="userLimit.rtx"
+            :maxlength="formDataLimit.rtx"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -51,10 +51,10 @@
         </el-form-item>
         <el-form-item label="昵称" prop="name">
           <el-input
-            v-model.trim="userForm.name"
+            v-model.trim="formData.name"
             type="text"
             placeholder="请输入昵称"
-            :maxlength="userLimit.name"
+            :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -64,10 +64,10 @@
         </el-form-item>
         <el-form-item label="联系电话" prop="phone">
           <el-input
-            v-model.trim="userForm.phone"
+            v-model.trim="formData.phone"
             type="text"
             placeholder="请输入联系电话，暂不支持国外电话"
-            :maxlength="userLimit.phone"
+            :maxlength="formDataLimit.phone"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -77,10 +77,10 @@
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input
-            v-model.trim="userForm.email"
+            v-model.trim="formData.email"
             type="text"
             placeholder="请输入邮箱"
-            :maxlength="userLimit.email"
+            :maxlength="formDataLimit.email"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -90,12 +90,12 @@
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select
-            v-model.trim="userForm.role"
+            v-model.trim="formData.role"
             style="width: 100%"
             :placeholder="selectAttrs.placeholder"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
-            :multiple-limit="userLimit.limit"
+            :multiple-limit="formDataLimit.limit"
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
@@ -115,12 +115,12 @@
         </el-form-item>
         <el-form-item label="自我介绍" prop="introduction">
           <el-input
-            v-model.trim="userForm.introduction"
+            v-model.trim="formData.introduction"
             type="textarea"
             placeholder="请输入自我介绍"
             :rows="textAreaAttrs.rows"
             :autosize="{ minRows: 4, maxRows: 6 }"
-            :maxlength="userLimit.introduction"
+            :maxlength="formDataLimit.introduction"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="edit ? 'el-icon-edit' : inputAttrs.prefixIcon"
@@ -262,21 +262,21 @@ export default {
       },
       // data
       roles: [],
-      userForm: {
+      formData: {
         name: '', // 昵称
         phone: '', // 电话
         email: '', // 邮箱
         introduction: '', // 描述
         role: [] // 角色
       },
-      userLimit: {
+      formDataLimit: {
         name: '30',
         phone: '11',
         email: '35',
         introduction: '255',
         role: '0'
       },
-      userRules: {
+      formDataRules: {
         name: [{ required: true, trigger: 'blur', validator: validateUserName }],
         phone: [{ required: true, trigger: 'blur', validator: validateUserPhone }],
         email: [{ required: false, trigger: 'blur', validator: validateUserEmail }],
@@ -307,11 +307,11 @@ export default {
         userDetail(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.userForm.name = data.name
-            this.userForm.phone = data.phone
-            this.userForm.email = data.email
-            this.userForm.introduction = data.introduction
-            this.userForm.role = data.role
+            this.formData.name = data.name
+            this.formData.phone = data.phone
+            this.formData.email = data.email
+            this.formData.introduction = data.introduction
+            this.formData.role = data.role
             this.roles = data.roles
           } else {
             this.$emit('close-detail-user', false) // 初始化信息失败，关闭dg
@@ -323,7 +323,7 @@ export default {
       })
     },
     submitUpdateUser() { // 提交 && 更新
-      this.$refs.userForm.validate(valid => {
+      this.$refs.formData.validate(valid => {
         if (valid) {
           this.edit = false
           this.disabled = true
@@ -331,11 +331,11 @@ export default {
           const data = {
             'rtx_id': store.getters.rtx_id,
             'to_rtx_id': this.rtxId,
-            'name': this.userForm.name,
-            'phone': this.userForm.phone,
-            'email': this.userForm.email,
-            'role': this.userForm.role,
-            'introduction': this.userForm.introduction
+            'name': this.formData.name,
+            'phone': this.formData.phone,
+            'email': this.formData.email,
+            'role': this.formData.role,
+            'introduction': this.formData.introduction
           }
           return new Promise((resolve, reject) => {
             userUpdate(data).then(response => {
