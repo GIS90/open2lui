@@ -197,7 +197,7 @@ export default {
       deleteSource: 'dtalk', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       robotDialogStatus: false, // Robot配置dg状态
-      dtalkTemplateFile: 'http://store.pygo2.top/__template/钉钉消息通知模板V1.0.xlsx' // dtalk模板文件
+      dtalkTemplateFile: 'http://2lstore.pygo2.top/templates/钉钉消息通知模板V1.0.xls' // dtalk模板文件
     }
   },
   computed: {},
