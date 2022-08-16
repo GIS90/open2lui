@@ -150,7 +150,7 @@ export default {
       formDataLimit: {
         start: 4,
         end: 4,
-        pages: 85
+        pages: 120
       },
       // data
       formData: {

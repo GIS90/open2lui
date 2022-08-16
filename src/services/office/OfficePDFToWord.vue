@@ -163,10 +163,10 @@ export default {
         inactiveColor: '#13ce66' // 关闭时的背景色
       },
       formDataLimit: {
-        name: 85,
+        name: 80,
         start: 4,
         end: 4,
-        pages: 85
+        pages: 120
       },
       // data
       formData: {
