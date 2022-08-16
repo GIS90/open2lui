@@ -1,4 +1,40 @@
-> ## 简介
+> ## OPENTOOL-Z介绍
+
+![](https://img.shields.io/badge/前端-VUE-FFFF00)
+![](https://img.shields.io/badge/后台-PYTHON-red)
+
+***OPENTOOL-Z【开源智行工具箱】***   
+一款工具流程化的网站，值得收藏。
+
+### 项目地址
+前端 **_open2lbox_**：https://github.com/GIS90/open2lui.git  
+后台 **_open2lbox_**：https://github.com/GIS90/open2lisapi.git  
+后台WIKI设计说明：https://github.com/GIS90/open2lisapi/wiki
+
+
+### 线上地址
+
+```
+线上地址：http://2l.pygo2.top/  
+测试账号：tester  
+密码：123456
+```
+
+### 开发进度记录
+
+记录信息采用了腾讯共享文档的方式记录API接口、数据库模型、开发周期、测试记录等信息。
+
+- 开发周期  
+  https://docs.qq.com/sheet/DZmJZUlBuS1dla0Vw?tab=BB08J2
+
+- 数据模型  
+  https://docs.qq.com/sheet/DZmtvY2xTUE9LdlND?tab=BB08J2
+
+- 测试记录  
+  https://docs.qq.com/sheet/DZmNNd2hpV3RBeFVw?tab=BB08J2
+
+
+> ## 运维
 
 ![](https://img.shields.io/badge/Language-ES6-red)
 ![](https://img.shields.io/badge/DevStructure-VUE-0000FF)
@@ -6,16 +42,6 @@
 
 项目简称：**_open2lui_**  
 采用VUE框架进行研发，是支撑***OPENTOOL-Z***项目的前端UI。
-
-后端 **_open2lisapi_**：https://github.com/GIS90/open2lisapi.git
-
-### 平台地址
-
-```
-线上地址：http://2l.pygo2.top/  
-测试账号：tester  
-密码：abc1234
-```
 
 
 ### 项目架构
@@ -29,16 +55,6 @@
 - ElementUI UI开发框架
 - vue-element-admin VUE前端脚手架（VUE + ElementUI）
 
-
-### 开发进度记录
-
-记录信息采用了腾讯共享文档的方式记录API接口、数据库模型、开发周期等信息。
-
-- 开发周期记录  
-  https://docs.qq.com/sheet/DZmJZUlBuS1dla0Vw?tab=BB08J2
-
-- 数据模型说明  
-  https://docs.qq.com/sheet/DZmtvY2xTUE9LdlND?tab=BB08J2
 
 > ## 项目说明
 
