@@ -198,7 +198,7 @@ export default {
     return {
       curMd5: '',
       dialogAttrs: {
-        title: '表格拆分',
+        title: '拆分',
         width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值

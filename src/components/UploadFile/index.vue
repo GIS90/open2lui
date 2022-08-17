@@ -148,7 +148,7 @@ export default {
         disabled: false
       },
       dialogAttrs: {
-        title: '文件上传',
+        title: '上传',
         width: '55%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值

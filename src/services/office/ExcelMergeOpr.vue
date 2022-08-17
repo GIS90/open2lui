@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       dialogAttrs: {
-        title: '表格合并',
+        title: '合并',
         width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
