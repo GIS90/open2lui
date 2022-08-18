@@ -200,6 +200,7 @@ export default {
     },
     getDNewInfo() {
       const params = {
+        'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
       }
       // 获取tablerow最新数据

@@ -182,6 +182,7 @@ export default {
     },
     getDNewInfo() {
       const params = {
+        'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
