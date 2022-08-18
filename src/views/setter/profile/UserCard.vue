@@ -1,15 +1,15 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <strong>About me</strong>
     </div>
 
     <div class="user-profile">
       <!-- user avatar -->
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'120px'" :width="'120px'" :hoverable="false">
-          <div style="margin-top: 10px;">Hello</div>
-          <div class="user-name text-center" style="margin-top: 10px;color: red;">{{ user.rtx_id }}</div>
+        <pan-thumb :image="user.avatar" :height="image.height" :width="image.width" :hoverable="false">
+          <div style="margin-top: 15px;">Hello</div>
+          <div class="user-name text-center" style="margin-top: 20px;color: red;">{{ user.rtx_id }}</div>
         </pan-thumb>
       </div>
       <div class="box-center">
@@ -76,6 +76,15 @@ export default {
           introduction: '',
           avatar: ''
         }
+      }
+    }
+  },
+  data() {
+    return {
+      // 头像设置
+      image: {
+        height: '150px',
+        width: '150px'
       }
     }
   },

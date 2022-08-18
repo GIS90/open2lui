@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <div v-if="user">
+    <div v-if="user" style="width: 100%">
       <el-row :gutter="20">
         <!-- user card -->
         <el-col :span="8" :xs="24">
           <user-card :user="user" />
         </el-col>
-        <!-- user base info and timeline -->
+        <!-- user detail and timeline -->
         <el-col :span="16" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
@@ -19,7 +19,6 @@
             </el-tabs>
           </el-card>
         </el-col>
-
       </el-row>
     </div>
   </div>

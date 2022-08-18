@@ -29,7 +29,7 @@
         :disabled="!edit"
       />
     </el-form-item>
-    <el-form-item v-show="edit" label="密码">
+    <el-form-item v-if="edit" label="密码">
       <br>
       <password />
     </el-form-item>
