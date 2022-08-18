@@ -90,17 +90,15 @@
 
 > ## 开发特定点
 
-- 1.首页登录校验  
+### 1.首页登录校验  
 文件位置：src/views/login->index.vue  
 说明：账户登录有validate校验，校验的方式是用到src/utils->validate.js中的校验方法。
 
-
-- 2.store中的role类型  
+### 2.store中的role类型  
 文件位置：src->store->modules->user.js  
-说明：api返回的role为code字符串，getInfo中转化为数组
+说明：api返回的role数组
 
-
-- 3.Mock数据那块上线记得禁止掉  
+### 3.Mock数据那块上线记得禁止掉  
 文件位置：src->main.js   
 说明：禁止掉Mock数据请求
   ```
@@ -109,16 +107,25 @@
   before: require('./mock/mock-server.js')
   ```
 
-- 4.登录首页成功后的跳转修改  
+### 4.登录首页成功后的跳转修改  
 文件位置：src->views->login->index.vue   
 说明：在文件的(162-163)处位置，登录成功后指定跳转到首页，否则会有redirect进行跳转   
 
-- 5.添加了services目录，用来存储views下的页面开发组件，目录位置：src/services。   
+### 5.添加了services目录
+用来存储views下的页面开发组件，目录位置：src/services。   
 而components主要用来存储公共使用到的子组件。
 
-- 6.Dtalk钉钉绩效通知功能的模板URL   
+### 6.Dtalk钉钉绩效通知功能的模板URL   
 文件位置：src->views->notify->dtalk.vue   
 说明：参数为dtalkTemplateFile
+
+### 7.首页设置
+- 1.文件位置：src->views->dashboard（line：28）  
+说明：用户登录成功后，TODO后期做成依据不同角色显示不同内容。  
+目前，先做成一致页。    
+- 2.文件位置：src->settings.js->adminRoleRtx   
+说明：用来标识管理员角色配置，依据adminRoleRtx进行部分管理员角色内容判断，比如：在权限管理->角色管理中进行管理员角色操作判断。
+
 
 > ## 后台API交互
 
