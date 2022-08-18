@@ -50,24 +50,27 @@
           @select-all="selectAll"
         >
           <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
-          <el-table-column fixed="left" label="上传时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
+          <el-table-column fixed="left" prop="name" label="名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="240" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="key" label="KEY" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="secret" label="SECRET" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="description" label="描述" :header-align="tableRowAttrs.headerAlign" align="left" width="320" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
+          <el-table-column label="上传时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
             <template slot-scope="scope">
               <i class="el-icon-time" />
               <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="240" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="key" label="KEY" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="secret" label="SECRET" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="description" label="描述" :header-align="tableRowAttrs.headerAlign" align="left" width="320" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
-          <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
+          <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="320">
             <template slot-scope="scope">
               <el-tooltip effect="dark" content="设置" placement="top">
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" :content="scope.row.select === true ? '启用' : '关闭'" placement="top">
                 <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" @click="setSelectStatus(scope.$index, scope.row)" />
+              </el-tooltip>
+              <el-tooltip class="icon-item" effect="dark" content="Ping" placement="top">
+                <i class="el-icon-phone-outline" @click="rowHandlePing(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -110,7 +113,8 @@ import DtalkRobotAdd from '@/services/notify/DtalkRobotAdd'
 import DtalkRobotSet from '@/services/notify/DtalkRobotSet'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import Pagination from '@/components/Pagination'
-import { notifyDtalkRobotDelete, notifyDtalkRobotList, notifyDtalkRobotSelect } from '@/api/notify'
+import { notifyDtalkRobotDelete, notifyDtalkRobotList,
+  notifyDtalkRobotPing, notifyDtalkRobotSelect } from '@/api/notify'
 
 export default {
   name: 'DtalkRobot',
@@ -377,6 +381,33 @@ export default {
               duration: 2.0 * 1000
             })
             this.getTableList()
+          }
+          this.btnDisabled = false
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          reject(error)
+        })
+      })
+    },
+    rowHandlePing(index, row) { // table row ping
+      if (!row || !row?.md5_id) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': row.md5_id
+      }
+      this.btnDisabled = true
+      return new Promise((resolve, reject) => {
+        notifyDtalkRobotPing(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: 'Ping成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
           }
           this.btnDisabled = false
           resolve(response)

@@ -117,6 +117,15 @@ export function notifyDtalkRobotSelect(data) {
   })
 }
 
+// dtalk robot ping
+export function notifyDtalkRobotPing(data) {
+  return request({
+    url: '/notify/dtalk_robot_ping',
+    method: 'post',
+    data
+  })
+}
+
 // dtalk消息发送dg数据初始化
 export function notifyDtalkSendInit(data) {
   return request({
