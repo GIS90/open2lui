@@ -18,7 +18,7 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form id="main-opr-div" ref="formData" :label-position="labelPosition" :model="formData" label-width="auto">
+      <el-form id="main-opr-div" ref="formData" :label-position="labelPosition" :model="formData" label-width="auto" style="width: 100%">
         <el-form-item label="Robot选择">
           <el-select
             v-model="formData.robotIndex"

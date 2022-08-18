@@ -10,7 +10,7 @@
       :close-on-press-escape="drawerAttrs.closeOnEsc"
       @close="close()"
     >
-      <div class="tip">
+      <div class="tip" style="width: 100%">
         帮助快速了解菜单信息。
         <ol>
           <li>菜单ID：ID</li>

@@ -18,7 +18,7 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto" style="width: 100%">
         <el-divider content-position="left">文件设置</el-divider>
         <el-form-item label="文件名称">
           <el-input

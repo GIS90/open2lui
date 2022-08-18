@@ -18,7 +18,7 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="RTX名称" prop="rtx">

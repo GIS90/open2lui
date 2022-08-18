@@ -18,7 +18,7 @@
       @open="openDialog"
       @close="closeDialog"
     >
-      <el-form ref="menuForm" :label-position="labelPosition" label-width="auto">
+      <el-form ref="menuForm" :label-position="labelPosition" label-width="auto" style="width: 100%">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="菜单ID">
@@ -337,7 +337,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div v-show="menuObject.is_del">
+        <div v-if="menuObject.is_del">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="禁用者RTX">

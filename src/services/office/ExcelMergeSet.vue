@@ -17,7 +17,7 @@
       :center="dialogAttrs.center"
       @close="closeDialog()"
     >
-      <el-form :label-position="labelPosition" label-width="auto">
+      <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
         <el-form-item label="文件名称">
           <el-input
             v-model.trim="tableRow.name"

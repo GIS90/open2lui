@@ -18,7 +18,7 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
         <!--模式-->
         <el-form-item>
           <el-switch
