@@ -46,10 +46,11 @@ module.exports = {
   adminRoleRtx: 'admin',
 
   /**
-   * new user default password
+   * user default password
+   * user default avatar
    * */
   defaultUserPassword: 'abc1234',
-
+  defaultUserAvatar: 'http://2lstore.pygo2.top/avatars/default.png',
   /**
    * base information
    * */

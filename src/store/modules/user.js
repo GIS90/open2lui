@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import { defaultUserAvatar } from '@/settings.js'
 
 const state = {
   token: getToken(), // user token
@@ -77,11 +78,13 @@ const actions = {
           reject('初始化用户信息失败')
         }
 
-        commit('SET_ROLES', role) // api返回的role为code字符串，转化为数组
-        commit('SET_AVATAR', avatar)
-        commit('SET_AUTH', true)
-        commit('SET_USER', user)
+        // vuex store存储临时用户数据
         commit('SET_RTX', rtx_id)
+        commit('SET_ROLES', role)
+        commit('SET_AVATAR', avatar || defaultUserAvatar)
+        commit('SET_AUTH', true) // 授权成功
+        commit('SET_USER', user)
+
         resolve(user)
       }).catch(error => {
         reject(error)
@@ -98,6 +101,7 @@ const actions = {
         commit('SET_AUTH', false)
         commit('SET_USER', {})
         commit('SET_RTX', '')
+        commit('SET_AVATAR', '')
         removeToken()
         resetRouter()
 
@@ -120,6 +124,7 @@ const actions = {
       commit('SET_AUTH', false)
       commit('SET_USER', {})
       commit('SET_RTX', '')
+      commit('SET_AVATAR', '')
       removeToken()
       resolve()
     })

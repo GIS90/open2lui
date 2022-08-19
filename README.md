@@ -68,7 +68,8 @@
 
 ### settings.js配置
 
-文件位置：根目录/src/settings.js
+文件位置：根目录/src/settings.js   
+说明：存储的为项目基础信息配置以及一些参数变量默认值【***重要***】
 
 - logoTitle、logoUrl、loginTitle、pageTitle：分别是系统首页的LOGO标题、以及图片地址，还有登录页的标题，浏览器页面标题的prefix
 - showSettings：系统布局配置，也就是右侧的小按钮

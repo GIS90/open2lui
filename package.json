@@ -20,7 +20,9 @@
   "main": "src/main.js",
   "scripts": {
     "dev": "vue-cli-service serve --open --mode development",
-    "https": "vue-cli-service serve --open --copy --https --mode development",
+    "devs": "vue-cli-service serve --open --copy --https --mode development",
+    "prod": "vue-cli-service serve --open --copy --mode production",
+    "prods": "vue-cli-service serve --open --copy --https --mode production",
     "lint": "eslint --ext .js,.vue src",
     "lint-fix": "eslint --ext .js,.vue src --fix",
     "build": "vue-cli-service build --report",

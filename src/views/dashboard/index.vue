@@ -7,12 +7,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import adminDashboard from './admin'
-import editorDashboard from './editor'
+import DashboardNo from './no'
 import { adminRoleRtx } from '@/settings.js'
 
 export default {
   name: 'Dashboard',
-  components: { adminDashboard, editorDashboard },
+  components: {
+    adminDashboard,
+    DashboardNo
+  },
   data() {
     return {
       currentRole: 'adminDashboard'
@@ -25,8 +28,10 @@ export default {
   },
   created() {
     // 配置不同角色进入Dashboard展示内容
-    if (!this.roles.includes(adminRoleRtx)) {
-      this.currentRole = 'editorDashboard'
+    if (this.roles.includes(adminRoleRtx)) { // 管理员
+      this.currentRole = 'adminDashboard'
+    } else {
+      this.currentRole = 'DashboardNo' // 无role判断DashboardNo
     }
   }
 }

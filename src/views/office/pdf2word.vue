@@ -76,13 +76,7 @@
     </div>
 
     <!-- page分页 -->
-    <public-pagination
-      :page="pageCur"
-      :size="pageSize"
-      :total="pageTotal"
-      @pagin-size-change="paginSizeChange"
-      @pagin-current-change="paginCurrentChange"
-    />
+    <public-pagination :page="pageCur" :size="pageSize" :total="pageTotal" @pagin-size-change="paginSizeChange" @pagin-current-change="paginCurrentChange" />
 
     <!-- 删除dialog -->
     <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />

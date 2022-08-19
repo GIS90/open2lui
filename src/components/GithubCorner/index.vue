@@ -1,10 +1,10 @@
 <template>
-  <a href="https://github.com/PanJiaChen/vue-element-admin" target="_blank" class="github-corner" aria-label="View source on Github">
+  <a :href="url" target="_blank" class="github-corner" aria-label="View source on Github">
     <svg
-      width="80"
-      height="80"
+      :width="imageWidth"
+      :height="imageHeight"
       viewBox="0 0 250 250"
-      style="fill:#40c9c6; color:#fff;"
+      style="fill:#555555; color:#fff;"
       aria-hidden="true"
     >
       <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" />
@@ -22,6 +22,39 @@
     </svg>
   </a>
 </template>
+
+<script>
+export default {
+  name: 'GithubCorner',
+  emits: [],
+  components: {},
+  props: {
+    url: {
+      type: String,
+      require: true,
+      default: '1'
+    },
+    imageWidth: {
+      type: Number,
+      require: false,
+      default: 80
+    },
+    imageHeight: {
+      type: Number,
+      require: false,
+      default: 80
+    }
+  },
+  data() {
+    return {}
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {}
+}
+</script>
 
 <style scoped>
 .github-corner:hover .octo-arm {
