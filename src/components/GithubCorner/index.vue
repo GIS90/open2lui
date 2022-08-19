@@ -32,7 +32,7 @@ export default {
     url: {
       type: String,
       require: true,
-      default: '1'
+      default: 'https://github.com/GIS90/open2lisapi.git'
     },
     imageWidth: {
       type: Number,
