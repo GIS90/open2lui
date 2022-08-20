@@ -31,7 +31,7 @@ export default {
     if (this.roles.includes(adminRoleRtx)) { // 管理员
       this.currentRole = 'DashboardAdmin'
     } else {
-      this.currentRole = 'DashboardNo' // 无role判断DashboardNo
+      this.currentRole = 'DashboardAdmin' // 无role判断DashboardNo
     }
   }
 }

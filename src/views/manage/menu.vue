@@ -38,6 +38,7 @@
         <el-table-column prop="path" label="请求地址" width="200" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="icon" label="菜单图标" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="level" label="级别" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="shortcut" label="快捷入口" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="order_id" label="排序ID" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="上级菜单信息" :align="tableRowAttrs.align">
           <el-table-column prop="pid" label="上级菜单ID" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />

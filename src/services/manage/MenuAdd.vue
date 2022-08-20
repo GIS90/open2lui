@@ -139,6 +139,31 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="快捷入口" prop="shortcut">
+              <el-select
+                v-model="menuForm.shortcut"
+                style="width: 100%"
+                placeholder="请选择是否设置快捷入口"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :multiple-limit="selectAttrs.limit"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+                :disabled="disabled"
+              >
+                <el-option
+                  v-for="(item, index) in boolEnum"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 开发者配置 -->
         <el-divider content-position="left">开发者配置</el-divider>
         <el-row :gutter="20">
@@ -356,6 +381,7 @@ export default {
         path: 35,
         title: 25,
         level: 1,
+        shortcut: 1,
         component: 25,
         hidden: 1,
         redirect: 55,
@@ -376,7 +402,8 @@ export default {
         hidden: '',
         cache: '',
         affix: '',
-        breadcrumb: ''
+        breadcrumb: '',
+        shortcut: ''
       },
       menuFormRules: {
         name: [
@@ -416,6 +443,9 @@ export default {
         ],
         breadcrumb: [
           { required: true, message: '请选择Breadcrumb属性', trigger: ['blur', 'change'] }
+        ],
+        shortcut: [
+          { required: true, message: '请选择是否设置快捷入口', trigger: ['blur', 'change'] }
         ]
       },
       menuSelect: {}, // menu select list
@@ -445,6 +475,7 @@ export default {
       this.menuForm.cache = ''
       this.menuForm.affix = ''
       this.menuForm.breadcrumb = ''
+      this.menuForm.shortcut = ''
       // 获取初始化枚举列表
       const params = {
         'rtx_id': store.getters.rtx_id,
@@ -479,7 +510,8 @@ export default {
         hidden: this.menuForm.hidden,
         cache: this.menuForm.cache,
         affix: this.menuForm.affix,
-        breadcrumb: this.menuForm.breadcrumb
+        breadcrumb: this.menuForm.breadcrumb,
+        shortcut: this.menuForm.shortcut
       }
       // menu add
       this.$refs.menuForm.validate(valid => {

@@ -141,6 +141,29 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
+            <el-form-item label="快捷入口" prop="shortcut">
+              <el-select
+                v-model="menuForm.shortcut"
+                style="width: 100%"
+                placeholder="请选择是否设置快捷入口"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :multiple-limit="selectAttrs.limit"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+                :disabled="disabled"
+              >
+                <el-option
+                  v-for="(item, index) in boolEnum"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="排序ID" prop="order_id">
               <el-input
                 v-model.trim="menuForm.order_id"
@@ -379,6 +402,7 @@ export default {
         path: 35,
         title: 25,
         level: 1,
+        shortcut: 1,
         component: 25,
         hidden: 1,
         redirect: 55,
@@ -401,7 +425,8 @@ export default {
         cache: '',
         affix: '',
         breadcrumb: '',
-        order_id: ''
+        order_id: '',
+        shortcut: ''
       },
       menuFormRules: {
         name: [
@@ -421,6 +446,9 @@ export default {
         ],
         level: [
           { required: true, message: '请选择菜单级别', trigger: ['blur', 'change'] }
+        ],
+        shortcut: [
+          { required: true, message: '请选择是否设置快捷入口', trigger: ['blur', 'change'] }
         ],
         icon: [
           { required: true, message: '请输入菜单图标', trigger: ['blur', 'change'] },
@@ -499,7 +527,8 @@ export default {
         cache: this.menuForm.cache,
         affix: this.menuForm.affix,
         breadcrumb: this.menuForm.breadcrumb,
-        order_id: this.menuForm.order_id
+        order_id: this.menuForm.order_id,
+        shortcut: this.menuForm.shortcut
       }
       // menu update
       this.$refs.menuForm.validate(valid => {
