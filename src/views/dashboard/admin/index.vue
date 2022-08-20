@@ -11,19 +11,22 @@
       </el-row>
     </div>
     <!-- 实时数据 -->
-    <div id="dashboard-container-real-time-data">
-      <el-divider><i class="el-icon-time">  实时数据</i></el-divider>
+    <div id="dashboard-container-real-time-index">
+      <el-divider><i class="el-icon-time">  实时指标</i></el-divider>
       <el-row :gutter="32">
+        <!-- chart-one -->
         <el-col :xs="24" :sm="24" :lg="8">
           <div class="chart-wrapper">
             <raddar-chart />
           </div>
         </el-col>
+        <!-- chart-two -->
         <el-col :xs="24" :sm="24" :lg="8">
           <div class="chart-wrapper">
             <pie-chart />
           </div>
         </el-col>
+        <!-- chart-three -->
         <el-col :xs="24" :sm="24" :lg="8">
           <div class="chart-wrapper">
             <bar-chart />
@@ -32,7 +35,8 @@
       </el-row>
     </div>
     <!-- 其他内容 -->
-    <div id="dashboard-container-other">
+    <el-divider><i class="el-icon-odometer">  其他数据</i></el-divider>
+    <div id="dashboard-container-other-data">
       <el-row :gutter="8">
         <!-- table -->
         <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
@@ -99,7 +103,7 @@ export default {
   .chart-wrapper {
     background: #fff;
     padding: 16px 16px 0;
-    margin-bottom: 32px;
+    margin-bottom: 10px;
   }
 }
 
