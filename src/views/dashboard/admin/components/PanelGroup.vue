@@ -75,7 +75,7 @@ export default {
   props: {},
   data() {
     return {
-      panChartType: 'user', // pan类型：user-用户【默认为user】
+      panChartType: 'user', // pan类型：user-用户【默认为user】click-点击数
       // 计数器持续时间
       countToDurs: {
         user: 2500,

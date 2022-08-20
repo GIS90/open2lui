@@ -31,7 +31,7 @@ export default {
     height: {
       type: String,
       require: false,
-      default: '370px'
+      default: '350px'
     },
     autoResize: {
       type: Boolean,
@@ -53,7 +53,7 @@ export default {
     }
   },
   created() {
-    // this.updateChartData()
+    // this.updateChartData() // 挂载mounted
   },
   mounted() {
     // 1.初始化echart对象 2.获取echart data 3.setOptions渲染echart
@@ -114,7 +114,7 @@ export default {
       }
     },
     // echart options && show【https://echarts.apache.org/zh/option.html】
-    setOptions(data) {
+    setOptions(lineData) {
       this.chart.setOption({
         // 标题
         title: {
@@ -130,7 +130,7 @@ export default {
         },
         // 直角坐标系 grid 中的 x 轴
         xAxis: {
-          data: ['星期一1', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+          data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
           boundaryGap: false
         },
         // 直角坐标系 grid 中的 y 轴
@@ -143,7 +143,7 @@ export default {
         grid: {
           left: 25,
           right: 25,
-          bottom: 10,
+          bottom: 15,
           top: 50,
           containLabel: true
         },
@@ -161,20 +161,46 @@ export default {
           left: 20,
           data: ['数据量']
         },
+        // 工具栏
+        toolbox: {
+          show: true,
+          feature: {
+            magicType: {
+              type: ['line', 'bar']
+            },
+            saveAsImage: {}
+          }
+        },
         series: [{
           name: '数据量',
+          smooth: true,
+          type: 'line',
+          data: lineData,
           itemStyle: {
             normal: {
               color: '#FF005A', // #3888fa
               lineStyle: {
                 color: '#FF005A',
-                width: 2
+                width: 1.5
               }
             }
           },
-          smooth: true,
-          type: 'line',
-          data: data,
+          areaStyle: {
+            opacity: 0.8,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgb(0, 221, 255)'
+              },
+              {
+                offset: 1,
+                color: 'rgb(77, 119, 255)'
+              }
+            ])
+          },
+          emphasis: {
+            focus: 'series'
+          },
           animationDuration: 3200,
           animationEasing: 'cubicInOut' // quadraticOut cubicInOut
         }]
