@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 初始化Dashboard pan
+// Dashboard pan chart data
 export function DashboardPan(data) {
   return request({
     url: '/dashboard/pan',
@@ -13,6 +13,15 @@ export function DashboardPan(data) {
 export function DashboardPanChart(data) {
   return request({
     url: '/dashboard/pan_chart',
+    method: 'post',
+    data
+  })
+}
+
+// Dashboard index chart data
+export function DashboardIndex(data) {
+  return request({
+    url: '/dashboard/index',
     method: 'post',
     data
   })

@@ -4,7 +4,7 @@
 
 <script>
 import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
+require('echarts/theme/macarons') // echarts theme: vintage dark macarons shine roma infographic
 import resize from './mixins/resize'
 import store from '@/store'
 import { DashboardPanChart } from '@/api/dashboard'
@@ -41,8 +41,8 @@ export default {
   },
   data() {
     return {
-      chart: null,
-      chartData: [] // chart data
+      chart: null, // Echart实例
+      chartData: [] // Echart data
     }
   },
   watch: {
@@ -58,7 +58,7 @@ export default {
   mounted() {
     // 1.初始化echart对象 2.获取echart data 3.setOptions渲染echart
     this.$nextTick(() => {
-      this.initChart()
+      this.chartInit()
       this.updateChartData()
     })
   },
@@ -82,7 +82,7 @@ export default {
             const { status_id, data } = response
             if (status_id === 100) {
               this.chartData = data
-              this.setOptions(this.chartData)
+              this.chartOptions(this.chartData)
             }
             resolve(response)
           }).catch(error => {
@@ -92,15 +92,15 @@ export default {
       }
     },
     // echart对象
-    initChart() {
-      // 实例化echart对象
+    chartInit() {
+      // 实例化Echart对象
       this.chart = echarts.init(this.$el, 'macarons') // 方式一：this.$el
       // this.chart = echarts.init(document.getElementById('dynamic-pan-chart'), 'macarons') // 方式二：document.getElementById('dynamic-pan-chart')
       // 延迟渲染，目的是在请求完chartData数据后进行渲染
       // this.setOptions(this.chartData)
     },
     // chart 标题
-    getChartTitle() {
+    chartTitle() {
       if (this.chartType === 'user') {
         return '本周用户登录情况'
       } else if (this.chartType === 'click') {
@@ -114,12 +114,12 @@ export default {
       }
     },
     // echart options && show【https://echarts.apache.org/zh/option.html】
-    setOptions(lineData) {
+    chartOptions(lineData) {
       this.chart.setOption({
         // 标题
         title: {
           show: true,
-          text: this.getChartTitle(),
+          text: this.chartTitle(),
           x: 'center',
           textAlign: 'left',
           textStyle: {

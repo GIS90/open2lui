@@ -17,13 +17,13 @@
         <!-- chart-one -->
         <el-col :xs="24" :sm="24" :lg="8">
           <div class="chart-wrapper">
-            <raddar-chart />
+            <real-time-index-one width="100%" height="350px" />
           </div>
         </el-col>
         <!-- chart-two -->
         <el-col :xs="24" :sm="24" :lg="8">
           <div class="chart-wrapper">
-            <pie-chart />
+            <raddar-chart />
           </div>
         </el-col>
         <!-- chart-three -->
@@ -58,8 +58,8 @@
 <script>
 import PanelGroup from './components/PanelGroup'
 import DynamicPanChart from './components/DynamicPanChart'
+import RealTimeIndexOne from './components/RealTimeIndexOne'
 import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
 import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
@@ -70,8 +70,8 @@ export default {
   components: {
     'panel-group': PanelGroup,
     'dynamic-pan-chart': DynamicPanChart,
+    'real-time-index-one': RealTimeIndexOne,
     RaddarChart,
-    PieChart,
     BarChart,
     TransactionTable,
     TodoList,
