@@ -1,13 +1,14 @@
 <template>
-  <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
-
-    <panel-group @handleSetLineChartData="handleSetLineChartData" />
-
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData" />
+  <div class="dashboard-container">
+    <!-- 快捷面板panel -->
+    <el-divider><i class="el-icon-pie-chart">  动态报表</i></el-divider>
+    <panel-group @handle-dynamic-pan-chart-type="handleDynamicPanChartType" />
+    <!-- 联动pan-chart -->
+    <el-row class="dynamic-pan-chart">
+      <dynamic-pan-chart :chart-type="chartType" />
     </el-row>
-
+    <!-- 静态chart -->
+    <el-divider><i class="el-icon-time">  实时数据</i></el-divider>
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
@@ -25,14 +26,17 @@
         </div>
       </el-col>
     </el-row>
-
+    <!-- 其他内容 -->
     <el-row :gutter="8">
+      <!-- table -->
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
         <transaction-table />
       </el-col>
+      <!-- todo-list -->
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
         <todo-list />
       </el-col>
+      <!-- box-card -->
       <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
         <box-card />
       </el-col>
@@ -41,9 +45,8 @@
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
 import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
+import DynamicPanChart from './components/DynamicPanChart'
 import RaddarChart from './components/RaddarChart'
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
@@ -51,31 +54,11 @@ import TransactionTable from './components/TransactionTable'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
 
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
-
 export default {
   name: 'DashboardAdmin',
   components: {
-    GithubCorner,
-    PanelGroup,
-    LineChart,
+    'panel-group': PanelGroup,
+    'dynamic-pan-chart': DynamicPanChart,
     RaddarChart,
     PieChart,
     BarChart,
@@ -85,35 +68,37 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      chartType: 'user' // dynamic pan chart type: user-用户 click-点击率
     }
   },
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
+    handleDynamicPanChartType(type) {
+      if (type) {
+        this.chartType = type
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.dashboard-editor-container {
-  padding: 32px;
+.dashboard-container {
+  padding: 5px 32px 32px 32px;
   background-color: rgb(240, 242, 245);
   position: relative;
-
-  .github-corner {
-    position: absolute;
-    top: 0px;
-    border: 0;
-    right: 0;
-  }
 
   .chart-wrapper {
     background: #fff;
     padding: 16px 16px 0;
     margin-bottom: 32px;
   }
+}
+
+.dynamic-pan-chart {
+  background: #fff;
+  width: 100%;
+  padding: 20px 20px 20px 20px;
+  margin-bottom: 32px;
 }
 
 @media (max-width:1024px) {

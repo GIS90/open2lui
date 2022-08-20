@@ -1,33 +1,36 @@
 <template>
   <el-row :gutter="40" class="panel-group">
+    <!-- 用户 -->
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
+      <div class="card-panel" @click="handleSetPanChartType('user')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            New Visits
+            用户
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panCounts.user" :duration="countToDurs.user" class="card-panel-num" />
         </div>
       </div>
     </el-col>
+    <!-- 点击率 -->
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('messages')">
+      <div class="card-panel" @click="handleSetPanChartType('click')">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <svg-icon icon-class="chart" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+            点击数
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panCounts.click" :duration="countToDurs.click" class="card-panel-num" />
         </div>
       </div>
     </el-col>
+    <!--
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+      <div class="card-panel" @click="handleSetPanChartType('purchases')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
         </div>
@@ -35,12 +38,12 @@
           <div class="card-panel-text">
             Purchases
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panCounts.d2" :duration="countToDurs.d2" class="card-panel-num" />
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+      <div class="card-panel" @click="handleSetPanChartType('shoppings')">
         <div class="card-panel-icon-wrapper icon-shopping">
           <svg-icon icon-class="shopping" class-name="card-panel-icon" />
         </div>
@@ -48,23 +51,76 @@
           <div class="card-panel-text">
             Shoppings
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panCounts.d3" :duration="countToDurs.d3" class="card-panel-num" />
         </div>
       </div>
     </el-col>
+    -->
   </el-row>
 </template>
 
 <script>
 import CountTo from 'vue-count-to'
+import store from '@/store'
+import { DashboardPan } from '@/api/dashboard'
 
 export default {
+  name: 'PanelGroup',
+  emits: [
+    'handle-dynamic-pan-chart-type'
+  ],
   components: {
-    CountTo
+    'count-to': CountTo
   },
+  props: {},
+  data() {
+    return {
+      panChartType: 'user', // pan类型：user-用户【默认为user】
+      // 计数器持续时间
+      countToDurs: {
+        user: 2500,
+        click: 3000,
+        d2: 4000,
+        d3: 4500
+      },
+      // pan数据，默认为0
+      panCounts: {
+        user: 0,
+        click: 0,
+        d2: 84000,
+        d3: 13600
+      }
+    }
+  },
+  computed: {},
+  watch: {},
+  created() {
+    this.initData()
+  },
+  mounted() {},
   methods: {
-    handleSetLineChartData(type) {
-      this.$emit('handleSetLineChartData', type)
+    // initialize dashboard pan data
+    initData() {
+      const data = {
+        'rtx_id': store.getters.rtx_id
+      }
+      return new Promise((resolve, reject) => {
+        DashboardPan(data).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            this.panCounts.user = data.user // 用户
+            this.panCounts.click = data.click // 点击率
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // change dynamic chart type
+    handleSetPanChartType(type) {
+      this.panChartType = type || this.panChartType
+      this.$emit('handle-dynamic-pan-chart-type', this.panChartType)
     }
   }
 }
@@ -72,7 +128,7 @@ export default {
 
 <style lang="scss" scoped>
 .panel-group {
-  margin-top: 18px;
+  margin-top: 5px;
 
   .card-panel-col {
     margin-bottom: 32px;
@@ -95,7 +151,7 @@ export default {
       }
 
       .icon-people {
-        background: #40c9c6;
+        background: #34bfa3;
       }
 
       .icon-message {
@@ -107,12 +163,12 @@ export default {
       }
 
       .icon-shopping {
-        background: #34bfa3
+        background: #FD5532
       }
     }
 
     .icon-people {
-      color: #40c9c6;
+      color: #34bfa3;
     }
 
     .icon-message {
@@ -124,7 +180,7 @@ export default {
     }
 
     .icon-shopping {
-      color: #34bfa3
+      color: #FD5532
     }
 
     .card-panel-icon-wrapper {
@@ -143,8 +199,8 @@ export default {
     .card-panel-description {
       float: right;
       font-weight: bold;
-      margin: 26px;
-      margin-left: 0px;
+      margin: 26px 26px 26px 26px;
+      //margin-left: 0px;
 
       .card-panel-text {
         line-height: 18px;
