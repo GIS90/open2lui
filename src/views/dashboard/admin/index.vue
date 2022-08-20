@@ -1,5 +1,10 @@
 <template>
   <div id="dashboard-container" class="dashboard-container">
+    <!-- 快捷入口 -->
+    <div v-if="shortCut" id="dashboard-container-short-cut-group">
+      <el-divider><i class="el-icon-menu">  快捷入口</i></el-divider>
+      <short-cut-group />
+    </div>
     <!-- 动态报表 -->
     <div id="dashboard-container-dynamic-pan">
       <el-divider><i class="el-icon-pie-chart">  动态面板</i></el-divider>
@@ -56,6 +61,7 @@
 </template>
 
 <script>
+import ShortCutGroup from './components/ShortCutGroup'
 import PanelGroup from './components/PanelGroup'
 import DynamicPanChart from './components/DynamicPanChart'
 import RealTimeIndexOne from './components/RealTimeIndexOne'
@@ -68,6 +74,7 @@ import BoxCard from './components/BoxCard'
 export default {
   name: 'DashboardAdmin',
   components: {
+    'short-cut-group': ShortCutGroup,
     'panel-group': PanelGroup,
     'dynamic-pan-chart': DynamicPanChart,
     'real-time-index-one': RealTimeIndexOne,
@@ -79,6 +86,7 @@ export default {
   },
   data() {
     return {
+      shortCut: true, // 是否显示shortcut【快捷入口】
       panChartType: 'user', // dynamic pan chart type: user-用户 click-点击率
       panChartWidth: '100%', // dynamic pan chart width
       panChartHeight: '400px' // dynamic pan chart height

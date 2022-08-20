@@ -17,7 +17,7 @@
     <!-- 点击率 -->
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetPanChartType('click')">
-        <div class="card-panel-icon-wrapper icon-message">
+        <div class="card-panel-icon-wrapper icon-click">
           <svg-icon icon-class="click" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
@@ -162,7 +162,7 @@ export default {
         background: #f4516c;
       }
 
-      .icon-shopping {
+      .icon-click {
         background: #FD5532
       }
     }
@@ -179,7 +179,7 @@ export default {
       color: #f4516c;
     }
 
-    .icon-shopping {
+    .icon-click {
       color: #FD5532
     }
 

@@ -26,3 +26,12 @@ export function DashboardIndex(data) {
     data
   })
 }
+
+// Dashboard short cut data
+export function DashboardShortCut(data) {
+  return request({
+    url: '/dashboard/shortcut',
+    method: 'post',
+    data
+  })
+}
