@@ -29,7 +29,9 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.initData()
+    this.$nextTick(() => {
+      this.initData()
+    })
   },
   mounted() {},
   methods: {
