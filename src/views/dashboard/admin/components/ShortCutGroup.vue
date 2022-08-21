@@ -1,13 +1,13 @@
 <template>
   <el-row class="row-group">
-    <el-col v-for="(item, index) of shortCutData" :key="index" :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-col">
-      <div class="card-box">
+    <el-col v-for="(item, index) of shortCutData" :key="index" :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
+      <el-tooltip :content="item.name" placement="top" effect="dark">
         <div class="card-box-icon-wrapper card-box-icon-div">
           <router-link :to="{ path: item.path }">
             <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
           </router-link>
         </div>
-      </div>
+      </el-tooltip>
     </el-col>
   </el-row>
 </template>
@@ -58,11 +58,9 @@ export default {
 .row-group {
   margin-top: 5px;
 
-  .card-col {
-    margin-bottom: 5px;
-  }
-
   .card-box {
+    margin-bottom: 5px;
+    text-align: center!important;
 
     .card-box-icon-div {
       color: #36a3f7; // 图标框div背景色
@@ -85,6 +83,7 @@ export default {
       transition: all 0.38s ease-out;
       border-radius: 16px;
     }
+
     // Svg图标样式
     .card-box-icon {
       float: left;
