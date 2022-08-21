@@ -33,6 +33,8 @@
 - 测试记录  
   https://docs.qq.com/sheet/DZmNNd2hpV3RBeFVw?tab=BB08J2
 
+- 前端组件说明  
+  https://docs.qq.com/sheet/DZmt3SmtGb3BveURG?tab=BB08J2
 
 > ## 运维
 
@@ -48,7 +50,7 @@
 
 项目基于**ES6+VUE+ElementUI+vue-element-admin**进行搭建的一个前端项目，脚手架是使用了vue-element-admin。  
 官网地址：https://panjiachen.github.io/vue-element-admin-site/zh/guide/  
-这个前端VUE脚手架非常好用，直接git clone下来之后就可以跑，感谢***panjiachen***以及***脚手架的其他贡献者***。 
+这个前端VUE脚手架非常好用，直接git clone下来npm install之后就可以跑，感谢***Panjiachen***以及***脚手架的其他贡献者***。 
 
 - ES6 开发语言
 - VUE JS框架
@@ -165,6 +167,7 @@
 - el-loading-spinner i：loading内部spinner图标样式
 - el-dialog__header：Dialog页眉样式
 - el-dialog__footer：Dialog页脚样式
+- el-divider__text：el-divider文案样式
 
 > Sidebar
 
@@ -182,6 +185,7 @@ https://panjiachen.github.io/vue-element-admin-site/zh/guide/
 * ***Github:*** https://github.com/GIS90
 * ***Email:*** gaoming971366@163.com
 * ***Blog:*** http://pygo2.top
+* ***OPENTOOL-Z:*** http://2l.pygo2.top/
 * ***WeChat:*** PyGo90
 
 

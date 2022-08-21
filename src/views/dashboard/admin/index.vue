@@ -15,7 +15,7 @@
         <dynamic-pan-chart :chart-type="panChartType" :width="panChartWidth" :height="panChartHeight" />
       </el-row>
     </div>
-    <!-- 实时数据 -->
+    <!-- 实时指标 -->
     <div id="dashboard-container-real-time-index">
       <el-divider><i class="el-icon-time">  实时指标</i></el-divider>
       <el-row :gutter="32">
