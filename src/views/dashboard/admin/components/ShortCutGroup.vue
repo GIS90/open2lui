@@ -1,29 +1,47 @@
 <template>
-  <el-row class="row-group">
-    <el-col v-for="(item, index) of shortCutData" :key="index" :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
-      <el-tooltip :content="item.name" placement="top" effect="dark">
-        <div class="card-box-icon-wrapper card-box-icon-div">
-          <router-link :to="{ path: item.path }">
-            <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
-          </router-link>
-        </div>
-      </el-tooltip>
-    </el-col>
-  </el-row>
+  <div>
+    <!-- 快捷入口 -->
+    <el-row class="row-group">
+      <!-- 功能快捷菜单 -->
+      <el-col v-for="(item, index) of shortCutData" :key="index" :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
+        <el-tooltip :content="item.name" placement="top" effect="dark">
+          <div class="card-box-icon-wrapper card-box-icon-div">
+            <router-link :to="{ path: item.path }">
+              <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
+            </router-link>
+          </div>
+        </el-tooltip>
+      </el-col>
+      <!-- 功能快捷编辑 -->
+      <el-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
+        <el-tooltip content="快捷功能编辑" placement="top" effect="dark">
+          <div class="card-box-icon-wrapper card-box-icon-div-edit" @click="openEdit">
+            <svg-icon icon-class="c_edit" class-name="card-box-icon" />
+          </div>
+        </el-tooltip>
+      </el-col>
+    </el-row>
+    <!-- Edit dialog -->
+    <short-cut-edit :show="showEdit" @close-edit="closeEdit" />
+  </div>
 </template>
 
 <script>
 import store from '@/store'
+import ShortCutEdit from './ShortCutEdit.vue'
 import { DashboardShortCut } from '@/api/dashboard'
 
 export default {
   name: 'ShortCutGroup',
   emits: [],
-  components: {},
+  components: {
+    'short-cut-edit': ShortCutEdit
+  },
   props: {},
   data() {
     return {
-      shortCutData: []
+      shortCutData: [],
+      showEdit: false // 是否打开Edit dg
     }
   },
   computed: {},
@@ -51,6 +69,12 @@ export default {
           reject(error)
         })
       })
+    },
+    openEdit() { // 打开Edit dg
+      this.showEdit = true
+    },
+    closeEdit(refresh) { // 关闭Edit dg
+      this.showEdit = false
     }
   }
 }
@@ -74,6 +98,9 @@ export default {
       }
       .card-box-icon-div {
         background: #36a3f7; // 34bfa3 hover图标框div背景色
+      }
+      .card-box-icon-div-edit {
+        background: #34bfa3; // 34bfa3 编辑hover图标框div背景色
       }
     }
 
