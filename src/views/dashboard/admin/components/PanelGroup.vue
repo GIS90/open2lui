@@ -153,7 +153,7 @@ export default {
       }
 
       .icon-people {
-        background: #34bfa3;
+        background: #3F72AF;
       }
 
       .icon-message {
@@ -165,12 +165,12 @@ export default {
       }
 
       .icon-click {
-        background: #FD5532
+        background: #FEC260
       }
     }
 
     .icon-people {
-      color: #34bfa3;
+      color: #3F72AF;
     }
 
     .icon-message {
@@ -182,7 +182,7 @@ export default {
     }
 
     .icon-click {
-      color: #FD5532
+      color: #FEC260
     }
 
     .card-panel-icon-wrapper {

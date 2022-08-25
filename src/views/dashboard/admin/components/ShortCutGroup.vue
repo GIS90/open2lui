@@ -75,6 +75,9 @@ export default {
     },
     closeEdit(refresh) { // 关闭Edit dg
       this.showEdit = false
+      if (refresh) {
+        this.initData()
+      }
     }
   }
 }
@@ -89,7 +92,7 @@ export default {
     text-align: center!important;
 
     .card-box-icon-div {
-      color: #36a3f7; // 图标框div背景色
+      color: #00ADB5; // 图标框div背景色
     }
 
     &:hover {
@@ -97,10 +100,10 @@ export default {
         color: #fff; // hover图标背景色
       }
       .card-box-icon-div {
-        background: #36a3f7; // 34bfa3 hover图标框div背景色
+        background: #00ADB5; // 36a3f7 34bfa3 hover图标框div背景色
       }
       .card-box-icon-div-edit {
-        background: #34bfa3; // 34bfa3 编辑hover图标框div背景色
+        background: #F38181; // 34bfa3 编辑hover图标框div背景色
       }
     }
 

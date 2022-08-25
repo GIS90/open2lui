@@ -35,3 +35,21 @@ export function DashboardShortCut(data) {
     data
   })
 }
+
+// Dashboard short cut edit data list
+export function DashboardShortCutEditList(data) {
+  return request({
+    url: '/dashboard/shortcut_edit',
+    method: 'post',
+    data
+  })
+}
+
+// Dashboard short cut edit data save
+export function DashboardShortCutEditSave(data) {
+  return request({
+    url: '/dashboard/shortcut_save',
+    method: 'post',
+    data
+  })
+}
