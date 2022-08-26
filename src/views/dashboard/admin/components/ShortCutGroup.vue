@@ -5,11 +5,11 @@
       <!-- 功能快捷菜单 -->
       <el-col v-for="(item, index) of shortCutData" :key="index" :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
         <el-tooltip :content="item.name" placement="top" effect="dark">
-          <div class="card-box-icon-wrapper card-box-icon-div">
-            <router-link :to="{ path: item.path }">
-              <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
-            </router-link>
-          </div>
+          <router-link :to="{ path: item.path }">
+            <div class="card-box-icon-wrapper card-box-icon-div">
+            <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
+            </div>
+          </router-link>
         </el-tooltip>
       </el-col>
       <!-- 功能快捷编辑 -->

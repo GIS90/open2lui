@@ -26,7 +26,7 @@
         <!-- 内容 -->
         <draggable v-model="unselectList" tag="div" :group="dragGroupUnSelect" :animation="dragAnimation" class="board-column-content" @start="start($event,'unselect')" @change="change">
           <div v-for="item in unselectList" :key="item.id" class="board-column-content-item">
-            {{ item.name }} - {{ item.id }}
+            {{ item.name }}
           </div>
         </draggable>
       </el-col>
@@ -38,7 +38,7 @@
         <!-- 内容 -->
         <draggable v-model="selectList" tag="div" :group="dragGroupSelect" :animation="dragAnimation" class="board-column-content" @start="start($event,'select')" @change="change">
           <div v-for="item in selectList" :key="item.id" class="board-column-content-item">
-            {{ item.name }} - {{ item.id }}
+            {{ item.name }}
           </div>
         </draggable>
       </el-col>
