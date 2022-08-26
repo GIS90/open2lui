@@ -17,6 +17,9 @@
     @open="openDialog()"
     @close="closeDialog()"
   >
+    <el-row v-show="selectCount >= 15">
+      <el-alert title="菜单快捷入口最多选择15个，已达上限" type="error" effect="light" style="margin-bottom: 25px" />
+    </el-row>
     <el-row :gutter="24" class="board">
       <el-col :span="12" class="board-column">
         <!-- 标题 -->
@@ -153,14 +156,15 @@ export default {
     // vuedraggable method: start, add, remove, update, end, choose, unchoose, sort, filter, clone
     start(event, type) {
       if (this.selectCount >= 15 && type === 'unselect') {
-        this.$message({
-          message: '功能选择最多为15个，已达上限',
-          type: 'warning',
-          duration: 2.0 * 1000
-        })
+        // 停止message提示，启用alert组件提示
+        // this.$message({
+        //   message: '菜单快捷入口最多选择15个，已达上限',
+        //   type: 'warning',
+        //   duration: 2.0 * 1000
+        // })
         this.dragGroupSelect.put = false
-        return false
       }
+      return true
     },
     change(event) {
       this.selectCount = this.selectList.length
