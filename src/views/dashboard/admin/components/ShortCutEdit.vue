@@ -188,7 +188,7 @@ export default {
       // 启动禁用按钮
       this.disabled = true
       this.loading = true
-      this.dragGroupSelect.put = false // 不允许拖拽
+      // this.dragGroupSelect.put = false // 不允许拖拽
       return new Promise((resolve, reject) => {
         DashboardShortCutEditSave(data).then(response => {
           this.disabled = false
