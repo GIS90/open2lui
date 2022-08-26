@@ -10,7 +10,7 @@ import store from '@/store'
 import { DashboardPanChart } from '@/api/dashboard'
 
 export default {
-  name: 'DynamicPanChart',
+  name: 'PanelGroupChart',
   mixins: [resize],
   props: {
     className: {

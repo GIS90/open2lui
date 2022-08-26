@@ -12,7 +12,7 @@
       <panel-group @handle-dynamic-pan-chart-type="handleDynamicPanChartType" />
       <!-- 联动pan-chart -->
       <el-row class="dynamic-pan-chart">
-        <dynamic-pan-chart :chart-type="panChartType" :width="panChartWidth" :height="panChartHeight" />
+        <panel-group-chart :chart-type="panChartType" :width="panChartWidth" :height="panChartHeight" />
       </el-row>
     </div>
     <!-- 实时指标 -->
@@ -63,7 +63,7 @@
 <script>
 import ShortCutGroup from './components/ShortCutGroup'
 import PanelGroup from './components/PanelGroup'
-import DynamicPanChart from './components/DynamicPanChart'
+import PanelGroupChart from './components/PanelGroupChart'
 import RealTimeIndexOne from './components/RealTimeIndexOne'
 import RaddarChart from './components/RaddarChart'
 import BarChart from './components/BarChart'
@@ -76,7 +76,7 @@ export default {
   components: {
     'short-cut-group': ShortCutGroup,
     'panel-group': PanelGroup,
-    'dynamic-pan-chart': DynamicPanChart,
+    'panel-group-chart': PanelGroupChart,
     'real-time-index-one': RealTimeIndexOne,
     RaddarChart,
     BarChart,
