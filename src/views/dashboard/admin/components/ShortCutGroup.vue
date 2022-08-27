@@ -5,11 +5,11 @@
       <!-- 功能快捷菜单 -->
       <el-col v-for="(item, index) of shortCutData" :key="index" :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
         <el-tooltip :content="item.name" placement="top" effect="dark">
-          <router-link :to="{ path: item.path }">
-            <div class="card-box-icon-wrapper card-box-icon-div">
-              <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
-            </div>
-          </router-link>
+          <div class="card-box-icon-wrapper card-box-icon-div">
+            <router-link :to="{ path: item.path }">
+            <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
+            </router-link>
+          </div>
         </el-tooltip>
       </el-col>
       <!-- 功能快捷编辑 -->
@@ -110,7 +110,7 @@ export default {
     // 图标框div
     .card-box-icon-wrapper {
       float: left;
-      margin: 10px 0 0 14px;
+      margin: 5px 0 0 14px;
       padding: 14px;
       transition: all 0.38s ease-out;
       border-radius: 16px;
