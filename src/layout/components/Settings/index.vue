@@ -1,5 +1,7 @@
 <template>
   <div class="drawer-container">
+    <!-- 登录人 -->
+    <h3>欢迎，<span class="info_red"> {{ rtx_id }}</span></h3>
     <!-- 系统基础信息 -->
     <div v-show="info">
       <h3 class="drawer-title">系统信息</h3>
@@ -63,6 +65,7 @@
 <script>
 import ThemePicker from '@/components/ThemePicker'
 import { baseInfo } from '@/settings.js'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { ThemePicker },
@@ -78,6 +81,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'rtx_id'
+    ]),
     fixedHeader: {
       get() {
         return this.$store.state.settings.fixedHeader

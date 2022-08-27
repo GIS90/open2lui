@@ -4,7 +4,7 @@ module.exports = {
    * @description show logo/login/page title information
    */
   logoTitle: '践行践远，智慧前行', // logo title
-  logoUrl: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png', // logo url
+  logoUrl: 'http://2lstore.pygo2.top/templates/logo.png', // logo url
   loginTitle: 'OPENTOOL-Z智行工具箱', // login title: OPENTOOL智行工具箱
   pageTitle: '智行工具箱', // page title: 智行工具箱
 
