@@ -7,7 +7,7 @@
         <el-tooltip :content="item.name" placement="top" effect="dark">
           <div class="card-box-icon-wrapper card-box-icon-div">
             <router-link :to="{ path: item.path }">
-            <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
+              <svg-icon :icon-class="item.icon" class-name="card-box-icon" />
             </router-link>
           </div>
         </el-tooltip>
