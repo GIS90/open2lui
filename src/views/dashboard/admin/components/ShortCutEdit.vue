@@ -21,7 +21,7 @@
       <el-alert title="菜单快捷入口最多选择15个，已达上限" type="error" effect="light" style="margin-bottom: 25px" />
     </el-row>
     <el-row :gutter="24" class="board">
-      <el-col :span="12" class="board-column">
+      <el-col :span="12" class="board-column board-column-left">
         <!-- 标题 -->
         <div class="board-column-header board-column-header-left">
           未选 {{ unselectList.length }}
@@ -225,6 +225,13 @@ export default {
   //align-items: flex-start;
 }
 
+.board-column-left{
+  border-radius: 25px 0 0 0;
+}
+
+.board-column-right{
+}
+
 .board-column {
   padding: 0 !important;
   min-width: 300px;
@@ -232,7 +239,7 @@ export default {
   height: auto;
   overflow: hidden;
   background: #f0f0f0;
-  border-radius: 3px;
+  //border-radius: 3px;
 
   .board-column-header {
     font-size: 16px;
@@ -249,12 +256,12 @@ export default {
 
   .board-column-header-left {
     background-color: #FCE38A;
-    border-radius: 5px 0 0 0;
+    border-radius: 25px 0 0 0;
   }
 
   .board-column-header-right {
     background-color: #08D9D6;
-    border-radius: 0 5px 0 0;
+    border-radius: 0 0 25px 0;
   }
 
   .board-column-content {
