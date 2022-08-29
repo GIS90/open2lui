@@ -1,5 +1,5 @@
 <template>
-  <div id="real-time-index-one" :class="className" :style="{height:height,width:width}" />
+  <div id="real-time-index-two" :class="className" :style="{height:height,width:width}" />
 </template>
 
 <script>
@@ -9,10 +9,10 @@ import resize from './mixins/resize'
 import store from '@/store'
 import { DashboardIndex } from '@/api/dashboard'
 
-const animationDuration = 3200
+const animationDuration = 4800
 
 export default {
-  name: 'RealTimeIndexOne',
+  name: 'RealTimeIndexTwo',
   emits: [],
   components: {},
   mixins: [resize],
@@ -57,7 +57,7 @@ export default {
     chartInit() {
       // Echart实例化
       // this.chart = echarts.init(this.$el, 'macarons') // 方式一：this.$el
-      this.chart = echarts.init(document.getElementById('real-time-index-one'), 'macarons') // 方式二：document.getElementById('dynamic-pan-chart')
+      this.chart = echarts.init(document.getElementById('real-time-index-two'), 'macarons') // 方式二：document.getElementById('dynamic-pan-chart')
       // Echart set options 展示
       this.getChartData()
     },
@@ -65,13 +65,13 @@ export default {
     getChartData() {
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'type': '1'
+        'type': '3'
       }
       return new Promise((resolve, reject) => {
         DashboardIndex(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.chartOptions(data) //  // API请求成功，渲染Echart
+            this.chartOptions(data) // API请求成功，渲染Echart
           }
           resolve(response)
         }).catch(error => {
@@ -82,45 +82,54 @@ export default {
     // echart options && show【https://echarts.apache.org/zh/option.html】
     chartOptions(data) {
       this.chart.setOption({
-        title: {
-          show: true,
-          text: '系统功能累积使用情况',
-          x: 'center',
-          textAlign: 'left',
-          textStyle: {
-            fontSize: 18,
-            color: '#333',
-            fontStyle: 'normal' // normal italic oblique
-          }
-        },
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
-        },
-        legend: {
-          left: 'center',
-          bottom: '15',
-          data: ['表格合并', '表格拆分', 'PDF转WORD', '钉钉绩效']
-        },
-        toolbox: {
-          show: false,
-          feature: {
-            saveAsImage: {}
+          trigger: 'axis',
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
-        series: [
-          {
-            name: '统计详情：',
-            type: 'pie',
-            roseType: 'radius', // radius area
-            radius: [20, 95],
-            center: ['50%', '42%'],
-            data: data,
-            animationType: 'expansion', // 初始动画效果: expansion-展开 scale-缩放
-            animationEasing: 'cubicInOut',
-            animationDuration
+        grid: {
+          top: 10,
+          left: '2%',
+          right: '2%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [{
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          axisTick: {
+            alignWithLabel: true
           }
-        ]
+        }],
+        yAxis: [{
+          type: 'value',
+          axisTick: {
+            show: false
+          }
+        }],
+        series: [{
+          name: 'pageA',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '60%',
+          data: [79, 52, 200, 334, 390, 330, 220],
+          animationDuration
+        }, {
+          name: 'pageB',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '60%',
+          data: [80, 52, 200, 334, 390, 330, 220],
+          animationDuration
+        }, {
+          name: 'pageC',
+          type: 'bar',
+          stack: 'vistors',
+          barWidth: '60%',
+          data: [30, 52, 200, 334, 390, 330, 220],
+          animationDuration
+        }]
       })
     }
   }
