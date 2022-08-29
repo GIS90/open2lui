@@ -26,8 +26,8 @@ export default {
   },
   data() {
     return {
-      title: logoTitle || 'Vue Element Admin',
-      logo: logoUrl || 'http://2lstore.pygo2.top/templates/logo.png'
+      title: logoTitle || 'Vue Element Admin', // title
+      logo: logoUrl || 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png' // logo
     }
   }
 }
