@@ -51,15 +51,14 @@
             <el-tooltip effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="重置密码" placement="top">
-              <i class="el-icon-setting" @click="rowHandlePw(scope.$index, scope.row)" />
+            <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="rowHandlePw(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
-            123
-<!--            <user-status :row="scope.row" />-->
+            <dict-status :row="scope.row" />
           </template>
         </el-table-column>
       </el-table>
@@ -79,6 +78,7 @@
 
 <script>
 import store from '@/store'
+import DictStatus from '@/services/info/DictStatus'
 import Pagination from '@/components/Pagination'
 import { InfoDictList } from '@/api/info'
 
@@ -86,6 +86,7 @@ export default {
   name: 'Dict',
   emits: [],
   components: {
+    'dict-status': DictStatus,
     'public-pagination': Pagination
   },
   props: {},
