@@ -171,11 +171,11 @@ export default {
     }
   },
   created() {
-    this.getUserList()
+    this.getTableList()
   },
   mounted() {},
   methods: {
-    getUserList() { // 请求后台API初始化表格数据
+    getTableList() { // 请求后台API初始化表格数据
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -262,13 +262,13 @@ export default {
     closeAddUser(isRefresh) { // 关闭新增用户dialog
       this.addDialogStatus = false
       if (isRefresh) {
-        this.getUserList()
+        this.getTableList()
       }
     },
     closeDetailUser(isRefresh) { // 关闭table row编辑
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getUserList()
+        this.getTableList()
       }
     },
     closePwUser() { // 关闭重置密码
@@ -277,7 +277,7 @@ export default {
     closeDeleteDialog(isRefresh) { // 关闭批量删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
-        this.getUserList()
+        this.getTableList()
       }
     },
     openDeleteDialog() { // 打开批量删除Dialog
@@ -293,11 +293,11 @@ export default {
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
-      this.getUserList()
+      this.getTableList()
     },
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
-      this.getUserList()
+      this.getTableList()
     }
   }
 }

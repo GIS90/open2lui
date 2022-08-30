@@ -179,11 +179,11 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.getMenuList()
+    this.getTableList()
   },
   mounted() {},
   methods: {
-    getMenuList() { // 请求后台API初始化表格数据
+    getTableList() { // 请求后台API初始化表格数据
       // 初始化选择参数
       this.oprSelectRtx = ''
 
@@ -236,7 +236,7 @@ export default {
     closeSetMenu(isRefresh) { // 关闭编辑菜单dg
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getMenuList()
+        this.getTableList()
       }
     },
     openAddMenu() { // 打开新增菜单dg
@@ -245,7 +245,7 @@ export default {
     closeAddMenu(isRefresh) { // 关闭新增菜单dg
       this.addDialogStatus = false
       if (isRefresh) {
-        this.getMenuList()
+        this.getTableList()
       }
     },
     menuExpandStatus(status) { // 打开/关闭table 子菜单

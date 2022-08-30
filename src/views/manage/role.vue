@@ -172,11 +172,11 @@ export default {
     }
   },
   created() {
-    this.getRoleList()
+    this.getTableList()
   },
   mounted() {},
   methods: {
-    getRoleList() { // 获取role list数据
+    getTableList() { // 获取role list数据
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -267,7 +267,7 @@ export default {
     closeFileSet(isRefresh) { // 关闭table row 设置dialog
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getRoleList()
+        this.getTableList()
       }
     },
     rowHandleDelete(index, row) { // table row 删除
@@ -288,7 +288,7 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.getRoleList()
+            this.getTableList()
           }
           this.btnDisabled = false
           resolve(response)
@@ -304,7 +304,7 @@ export default {
     closeAddRole(isRefresh) { // 关闭新增角色dialog
       this.addDialogStatus = false
       if (isRefresh) {
-        this.getRoleList()
+        this.getTableList()
       }
     },
     closeDetailRole() { // 关闭角色详情dialog
@@ -313,13 +313,13 @@ export default {
     closeSetRole(isRefresh) { // 关闭角色设置dialog
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getRoleList()
+        this.getTableList()
       }
     },
     closeDeleteDialog(isRefresh) { // 关闭批量删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
-        this.getRoleList()
+        this.getTableList()
       }
     },
     openDeleteDialog() { // 打开批量删除Dialog
@@ -338,11 +338,11 @@ export default {
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
-      this.getRoleList()
+      this.getTableList()
     },
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
-      this.getRoleList()
+      this.getTableList()
     }
   }
 }
