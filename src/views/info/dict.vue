@@ -44,7 +44,7 @@
         <el-table-column prop="description" label="描述" width="350" :header-align="tableRowAttrs.align" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="order_id" label="排序" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_rtx" label="创建者RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="delete_rtx" label="最近更新者RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="update_rtx" label="最近更新者RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="update_time" label="最近更新时间" width="220" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
@@ -52,7 +52,7 @@
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="rowHandlePw(scope.$index, scope.row)" />
+              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -80,7 +80,7 @@
 import store from '@/store'
 import DictStatus from '@/services/info/DictStatus'
 import Pagination from '@/components/Pagination'
-import { InfoDictList } from '@/api/info'
+import { InfoDictDelete, InfoDictList } from '@/api/info'
 
 export default {
   name: 'Dict',
@@ -152,11 +152,11 @@ export default {
     }
   },
   created() {
-    this.getUserList()
+    this.getTableList()
   },
   mounted() {},
   methods: {
-    getUserList() { // 请求后台API初始化表格数据
+    getTableList() { // 请求后台API初始化表格数据
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -223,13 +223,6 @@ export default {
         color: '#606266'
       }
     },
-    rowHandlePw(index, row) { // table row 重置密码
-      if (!row) {
-        return false
-      }
-      this.oprSelectRtx = row.rtx_id
-      this.pwDialogStatus = true
-    },
     rowHandleEdit(index, row) { // table row 编辑详情
       if (!row) {
         return false
@@ -243,13 +236,13 @@ export default {
     closeAddUser(isRefresh) { // 关闭新增用户dialog
       this.addDialogStatus = false
       if (isRefresh) {
-        this.getUserList()
+        this.getTableList()
       }
     },
     closeDetailUser(isRefresh) { // 关闭table row编辑
       this.setDialogStatus = false
       if (isRefresh) {
-        this.getUserList()
+        this.getTableList()
       }
     },
     closePwUser() { // 关闭重置密码
@@ -258,7 +251,7 @@ export default {
     closeDeleteDialog(isRefresh) { // 关闭批量删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
-        this.getUserList()
+        this.getTableList()
       }
     },
     openDeleteDialog() { // 打开批量删除Dialog
@@ -274,11 +267,39 @@ export default {
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
-      this.getUserList()
+      this.getTableList()
     },
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
-      this.getUserList()
+      this.getTableList()
+    },
+    rowHandleDelete(index, row) { // table row 删除
+      if (!row || !row?.md5) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': row.md5
+      }
+      this.btnDisabled = true
+      return new Promise((resolve, reject) => {
+        InfoDictDelete(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+            this.getTableList()
+          }
+          this.btnDisabled = false
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          reject(error)
+        })
+      })
     }
   }
 }
