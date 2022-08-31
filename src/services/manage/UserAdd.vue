@@ -190,7 +190,7 @@ const validateUserRole = (rule, value, callback) => {
 }
 
 export default {
-  name: 'RoleAdd',
+  name: 'UserAdd',
   emits: ['close-add-user'],
   components: {},
   props: {

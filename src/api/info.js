@@ -44,3 +44,21 @@ export function InfoDictDisables(data) {
     data
   })
 }
+
+// 数据字典详情
+export function InfoDictDetail(data) {
+  return request({
+    url: '/info/dict_detail',
+    method: 'post',
+    data
+  })
+}
+
+// 数据字典更新
+export function InfoDictUpdate(data) {
+  return request({
+    url: '/info/dict_update',
+    method: 'post',
+    data
+  })
+}

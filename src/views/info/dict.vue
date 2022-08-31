@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-create" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddUser">
+      <el-button id="btn-create" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" disabled @click="openAdd">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
@@ -41,7 +41,7 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="key" label="KEY" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="value" label="VALUE" width="270" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="description" label="描述" width="350" :header-align="tableRowAttrs.align" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -76,6 +76,12 @@
       @pagin-current-change="paginCurrentChange"
     />
 
+    <!-- 新增用户 -->
+    <dict-add :show="addDialogStatus" @close-add="closeAdd" />
+
+    <!-- 编辑详情 -->
+    <dict-edit :show="setDialogStatus" :md5="oprSelectMd5" @close-edit="closeEdit" />
+
     <!-- 批量禁用 -->
     <dict-batch-disable :show="disableConfirm" :list="selectList" @close-disable-dialog="closeDisableDialog" />
 
@@ -87,6 +93,8 @@
 
 <script>
 import store from '@/store'
+import DictAdd from '@/services/info/DictAdd'
+import DictEdit from '@/services/info/DictEdit'
 import DictStatus from '@/services/info/DictStatus'
 import DictBatchDelete from '@/services/info/DictBatchDelete'
 import DictBatchDisable from '@/services/info/DictBatchDisable'
@@ -97,6 +105,8 @@ export default {
   name: 'Dict',
   emits: [],
   components: {
+    'dict-add': DictAdd,
+    'dict-edit': DictEdit,
     'dict-batch-delete': DictBatchDelete,
     'dict-batch-disable': DictBatchDisable,
     'dict-status': DictStatus,
@@ -146,10 +156,9 @@ export default {
       selectAllStatus: false, // 全选状态
       selectList: [], // 选择列表
       tableData: [], // table data
-      oprSelectRtx: '', // 当前选择数据的RTX
+      oprSelectMd5: '', // 当前选择数据的md5-id
       disableConfirm: false, // 批量禁用确认dialog状态
       deleteConfirm: false, // 批量删除确认dialog状态
-      pwDialogStatus: false, // 重置密码dialog
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
       userStatus: true // 状态管理
@@ -174,7 +183,7 @@ export default {
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
-      this.oprSelectRtx = ''
+      this.oprSelectMd5 = ''
 
       // list列表参数
       const data = {
@@ -241,28 +250,24 @@ export default {
       if (!row) {
         return false
       }
-      this.oprSelectRtx = row.rtx_id
+      this.oprSelectMd5 = row.md5_id
       this.setDialogStatus = true
     },
-    openAddUser() { // 打开新增用户dialog
+    openAdd() { // 打开新增
       this.addDialogStatus = true
     },
-    closeAddUser(isRefresh) { // 关闭新增用户dialog
+    closeAdd(isRefresh) { // 关闭新增
       this.addDialogStatus = false
       if (isRefresh) {
         this.getTableList()
       }
     },
-    closeDetailUser(isRefresh) { // 关闭table row编辑
+    closeEdit(isRefresh) { // 关闭table row编辑
       this.setDialogStatus = false
       if (isRefresh) {
         this.getTableList()
       }
     },
-    closePwUser() { // 关闭重置密码
-      this.pwDialogStatus = false
-    },
-
     openDisableDialog() { // 打开批量禁用
       if (this.selectList.length === 0) {
         this.$message({

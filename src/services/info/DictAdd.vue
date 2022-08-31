@@ -18,56 +18,46 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="RTX名称" prop="rtx">
-              <el-input
-                v-model.trim="formData.rtx"
-                type="text"
-                placeholder="请输入RTX名称（建议使用英文）"
-                :maxlength="formDataLimit.rtx"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="昵称" prop="name">
-              <el-input
-                v-model.trim="formData.name"
-                type="text"
-                placeholder="请输入昵称"
-                :maxlength="formDataLimit.name"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="联系电话" prop="phone">
-              <el-input
-                v-model.trim="formData.phone"
-                type="text"
-                placeholder="请输入联系电话，暂不支持国外电话"
-                :maxlength="formDataLimit.phone"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
+        <el-form-item label="RTX名称" prop="rtx">
+          <el-input
+            v-model.trim="formData.rtx"
+            type="text"
+            placeholder="请输入RTX名称（建议使用英文）"
+            :maxlength="formDataLimit.rtx"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :size="inputAttrs.size"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
+        <el-form-item label="昵称" prop="name">
+          <el-input
+            v-model.trim="formData.name"
+            type="text"
+            placeholder="请输入昵称"
+            :maxlength="formDataLimit.name"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :size="inputAttrs.size"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
+        <el-form-item label="联系电话" prop="phone">
+          <el-input
+            v-model.trim="formData.phone"
+            type="text"
+            placeholder="请输入联系电话，暂不支持国外电话"
+            :maxlength="formDataLimit.phone"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :size="inputAttrs.size"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input
             v-model.trim="formData.email"
@@ -200,8 +190,8 @@ const validateUserRole = (rule, value, callback) => {
 }
 
 export default {
-  name: 'UserAdd',
-  emits: ['close-add-user'],
+  name: 'DictAdd',
+  emits: ['close-add'],
   components: {},
   props: {
     show: {
@@ -219,8 +209,8 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '新增用户',
-        width: '60%', // Dialog 的宽度
+        title: '新增枚举',
+        width: '40%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '3%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
@@ -305,7 +295,7 @@ export default {
       this.formData.role = []
     },
     closeDialog() { // 关闭dialog
-      this.$emit('close-add-user', false)
+      this.$emit('close-add', false)
     },
     initRoles() { // 获取roles列表，初始化
       return new Promise((resolve, reject) => {
@@ -328,9 +318,9 @@ export default {
           this.disabled = true
           this.loading = true
           const data = {
-            'add_rtx_id': store.getters.rtx_id,
-            'rtx_id': this.formData.rtx,
-            'name': this.formData.name,
+            'rtx_id': store.getters.rtx_id,
+            'name': this.formData.rtx,
+            'key': this.formData.name,
             'phone': this.formData.phone,
             'password': this.formData.password,
             'email': this.formData.email,
@@ -348,7 +338,7 @@ export default {
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-add-user', true)
+                this.$emit('close-add', true)
               }
               resolve(response)
             }).catch(error => {

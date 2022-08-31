@@ -185,7 +185,7 @@ const validateUserRole = (rule, value, callback) => {
 }
 
 export default {
-  name: 'RoleAdd',
+  name: 'UserDetail',
   emits: ['close-detail-user'],
   components: {},
   props: {
