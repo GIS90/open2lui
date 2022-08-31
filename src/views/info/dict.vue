@@ -8,8 +8,11 @@
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
+      <el-button id="btn-disable" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDisableDialog">
+        <svg-icon icon-class="i_disable" />  禁用
+      </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
-        <svg-icon icon-class="i_delete" />  注销
+        <svg-icon icon-class="i_delete" />  删除
       </el-button>
     </el-row>
 
@@ -73,12 +76,20 @@
       @pagin-current-change="paginCurrentChange"
     />
 
+    <!-- 批量禁用 -->
+    <dict-batch-disable :show="disableConfirm" :list="selectList" @close-disable-dialog="closeDisableDialog" />
+
+    <!-- 批量删除 -->
+    <dict-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
+
   </div>
 </template>
 
 <script>
 import store from '@/store'
 import DictStatus from '@/services/info/DictStatus'
+import DictBatchDelete from '@/services/info/DictBatchDelete'
+import DictBatchDisable from '@/services/info/DictBatchDisable'
 import Pagination from '@/components/Pagination'
 import { InfoDictDelete, InfoDictList } from '@/api/info'
 
@@ -86,6 +97,8 @@ export default {
   name: 'Dict',
   emits: [],
   components: {
+    'dict-batch-delete': DictBatchDelete,
+    'dict-batch-disable': DictBatchDisable,
     'dict-status': DictStatus,
     'public-pagination': Pagination
   },
@@ -134,7 +147,8 @@ export default {
       selectList: [], // 选择列表
       tableData: [], // table data
       oprSelectRtx: '', // 当前选择数据的RTX
-      deleteConfirm: false, // 删除确认dialog状态
+      disableConfirm: false, // 批量禁用确认dialog状态
+      deleteConfirm: false, // 批量删除确认dialog状态
       pwDialogStatus: false, // 重置密码dialog
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
@@ -248,22 +262,40 @@ export default {
     closePwUser() { // 关闭重置密码
       this.pwDialogStatus = false
     },
-    closeDeleteDialog(isRefresh) { // 关闭批量删除Dialog
-      this.deleteConfirm = false
+
+    openDisableDialog() { // 打开批量禁用
+      if (this.selectList.length === 0) {
+        this.$message({
+          message: '请选择禁用的数据',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+      this.disableConfirm = true
+    },
+    closeDisableDialog(isRefresh) { // 关闭批量删除
+      this.disableConfirm = false
       if (isRefresh) {
         this.getTableList()
       }
     },
-    openDeleteDialog() { // 打开批量删除Dialog
+    openDeleteDialog() { // 打开批量删除
       if (this.selectList.length === 0) {
         this.$message({
-          message: '请选择注销的用户',
+          message: '请选择删除的数据',
           type: 'warning',
           duration: 2.0 * 1000
         })
         return false
       }
       this.deleteConfirm = true
+    },
+    closeDeleteDialog(isRefresh) { // 关闭批量删除
+      this.deleteConfirm = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
@@ -279,7 +311,7 @@ export default {
       }
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'md5': row.md5
+        'md5': row.md5_id
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {

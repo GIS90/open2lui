@@ -51,12 +51,12 @@ export default {
   mounted() {},
   methods: {
     changeStatus(value) { // change status 启用 && 注销
-      if (!this.row || !this.row?.md5) {
+      if (!this.row || !this.row?.md5_id) {
         return false
       }
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'md5': this.row.md5,
+        'md5': this.row.md5_id,
         'status': value
       }
       return new Promise((resolve, reject) => {

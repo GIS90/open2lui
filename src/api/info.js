@@ -26,3 +26,21 @@ export function InfoDictDelete(data) {
     data
   })
 }
+
+// 数据字典批量删除
+export function InfoDictDeletes(data) {
+  return request({
+    url: '/info/dict_deletes',
+    method: 'post',
+    data
+  })
+}
+
+// 数据字典批量禁用
+export function InfoDictDisables(data) {
+  return request({
+    url: '/info/dict_disables',
+    method: 'post',
+    data
+  })
+}
