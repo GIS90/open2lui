@@ -62,3 +62,21 @@ export function InfoDictUpdate(data) {
     data
   })
 }
+
+// 数据字典新增
+export function InfoDictAdd(data) {
+  return request({
+    url: '/info/dict_add',
+    method: 'post',
+    data
+  })
+}
+
+// 数据字典NAMES
+export function InfoDictNames(data) {
+  return request({
+    url: '/info/dict_names',
+    method: 'post',
+    data
+  })
+}

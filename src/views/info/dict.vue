@@ -2,8 +2,11 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-create" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" disabled @click="openAdd">
+      <el-button id="btn-add" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAdd">
         <svg-icon icon-class="i_add" />  新增
+      </el-button>
+      <el-button id="btn-main" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openMain">
+        <svg-icon icon-class="i_main" />  维护
       </el-button>
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
@@ -79,6 +82,9 @@
     <!-- 新增用户 -->
     <dict-add :show="addDialogStatus" @close-add="closeAdd" />
 
+    <!-- 新增用户 -->
+    <dict-main :show="mainDialogStatus" @close-main="closeMain" />
+
     <!-- 编辑详情 -->
     <dict-edit :show="setDialogStatus" :md5="oprSelectMd5" @close-edit="closeEdit" />
 
@@ -94,6 +100,7 @@
 <script>
 import store from '@/store'
 import DictAdd from '@/services/info/DictAdd'
+import DictMain from '@/services/info/DictMain'
 import DictEdit from '@/services/info/DictEdit'
 import DictStatus from '@/services/info/DictStatus'
 import DictBatchDelete from '@/services/info/DictBatchDelete'
@@ -106,6 +113,7 @@ export default {
   emits: [],
   components: {
     'dict-add': DictAdd,
+    'dict-main': DictMain,
     'dict-edit': DictEdit,
     'dict-batch-delete': DictBatchDelete,
     'dict-batch-disable': DictBatchDisable,
@@ -161,6 +169,7 @@ export default {
       deleteConfirm: false, // 批量删除确认dialog状态
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
+      mainDialogStatus: false, // 维护dialog
       userStatus: true // 状态管理
     }
   },
@@ -258,6 +267,15 @@ export default {
     },
     closeAdd(isRefresh) { // 关闭新增
       this.addDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
+    },
+    openMain() { // 打开维护
+      this.mainDialogStatus = true
+    },
+    closeMain(isRefresh) { // 关闭维护
+      this.mainDialogStatus = false
       if (isRefresh) {
         this.getTableList()
       }

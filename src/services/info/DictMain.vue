@@ -20,16 +20,25 @@
     >
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
         <el-form-item label="RTX名称" prop="name">
-          <el-input
-            v-model.trim="formData.name"
-            type="text"
-            placeholder="请输入RTX名称（建议使用英文）"
-            :maxlength="formDataLimit.name"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            disabled
-          />
+          <el-select
+            v-model="formData.name"
+            style="width: 100%"
+            placeholder="请选择维护的枚举RTX"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+            :disabled="disabled"
+          >
+            <el-option
+              v-for="(item, index) in enumNames"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="枚举Key" prop="key">
           <el-input
@@ -71,25 +80,11 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-switch
-            v-model="formData.status"
-            style="display: block; margin-top: 6px;"
-            :disabled="disabled"
-            :width="switchAttrs.width"
-            :active-text="switchAttrs.activeText"
-            :inactive-text="switchAttrs.inactiveText"
-            :active-color="switchAttrs.activeColor"
-            :inactive-color="switchAttrs.inactiveColor"
-            :active-value="switchAttrs.activeValue"
-            :inactive-value="switchAttrs.inactiveValue"
-          />
-        </el-form-item>
         <el-form-item label="排序ID" prop="order_id">
           <el-input
             v-model.trim="formData.order_id"
             type="text"
-            placeholder="请输入枚举Value"
+            placeholder="请输入排序ID"
             :maxlength="formDataLimit.order_id"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
@@ -112,7 +107,15 @@
 
 <script>
 import store from '@/store'
-import { InfoDictDetail, InfoDictUpdate } from '@/api/info'
+import { InfoDictAdd, InfoDictNames } from '@/api/info'
+
+const validateName = (rule, value, callback) => {
+  if (value.length < 1) {
+    callback(new Error('请选择枚举RTX'))
+  } else {
+    callback()
+  }
+}
 
 const validateKey = (rule, value, callback) => {
   if (!value) {
@@ -144,8 +147,8 @@ const validateDescription = (rule, value, callback) => {
   }
 }
 export default {
-  name: 'DictEdit',
-  emits: ['close-edit'],
+  name: 'DictMain',
+  emits: ['close-main'],
   components: {},
   props: {
     show: {
@@ -155,11 +158,6 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
-    },
-    md5: {
-      type: String,
-      require: true,
-      default: ''
     }
   },
   data() {
@@ -168,7 +166,7 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '详情',
+        title: '维护',
         width: '40%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -190,6 +188,16 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
+      selectAttrs: { // select attrs
+        multiple: false, // 多选
+        clearable: true, // 清空选择
+        filterable: false, // 搜索功能false
+        fa: true, // 搜索功能true
+        collapseTags: false, // 多个合并成一个
+        limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
+        noDataText: '暂无数据', // 选项为空时显示的文字
+        placeholder: '' // 默认显示内容
+      },
       textAreaAttrs: { // textArea attrs
         rows: 2, // 输入框行数
         autoSize: false, // 自适应内容高度
@@ -199,22 +207,12 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
-      switchAttrs: { // switch attrs
-        disabled: false, // 是否禁用
-        width: 35, // 宽度（像素），默认40
-        activeText: '禁用', // 打开时的文字描述
-        inactiveText: '启用', // 关闭时的文字描述
-        activeValue: false, // 打开时的value
-        inactiveValue: true, // 打开时的value
-        activeColor: '#ff4949', // 打开时的背景色
-        inactiveColor: '#13ce66' // 关闭时的背景色
-      },
+      enumNames: [], // 枚举Names
       // data
       formData: {
         name: '',
         key: '',
         value: '',
-        status: true,
         description: '',
         order_id: ''
       },
@@ -226,6 +224,7 @@ export default {
         order_id: '4'
       },
       formDataRules: {
+        name: [{ required: true, trigger: 'blur', validator: validateName }],
         key: [{ required: true, trigger: 'blur', validator: validateKey }],
         value: [{ required: true, trigger: 'blur', validator: validateValue }],
         description: [{ required: true, trigger: 'blur', validator: validateDescription }]
@@ -238,26 +237,27 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作
-      this.fetchNew() // 信息初始化
+      this.formData.name = ''
+      this.formData.key = ''
+      this.formData.value = ''
+      this.formData.description = ''
+      this.formData.order_id = ''
+
+      // 维护模式：枚举RTX
+      this.getEnumNames()
     },
     closeDialog() { // 关闭dialog
-      this.$emit('close-edit', false)
+      this.$emit('close-main', false)
     },
-    fetchNew() { // 最新数据详情
-      if (!this.md5) {
-        this.$emit('close-edit', false)
-      }
+    getEnumNames() {
       const params = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': this.md5
+        'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        InfoDictDetail(params).then(response => {
+        InfoDictNames(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.formData = data
-          } else {
-            this.$emit('close-edit', false) // 初始化信息失败，关闭
+            this.enumNames = data
           }
           resolve(response)
         }).catch(error => {
@@ -265,32 +265,32 @@ export default {
         })
       })
     },
-    submit() { // 提交 && 更新
+    submit() {
       this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'md5': this.md5,
+            'name': this.formData.name,
             'key': this.formData.key,
             'value': this.formData.value,
-            'status': this.formData.status,
             'order_id': this.formData.order_id,
-            'description': this.formData.description
+            'description': this.formData.description,
+            'type': 2
           }
           return new Promise((resolve, reject) => {
-            InfoDictUpdate(data).then(response => {
+            InfoDictAdd(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '更新成功' || message,
+                  message: '维护成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-edit', true)
+                this.$emit('close-main', true)
               }
               resolve(response)
             }).catch(error => {

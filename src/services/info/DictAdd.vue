@@ -18,39 +18,25 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
-        <el-form-item label="RTX名称" prop="rtx">
-          <el-input
-            v-model.trim="formData.rtx"
-            type="text"
-            placeholder="请输入RTX名称（建议使用英文）"
-            :maxlength="formDataLimit.rtx"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
-        <el-form-item label="昵称" prop="name">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
+        <el-form-item label="RTX名称" prop="name">
           <el-input
             v-model.trim="formData.name"
             type="text"
-            placeholder="请输入昵称"
+            placeholder="请输入RTX名称（建议使用英文）"
             :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="联系电话" prop="phone">
+        <el-form-item label="枚举Key" prop="key">
           <el-input
-            v-model.trim="formData.phone"
+            v-model.trim="formData.key"
             type="text"
-            placeholder="请输入联系电话，暂不支持国外电话"
-            :maxlength="formDataLimit.phone"
+            placeholder="请输入枚举key"
+            :maxlength="formDataLimit.key"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -58,12 +44,12 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="枚举Value" prop="value">
           <el-input
-            v-model.trim="formData.email"
+            v-model.trim="formData.value"
             type="text"
-            placeholder="请输入邮箱"
-            :maxlength="formDataLimit.email"
+            placeholder="请输入枚举Value"
+            :maxlength="formDataLimit.value"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -71,53 +57,30 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="描述" prop="description">
           <el-input
-            v-model.trim="formData.password"
-            type="text"
-            placeholder="请输入密码，默认为abc1234"
-            show-password
-            :clearable="inputAttrs.clear"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
-        <el-form-item label="角色" prop="role">
-          <el-select
-            v-model.trim="formData.role"
-            style="width: 100%"
-            :placeholder="selectAttrs.placeholder"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="formDataLimit.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-          >
-            <el-option
-              v-for="(item, index) in roles"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span style="float: left">{{ item.value }}</span>
-              <span style="float: right; color: #8492a6; font-size: 14px">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="自我介绍" prop="introduction">
-          <el-input
-            v-model.trim="formData.introduction"
+            v-model.trim="formData.description"
             type="textarea"
-            placeholder="请输入自我介绍"
+            placeholder="请输入枚举描述"
             :rows="textAreaAttrs.rows"
             :autosize="{ minRows: 4, maxRows: 6 }"
-            :maxlength="formDataLimit.introduction"
+            :maxlength="formDataLimit.description"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
+        <el-form-item label="排序ID" prop="order_id">
+          <el-input
+            v-model.trim="formData.order_id"
+            type="text"
+            placeholder="请输入排序ID"
+            :maxlength="formDataLimit.order_id"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :size="inputAttrs.size"
+            :prefix-icon="inputAttrs.prefixIcon"
             :disabled="disabled"
           />
         </el-form-item>
@@ -126,7 +89,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitAddUser()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -134,63 +97,50 @@
 </template>
 
 <script>
-import { userAdd, initRoleSelect } from '@/api/manage'
 import store from '@/store'
-import { validEmail, validPhone } from '@/utils/validate'
-import { defaultUserPassword } from '@/settings.js'
+import { InfoDictAdd } from '@/api/info'
 
-const validateUserRtx = (rule, value, callback) => {
+const validateName = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入RTX名称'))
+    callback(new Error('请输入枚举RTX'))
   } else if (value.length > 25) {
-    callback(new Error('RTX名称最大长度为25'))
+    callback(new Error('枚举RTX最大长度为25'))
   } else {
     callback()
   }
 }
 
-const validateUserName = (rule, value, callback) => {
+const validateKey = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入昵称'))
-  } else if (value.length > 30) {
-    callback(new Error('昵称最大长度为30'))
+    callback(new Error('请输入枚举Key'))
+  } else if (value.length > 25) {
+    callback(new Error('枚举Key最大长度为25'))
   } else {
     callback()
   }
 }
 
-const validateUserEmail = (rule, value, callback) => {
-  if (value.length > 35) {
-    callback(new Error('邮箱最大长度为35'))
-  } else if (value && !validEmail(value)) {
-    callback(new Error('请输入正确的邮箱'))
-  } else {
-    callback()
-  }
-}
-
-const validateUserPhone = (rule, value, callback) => {
+const validateValue = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入联系电话'))
-  } else if (!validPhone(value)) {
-    callback(new Error('请输入正确的联系电话'))
-  } else if (value.length !== 11) {
-    callback(new Error('联系电话最大长度为11'))
+    callback(new Error('请输入枚举Value'))
+  } else if (value.length > 55) {
+    callback(new Error('枚举Value最大长度为55'))
   } else {
     callback()
   }
 }
 
-const validateUserRole = (rule, value, callback) => {
-  if (value.length < 1) {
-    callback(new Error('请选择用户角色'))
+const validateDescription = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入枚举描述'))
+  } else if (value.length > 255) {
+    callback(new Error('枚举描述最大长度为255'))
   } else {
     callback()
   }
 }
-
 export default {
-  name: 'DictAdd',
+  name: 'DictEdit',
   emits: ['close-add'],
   components: {},
   props: {
@@ -209,10 +159,10 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '新增枚举',
+        title: '新增',
         width: '40%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '3%', // Dialog CSS 中的 margin-top 值
+        top: '5%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
@@ -231,15 +181,6 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
-      selectAttrs: { // select attrs
-        multiple: true, // 多选
-        clearable: true, // 清空选择
-        filterable: false, // 搜索功能
-        collapseTags: false, // 多个合并成一个
-        limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
-        noDataText: '暂无数据', // 选项为空时显示的文字
-        placeholder: '请选择用户角色，可多选' // 默认显示内容
-      },
       textAreaAttrs: { // textArea attrs
         rows: 2, // 输入框行数
         autoSize: false, // 自适应内容高度
@@ -250,91 +191,65 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       // data
-      roles: [],
       formData: {
-        rtx: '', // rtx_id
-        name: '', // 昵称
-        phone: '', // 电话
-        password: defaultUserPassword || 'abc1234', // 密码
-        email: '', // 邮箱
-        introduction: '', // 描述
-        role: [] // 角色
+        name: '',
+        key: '',
+        value: '',
+        description: '',
+        order_id: ''
       },
       formDataLimit: {
-        rtx: '25',
-        name: '30',
-        phone: '11',
-        password: '',
-        email: '35',
-        introduction: '255',
-        role: '0'
+        name: '25',
+        key: '25',
+        value: '25',
+        description: '255',
+        order_id: '4'
       },
       formDataRules: {
-        rtx: [{ required: true, trigger: 'blur', validator: validateUserRtx }],
-        name: [{ required: true, trigger: 'blur', validator: validateUserName }],
-        phone: [{ required: true, trigger: 'blur', validator: validateUserPhone }],
-        email: [{ required: false, trigger: 'blur', validator: validateUserEmail }],
-        role: [{ required: true, trigger: 'blur', validator: validateUserRole }]
+        name: [{ required: true, trigger: 'blur', validator: validateName }],
+        key: [{ required: true, trigger: 'blur', validator: validateKey }],
+        value: [{ required: true, trigger: 'blur', validator: validateValue }],
+        description: [{ required: true, trigger: 'blur', validator: validateDescription }]
       }
     }
   },
   computed: {},
   watch: {},
-  created() {
-    this.initRoles()
-  },
+  created() {},
   mounted() {},
   methods: {
     openDialog() { // 初始化操作
-      this.formData.rtx = ''
       this.formData.name = ''
-      this.formData.phone = ''
-      this.formData.password = ''
-      this.formData.email = ''
-      this.formData.introduction = ''
-      this.formData.role = []
+      this.formData.key = ''
+      this.formData.value = ''
+      this.formData.description = ''
+      this.formData.order_id = ''
     },
     closeDialog() { // 关闭dialog
       this.$emit('close-add', false)
     },
-    initRoles() { // 获取roles列表，初始化
-      return new Promise((resolve, reject) => {
-        initRoleSelect().then(response => {
-          const { status_id, data } = response
-          if (status_id === 100) {
-            this.roles = data.list
-          } else {
-            this.roles = [{ key: 'admin', value: 'admin' }] // 请求不成功，默认为admin角色列表
-          }
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-    submitAddUser() { // 提交 and 关闭dg
+    submit() {
       this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'name': this.formData.rtx,
-            'key': this.formData.name,
-            'phone': this.formData.phone,
-            'password': this.formData.password,
-            'email': this.formData.email,
-            'role': this.formData.role,
-            'introduction': this.formData.introduction
+            'name': this.formData.name,
+            'key': this.formData.key,
+            'value': this.formData.value,
+            'order_id': this.formData.order_id,
+            'description': this.formData.description,
+            'type': '1'
           }
           return new Promise((resolve, reject) => {
-            userAdd(data).then(response => {
+            InfoDictAdd(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '用户新增成功' || message,
+                  message: '新增成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
@@ -355,5 +270,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
