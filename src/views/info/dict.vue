@@ -11,10 +11,10 @@
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
-      <el-button id="btn-disable" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDisableDialog">
+      <el-button id="btn-disable" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDisable">
         <svg-icon icon-class="i_disable" />  禁用
       </el-button>
-      <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
+      <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDelete">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
     </el-row>
@@ -79,20 +79,20 @@
       @pagin-current-change="paginCurrentChange"
     />
 
-    <!-- 新增用户 -->
+    <!-- 新增 -->
     <dict-add :show="addDialogStatus" @close-add="closeAdd" />
 
-    <!-- 新增用户 -->
+    <!-- 维护 -->
     <dict-main :show="mainDialogStatus" @close-main="closeMain" />
 
     <!-- 编辑详情 -->
     <dict-edit :show="setDialogStatus" :md5="oprSelectMd5" @close-edit="closeEdit" />
 
     <!-- 批量禁用 -->
-    <dict-batch-disable :show="disableConfirm" :list="selectList" @close-disable-dialog="closeDisableDialog" />
+    <dict-batch-disable :show="disableConfirm" :list="selectList" @close-disable="closeDisable" />
 
     <!-- 批量删除 -->
-    <dict-batch-delete :show="deleteConfirm" :list="selectList" @close-delete-dialog="closeDeleteDialog" />
+    <dict-batch-delete :show="deleteConfirm" :list="selectList" @close-delete="closeDelete" />
 
   </div>
 </template>
@@ -256,11 +256,17 @@ export default {
       }
     },
     rowHandleEdit(index, row) { // table row 编辑详情
-      if (!row) {
+      if (!row || !row?.md5_id) {
         return false
       }
       this.oprSelectMd5 = row.md5_id
       this.setDialogStatus = true
+    },
+    closeEdit(isRefresh) { // 关闭table row编辑
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     },
     openAdd() { // 打开新增
       this.addDialogStatus = true
@@ -280,13 +286,7 @@ export default {
         this.getTableList()
       }
     },
-    closeEdit(isRefresh) { // 关闭table row编辑
-      this.setDialogStatus = false
-      if (isRefresh) {
-        this.getTableList()
-      }
-    },
-    openDisableDialog() { // 打开批量禁用
+    openDisable() { // 打开批量禁用
       if (this.selectList.length === 0) {
         this.$message({
           message: '请选择禁用的数据',
@@ -297,13 +297,13 @@ export default {
       }
       this.disableConfirm = true
     },
-    closeDisableDialog(isRefresh) { // 关闭批量删除
+    closeDisable(isRefresh) { // 关闭批量删除
       this.disableConfirm = false
       if (isRefresh) {
         this.getTableList()
       }
     },
-    openDeleteDialog() { // 打开批量删除
+    openDelete() { // 打开批量删除
       if (this.selectList.length === 0) {
         this.$message({
           message: '请选择删除的数据',
@@ -314,7 +314,7 @@ export default {
       }
       this.deleteConfirm = true
     },
-    closeDeleteDialog(isRefresh) { // 关闭批量删除
+    closeDelete(isRefresh) { // 关闭批量删除
       this.deleteConfirm = false
       if (isRefresh) {
         this.getTableList()
@@ -329,7 +329,7 @@ export default {
       this.getTableList()
     },
     rowHandleDelete(index, row) { // table row 删除
-      if (!row || !row?.md5) {
+      if (!row || !row?.md5_id) {
         return false
       }
       const data = {

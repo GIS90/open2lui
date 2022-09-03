@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0cf866"],{"63a4":function(n,t,c){"use strict";c.r(t);var e=function(){var n=this,t=n.$createElement,c=n._self._c||t;return c("div",{staticClass:"app-container"},[n._v("数据字典")])},a=[],s={name:"Dict"},i=s,r=c("2877"),u=Object(r["a"])(i,e,a,!1,null,"39d0d8c8",null);t["default"]=u.exports}}]);

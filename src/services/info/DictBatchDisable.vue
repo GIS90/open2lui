@@ -30,7 +30,7 @@ import { InfoDictDisables } from '@/api/info'
 
 export default {
   name: 'DictBatchDisable',
-  emits: ['close-disable-dialog'],
+  emits: ['close-disable'],
   components: {},
   props: {
     show: {
@@ -74,7 +74,7 @@ export default {
   mounted() {},
   methods: {
     cancel() { // 取消
-      this.$emit('close-disable-dialog', false)
+      this.$emit('close-disable', false)
     },
     confirm() { // 确认
       if (this.list.length === 0) {
@@ -96,19 +96,19 @@ export default {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
-              message: message,
+              message: '禁用成功' || message,
               type: 'success',
               duration: 2.0 * 1000
             })
           }
           this.btnDisabled = false
           this.btnLoading = false
-          this.$emit('close-disable-dialog', true)
+          this.$emit('close-disable', true)
           resolve(response)
         }).catch(error => {
           this.btnDisabled = false
           this.btnLoading = false
-          this.$emit('close-disable-dialog', true)
+          this.$emit('close-disable', true)
           reject(error)
         })
       })

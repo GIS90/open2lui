@@ -30,7 +30,7 @@ import { InfoDictDeletes } from '@/api/info'
 
 export default {
   name: 'DictBatchDelete',
-  emits: ['close-delete-dialog'],
+  emits: ['close-delete'],
   components: {},
   props: {
     show: {
@@ -74,7 +74,7 @@ export default {
   mounted() {},
   methods: {
     cancel() { // 取消
-      this.$emit('close-delete-dialog', false)
+      this.$emit('close-delete', false)
     },
     confirm() { // 确认
       if (this.list.length === 0) {
@@ -96,19 +96,19 @@ export default {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
-              message: message,
+              message: '删除成功' || message,
               type: 'success',
               duration: 2.0 * 1000
             })
           }
           this.btnDisabled = false
           this.btnLoading = false
-          this.$emit('close-delete-dialog', true)
+          this.$emit('close-delete', true)
           resolve(response)
         }).catch(error => {
           this.btnDisabled = false
           this.btnLoading = false
-          this.$emit('close-delete-dialog', true)
+          this.$emit('close-delete', true)
           reject(error)
         })
       })
