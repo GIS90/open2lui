@@ -130,7 +130,7 @@ export default {
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '50',
+          bottom: '65',
           containLabel: true
         },
         xAxis: [
