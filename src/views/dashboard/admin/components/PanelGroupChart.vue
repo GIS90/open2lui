@@ -141,8 +141,8 @@ export default {
         },
         // 直角坐标系内绘图网格
         grid: {
-          left: 25,
-          right: 25,
+          left: '3%',
+          right: '4%',
           bottom: 15,
           top: 50,
           containLabel: true

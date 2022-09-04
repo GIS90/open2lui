@@ -35,7 +35,8 @@ export default {
   },
   data() {
     return {
-      chart: null // Echart实例
+      chart: null, // Echart实例
+      chartLegend: ['表格合并', '表格拆分', 'PDF转WORD', '钉钉绩效'] // 默认legend，动态API获取
     }
   },
   computed: {},
@@ -71,7 +72,8 @@ export default {
         DashboardIndex(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.chartOptions(data) //  // API请求成功，渲染Echart
+            this.chartLegend = data.legend
+            this.chartOptions(data.data) //  // API请求成功，渲染Echart
           }
           resolve(response)
         }).catch(error => {
@@ -84,7 +86,7 @@ export default {
       this.chart.setOption({
         title: {
           show: true,
-          text: '系统功能累积使用情况',
+          text: '工具累积使用情况',
           x: 'center',
           textAlign: 'left',
           textStyle: {
@@ -100,7 +102,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '15',
-          data: ['表格合并', '表格拆分', 'PDF转WORD', '钉钉绩效']
+          data: this.chartLegend
         },
         toolbox: {
           show: false,

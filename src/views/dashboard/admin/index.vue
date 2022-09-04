@@ -19,23 +19,16 @@
     <div id="dashboard-container-real-time-index">
       <el-divider><i class="el-icon-time">  实时指标</i></el-divider>
       <el-row :gutter="32">
-        <!-- chart-one -->
+        <!-- chart-one 1/3 -->
         <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
           <div class="chart-wrapper">
             <real-time-index-one width="100%" height="350px" />
           </div>
         </el-col>
-        <!-- chart-two -->
-        <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+        <!-- chart-two 2/3 -->
+        <el-col :xs="24" :sm="24" :md="12" :lg="16" :xl="16">
           <div class="chart-wrapper">
-            <raddar-chart />
-          </div>
-        </el-col>
-        <!-- chart-three -->
-        <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
-          <div class="chart-wrapper">
-            <BarChart />
-            <!--<real-time-index-two width="100%" height="350px" />-->
+            <real-time-index-two width="100%" height="350px" />
           </div>
         </el-col>
       </el-row>
@@ -67,9 +60,7 @@ import ShortCutGroup from './components/ShortCutGroup'
 import PanelGroup from './components/PanelGroup'
 import PanelGroupChart from './components/PanelGroupChart'
 import RealTimeIndexOne from './components/RealTimeIndexOne'
-// import RealTimeIndexTwo from './components/RealTimeIndexTwo'
-import RaddarChart from './components/RaddarChart'
-import BarChart from './components/BarChart'
+import RealTimeIndexTwo from './components/RealTimeIndexTwo'
 // import TransactionTable from './components/TransactionTable'
 // import TodoList from './components/TodoList'
 // import BoxCard from './components/BoxCard'
@@ -81,9 +72,7 @@ export default {
     'panel-group': PanelGroup,
     'panel-group-chart': PanelGroupChart,
     'real-time-index-one': RealTimeIndexOne,
-    // 'real-time-index-two': RealTimeIndexTwo,
-    RaddarChart,
-    BarChart
+    'real-time-index-two': RealTimeIndexTwo
     // TransactionTable,
     // TodoList,
     // BoxCard

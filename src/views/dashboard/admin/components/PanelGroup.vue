@@ -8,7 +8,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            用户
+            本日用户数
           </div>
           <count-to :start-val="0" :end-val="panCounts.user" :duration="countToDurs.user" class="card-panel-num" />
         </div>
@@ -22,7 +22,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            点击数
+            本日点击数
           </div>
           <count-to :start-val="0" :end-val="panCounts.click" :duration="countToDurs.click" class="card-panel-num" />
         </div>

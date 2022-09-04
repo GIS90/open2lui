@@ -9,7 +9,11 @@ import resize from './mixins/resize'
 import store from '@/store'
 import { DashboardIndex } from '@/api/dashboard'
 
-const animationDuration = 4800
+const animationDuration1 = 5000
+const animationDuration2 = 4750
+const animationDuration3 = 4500
+const animationDuration4 = 4250
+const animationDuration5 = 4000
 
 export default {
   name: 'RealTimeIndexTwo',
@@ -35,7 +39,10 @@ export default {
   },
   data() {
     return {
-      chart: null // Echart实例
+      chart: null, // Echart实例
+      chartLegend: [],
+      chartTitle: '本周API请求次数排名TOP5',
+      chartSubTitle: '本周累计'
     }
   },
   computed: {},
@@ -71,7 +78,10 @@ export default {
         DashboardIndex(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.chartOptions(data) // API请求成功，渲染Echart
+            this.chartLegend = data.legend
+            this.chartTitle = data.title
+            this.chartSubTitle = data.subtitle
+            this.chartOptions(data.data) // API请求成功，渲染Echart
           }
           resolve(response)
         }).catch(error => {
@@ -82,54 +92,205 @@ export default {
     // echart options && show【https://echarts.apache.org/zh/option.html】
     chartOptions(data) {
       this.chart.setOption({
+        color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        title: {
+          show: true,
+          text: this.chartTitle || '本周API请求次数排名TOP5',
+          left: 'center',
+          textStyle: {
+            fontSize: 18,
+            color: '#333',
+            fontStyle: 'normal' // normal italic oblique
+          },
+          subtext: this.chartSubTitle || '本周累计',
+          subtextStyle: {
+            fontSize: 13
+          }
+        },
         tooltip: {
           trigger: 'axis',
-          axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        legend: {
+          left: 'center',
+          bottom: '15',
+          data: this.chartLegend
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            saveAsImage: {}
           }
         },
         grid: {
-          top: 10,
-          left: '2%',
-          right: '2%',
-          bottom: '3%',
+          left: '3%',
+          right: '4%',
+          bottom: '50',
           containLabel: true
         },
-        xAxis: [{
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          axisTick: {
-            alignWithLabel: true
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: false,
+            data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
           }
-        }],
-        yAxis: [{
-          type: 'value',
-          axisTick: {
-            show: false
+        ],
+        yAxis: [
+          {
+            type: 'value'
           }
-        }],
-        series: [{
-          name: 'pageA',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }]
+        ],
+        series: [
+          {
+            name: this.chartLegend[0] || '',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            animationDuration1,
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(128, 255, 165)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(1, 191, 236)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: data[0] || [0, 0, 0, 0, 0, 0, 0]
+          },
+          {
+            name: this.chartLegend[1] || '',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            animationDuration2,
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(0, 221, 255)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(77, 119, 255)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: data[1] || [0, 0, 0, 0, 0, 0, 0]
+          },
+          {
+            name: this.chartLegend[2] || '',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            animationDuration3,
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(55, 162, 255)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(116, 21, 219)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: data[2] || [0, 0, 0, 0, 0, 0, 0]
+          },
+          {
+            name: this.chartLegend[3] || '',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            animationDuration4,
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(255, 0, 135)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(135, 0, 157)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: data[3] || [0, 0, 0, 0, 0, 0, 0]
+          },
+          {
+            name: this.chartLegend[4] || '',
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            animationDuration5,
+            showSymbol: false,
+            label: {
+              show: true,
+              position: 'top'
+            },
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(255, 191, 0)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(224, 62, 76)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: data[4] || [0, 0, 0, 0, 0, 0, 0]
+          }
+        ]
       })
     }
   }
