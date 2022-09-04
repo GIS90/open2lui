@@ -33,25 +33,6 @@
         </el-col>
       </el-row>
     </div>
-    <!-- 其他内容
-    <el-divider><i class="el-icon-odometer">  其他数据</i></el-divider>
-    <div id="dashboard-container-other-data">
-      <el-row :gutter="8">
-        <!- table ->
-        <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-          <transaction-table />
-        </el-col>
-        <!- todo-list ->
-        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-          <todo-list />
-        </el-col>
-        <!- box-card ->
-        <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-          <box-card />
-        </el-col>
-      </el-row>
-    </div>
-    -->
   </div>
 </template>
 
@@ -61,9 +42,6 @@ import PanelGroup from './components/PanelGroup'
 import PanelGroupChart from './components/PanelGroupChart'
 import RealTimeIndexOne from './components/RealTimeIndexOne'
 import RealTimeIndexTwo from './components/RealTimeIndexTwo'
-// import TransactionTable from './components/TransactionTable'
-// import TodoList from './components/TodoList'
-// import BoxCard from './components/BoxCard'
 
 export default {
   name: 'DashboardAdmin',
@@ -73,9 +51,6 @@ export default {
     'panel-group-chart': PanelGroupChart,
     'real-time-index-one': RealTimeIndexOne,
     'real-time-index-two': RealTimeIndexTwo
-    // TransactionTable,
-    // TodoList,
-    // BoxCard
   },
   data() {
     return {
