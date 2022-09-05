@@ -22,13 +22,13 @@
         <!-- chart-one 1/3 -->
         <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
           <div class="chart-wrapper">
-            <real-time-index-one width="100%" height="350px" />
+            <real-time-index-one :width="indexChartWidth" :height="indexChartHeight" />
           </div>
         </el-col>
         <!-- chart-two 2/3 -->
         <el-col :xs="24" :sm="24" :md="12" :lg="16" :xl="16">
           <div class="chart-wrapper">
-            <real-time-index-two width="100%" height="350px" />
+            <real-time-index-two :width="indexChartWidth" :height="indexChartHeight" />
           </div>
         </el-col>
       </el-row>
@@ -57,7 +57,9 @@ export default {
       shortCut: true, // 是否显示shortcut【快捷入口】
       panChartType: 'user', // dynamic pan chart type: user-用户 click-点击率
       panChartWidth: '100%', // dynamic pan chart width
-      panChartHeight: '400px' // dynamic pan chart height
+      panChartHeight: '400px', // dynamic pan chart height
+      indexChartWidth: '100%', // index pan chart width
+      indexChartHeight: '400px' // index pan chart height
     }
   },
   methods: {
