@@ -124,7 +124,10 @@ export default {
         toolbox: {
           show: false,
           feature: {
-            saveAsImage: {}
+            saveAsImage: {},
+            magicType: {
+              type: ['line', 'bar', 'stack']
+            }
           }
         },
         grid: {
