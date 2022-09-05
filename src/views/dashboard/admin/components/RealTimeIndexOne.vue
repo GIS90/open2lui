@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       chart: null, // Echart实例
+      chartTitle: '工具累积使用排名', // chart title，动态API获取
       chartLegend: ['表格合并', '表格拆分', 'PDF转WORD', '钉钉绩效'] // 默认legend，动态API获取
     }
   },
@@ -73,6 +74,7 @@ export default {
           const { status_id, data } = response
           if (status_id === 100) {
             this.chartLegend = data.legend
+            this.chartTitle = data.title
             this.chartOptions(data.data) //  // API请求成功，渲染Echart
           }
           resolve(response)
@@ -86,7 +88,7 @@ export default {
       this.chart.setOption({
         title: {
           show: true,
-          text: '工具累积使用情况',
+          text: this.chartTitle || '工具累积使用排名',
           x: 'center',
           textAlign: 'left',
           textStyle: {
