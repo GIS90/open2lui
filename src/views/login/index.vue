@@ -253,12 +253,27 @@ $light_gray:#eee;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 580px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    padding: 15px 65px 35px 65px;
+    margin: 100px auto;
     overflow: hidden;
+    // 边框样式
+    //display: block;
+    //border-top-left-radius: 37px 140px;
+    //border-top-right-radius: 23px 130px;
+    //border-bottom-left-radius: 110px 19px;
+    //border-bottom-right-radius: 120px 24px;
+    //border: solid 45px #6e7491;
+    //box-shadow: 10px 15px 12px -5px rgba(250, 237, 107, 0.8);
+    //transition: all 0.13s ease-in;
   }
+
+  //.login-form:hover {
+  //  transform: translateY(-10px) rotate(0deg); // 360
+  //  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  //  //box-shadow: 10px 15px 8px -10px rgba(255, 47, 100, 0.3);
+  //}
 
   .tips {
     font-size: 14px;
