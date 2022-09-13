@@ -256,7 +256,7 @@ $light_gray:#eee;
     width: 580px;
     max-width: 100%;
     padding: 15px 65px 35px 65px;
-    margin: 100px auto;
+    margin: 120px auto;
     overflow: hidden;
     // 边框样式
     //display: block;
