@@ -53,7 +53,7 @@
       </el-row>
 
       <!--提交-->
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :disabled="!isPass" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -97,7 +97,7 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {},
-      loginTitle: loginTitle || '沈阳分公司智行工具箱',
+      loginTitle: loginTitle || 'OPENTOOL-Z智行工具箱',
       isPass: false
     }
   },
