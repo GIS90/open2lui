@@ -8,7 +8,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            本日用户数
+            用户数
           </div>
           <count-to :start-val="0" :end-val="panCounts.user" :duration="countToDurs.user" class="card-panel-num" />
         </div>
@@ -22,40 +22,26 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            本日点击数
+            点击数
           </div>
           <count-to :start-val="0" :end-val="panCounts.click" :duration="countToDurs.click" class="card-panel-num" />
         </div>
       </div>
     </el-col>
-    <!--
+    <!-- 操作率 -->
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetPanChartType('purchases')">
-        <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
+      <div class="card-panel" @click="handleSetPanChartType('operate')">
+        <div class="card-panel-icon-wrapper icon-operate">
+          <svg-icon icon-class="i_dashboard" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Purchases
+            使用率
           </div>
-          <count-to :start-val="0" :end-val="panCounts.d2" :duration="countToDurs.d2" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panCounts.operate" :duration="countToDurs.operate" decimals="2" suffix="%" class="card-panel-num" />
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetPanChartType('shoppings')">
-        <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon icon-class="shopping" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            Shoppings
-          </div>
-          <count-to :start-val="0" :end-val="panCounts.d3" :duration="countToDurs.d3" class="card-panel-num" />
-        </div>
-      </div>
-    </el-col>
-    -->
   </el-row>
 </template>
 
@@ -78,17 +64,15 @@ export default {
       panChartType: 'user', // pan类型：user-用户【默认为user】click-点击数
       // 计数器持续时间
       countToDurs: {
-        user: 2500,
+        user: 2800,
         click: 3000,
-        d2: 4000,
-        d3: 4500
+        operate: 3500
       },
       // pan数据，默认为0
       panCounts: {
         user: 0,
         click: 0,
-        d2: 84000,
-        d3: 13600
+        operate: 0
       }
     }
   },
@@ -111,7 +95,8 @@ export default {
           const { status_id, data } = response
           if (status_id === 100) {
             this.panCounts.user = data.user // 用户
-            this.panCounts.click = data.click // 点击率
+            this.panCounts.click = data.click // 点击数
+            this.panCounts.operate = data.operate // 使用率
           }
           resolve(response)
         }).catch(error => {
@@ -160,7 +145,7 @@ export default {
         background: #36a3f7;
       }
 
-      .icon-money {
+      .icon-operate {
         background: #f4516c;
       }
 
@@ -177,7 +162,7 @@ export default {
       color: #36a3f7;
     }
 
-    .icon-money {
+    .icon-operate {
       color: #f4516c;
     }
 

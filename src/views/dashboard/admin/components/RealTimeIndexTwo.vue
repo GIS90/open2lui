@@ -94,7 +94,6 @@ export default {
       this.chart.setOption({
         color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
         title: {
-          show: true,
           text: this.chartTitle || '本周API请求次数排名TOP5',
           left: 'center',
           textStyle: {
@@ -102,10 +101,11 @@ export default {
             color: '#333',
             fontStyle: 'normal' // normal italic oblique
           },
-          subtext: this.chartSubTitle || '本周累计',
-          subtextStyle: {
-            fontSize: 13
-          }
+          // subtext: this.chartSubTitle || '本周累计',
+          // subtextStyle: {
+          //   fontSize: 13
+          // },
+          show: true
         },
         tooltip: {
           trigger: 'axis',

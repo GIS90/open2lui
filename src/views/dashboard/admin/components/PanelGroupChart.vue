@@ -42,6 +42,8 @@ export default {
   data() {
     return {
       chart: null, // Echart实例
+      chartTitle: '', // Echart 标题
+      chartSubTitle: '', // Echart 副标题
       chartData: [] // Echart data
     }
   },
@@ -81,7 +83,9 @@ export default {
           DashboardPanChart(data).then(response => {
             const { status_id, data } = response
             if (status_id === 100) {
-              this.chartData = data
+              this.chartData = data.data
+              this.chartTitle = data.title
+              this.chartSubTitle = data.subtitle
               this.chartOptions(this.chartData)
             }
             resolve(response)
@@ -99,16 +103,14 @@ export default {
       // 延迟渲染，目的是在请求完chartData数据后进行渲染
       // this.setOptions(this.chartData)
     },
-    // chart 标题
-    chartTitle() {
+    // 后台API无标题用此方法获取默认标题
+    title() {
       if (this.chartType === 'user') {
         return '本周用户登录情况'
       } else if (this.chartType === 'click') {
         return '本周功能点击数情况'
-      } else if (this.chartType === 'purchases') {
-        return 'purchases'
-      } else if (this.chartType === 'shoppings') {
-        return 'shoppings'
+      } else if (this.chartType === 'operate') {
+        return '本周功能使用率情况'
       } else {
         return ''
       }
@@ -119,13 +121,17 @@ export default {
         // 标题
         title: {
           show: true,
-          text: this.chartTitle(),
+          text: this.chartTitle || this.title(),
           x: 'center',
           textAlign: 'left',
           textStyle: {
             fontSize: 20,
             color: '#333',
             fontStyle: 'normal' // normal italic oblique
+          },
+          subtext: this.chartSubTitle || '本周活跃数据',
+          subtextStyle: {
+            fontSize: 13
           }
         },
         // 直角坐标系 grid 中的 x 轴
@@ -144,7 +150,7 @@ export default {
           left: '3%',
           right: '4%',
           bottom: 15,
-          top: 50,
+          top: 65,
           containLabel: true
         },
         // 提示框组件
