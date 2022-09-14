@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 */
 
-/* 引入dataV组件 */
+/* 全局引入dataV组件 */
 import dataV from '@jiaminghi/data-view'
 
 Vue.use(dataV)
