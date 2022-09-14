@@ -36,6 +36,8 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 */
+
+/* 引入dataV组件 */
 import dataV from '@jiaminghi/data-view'
 
 Vue.use(dataV)

@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      currentRole: 'adminDashboard'
+      currentRole: 'DashboardAdmin' // 默认
     }
   },
   computed: {
