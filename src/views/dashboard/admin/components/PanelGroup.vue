@@ -38,7 +38,7 @@
           <div class="card-panel-text">
             使用率
           </div>
-          <count-to :start-val="0" :end-val="panCounts.operate" :duration="countToDurs.operate" decimals="2" suffix="%" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="panCounts.operate" :duration="countToDurs.operate" :decimals="countDecimals.operate" suffix="%" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -73,6 +73,9 @@ export default {
         user: 0,
         click: 0,
         operate: 0
+      },
+      countDecimals: {
+        operate: 2
       }
     }
   },
