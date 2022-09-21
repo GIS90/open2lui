@@ -38,9 +38,8 @@ if (process.env.NODE_ENV === 'production') {
 */
 
 /* 全局引入dataV组件 */
-import dataV from '@jiaminghi/data-view'
-
-Vue.use(dataV)
+// import dataV from '@jiaminghi/data-view'
+// Vue.use(dataV)
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

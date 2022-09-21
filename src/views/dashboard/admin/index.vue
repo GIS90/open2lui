@@ -42,12 +42,10 @@ import PanelGroup from './components/PanelGroup'
 import PanelGroupChart from './components/PanelGroupChart'
 import RealTimeIndexOne from './components/RealTimeIndexOne'
 import RealTimeIndexTwo from './components/RealTimeIndexTwo'
-// import TestDataV from './components/TestDataV'
 
 export default {
   name: 'DashboardAdmin',
   components: {
-    // 'test-data-v': TestDataV,
     'short-cut-group': ShortCutGroup,
     'panel-group': PanelGroup,
     'panel-group-chart': PanelGroupChart,

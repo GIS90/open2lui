@@ -3,19 +3,21 @@
 </template>
 
 <script>
-// import { percentPond } from '@jiaminghi/data-view'
+import { percentPond } from '@jiaminghi/data-view'
+import Vue from 'vue'
+
+Vue.use(percentPond)
 
 export default {
-  name: 'TestDataV',
+  name: 'BatteryPercent',
   emits: [],
-  components: {
-    // 'dv-percent-pond': percentPond
-  },
+  components: {},
   props: {},
   data() {
     return {
       config: {
         value: 66,
+        lineDash: [10, 2],
         borderWidth: 5,
         borderRadius: 10,
         borderGap: 5
