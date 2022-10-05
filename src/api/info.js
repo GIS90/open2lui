@@ -80,3 +80,12 @@ export function InfoDictNames(data) {
     data
   })
 }
+
+// 部门树列表
+export function InfoDepartList(data) {
+  return request({
+    url: '/info/depart_list',
+    method: 'post',
+    data
+  })
+}

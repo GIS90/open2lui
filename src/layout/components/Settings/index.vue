@@ -17,21 +17,21 @@
       </div>
       <!-- 创建人 -->
       <div class="drawer-item">
-        <span>创建人</span>
+        <span>管理员</span>
         <span class="drawer-switch">{{ info.author }}</span>
       </div>
       <!-- 前端Github -->
       <div class="drawer-item">
         <span>前端Github</span>
         <a target="_blank" :href="info.furl" class="drawer-switch github_a">
-          <svg-icon icon-class="i_github-1" />
+          <svg-icon icon-class="c-github-f" />
         </a>
       </div>
       <!-- 后端Github -->
       <div class="drawer-item">
         <span>后端Github</span>
         <a target="_blank" :href="info.burl" class="drawer-switch github_a">
-          <svg-icon icon-class="i_github" />
+          <svg-icon icon-class="c-github-b" />
         </a>
       </div>
     </div>
@@ -71,6 +71,7 @@ export default {
   components: { ThemePicker },
   data() {
     return {
+      // 默认值
       info: baseInfo || {
         name: 'OpenTool-Z',
         version: 'V1.2.1',
