@@ -1,5 +1,7 @@
 <template>
-  <div class="app-container">短信通知</div>
+  <div class="app-container">
+    短信通知
+  </div>
 </template>
 
 <script>

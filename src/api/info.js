@@ -89,3 +89,12 @@ export function InfoDepartList(data) {
     data
   })
 }
+
+// 更新部门信息
+export function InfoDepartUpdate(data) {
+  return request({
+    url: '/info/depart_update',
+    method: 'post',
+    data
+  })
+}

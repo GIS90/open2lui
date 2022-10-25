@@ -38,6 +38,19 @@ const notifyRouter = {
         affix: false,
         breadcrumb: true
       }
+    },
+    {
+      path: 'qywx',
+      hidden: false,
+      component: () => import('@/views/notify/qywx.vue'),
+      name: 'NotifyQywx',
+      meta: {
+        title: '企微通知',
+        icon: 'i_qywx',
+        noCache: false,
+        affix: false,
+        breadcrumb: true
+      }
     }
   ]
 }

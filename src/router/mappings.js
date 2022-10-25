@@ -11,6 +11,7 @@ const routerMappings = {
   // notify
   notifyMessage: () => import('@/views/notify/message.vue'),
   notifyDtalk: () => import('@/views/notify/dtalk.vue'),
+  notifyQywx: () => import('@/views/notify/qywx.vue'),
   // info
   infoDepartment: () => import('@/views/info/department.vue'),
   infoDict: () => import('@/views/info/dict.vue'),

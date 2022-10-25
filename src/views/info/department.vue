@@ -3,55 +3,26 @@
     <el-row :gutter="32">
       <!-- tree 1 -->
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-        <vue-tree-list
-          :model="treeData"
-          :default-tree-node-name="defaultTreeNodeName"
-          :default-leaf-node-name="defaultLeafNodeName"
-          :default-expanded="defaultExpand"
-          @click="onClick"
-          @add-node="onAdd"
-          @delete-node="onDelete"
-          @change-name="onChangeName"
-          @drag="onDrag"
-          @drop-before="dropBefore"
-          @drop-after="dropAfter"
-        >
-          <template v-slot:leafNameDisplay="slotProps">
-            <span>
-              {{ slotProps.model.name }}
-            </span>
-          </template>
-          <template v-slot:addTreeNodeIcon>
-            <el-tooltip class="item" effect="dark" content="新增目录" placement="top">
-              <svg-icon icon-class="c_folder" class="node-icon margin-left" />
-            </el-tooltip>
-          </template>
-          <template v-slot:addLeafNodeIcon>
-            <el-tooltip class="item" effect="dark" content="新增节点" placement="top">
-              <svg-icon icon-class="i_add" class="node-icon margin-left" />
-            </el-tooltip>
-          </template>
-          <template v-slot:editNodeIcon>
-            <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-              <svg-icon icon-class="i_edit" class="node-icon margin-left" />
-            </el-tooltip>
-          </template>
-          <template v-slot:delNodeIcon>
-            <el-tooltip class="item" effect="dark" content="删除" placement="top">
-              <svg-icon icon-class="i_delete" class="node-icon margin-left" />
-            </el-tooltip>
-          </template>
-          <template v-slot:leafNodeIcon>
-            <span class="icon node-icon margin-left">
-              🍃
-            </span>
-          </template>
-          <template v-slot:treeNodeIcon="slotProps">
-            <span class="icon node-icon margin-left">
-              {{ (slotProps.model.children && slotProps.model.children.length > 0 && !slotProps.expanded) ? '🌲' : '' }}
-            </span>
-          </template>
-        </vue-tree-list>
+        <el-button @click="submit">提交</el-button>
+        <el-tree
+          ref="menuTree"
+          :data="treeData"
+          :show-checkbox="treeAttrs.checkbox"
+          :node-key="treeAttrs.nodeKey"
+          :lazy="treeAttrs.load"
+          :highlight-current="treeAttrs.hln"
+          :expand-on-click-node="treeAttrs.encn"
+          :check-on-click-node="treeAttrs.cncn"
+          :auto-expand-parent="treeAttrs.aep"
+          :check-strictly="treeAttrs.es"
+          :accordion="treeAttrs.accordion"
+          :indent="treeAttrs.indent"
+          :icon-class="treeAttrs.icon"
+          :draggable="treeAttrs.drag"
+          :default-expanded-keys="defaultExpandedKeys"
+          :default-checked-keys="defaultCheckedKeys"
+          :props="treeAttrs.defaultProps"
+        />
       </el-col>
       <!-- json 2 -->
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
@@ -70,17 +41,14 @@
 </template>
 
 <script>
-// https://github.com/ParadeTo/vue-tree-list
-import { VueTreeList, Tree } from 'vue-tree-list'
 import JsonViewer from 'vue-json-viewer'
 import store from '@/store'
-import { InfoDepartList } from '@/api/info'
+import { InfoDepartList, InfoDepartUpdate } from '@/api/info'
 
 export default {
   name: 'Department',
   emits: [],
   components: {
-    'vue-tree-list': VueTreeList,
     'json-viewer': JsonViewer
   },
   props: {},
@@ -89,7 +57,28 @@ export default {
       defaultTreeNodeName: '新目录',
       defaultLeafNodeName: '新节点',
       defaultExpand: false,
-      treeData: new Tree([]) // 初始化置空
+      treeData: [], // 初始化置空
+      defaultExpandedKeys: [], // 默认展开的keys
+      defaultCheckedKeys: [], // 默认选择的keys
+      treeAttrs: { // tree组件attrs
+        nodeKey: 'id', // 树节点用来作为唯一标识的属性
+        checkbox: false, // show-checkbox	节点是否可被选择
+        load: false, // 懒加载
+        es: false, // check-strictly	在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
+        hln: true, // highlight-current是否高亮当前选中节点，false or true
+        encn: true, // expand-on-click-node	是否在点击节点的时候展开或者收缩节点， 默认值为 true，如果为 false，则只有点箭头图标的时候才会展开或者收缩节点
+        cncn: false, // check-on-click-node	是否在点击节点的时候选中节点，默认值为 false，即只有在点击复选框时才会选中节点
+        aep: true, // auto-expand-parent	展开子节点的时候是否自动展开父节点
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        },
+        accordion: false, // 是否每次只打开一个同级树节点展开，false or true
+        indent: 16, // 相邻级节点间的水平缩进，单位为像素
+        icon: '', // 自定义树节点的图标
+        drag: false, // 是否开启拖拽节点功能
+        emptyText: '暂无数据' // 内容为空的时候展示的文本
+      }
     }
   },
   computed: {},
@@ -109,7 +98,7 @@ export default {
         InfoDepartList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.treeData = new Tree(data)
+            this.treeData = data
           }
           resolve(response)
         }).catch(error => {
@@ -118,34 +107,30 @@ export default {
         })
       })
     },
-    onClick(node) {
-      console.log('onClick---------')
-      console.log(node)
-    },
-    onAdd(node) {
-      console.log('onAddNode---------')
-      console.log(node)
-    },
-    onDelete(node) {
-      console.log('onDel---------')
-      console.log(node)
-      node.remove()
-    },
-    onChangeName(node) {
-      console.log('onChangeName---------')
-      console.log(node)
-    },
-    onDrag: function({ node, src, target }) {
-      // eslint-disable-next-line no-console
-      console.log('drop', node, src, target)
-    },
-    dropBefore: function({ node, src, target }) {
-      // eslint-disable-next-line no-console
-      console.log('drop-before', node, src, target)
-    },
-    dropAfter: function({ node, src, target }) {
-      // eslint-disable-next-line no-console
-      console.log('drop-after', node, src, target)
+    submit() {
+      if (!this.treeData) {
+        return false
+      }
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'data': JSON.stringify(this.treeData)
+      }
+      return new Promise((resolve, reject) => {
+        InfoDepartUpdate(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          resolve(response)
+        }).catch(error => {
+          this.loading = false
+          reject(error)
+        })
+      })
     }
   }
 }

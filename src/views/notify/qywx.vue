@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    模板内容
+    企业微信
   </div>
 </template>
 
 <script>
 export default {
-  name: 'template',
+  name: 'Qywx',
   emits: [],
   components: {},
   props: {},
