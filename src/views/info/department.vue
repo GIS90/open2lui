@@ -3,7 +3,6 @@
     <el-row :gutter="32">
       <!-- tree 1 -->
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-        <el-button @click="submit">提交</el-button>
         <el-tree
           ref="menuTree"
           :data="treeData"

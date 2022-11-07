@@ -7,8 +7,8 @@
 <script>
 export default {
   name: 'template',
-  emits: [],
   components: {},
+  emits: [],
   props: {},
   data() {
     return {}
@@ -17,7 +17,8 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {},
+  setup: {}
 }
 </script>
 
