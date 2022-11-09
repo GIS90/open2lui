@@ -143,3 +143,75 @@ export function notifyDtalkSend(data) {
     data
   })
 }
+
+// 获取qywx robot list
+export function notifyQywxRobotList(data) {
+  return request({
+    url: '/notify/qywx_robot_list',
+    method: 'post',
+    data
+  })
+}
+
+// 新增qywx robot
+export function notifyQywxRobotAdd(data) {
+  return request({
+    url: '/notify/qywx_robot_add',
+    method: 'post',
+    data
+  })
+}
+
+// 删除qywx robot单个文件
+export function notifyQywxRobotDelete(data) {
+  return request({
+    url: '/notify/qywx_robot_delete',
+    method: 'post',
+    data
+  })
+}
+
+// 删除qywx robot多个文件
+export function notifyQywxRobotDeletes(data) {
+  return request({
+    url: '/notify/qywx_robot_deletes',
+    method: 'post',
+    data
+  })
+}
+
+// 获取qywx robot详情
+export function notifyQywxRobotDetail(data) {
+  return request({
+    url: '/notify/qywx_robot_detail',
+    method: 'post',
+    data
+  })
+}
+
+// 更新qywx robot详情
+export function notifyQywxRobotUpdate(data) {
+  return request({
+    url: '/notify/qywx_robot_update',
+    method: 'post',
+    data
+  })
+}
+
+// 更新qywx robot选择状态
+export function notifyQywxRobotSelect(data) {
+  return request({
+    url: '/notify/qywx_robot_select',
+    method: 'post',
+    data
+  })
+}
+
+// qywx robot ping
+export function notifyQywxRobotPing(data) {
+  return request({
+    url: '/notify/qywx_robot_ping',
+    method: 'post',
+    data
+  })
+}

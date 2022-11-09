@@ -97,32 +97,32 @@
     </el-dialog>
 
     <!-- 新增 -->
-    <dtalk-robot-add :show="addDialogStatus" @close-robot-add="closeRobotAdd" />
+    <qywx-robot-add :show="addDialogStatus" @close-robot-add="closeRobotAdd" />
 
     <!-- 删除 -->
     <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 设置 -->
-    <dtalk-robot-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeDialogSet" />
+    <qywx-robot-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeDialogSet" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
-import DtalkRobotAdd from '@/services/notify/DtalkRobotAdd'
-import DtalkRobotSet from '@/services/notify/DtalkRobotSet'
+import QywxRobotAdd from '@/services/notify/QywxRobotAdd'
+import QywxRobotSet from '@/services/notify/QywxRobotSet'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import Pagination from '@/components/Pagination'
-import { notifyDtalkRobotDelete, notifyDtalkRobotList,
-  notifyDtalkRobotPing, notifyDtalkRobotSelect } from '@/api/notify'
+import { notifyQywxRobotList, notifyQywxRobotDelete,
+  notifyQywxRobotPing, notifyQywxRobotSelect } from '@/api/notify'
 
 export default {
-  name: 'DtalkRobot',
+  name: 'QywxRobot',
   emits: [],
   components: {
     'notify-batch-delete': NotifyBatchDelete,
-    'dtalk-robot-add': DtalkRobotAdd,
-    'dtalk-robot-set': DtalkRobotSet,
+    'qywx-robot-add': QywxRobotAdd,
+    'qywx-robot-set': QywxRobotSet,
     'public-pagination': Pagination
   },
   props: {
@@ -231,7 +231,7 @@ export default {
         'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        notifyDtalkRobotList(data).then(response => {
+        notifyQywxRobotList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -320,7 +320,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        notifyDtalkRobotDelete(data).then(response => {
+        notifyQywxRobotDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -372,7 +372,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        notifyDtalkRobotSelect(data).then(response => {
+        notifyQywxRobotSelect(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -400,7 +400,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        notifyDtalkRobotPing(data).then(response => {
+        notifyQywxRobotPing(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
