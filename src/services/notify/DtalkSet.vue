@@ -198,7 +198,6 @@ export default {
         title: '', // 消息标题
         sheetColumns: [], // 选中的全部Columns枚举
         sheetColumnIndexs: [] // 需要选中Column索引
-
       },
       formDataLimit: {
         name: 55,

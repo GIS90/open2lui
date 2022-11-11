@@ -234,12 +234,29 @@ export function notifyQywxDelete(data) {
   })
 }
 
-
 // 删除qywx多条记录
 export function notifyQywxDeletes(data) {
   return request({
     url: '/notify/qywx_deletes',
     method: 'post',
     data
+  })
+}
+
+// 新增qywx消息记录
+export function notifyQywxAdd(data) {
+  return request({
+    url: '/notify/qywx_add',
+    method: 'post',
+    data
+  })
+}
+
+// 初始化新增qywx，获取消息类型列表
+export function notifyQywxAddInit(params) {
+  return request({
+    url: '/notify/qywx_add_init',
+    method: 'get',
+    params
   })
 }

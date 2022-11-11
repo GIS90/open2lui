@@ -26,7 +26,8 @@
 
 <script>
 import store from '@/store'
-import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDelete, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
+import { notifyDtalkDeletes, notifyDtalkRobotDeletes,
+  notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
 
 export default {
   name: 'NotifyBatchDelete',

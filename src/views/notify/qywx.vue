@@ -2,8 +2,8 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
-      <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="">
-        <svg-icon icon-class="i_upload" />  新增
+      <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddDialog">
+        <svg-icon icon-class="i_add" />  新增
       </el-button>
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
@@ -20,8 +20,10 @@
     </el-row>
 
     <!-- Robot配置 -->
-    <qywx-robot :show="robotDialogStatus" @close-robot-dg="closeRobotDialog" />
+    <qywx-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
 
+    <!-- Robot配置 -->
+    <qywx-robot :show="robotDialogStatus" @close-robot-dg="closeRobotDialog" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -50,12 +52,12 @@
         </el-table-column>
         <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="content" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="content" label="消息类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="type" label="消息类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="设置" placement="top">
-              <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
+            <el-tooltip effect="dark" content="编辑" placement="top">
+              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="light" content="发送" placement="top">
               <el-button
@@ -67,8 +69,8 @@
                 @click="rowHandleSend(scope.$index, scope.row)"
               />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="下载" placement="top">
-              <a :href="scope.row.url"><i class="el-icon-download" /></a>
+            <el-tooltip class="icon-item" effect="dark" content="定时发送" placement="top">
+              <i class="el-icon-setting" @click="rowHandleCron(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -96,6 +98,7 @@
 <script>
 import store from '@/store'
 import QywxRobot from '@/services/notify/QywxRobot'
+import QywxAdd from '@/services/notify/QywxAdd'
 import Pagination from '@/components/Pagination'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
@@ -103,6 +106,7 @@ import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
 export default {
   name: 'Qywx',
   components: {
+    'qywx-add': QywxAdd,
     'qywx-robot': QywxRobot,
     'notify-batch-delete': NotifyBatchDelete,
     'public-pagination': Pagination
@@ -155,6 +159,7 @@ export default {
       selectList: [], // 选择列表
       tableData: [], // table data
       oprSelectRowMd5: '', // 当前选择data-md5
+      addDialogStatus: false, // 新增dialog状态
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
       deleteSource: 'qywx', // delete source
@@ -253,6 +258,15 @@ export default {
       this.pageCur = page
       this.getTableList()
     },
+    openAddDialog() { // 打开新增
+      this.addDialogStatus = true
+    },
+    closeAddDialog(isRefresh) { // 关闭新增
+      this.addDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
+    },
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
       if (isRefresh) {
@@ -329,6 +343,19 @@ export default {
     },
     closeRobotDialog() { // 关闭Robot配置
       this.robotDialogStatus = false
+    },
+    rowHandleCron(index, row) { // 定时发送设置
+      if (!row || !row.md5_id) {
+        return false
+      }
+      this.$message({
+        message: '暂未开通',
+        type: 'warning',
+        duration: 2.0 * 1000
+      })
+      return false
+    },
+    tempSendDialog() {
     }
   },
   setup: {}
