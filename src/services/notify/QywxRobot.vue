@@ -199,7 +199,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       addDialogStatus: false, // 新增dg状态
-      deleteSource: 'dtalk-robot', // delete source
+      deleteSource: 'qywx-robot', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },

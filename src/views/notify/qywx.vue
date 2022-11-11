@@ -22,6 +22,74 @@
     <!-- Robot配置 -->
     <qywx-robot :show="robotDialogStatus" @close-robot-dg="closeRobotDialog" />
 
+
+    <!--Table表格-->
+    <div id="data-container" class="table-sty">
+      <el-table
+        ref="multipleTableRef"
+        :data="tableData"
+        :size="tableAttrs.size"
+        :fit="tableAttrs.fit"
+        :show-header="tableAttrs.showHeader"
+        :highlight-current-row="tableAttrs.hcr"
+        :border="tableAttrs.border"
+        style="width: 100%"
+        :default-sort="{ prop: 'create_time', order: 'descending' }"
+        :empty-text="tableAttrs.emptyText"
+        :header-cell-style="setTableHeaderStyle"
+        @select="selectRow"
+        @selection-change="selectChange"
+        @select-all="selectAll"
+      >
+        <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
+        <el-table-column fixed="left" label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="content" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="content" label="消息类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
+          <template slot-scope="scope">
+            <el-tooltip effect="dark" content="设置" placement="top">
+              <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="light" content="发送" placement="top">
+              <el-button
+                icon="el-icon-position"
+                type="primary"
+                size="mini"
+                round
+                plain
+                @click="rowHandleSend(scope.$index, scope.row)"
+              />
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="dark" content="下载" placement="top">
+              <a :href="scope.row.url"><i class="el-icon-download" /></a>
+            </el-tooltip>
+            <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <!-- page分页 -->
+    <public-pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
+
+    <!-- 删除dialog -->
+    <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+
   </div>
 </template>
 
@@ -29,12 +97,14 @@
 import store from '@/store'
 import QywxRobot from '@/services/notify/QywxRobot'
 import Pagination from '@/components/Pagination'
-import { notifyDtalkList, notifyDtalkDelete } from '@/api/notify'
+import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
+import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
 
 export default {
   name: 'Qywx',
   components: {
     'qywx-robot': QywxRobot,
+    'notify-batch-delete': NotifyBatchDelete,
     'public-pagination': Pagination
   },
   emits: [],
@@ -87,7 +157,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
-      deleteSource: 'dtalk', // delete source
+      deleteSource: 'qywx', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       robotDialogStatus: false // Robot配置dg状态
     }
@@ -162,7 +232,7 @@ export default {
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
-        notifyDtalkList(data).then(response => {
+        notifyQywxList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -192,7 +262,7 @@ export default {
     openDeleteDialog() { // 打开删除Dialog
       if (this.selectList.length === 0) {
         this.$message({
-          message: '请选择删除的文件',
+          message: '请选择删除的数据',
           type: 'warning',
           duration: 2.0 * 1000
         })
@@ -224,7 +294,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        notifyDtalkDelete(data).then(response => {
+        notifyQywxDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

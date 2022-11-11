@@ -215,3 +215,31 @@ export function notifyQywxRobotPing(data) {
     data
   })
 }
+
+// 获取qywx list
+export function notifyQywxList(data) {
+  return request({
+    url: '/notify/qywx_list',
+    method: 'post',
+    data
+  })
+}
+
+// 删除qywx单条记录
+export function notifyQywxDelete(data) {
+  return request({
+    url: '/notify/qywx_delete',
+    method: 'post',
+    data
+  })
+}
+
+
+// 删除qywx多条记录
+export function notifyQywxDeletes(data) {
+  return request({
+    url: '/notify/qywx_deletes',
+    method: 'post',
+    data
+  })
+}

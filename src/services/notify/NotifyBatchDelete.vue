@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { notifyDtalkDeletes, notifyDtalkRobotDeletes } from '@/api/notify'
+import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDelete, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
 
 export default {
   name: 'NotifyBatchDelete',
@@ -84,7 +84,7 @@ export default {
     confirmDelete() { // 确认删除
       if (this.list.length === 0) {
         this.$message({
-          message: '请选择删除的文件',
+          message: '请选择删除的数据',
           type: 'warning',
           duration: 2.0 * 1000
         })
@@ -104,6 +104,10 @@ export default {
         this.deleteDtalk(data)
       } else if (this.source === 'dtalk-robot') {
         this.deleteDtalkRobot(data)
+      } else if (this.source === 'qywx') {
+        this.deleteQywx(data)
+      } else if (this.source === 'qywx-robot') {
+        this.deleteQywxRobot(data)
       } else {
         return false
       }
@@ -134,6 +138,52 @@ export default {
     deleteDtalkRobot(data) {
       return new Promise((resolve, reject) => {
         notifyDtalkRobotDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        })
+      })
+    },
+    deleteQywx(data) {
+      return new Promise((resolve, reject) => {
+        notifyQywxDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.btnDisabled = false
+          this.btnLoading = false
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        })
+      })
+    },
+    deleteQywxRobot(data) {
+      return new Promise((resolve, reject) => {
+        notifyQywxRobotDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
