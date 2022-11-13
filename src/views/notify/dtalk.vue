@@ -109,13 +109,13 @@
       @pagin-current-change="paginCurrentChange"
     />
 
-    <!-- 删除dialog -->
+    <!-- 批量删除 -->
     <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
-    <!-- 文件设置dg -->
+    <!-- 设置 -->
     <dtalk-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
-    <!-- 消息发送dg -->
+    <!-- 消息发送 -->
     <dtalk-send :show="sendDialogStatus" :row-md5="oprSelectRowMd5" @close-send-dg="closeSendDialog" />
 
   </div>
