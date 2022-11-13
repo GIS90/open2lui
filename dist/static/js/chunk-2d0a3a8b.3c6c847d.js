@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0a3a8b"],{"02b5":function(a,e,n){"use strict";n.r(e);var t=function(){var a=this,e=a.$createElement,n=a._self._c||e;return n("div",{staticClass:"app-container"},[a._v(" 短信通知 ")])},s=[],c={name:"Message"},i=c,r=n("2877"),u=Object(r["a"])(i,t,s,!1,null,"5043da23",null);e["default"]=u.exports}}]);
