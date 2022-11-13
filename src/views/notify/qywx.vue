@@ -95,6 +95,9 @@
     <!-- 编辑 -->
     <qywx-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
+    <!-- 发送 -->
+    <qywx-send :show="sendDialogStatus" :row-md5="oprSelectRowMd5" @close-send-dg="closeSendDialog" />
+
   </div>
 </template>
 
@@ -103,6 +106,7 @@ import store from '@/store'
 import QywxRobot from '@/services/notify/QywxRobot'
 import QywxAdd from '@/services/notify/QywxAdd'
 import QywxSet from '@/services/notify/QywxSet'
+import QywxSend from '@/services/notify/QywxSend'
 import Pagination from '@/components/Pagination'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
@@ -112,6 +116,7 @@ export default {
   components: {
     'qywx-add': QywxAdd,
     'qywx-set': QywxSet,
+    'qywx-send': QywxSend,
     'qywx-robot': QywxRobot,
     'notify-batch-delete': NotifyBatchDelete,
     'public-pagination': Pagination

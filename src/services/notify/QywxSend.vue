@@ -62,6 +62,20 @@
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+        <el-form-item label="用户列表" prop="user">
+          <el-input
+            v-model.trim="formData.user"
+            type="textarea"
+            placeholder="用户列表，多个用户用英文;分割"
+            :rows="textAreaAttrs.rows"
+            :autosize="textAreaAttrs.autoSize"
+            :maxlength="formDataLimit.user"
+            :clearable="textAreaAttrs.clear"
+            :show-word-limit="textAreaAttrs.limit"
+            :prefix-icon="textAreaAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
         <el-form-item label="Robot选择" prop="robot">
           <el-select
             v-model="formData.robot"
@@ -95,8 +109,8 @@ import store from '@/store'
 import { notifyQywxSendInit, notifyQywxSend } from '@/api/notify'
 
 export default {
-  name: 'QywxSet',
-  emits: ['close-set-dg'],
+  name: 'QywxSend',
+  emits: ['close-send-dg'],
   props: {
     show: {
       type: Boolean,
@@ -118,7 +132,7 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: '编辑',
+        title: '发送',
         width: '55%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -141,7 +155,7 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       textAreaAttrs: { // textArea attrs
-        rows: 12, // 输入框行数
+        rows: 8, // 输入框行数
         autoSize: false, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '80', // 最大输入长度
@@ -162,14 +176,16 @@ export default {
       formData: {
         title: '', // 标题
         content: '', // 内容
+        user: '', // 接收人列表
         type: '', // 消息类型
         typeLists: [], // 消息类型列表
         robot: '', // 消息机器人
-        robotLists: [], //消息机器人列表
+        robotLists: [] // 消息机器人列表
       },
       formDataLimit: {
         title: 55,
-        content: 1000
+        content: 1000,
+        user: 1000
       },
       formDataRules: {
         title: [
@@ -179,6 +195,10 @@ export default {
         content: [
           { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
           { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
+        ],
+        user: [
+          { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
+          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] }
         ],
         type: [
           { required: true, message: '请选择消息类型', trigger: ['blur', 'change'] }
@@ -196,13 +216,13 @@ export default {
   methods: {
     openDialog() { // 初始化操作，获取最新数据
       if (!this.rowMd5) {
-        this.$emit('close-set-dg', true)
+        this.$emit('close-send-dg', true)
         return false
       }
       this.getDNewInfo()
     },
     closeDialog() { // 关闭dg
-      this.$emit('close-set-dg', false)
+      this.$emit('close-send-dg', false)
     },
     getDNewInfo() {
       const data = {
@@ -215,10 +235,13 @@ export default {
           if (status_id === 100) {
             this.formData.title = data.title
             this.formData.content = data.content
+            this.formData.user = data.user
             this.formData.type = data.type
             this.formData.typeLists = data.type_lists
+            this.formData.robot = data.robot
+            this.formData.robotLists = data.robot_lists
           } else {
-            this.$emit('close-set-dg', false)
+            this.$emit('close-send-dg', false)
           }
           resolve(response)
         }).catch(error => {
@@ -235,7 +258,9 @@ export default {
             'rtx_id': store.getters.rtx_id,
             'title': this.formData.title,
             'content': this.formData.content,
+            'user': this.formData.user,
             'type': this.formData.type,
+            'robot': this.formData.robot,
             'md5': this.rowMd5
           }
 
@@ -250,7 +275,7 @@ export default {
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-set-dg', true)
+                this.$emit('close-send-dg', true)
               }
               resolve(response)
             }).catch(error => {
