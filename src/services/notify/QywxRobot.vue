@@ -51,8 +51,9 @@
         >
           <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
           <el-table-column fixed="left" prop="name" label="名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="240" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="key" label="KEY" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="secret" label="SECRET" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="key" label="企业号标识" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="220" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="secret" label="管理组凭证密钥" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="agent" label="机器人应用ID" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="200" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="description" label="描述" :header-align="tableRowAttrs.headerAlign" align="left" width="320" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
           <el-table-column label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
@@ -141,7 +142,7 @@ export default {
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
-        title: 'Robot配置',
+        title: '机器人配置',
         width: '80%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '6%', // Dialog CSS 中的 margin-top 值

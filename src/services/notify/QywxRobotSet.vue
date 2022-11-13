@@ -23,7 +23,7 @@
           <el-input
             v-model.trim="formData.name"
             type="text"
-            placeholder="请输入Robot名称"
+            placeholder="请输入机器人名称"
             :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
@@ -32,11 +32,11 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="KEY" prop="key">
+        <el-form-item label="企业标识" prop="key">
           <el-input
             v-model.trim="formData.key"
             type="text"
-            placeholder="请输入Robot-KEY"
+            placeholder="请输入企业标识"
             :maxlength="formDataLimit.key"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
@@ -45,12 +45,25 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="SECRET" prop="secret">
+        <el-form-item label="凭证密钥" prop="secret">
           <el-input
             v-model.trim="formData.secret"
             type="text"
-            placeholder="请输入中Robot-SECRET"
+            placeholder="请输入管理组凭证密钥"
             :maxlength="formDataLimit.secret"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :size="inputAttrs.size"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
+        <el-form-item label="应用ID" prop="agent">
+          <el-input
+            v-model.trim="formData.agent"
+            type="text"
+            placeholder="请输入机器人应用ID"
+            :maxlength="formDataLimit.agent"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -104,7 +117,7 @@ import { notifyQywxRobotDetail, notifyQywxRobotUpdate } from '@/api/notify'
 
 const validateName = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入Robot名称'))
+    callback(new Error('请输入机器人名称'))
   } else if (value.length > 20) {
     callback(new Error('Robot名称最大长度为20'))
   } else {
@@ -114,9 +127,9 @@ const validateName = (rule, value, callback) => {
 
 const validateKey = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入Robot-KEY'))
+    callback(new Error('请输入企业号标识'))
   } else if (value.length > 30) {
-    callback(new Error('Robot-KEY最大长度为30'))
+    callback(new Error('企业号标识最大长度为30'))
   } else {
     callback()
   }
@@ -124,9 +137,19 @@ const validateKey = (rule, value, callback) => {
 
 const validateSecret = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入Robot-SECRET'))
+    callback(new Error('请输入管理组凭证密钥'))
   } else if (value.length > 70) {
-    callback(new Error('Robot-SECRET最大长度为70'))
+    callback(new Error('管理组凭证密钥最大长度为70'))
+  } else {
+    callback()
+  }
+}
+
+const validateAgent = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入机器人应用ID'))
+  } else if (value.length > 8) {
+    callback(new Error('机器人应用ID最大长度为70'))
   } else {
     callback()
   }
@@ -134,7 +157,7 @@ const validateSecret = (rule, value, callback) => {
 
 const validateDesc = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入Robot描述'))
+    callback(new Error('请输入机器人描述'))
   } else if (value.length > 120) {
     callback(new Error('描述最大长度为120'))
   } else {
@@ -213,6 +236,7 @@ export default {
         name: '',
         key: '',
         secret: '',
+        agent: '',
         description: '',
         select: false
       },
@@ -220,12 +244,14 @@ export default {
         name: 30,
         key: 30,
         secret: 70,
+        agent: 8,
         description: 120
       },
       formDataRules: {
         name: [{ required: true, trigger: 'blur', validator: validateName }],
         key: [{ required: true, trigger: 'blur', validator: validateKey }],
         secret: [{ required: true, trigger: 'blur', validator: validateSecret }],
+        agent: [{ required: true, trigger: 'blur', validator: validateAgent }],
         description: [{ required: true, trigger: 'blur', validator: validateDesc }]
       }
     }
@@ -257,6 +283,7 @@ export default {
             this.formData.name = data.name
             this.formData.key = data.key
             this.formData.secret = data.secret
+            this.formData.agent = data.agent
             this.formData.description = data.description
             this.formData.select = data.select
           } else {
@@ -278,6 +305,7 @@ export default {
             'name': this.formData.name,
             'key': this.formData.key,
             'secret': this.formData.secret,
+            'agent': this.formData.agent,
             'description': this.formData.description,
             'select': this.formData.select,
             'md5': this.rowMd5
