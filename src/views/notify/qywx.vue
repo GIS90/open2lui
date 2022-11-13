@@ -19,7 +19,7 @@
       </el-button>
     </el-row>
 
-    <!-- Robot配置 -->
+    <!-- 新增 -->
     <qywx-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
 
     <!-- Robot配置 -->
@@ -52,7 +52,7 @@
         </el-table-column>
         <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="content" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="type" label="消息类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="type_name" label="消息类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">
@@ -70,7 +70,7 @@
               />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="定时发送" placement="top">
-              <i class="el-icon-setting" @click="rowHandleCron(scope.$index, scope.row)" />
+              <i class="el-icon-setting" style="color: red" @click="rowHandleCron(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -89,8 +89,11 @@
       @pagin-current-change="paginCurrentChange"
     />
 
-    <!-- 删除dialog -->
+    <!-- 批量删除 -->
     <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+
+    <!-- 编辑 -->
+    <qywx-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
   </div>
 </template>
@@ -99,6 +102,7 @@
 import store from '@/store'
 import QywxRobot from '@/services/notify/QywxRobot'
 import QywxAdd from '@/services/notify/QywxAdd'
+import QywxSet from '@/services/notify/QywxSet'
 import Pagination from '@/components/Pagination'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
@@ -107,6 +111,7 @@ export default {
   name: 'Qywx',
   components: {
     'qywx-add': QywxAdd,
+    'qywx-set': QywxSet,
     'qywx-robot': QywxRobot,
     'notify-batch-delete': NotifyBatchDelete,
     'public-pagination': Pagination

@@ -260,3 +260,21 @@ export function notifyQywxAddInit(params) {
     params
   })
 }
+
+// qywx详情
+export function notifyQywxDetail(data) {
+  return request({
+    url: '/notify/qywx_detail',
+    method: 'post',
+    data
+  })
+}
+
+// 更新qywx
+export function notifyQywxUpdate(data) {
+  return request({
+    url: '/notify/qywx_update',
+    method: 'post',
+    data
+  })
+}
