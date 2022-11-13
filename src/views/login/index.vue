@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
-      <!--标题-->
+      <!-- 标题 -->
       <div class="title-container">
         <h3 class="titleName">{{ loginTitle }}</h3>
       </div>
 
-      <!--用户名-->
+      <!-- 用户名 -->
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -22,7 +22,7 @@
         />
       </el-form-item>
 
-      <!--密码-->
+      <!-- 密码 -->
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
