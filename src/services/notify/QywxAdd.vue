@@ -62,6 +62,20 @@
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+        <el-form-item label="用户列表" prop="user">
+          <el-input
+            v-model.trim="formData.user"
+            type="textarea"
+            placeholder="用户列表，多个用户用英文;分割"
+            :rows="textAreaAttrs.rows"
+            :autosize="textAreaAttrs.autoSize"
+            :maxlength="formDataLimit.user"
+            :clearable="textAreaAttrs.clear"
+            :show-word-limit="textAreaAttrs.limit"
+            :prefix-icon="textAreaAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
       </el-form>
       <!--footer-->
       <template #footer>
@@ -120,7 +134,7 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       textAreaAttrs: { // textArea attrs
-        rows: 12, // 输入框行数
+        rows: 8, // 输入框行数
         autoSize: false, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '80', // 最大输入长度
@@ -141,12 +155,14 @@ export default {
       formData: {
         title: '', // 标题
         content: '', // 内容
+        user: '', // 接收人列表
         type: '', // 消息类型
         typeLists: [] // 消息类型列表
       },
       formDataLimit: {
         title: 55,
-        content: 1000
+        content: 1000,
+        user: 1000
       },
       formDataRules: {
         title: [
@@ -156,6 +172,10 @@ export default {
         content: [
           { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
           { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
+        ],
+        user: [
+          { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
+          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] }
         ],
         type: [
           { required: true, message: '请选择消息类型', trigger: ['blur', 'change'] }
@@ -172,6 +192,7 @@ export default {
       // 初始化数据为空
       this.formData.title = ''
       this.formData.content = ''
+      this.formData.user = ''
       this.formData.type = ''
       this.getDNewInfo()
     },
@@ -205,6 +226,7 @@ export default {
             'rtx_id': store.getters.rtx_id,
             'title': this.formData.title,
             'content': this.formData.content,
+            'user': this.formData.user,
             'type': this.formData.type
           }
 

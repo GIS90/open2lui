@@ -278,3 +278,21 @@ export function notifyQywxUpdate(data) {
     data
   })
 }
+
+// 消息qywx发送初始化
+export function notifyQywxSendInit(data) {
+  return request({
+    url: '/notify/qywx_send_init',
+    method: 'post',
+    data
+  })
+}
+
+// 消息qywx发送
+export function notifyQywxSend(data) {
+  return request({
+    url: '/notify/qywx_send',
+    method: 'post',
+    data
+  })
+}

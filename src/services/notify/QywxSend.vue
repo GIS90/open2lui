@@ -62,19 +62,21 @@
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="用户列表" prop="user">
-          <el-input
-            v-model.trim="formData.user"
-            type="textarea"
-            placeholder="用户列表，多个用户用英文;分割"
-            :rows="textAreaAttrs.rows"
-            :autosize="textAreaAttrs.autoSize"
-            :maxlength="formDataLimit.user"
-            :clearable="textAreaAttrs.clear"
-            :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
+        <el-form-item label="Robot选择" prop="robot">
+          <el-select
+            v-model="formData.robot"
+            style="width: 100%"
+            placeholder="请选择消息发送的Robot"
             :disabled="disabled"
-          />
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+          >
+            <el-option v-for="(item, index) in formData.robotLists" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
       </el-form>
       <!--footer-->
@@ -90,7 +92,7 @@
 
 <script>
 import store from '@/store'
-import { notifyQywxUpdate, notifyQywxDetail } from '@/api/notify'
+import { notifyQywxSendInit, notifyQywxSend } from '@/api/notify'
 
 export default {
   name: 'QywxSet',
@@ -139,7 +141,7 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       textAreaAttrs: { // textArea attrs
-        rows: 8, // 输入框行数
+        rows: 12, // 输入框行数
         autoSize: false, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '80', // 最大输入长度
@@ -160,14 +162,14 @@ export default {
       formData: {
         title: '', // 标题
         content: '', // 内容
-        user: '', // 接收人列表
         type: '', // 消息类型
-        typeLists: [] // 消息类型列表
+        typeLists: [], // 消息类型列表
+        robot: '', // 消息机器人
+        robotLists: [], //消息机器人列表
       },
       formDataLimit: {
         title: 55,
-        content: 1000,
-        user: 1000
+        content: 1000
       },
       formDataRules: {
         title: [
@@ -178,12 +180,11 @@ export default {
           { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
           { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
         ],
-        user: [
-          { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
-          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] }
-        ],
         type: [
           { required: true, message: '请选择消息类型', trigger: ['blur', 'change'] }
+        ],
+        robot: [
+          { required: true, message: '请选择消息发送的Robot', trigger: ['blur', 'change'] }
         ]
       }
     }
@@ -209,12 +210,11 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        notifyQywxDetail(data).then(response => {
+        notifyQywxSendInit(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.formData.title = data.title
             this.formData.content = data.content
-            this.formData.user = data.user
             this.formData.type = data.type
             this.formData.typeLists = data.type_lists
           } else {
@@ -235,19 +235,18 @@ export default {
             'rtx_id': store.getters.rtx_id,
             'title': this.formData.title,
             'content': this.formData.content,
-            'user': this.formData.user,
             'type': this.formData.type,
             'md5': this.rowMd5
           }
 
           return new Promise((resolve, reject) => {
-            notifyQywxUpdate(data).then(response => {
+            notifyQywxSend(data).then(response => {
               this.disabled = false
               this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '编辑成功' || message,
+                  message: '发送成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
