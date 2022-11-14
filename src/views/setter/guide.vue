@@ -6,10 +6,12 @@
       </el-button>
     </div>
     <div id="guide-data-container" class="guide-data-container">
-      <aside>
-        <p>系统向导页面是对本系统对初次使用人员的一个引导，方便用户了解系统的基础信息、菜单简介、功能介绍、团队等信息。使用者也可以跳过此引导直接进行使用，每个功能会有相应的功能使用简介。</p>
-        <p>更多系统详情请参考下列《{{ title }}系统说明》。</p>
-      </aside>
+      <typewriter class="tl" ref="typewriter" :interval="80" v-show="show">
+        <aside>
+          <p>系统向导页面是对本系统对初次使用人员的一个引导，方便用户了解系统的基础信息、菜单简介、功能介绍、团队等信息。使用者也可以跳过此引导直接进行使用，每个功能会有相应的功能使用简介。</p>
+          <p>更多系统详情请参考下列《{{ title }}系统说明》。</p>
+        </aside>
+      </typewriter>
     </div>
   </div>
 </template>
@@ -17,14 +19,19 @@
 <script>
 import Driver from 'driver.js' // import driver.js
 import 'driver.js/dist/driver.min.css' // import driver.js css
+import typewriter from 'vue-type-writer'
 import steps from './guide/steps.js'
 import { baseInfo, logoTitle, loginTitle } from '@/settings.js'
 
 export default {
   name: 'Guide',
+  components: {
+    typewriter
+  },
   data() {
     return {
       driver: null,
+      show: false,
       info: baseInfo || {
         name: 'OpenTool-Z',
         version: 'V1.2.1',
@@ -60,11 +67,21 @@ export default {
       onNext: (Element) => {}, // Called when moving to next step on any step
       onPrevious: (Element) => {} // Called when moving to previous step on any step
     })
+    // 打印效果
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.print()
+      }, 1200)
+    })
   },
   methods: {
     guide() {
       this.driver.defineSteps(steps)
       this.driver.start()
+    },
+    print() {
+      this.show = true
+      this.$refs.typewriter.$emit('typewrite')
     }
   }
 }
