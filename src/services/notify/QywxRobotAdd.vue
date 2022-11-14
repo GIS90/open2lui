@@ -262,6 +262,7 @@ export default {
       this.formData.secret = ''
       this.formData.agent = ''
       this.formData.description = ''
+      this.formData.select = false
     },
     closeDialog() { // 关闭dialog
       this.$emit('close-robot-add', false)
