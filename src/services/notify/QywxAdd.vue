@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label="消息内容" prop="content">
           <el-input
-            v-model.trim="formData.content"
+            v-model="formData.content"
             type="textarea"
             placeholder="请输入消息内容"
             :rows="textAreaAttrs.rows"
