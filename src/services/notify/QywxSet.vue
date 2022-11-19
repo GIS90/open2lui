@@ -198,9 +198,15 @@ export default {
         this.$emit('close-set-dg', true)
         return false
       }
-      this.getDNewInfo()
+      this.$nextTick(() => {
+        this.getDNewInfo()
+        // 重置表单状态
+        this.$refs.formData.resetFields()
+      })
     },
     closeDialog() { // 关闭dg
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
       this.$emit('close-set-dg', false)
     },
     getDNewInfo() {
@@ -242,8 +248,6 @@ export default {
 
           return new Promise((resolve, reject) => {
             notifyQywxUpdate(data).then(response => {
-              this.disabled = false
-              this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
@@ -255,9 +259,13 @@ export default {
               }
               resolve(response)
             }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
               this.disabled = false
               this.loading = false
-              reject(error)
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
             })
           })
         }
