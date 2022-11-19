@@ -121,3 +121,18 @@ export function validClientHW(str) {
     'width': width
   }
 }
+
+/**
+ * @param {string} str
+ * @param {char} char
+ * @returns {Boolean}
+ * desc: 验证是否包含指定的字符
+ */
+export function isIncludeChar(str, char) {
+  // no string
+  if (!str) {
+    return false
+  }
+
+  return str.includes(char)
+}

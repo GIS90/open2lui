@@ -108,6 +108,14 @@
 import store from '@/store'
 import { notifyQywxSendInit, notifyQywxSend } from '@/api/notify'
 
+const validateUser = (rule, value, callback) => {
+  if (value.includes('；')) {
+    callback(new Error('请用英文;分割多个用户'))
+  } else {
+    callback()
+  }
+}
+
 export default {
   name: 'QywxSend',
   emits: ['close-send-dg'],
@@ -198,7 +206,8 @@ export default {
         ],
         user: [
           { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
-          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] }
+          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] },
+          { required: true, trigger: 'blur', validator: validateUser } // 特殊校验
         ],
         type: [
           { required: true, message: '请选择消息类型', trigger: ['blur', 'change'] }
