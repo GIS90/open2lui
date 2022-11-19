@@ -169,7 +169,7 @@ export default {
       // table attributes
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
-        border: true, // 是否带有纵向边框 true/false
+        border: false, // 是否带有纵向边框 true/false
         size: 'medium', // 尺寸 medium / small / mini / ''
         fit: true, // 列的宽度是否自撑开 true/false
         showHeader: true, // 是否显示表头 true/false
