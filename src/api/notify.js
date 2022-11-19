@@ -296,3 +296,21 @@ export function notifyQywxSend(data) {
     data
   })
 }
+
+// 消息qywx临时发送初始化
+export function notifyQywxSendInitTemp(data) {
+  return request({
+    url: '/notify/qywx_send_init_temp',
+    method: 'post',
+    data
+  })
+}
+
+// 消息qywx临时发送
+export function notifyQywxSendTemp(data) {
+  return request({
+    url: '/notify/qywx_send_temp',
+    method: 'post',
+    data
+  })
+}

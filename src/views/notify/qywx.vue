@@ -100,6 +100,9 @@
     <!-- 发送 -->
     <qywx-send :show="sendDialogStatus" :row-md5="oprSelectRowMd5" @close-send-dg="closeSendDialog" />
 
+    <!-- 临时发送 -->
+    <qywx-send-temp :show="sendTempDialogStatus" @close-send-temp-dg="closeSendTempDialog" />
+
   </div>
 </template>
 
@@ -109,6 +112,7 @@ import QywxRobot from '@/services/notify/QywxRobot'
 import QywxAdd from '@/services/notify/QywxAdd'
 import QywxSet from '@/services/notify/QywxSet'
 import QywxSend from '@/services/notify/QywxSend'
+import QywxSendTemp from '@/services/notify/QywxSendTemp'
 import Pagination from '@/components/Pagination'
 import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
@@ -119,6 +123,7 @@ export default {
     'qywx-add': QywxAdd,
     'qywx-set': QywxSet,
     'qywx-send': QywxSend,
+    'qywx-send-temp': QywxSendTemp,
     'qywx-robot': QywxRobot,
     'notify-batch-delete': NotifyBatchDelete,
     'public-pagination': Pagination
@@ -173,7 +178,8 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       addDialogStatus: false, // 新增dialog状态
       setDialogStatus: false, // 设置dialog状态
-      sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
+      sendDialogStatus: false, // send-dialog状态
+      sendTempDialogStatus: false, // send-temp-dialog状态(临时)
       deleteSource: 'qywx', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       robotDialogStatus: false // Robot配置dg状态
@@ -367,7 +373,11 @@ export default {
       })
       return false
     },
-    tempSendDialog() {
+    tempSendDialog() { // 打开临时发送dg
+      this.sendTempDialogStatus = true
+    },
+    closeSendTempDialog() { // 关闭临时发送dg
+      this.sendTempDialogStatus = false
     }
   },
   setup: {}
