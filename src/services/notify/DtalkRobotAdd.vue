@@ -235,8 +235,14 @@ export default {
       this.formData.key = ''
       this.formData.secret = ''
       this.formData.description = ''
+      this.$nextTick(() => {
+        // 重置表单状态
+        this.$refs.formData.resetFields()
+      })
     },
     closeDialog() { // 关闭dialog
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
       this.$emit('close-robot-add', false)
     },
     submit() { // 提交
@@ -255,8 +261,6 @@ export default {
 
           return new Promise((resolve, reject) => {
             notifyDtalkRobotAdd(data).then(response => {
-              this.disabled = false
-              this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
@@ -268,9 +272,13 @@ export default {
               }
               resolve(response)
             }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
               this.disabled = false
               this.loading = false
-              reject(error)
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
             })
           })
         }
