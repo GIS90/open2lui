@@ -22,10 +22,10 @@
         <span class="dialog-title">
           <span v-text="dialogAttrs.title" />
           <el-tooltip class="item" effect="dark" content="关闭" placement="top">
-            <i class="el-icon-close" style="float: right;margin-left: 10px;" @click="handleClose" />
+            <i class="el-icon-close dialog-title-close" @click="handleClose" />
           </el-tooltip>
           <el-tooltip class="item" effect="dark" :content="fullScreenText" placement="top">
-            <i :class="fullScreenIcon" style="float: right;" @click="handleFull" />
+            <i :class="[fullScreenIcon, 'dialog-title-full']" @click="handleFull" />
           </el-tooltip>
         </span>
       </template>
