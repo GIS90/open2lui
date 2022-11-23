@@ -2,9 +2,8 @@
   <div>
     <el-dialog
       :visible="dialog"
-      :title="dialogAttrs.title"
       :width="dialogAttrs.width"
-      :fullscreen="dialogAttrs.fullScreen"
+      :fullscreen="fullScreenStatus"
       :top="dialogAttrs.top"
       :modal="dialogAttrs.modal"
       :lock-scroll="dialogAttrs.lockScroll"
@@ -18,6 +17,18 @@
       @close="handleClose"
       @open="handleOpen"
     >
+      <!--title-->
+      <template #title>
+        <span class="dialog-title">
+          <span v-text="dialogAttrs.title" />
+          <el-tooltip class="item" effect="dark" content="关闭" placement="top">
+            <i class="el-icon-close" style="float: right;margin-left: 10px;" @click="handleClose" />
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" :content="fullScreenText" placement="top">
+            <i :class="fullScreenIcon" style="float: right;" @click="handleFull" />
+          </el-tooltip>
+        </span>
+      </template>
       <!-- upload -->
       <div style="text-align: center;">
         <el-upload
@@ -147,6 +158,9 @@ export default {
         limit: process.env.VUE_APP_UPLOAD_FILES_LIMIT ? process.env.VUE_APP_UPLOAD_FILES_LIMIT - 0 : 20, // 允许上传文件的最大数量, 0无限制
         disabled: false
       },
+      fullScreenStatus: false, // DIALOG是否全屏状态，默认false
+      fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
+      fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
         title: '上传',
         width: '55%', // Dialog 的宽度
@@ -158,7 +172,7 @@ export default {
         closeDelay: 0, // Dialog 关闭的延时时间，单位毫秒
         closeOnClickModal: false, // 是否可以通过点击 modal 关闭 Dialog
         closeOnPressEscape: true, // 是否可以通过按下 ESC 关闭 Dialog
-        showClose: true, // 是否显示关闭按钮
+        showClose: false, // 是否显示关闭按钮
         draggable: false, // 为 Dialog 启用可拖拽功能
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
       },
@@ -172,7 +186,12 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    fullScreenStatus(newVal, oldVal) {
+      newVal ? this.fullScreenIcon = 'el-icon-copy-document' : this.fullScreenIcon = 'el-icon-full-screen'
+      newVal ? this.fullScreenText = '缩小' : this.fullScreenText = '全屏'
+    }
+  },
   created() {},
   mounted() {},
   methods: {
@@ -212,12 +231,17 @@ export default {
         return ''
       }
     },
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
     handleClose() {
       /* 手动清空文件 */
       this.$refs.uploadRef.clearFiles()
       this.$emit('close-file-upload', this.isUpload)
     },
     handleOpen() {
+      // 初始化非全屏
+      this.fullScreenStatus = false
       /* 初始化fileList */
       this.fileList = []
     },
