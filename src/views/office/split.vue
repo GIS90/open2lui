@@ -195,7 +195,9 @@ export default {
     }
   },
   created() {
-    this.getTableData()
+    this.$nextTick(() => {
+      this.getTableData()
+    })
   },
   mounted() {},
   methods: {
