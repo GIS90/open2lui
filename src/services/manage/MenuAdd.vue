@@ -2,9 +2,8 @@
   <div>
     <el-dialog
       :visible="show"
-      :title="dialogAttrs.title"
       :width="dialogAttrs.width"
-      :fullscreen="dialogAttrs.fullScreen"
+      :fullscreen="fullScreenStatus"
       :top="dialogAttrs.top"
       :modal="dialogAttrs.modal"
       :lock-scroll="dialogAttrs.lockScroll"
@@ -18,12 +17,25 @@
       @open="openDialog"
       @close="closeDialog"
     >
-      <el-form ref="menuForm" :label-position="labelPosition" :model="menuForm" :rules="menuFormRules" label-width="auto" style="width: 100%">
+      <!--title-->
+      <template #title>
+        <span class="dialog-title">
+          <span v-text="dialogAttrs.title" />
+          <el-tooltip class="item" effect="dark" content="关闭" placement="top">
+            <i class="el-icon-close dialog-title-close" @click="closeDialog" />
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" :content="fullScreenText" placement="top">
+            <i :class="[fullScreenIcon, 'dialog-title-full']" @click="handleFull" />
+          </el-tooltip>
+        </span>
+      </template>
+      <!--content-->
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="RTX名称" prop="name">
               <el-input
-                v-model.trim="menuForm.name"
+                v-model.trim="formData.name"
                 type="text"
                 placeholder="请输入唯一RTX名称（建议使用英文）"
                 :maxlength="menuLimit.name"
@@ -38,7 +50,7 @@
           <el-col :span="12">
             <el-form-item label="显示名称" prop="title">
               <el-input
-                v-model.trim="menuForm.title"
+                v-model.trim="formData.title"
                 type="text"
                 placeholder="请输入菜单左侧显示名称"
                 :maxlength="menuLimit.title"
@@ -57,7 +69,7 @@
           <el-col :span="12">
             <el-form-item label="请求地址" prop="path">
               <el-input
-                v-model.trim="menuForm.path"
+                v-model.trim="formData.path"
                 type="text"
                 placeholder="请输入功能访问URL"
                 :maxlength="menuLimit.path"
@@ -72,7 +84,7 @@
           <el-col :span="12">
             <el-form-item label="图标" prop="icon">
               <el-input
-                v-model.trim="menuForm.icon"
+                v-model.trim="formData.icon"
                 type="text"
                 placeholder="请输入菜单左侧显示图标"
                 :maxlength="menuLimit.icon"
@@ -89,7 +101,7 @@
           <el-col :span="12">
             <el-form-item label="上级菜单" prop="pid">
               <el-select
-                v-model="menuForm.pid"
+                v-model="formData.pid"
                 style="width: 100%"
                 placeholder="请选择上级菜单"
                 :filterable="selectAttrs.fa"
@@ -118,7 +130,7 @@
           <el-col :span="12">
             <el-form-item label="级别" prop="level">
               <el-select
-                v-model="menuForm.level"
+                v-model="formData.level"
                 style="width: 100%"
                 placeholder="请选择级别"
                 :filterable="selectAttrs.filterable"
@@ -143,7 +155,7 @@
           <el-col :span="12">
             <el-form-item label="快捷入口" prop="shortcut">
               <el-select
-                v-model="menuForm.shortcut"
+                v-model="formData.shortcut"
                 style="width: 100%"
                 placeholder="请选择是否设置快捷入口"
                 :filterable="selectAttrs.filterable"
@@ -171,7 +183,7 @@
             <el-form-item label="组件" prop="component">
               <el-tooltip content="菜单对应的VUE前端开发组件名称" placement="top" effect="light">
                 <el-input
-                  v-model.trim="menuForm.component"
+                  v-model.trim="formData.component"
                   type="text"
                   placeholder="请输入菜单mapping组件"
                   :maxlength="menuLimit.component"
@@ -188,7 +200,7 @@
             <el-form-item label="重定向" prop="redirect">
               <el-tooltip content="一级菜单的重定向属性" placement="top" effect="light">
                 <el-input
-                  v-model.trim="menuForm.redirect"
+                  v-model.trim="formData.redirect"
                   type="text"
                   placeholder="请输入重定向的URL"
                   :maxlength="menuLimit.redirect"
@@ -207,7 +219,7 @@
             <el-form-item label="Hidden属性" prop="hidden">
               <el-tooltip content="是否在菜单栏中隐藏，建议值为否（显示）" placement="top" effect="light">
                 <el-select
-                  v-model="menuForm.hidden"
+                  v-model="formData.hidden"
                   style="width: 100%"
                   placeholder="请选择Hidden属性"
                   :filterable="selectAttrs.filterable"
@@ -232,7 +244,7 @@
             <el-form-item label="Cache属性" prop="cache">
               <el-tooltip content="是否缓存菜单页码，建议值为是（缓存）" placement="top" effect="light">
                 <el-select
-                  v-model="menuForm.cache"
+                  v-model="formData.cache"
                   style="width: 100%"
                   placeholder="请选择Cache属性"
                   :filterable="selectAttrs.filterable"
@@ -259,7 +271,7 @@
             <el-form-item label="Affix属性" prop="affix">
               <el-tooltip content="是否固定在TagView（标签视图）中，建议值为否（不固定）" placement="top" effect="light">
                 <el-select
-                  v-model="menuForm.affix"
+                  v-model="formData.affix"
                   style="width: 100%"
                   placeholder="请选择Affix属性"
                   :filterable="selectAttrs.filterable"
@@ -284,7 +296,7 @@
             <el-form-item label="Breadcrumb属性" prop="breadcrumb">
               <el-tooltip content="是否在顶部菜单面包屑中进行显示，建议值为是（显示）" placement="top" effect="light">
                 <el-select
-                  v-model="menuForm.breadcrumb"
+                  v-model="formData.breadcrumb"
                   style="width: 100%"
                   placeholder="请选择Breadcrumb属性"
                   :filterable="selectAttrs.filterable"
@@ -343,6 +355,9 @@ export default {
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      fullScreenStatus: false, // DIALOG是否全屏状态，默认false
+      fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
+      fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
         title: '新增',
         width: '65%', // Dialog 的宽度
@@ -354,7 +369,7 @@ export default {
         closeDelay: 0, // Dialog 关闭的延时时间，单位毫秒
         closeOnClickModal: true, // 是否可以通过点击 modal 关闭 Dialog
         closeOnPressEscape: true, // 是否可以通过按下 ESC 关闭 Dialog
-        showClose: true, // 是否显示关闭按钮
+        showClose: false, // 是否显示关闭按钮
         draggable: false, // 为 Dialog 启用可拖拽功能
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
       },
@@ -390,7 +405,7 @@ export default {
         affix: 1,
         breadcrumb: 1
       },
-      menuForm: { // menu object
+      formData: { // menu object
         name: '',
         title: '',
         path: '',
@@ -405,7 +420,7 @@ export default {
         breadcrumb: '',
         shortcut: ''
       },
-      menuFormRules: {
+      formDataRules: {
         name: [
           { required: true, message: '请输入RTX名称', trigger: ['blur', 'change'] },
           { min: 1, max: 25, message: 'RTX名称最大长度为25', trigger: ['blur', 'change'] }
@@ -454,28 +469,45 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    fullScreenStatus(newVal, oldVal) {
+      newVal ? this.fullScreenIcon = 'el-icon-copy-document' : this.fullScreenIcon = 'el-icon-full-screen'
+      newVal ? this.fullScreenText = '缩小' : this.fullScreenText = '全屏'
+    }
+  },
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
     closeDialog() {
       this.$emit('close-add-menu', false)
     },
     openDialog() { // 初始化数据 && 枚举列表
       // 清空参数
-      this.menuForm.name = ''
-      this.menuForm.title = ''
-      this.menuForm.path = ''
-      this.menuForm.icon = ''
-      this.menuForm.pid = ''
-      this.menuForm.level = ''
-      this.menuForm.component = ''
-      this.menuForm.redirect = ''
-      this.menuForm.hidden = ''
-      this.menuForm.cache = ''
-      this.menuForm.affix = ''
-      this.menuForm.breadcrumb = ''
-      this.menuForm.shortcut = ''
+      this.formData.name = ''
+      this.formData.title = ''
+      this.formData.path = ''
+      this.formData.icon = ''
+      this.formData.pid = ''
+      this.formData.level = ''
+      this.formData.component = ''
+      this.formData.redirect = ''
+      this.formData.hidden = ''
+      this.formData.cache = ''
+      this.formData.affix = ''
+      this.formData.breadcrumb = ''
+      this.formData.shortcut = ''
+      // 初始化非全屏
+      this.fullScreenStatus = false
+      this.$nextTick(() => {
+        this.getDNewInfo()
+        // 重置表单状态
+        this.$refs.formData.resetFields()
+      })
+    },
+    getDNewInfo() {
       // 获取初始化枚举列表
       const params = {
         'rtx_id': store.getters.rtx_id,
@@ -499,29 +531,27 @@ export default {
       const data = {
         rtx_id: store.getters.rtx_id,
         md5: this.rowMd5,
-        name: this.menuForm.name,
-        title: this.menuForm.title,
-        path: this.menuForm.path,
-        icon: this.menuForm.icon,
-        pid: this.menuForm.pid,
-        level: this.menuForm.level,
-        component: this.menuForm.component,
-        redirect: this.menuForm.redirect,
-        hidden: this.menuForm.hidden,
-        cache: this.menuForm.cache,
-        affix: this.menuForm.affix,
-        breadcrumb: this.menuForm.breadcrumb,
-        shortcut: this.menuForm.shortcut
+        name: this.formData.name,
+        title: this.formData.title,
+        path: this.formData.path,
+        icon: this.formData.icon,
+        pid: this.formData.pid,
+        level: this.formData.level,
+        component: this.formData.component,
+        redirect: this.formData.redirect,
+        hidden: this.formData.hidden,
+        cache: this.formData.cache,
+        affix: this.formData.affix,
+        breadcrumb: this.formData.breadcrumb,
+        shortcut: this.formData.shortcut
       }
       // menu add
-      this.$refs.menuForm.validate(valid => {
+      this.$refs.formData.validate(valid => {
         if (valid) {
           this.disabled = true
           this.loading = true
           return new Promise((resolve, reject) => {
             menuAdd(data).then(response => {
-              this.disabled = false
-              this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
@@ -533,9 +563,13 @@ export default {
               }
               resolve(response)
             }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
               this.disabled = false
               this.loading = false
-              reject(error)
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
             })
           })
         }

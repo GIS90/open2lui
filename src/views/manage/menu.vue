@@ -179,7 +179,9 @@ export default {
   computed: {},
   watch: {},
   created() {
-    this.getTableList()
+    this.$nextTick(() => {
+      this.getTableList()
+    })
   },
   mounted() {},
   methods: {
