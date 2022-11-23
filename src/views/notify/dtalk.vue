@@ -211,7 +211,9 @@ export default {
     }
   },
   created() {
-    this.getTableList()
+    this.$nextTick(() => {
+      this.getTableList()
+    })
   },
   mounted() {},
   methods: {
