@@ -54,10 +54,10 @@
         <el-table-column prop="delete_time" label="注销时间" width="220" :align="tableRowAttrs.align" sortable />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="编辑" placement="top">
+            <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="重置密码" placement="top">
+            <el-tooltip class="icon-item table-handle-icon" effect="dark" content="重置密码" placement="top">
               <i class="el-icon-setting" @click="rowHandlePw(scope.$index, scope.row)" />
             </el-tooltip>
           </template>

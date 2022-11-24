@@ -74,16 +74,16 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="320">
             <template slot-scope="scope">
-              <el-tooltip effect="dark" content="设置" placement="top">
+              <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
-              <el-tooltip class="icon-item" effect="dark" :content="scope.row.select === true ? '启用' : '关闭'" placement="top">
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" :content="scope.row.select === true ? '启用' : '关闭'" placement="top">
                 <i :class="scope.row.select === true ? 'el-icon-success info_red' : 'el-icon-error'" @click="setSelectStatus(scope.$index, scope.row)" />
               </el-tooltip>
-              <el-tooltip class="icon-item" effect="dark" content="Ping" placement="top">
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="Ping" placement="top">
                 <i class="el-icon-phone-outline" @click="rowHandlePing(scope.$index, scope.row)" />
               </el-tooltip>
-              <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
               </el-tooltip>
             </template>

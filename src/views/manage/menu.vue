@@ -62,10 +62,10 @@
         <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="详情" placement="top">
+            <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row, 'detail')" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="编辑" placement="top">
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row, 'info')" />
             </el-tooltip>
           </template>

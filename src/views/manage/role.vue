@@ -44,16 +44,16 @@
         <el-table-column prop="introduction" label="描述" width="350" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="330">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="详情" placement="top">
+            <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-if="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="编辑" placement="top">
+            <el-tooltip v-if="scope.row.engname !== adminRtx" class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-if="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="授权" placement="top">
+            <el-tooltip v-if="scope.row.engname !== adminRtx" class="table-handle-icon icon-item" effect="dark" content="授权" placement="top">
               <i class="el-icon-setting" @click="rowHandleAuth(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-if="scope.row.engname !== adminRtx" class="icon-item" effect="dark" content="删除" placement="top">
+            <el-tooltip v-if="scope.row.engname !== adminRtx" class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>

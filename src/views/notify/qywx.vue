@@ -58,7 +58,7 @@
         <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="编辑" placement="top">
+            <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="light" content="发送" placement="top">
@@ -71,10 +71,10 @@
                 @click="rowHandleSend(scope.$index, scope.row)"
               />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="定时发送" placement="top">
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="定时发送" placement="top">
               <i class="el-icon-setting" style="color: red" @click="rowHandleCron(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>

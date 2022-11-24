@@ -66,7 +66,7 @@
         <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
           <template slot-scope="scope">
-            <el-tooltip effect="dark" content="设置" placement="top">
+            <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="light" content="拆分" placement="top">
@@ -79,10 +79,10 @@
                 @click="openFileSplit(scope.$index, scope.row)"
               />
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="下载" placement="top">
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="下载" placement="top">
               <a :href="scope.row.url"><i class="el-icon-download" /></a>
             </el-tooltip>
-            <el-tooltip class="icon-item" effect="dark" content="删除" placement="top">
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
