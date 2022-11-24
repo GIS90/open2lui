@@ -39,6 +39,11 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
+        <el-table-column fixed="left" prop="avatar" label="头像" width="100" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot">
+          <template slot-scope="scope">
+            <el-avatar :size="avatarAttrs.size" :src="scope.row.avatar" :shape="avatarAttrs.shape" :alt="avatarAttrs.alt" :fit="avatarAttrs.fit" />
+          </template>
+        </el-table-column>
         <el-table-column fixed="left" prop="rtx_id" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="name" label="姓名" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="phone" label="电话" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -121,6 +126,13 @@ export default {
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
+      },
+      // avatar attributes
+      avatarAttrs: {
+        size: 'medium', // 设置头像的大小 number/string	number / large / medium / small
+        shape: 'circle', // 设置头像的形状circle / square
+        alt: '用户头像', // 描述图像的替换文本
+        fit: 'cover' // 当展示类型为图片的时候，设置图片如何适应容器框fill / contain / cover / none / scale-down
       },
       // table attributes
       tableAttrs: {
