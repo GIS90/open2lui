@@ -186,7 +186,11 @@ export default {
       }
       // 初始化非全屏
       this.fullScreenStatus = false
-
+      this.$nextTick(() => {
+        this.getDNewInfo()
+      })
+    },
+    getDNewInfo() {
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5

@@ -205,8 +205,14 @@ export default {
       this.formData.introduction = ''
       // 初始化非全屏
       this.fullScreenStatus = false
+      this.$nextTick(() => {
+        // 重置表单状态
+        this.$refs.formData.resetFields()
+      })
     },
     closeDialog() { // 关闭dialog
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
       this.$emit('close-add-role', false)
     },
     handleFull() { // 是否全屏model
@@ -225,8 +231,6 @@ export default {
           }
           return new Promise((resolve, reject) => {
             roleAdd(data).then(response => {
-              this.disabled = false
-              this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
@@ -238,9 +242,13 @@ export default {
               }
               resolve(response)
             }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
               this.disabled = false
               this.loading = false
-              reject(error)
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
             })
           })
         }

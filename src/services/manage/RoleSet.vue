@@ -211,7 +211,11 @@ export default {
       }
       // 初始化非全屏
       this.fullScreenStatus = false
-      this.getRoleInfo()
+      this.$nextTick(() => {
+        this.getRoleInfo()
+        // 重置表单状态
+        this.$refs.formData.resetFields()
+      })
     },
     closeDialog() { // 关闭dg
       this.$emit('close-set-role', false)
@@ -254,8 +258,6 @@ export default {
           }
           return new Promise((resolve, reject) => {
             roleUpdate(data).then(response => {
-              this.disabled = false
-              this.loading = false
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
@@ -267,9 +269,13 @@ export default {
               }
               resolve(response)
             }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
               this.disabled = false
               this.loading = false
-              reject(error)
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
             })
           })
         }
