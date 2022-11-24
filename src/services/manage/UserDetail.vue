@@ -48,6 +48,8 @@
             @change="changeStatus($event)"
           />
         </el-form-item>
+        <!-- 基本信息 -->
+        <el-divider content-position="left">基本信息</el-divider>
         <el-form-item label="RTX名称">
           <el-input
             v-model.trim="rtxId"
@@ -100,6 +102,8 @@
             :disabled="!edit"
           />
         </el-form-item>
+        <!-- 权限 -->
+        <el-divider content-position="left">权限信息</el-divider>
         <el-form-item label="角色" prop="role">
           <el-select
             v-model.trim="formData.role"

@@ -31,6 +31,8 @@
       </template>
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
+        <!-- 基本信息 -->
+        <el-divider content-position="left">基本信息</el-divider>
         <el-form-item label="RTX名称" prop="rtx">
           <el-input
             v-model.trim="formData.rtx"
@@ -95,6 +97,8 @@
             :disabled="disabled"
           />
         </el-form-item>
+        <!-- 权限 -->
+        <el-divider content-position="left">权限信息</el-divider>
         <el-form-item label="角色" prop="role">
           <el-select
             v-model.trim="formData.role"
