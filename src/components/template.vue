@@ -6,10 +6,11 @@
 
 <script>
 export default {
-  name: 'template',
+  name: 'Template',
   components: {},
   emits: [],
   props: {},
+  inject: {},
   data() {
     return {}
   },
