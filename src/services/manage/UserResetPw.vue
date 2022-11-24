@@ -16,7 +16,7 @@
     :center="dialogAttrs.center"
     @close="cancel"
   >
-    <p style="font-size: 1.5rem;">用户RTX：{{ rtxId }}</p>
+    <p style="font-size: 1.5rem;">用户RTX：<span class="info_red">{{ rtxId }}</span></p>
     <p style="font-size: 1rem;">初始密码为abc1234，确认重置吗？</p>
     <span slot="footer" class="dialog-footer">
       <el-button :disabled="btnDisabled" @click="cancel">取 消</el-button>

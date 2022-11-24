@@ -16,7 +16,7 @@
     :center="dialogAttrs.center"
     @close="cancelDelete"
   >
-    <span>确认删除选择的数据吗？</span>
+    <span>确认注销选择的数据吗？</span>
     <span slot="footer" class="dialog-footer">
       <el-button :disabled="btnDisabled" @click="cancelDelete">取 消</el-button>
       <el-button :disabled="btnDisabled" :loading="btnLoading" type="primary" @click="confirmDelete">确 定</el-button>
