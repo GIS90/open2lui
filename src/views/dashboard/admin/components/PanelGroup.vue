@@ -42,12 +42,13 @@
         </div>
       </div>
     </el-col>
-    <!-- 电池DataV -->
+    <!-- 电池DataV
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div style="display: grid;place-items: center;margin-top: 5px;">
         <battery-percent />
       </div>
     </el-col>
+    -->
   </el-row>
 </template>
 
@@ -55,7 +56,7 @@
 import CountTo from 'vue-count-to'
 import store from '@/store'
 import { DashboardPan } from '@/api/dashboard'
-import BatteryPercent from './BatteryPercent'
+// import BatteryPercent from './BatteryPercent'
 
 export default {
   name: 'PanelGroup',
@@ -63,8 +64,8 @@ export default {
     'handle-dynamic-pan-chart-type'
   ],
   components: {
-    'count-to': CountTo,
-    'battery-percent': BatteryPercent
+    'count-to': CountTo
+    // 'battery-percent': BatteryPercent
   },
   props: {},
   data() {
