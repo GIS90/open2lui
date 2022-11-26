@@ -19,15 +19,17 @@
     >
       <!--title-->
       <template #title>
-        <span class="dialog-title">
-          <span v-text="dialogAttrs.title" />
-          <el-tooltip class="item" effect="dark" content="关闭" placement="top">
-            <i class="el-icon-close dialog-title-close" @click="closeDialog" />
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" :content="fullScreenText" placement="top">
-            <i :class="[fullScreenIcon, 'dialog-title-full']" @click="handleFull" />
-          </el-tooltip>
-        </span>
+        <div @dblclick="handleFull">
+          <span class="dialog-title">
+            <span v-text="dialogAttrs.title" />
+            <el-tooltip class="item" effect="dark" content="关闭" placement="top">
+              <i class="el-icon-close dialog-title-close" @click="closeDialog" />
+            </el-tooltip>
+            <el-tooltip class="item" effect="dark" :content="fullScreenText" placement="top">
+              <i :class="[fullScreenIcon, 'dialog-title-full']" @click="handleFull" />
+            </el-tooltip>
+          </span>
+        </div>
       </template>
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto">
