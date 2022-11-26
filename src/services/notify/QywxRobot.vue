@@ -63,6 +63,7 @@
           @select-all="selectAll"
         >
           <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
+          <el-table-column fixed="left" prop="id" label="序号" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="100" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column fixed="left" prop="name" label="名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="240" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="key" label="企业号标识" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="220" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="secret" label="管理组凭证密钥" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />

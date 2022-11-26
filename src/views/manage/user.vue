@@ -33,6 +33,7 @@
         @select-all="selectAll"
       >
         <el-table-column fixed="left" type="selection" :align="tableRowAttrs.align" width="60" />
+        <el-table-column fixed="left" prop="id" label="序号" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="100" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="left" label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
           <template slot-scope="scope">
             <i class="el-icon-time" />
