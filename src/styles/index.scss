@@ -225,12 +225,18 @@ aside {
   font-weight: 800;
 }
 
-// dialog title
+// dialog title icon
 .dialog-title-close {
   float: right;
   margin-left: 10px;
 }
+.dialog-title-close:hover{
+  color: #1890FF;
+}
 
 .dialog-title-full {
   float: right;
+}
+.dialog-title-full:hover{
+  color: #1890FF;
 }
