@@ -109,7 +109,7 @@ import store from '@/store'
 import { DashboardShortCutEditSave, DashboardShortCutEditList } from '@/api/dashboard'
 
 export default {
-  name: 'ShortCutEdit',
+  name: 'ShortCutEditByDhd',
   emits: [
     'close-edit'
   ],
@@ -351,8 +351,8 @@ export default {
 // 图标框div
 .card-box-icon-wrapper {
   float: left;
-  margin: 25px 25px 25px 25px;
-  padding: 14px;
+  margin: 20px 20px 20px 20px;
+  padding: 10px;
   transition: all 0.38s ease-out;
   border-radius: 16px;
   color: #00ADB5;

@@ -28,14 +28,14 @@
 
 <script>
 import store from '@/store'
-import ShortCutEdit from './ShortCutEdit.vue'
+import ShortCutEditByDrag from './ShortCutEditByDrag.vue'
 import { DashboardShortCut } from '@/api/dashboard'
 
 export default {
   name: 'ShortCutGroup',
   emits: [],
   components: {
-    'short-cut-edit': ShortCutEdit
+    'short-cut-edit': ShortCutEditByDrag
   },
   props: {},
   data() {

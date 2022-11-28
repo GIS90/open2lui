@@ -61,7 +61,7 @@ import store from '@/store'
 import { DashboardShortCutEditSave, DashboardShortCutEditList } from '@/api/dashboard'
 
 export default {
-  name: 'ShortCutEdit',
+  name: 'ShortCutEditByDrag',
   emits: [
     'close-edit'
   ],
