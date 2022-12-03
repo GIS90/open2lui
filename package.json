@@ -19,7 +19,7 @@
   "license": "MIT",
   "main": "src/main.js",
   "scripts": {
-    "dev": "vue-cli-service serve --open --mode development",
+    "dev": "vue-cli-service serve --open --copy --mode development",
     "devs": "vue-cli-service serve --open --copy --https --mode development",
     "prod": "vue-cli-service serve --open --copy --mode production",
     "prods": "vue-cli-service serve --open --copy --https --mode production",
