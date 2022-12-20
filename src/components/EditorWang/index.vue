@@ -17,6 +17,7 @@
         :default-config="editorConfig"
         :mode="mode"
         @onCreated="onCreated"
+        @onChange="onChange"
       />
     </div>
   </div>
@@ -37,17 +38,17 @@ export default {
   },
   emits: [],
   props: {
-    height: {
+    content: {
       type: String,
       require: false,
-      default: '350px'
+      default: ''
     }
   },
   inject: {},
   data() {
     return {
       editor: null, // editor对象
-      html: '',
+      html: this.content,
       // 工具栏配置
       toolbarConfig: {
         insertKeys: [], // 自定义扩展的菜单
@@ -119,6 +120,10 @@ export default {
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
       // console.log(this.editor.getAllMenuKeys()) // 菜单KEYS
+    },
+    onChange(editor) {
+      // console.log(this.editor.getHtml())
+      // console.log(this.editor.getText())
     },
     beforeDestroy() {
       if (this.editor == null) return

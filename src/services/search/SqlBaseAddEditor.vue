@@ -119,7 +119,7 @@
         </el-row>
         <!-- 标签 -->
         <el-row>
-          <editor-wang />
+          <editor-wang :content="formData.html" />
         </el-row>
       </el-form>
       <!--footer-->
