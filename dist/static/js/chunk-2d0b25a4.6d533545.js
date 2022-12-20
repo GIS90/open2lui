@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0b25a4"],{"246b":function(n,a,e){"use strict";e.r(a);var t=function(){var n=this,a=n.$createElement,e=n._self._c||a;return e("div",{staticClass:"app-container"},[n._v("取数仓库")])},s=[],c={name:"Sqlbase"},i=c,l=e("2877"),r=Object(l["a"])(i,t,s,!1,null,"5f8b5a46",null);a["default"]=r.exports}}]);
