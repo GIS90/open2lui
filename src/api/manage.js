@@ -143,6 +143,15 @@ export function userResetPw(params) {
   })
 }
 
+// 获取用户列表key-value
+export function getUserKVList(data) {
+  return request({
+    url: '/auth/user_kv_list',
+    method: 'post',
+    data
+  })
+}
+
 // 获取菜单列表
 export function getMenuList(data) {
   return request({

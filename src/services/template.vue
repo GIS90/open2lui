@@ -1,13 +1,16 @@
 <template>
-
+  <div class="app-container">
+    模板内容
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'template',
-  emits: [],
+  name: 'Template',
   components: {},
+  emits: [],
   props: {},
+  inject: {},
   data() {
     return {}
   },
@@ -15,7 +18,8 @@ export default {
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {},
+  setup: {}
 }
 </script>
 
