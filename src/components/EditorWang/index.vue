@@ -52,7 +52,11 @@ export default {
       // 工具栏配置
       toolbarConfig: {
         insertKeys: [], // 自定义扩展的菜单
-        excludeKeys: ['uploadVideo'] // 排除掉指定菜单
+        // 排除掉指定菜单
+        excludeKeys: [
+          'uploadVideo', // 视频上传
+          'fullScreen' // 全屏
+        ]
       },
       // 编辑器配置
       editorConfig: {
@@ -119,7 +123,7 @@ export default {
   methods: {
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
-      // console.log(this.editor.getAllMenuKeys()) // 菜单KEYS
+      console.log(this.editor.getAllMenuKeys()) // 菜单KEYS
     },
     onChange(editor) {
       // console.log(this.editor.getHtml())
