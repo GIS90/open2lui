@@ -195,8 +195,8 @@ export default {
           { min: 1, max: 55, message: '消息标题最大长度为55', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入消息内容', trigger: ['blur', 'change'] },
+          { min: 1, max: 1000, message: '消息内容最大长度为1000', trigger: ['blur', 'change'] }
         ],
         user: [
           { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },

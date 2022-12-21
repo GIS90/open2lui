@@ -65,7 +65,7 @@
           </el-col>
           <!-- 摘要：时间 -->
           <el-col :span="8">
-            <el-form-item label="时间" prop="time">
+            <el-form-item label="发布时间" prop="time">
               <el-date-picker
                 v-model="formData.time"
                 :type="timeAttrs.type"
@@ -119,14 +119,15 @@
         </el-row>
         <!-- 标签 -->
         <el-row>
-          <editor-wang :content="formData.html" />
+          <editor-wang :content="formData.html" @on-change-html="OnChangeHtml" />
         </el-row>
       </el-form>
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="info" @click.native.prevent="submit(2)">存草稿箱</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit(1)">发布</el-button>
         </span>
       </template>
     </el-dialog>
@@ -137,6 +138,19 @@
 import store from '@/store'
 import EditorWang from '@/components/EditorWang'
 import { getUserKVList } from '@/api/manage'
+import { sqlbaseAdd } from '@/api/search'
+
+const validateRecommend = (rule, value, callback) => {
+  if (value === 0) {
+    callback(new Error('请选择推荐度'))
+  } else if (value > 3) {
+    callback(new Error('请选择正确的推荐度'))
+  } else if (value < 0) {
+    callback(new Error('请选择正确的推荐度'))
+  } else {
+    callback()
+  }
+}
 
 export default {
   name: 'SqlBaseAddEditor',
@@ -263,7 +277,21 @@ export default {
         title: 55, // 标题
         html: '' // 内容
       },
-      formDataRules: {},
+      formDataRules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
+          { min: 1, max: 55, message: '标题最大长度为55', trigger: ['blur', 'change'] }
+        ],
+        author: [
+          { required: true, message: '请选择作者', trigger: ['blur', 'change'] }
+        ],
+        time: [
+          { required: true, message: '请选择发布时间', trigger: ['blur', 'change'] }
+        ],
+        recommend: [
+          { validator: validateRecommend, trigger: 'change' }
+        ]
+      },
       userList: [
         { key: store.getters.rtx_id, value: store.getters.rtx_id } // 默认当前用户
       ]
@@ -300,6 +328,8 @@ export default {
       })
     },
     closeDialog() { // 关闭dg
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
       this.$emit('close-add-dg', false)
     },
     handleFull() { // 是否全屏model
@@ -319,6 +349,64 @@ export default {
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+    OnChangeHtml(html) {
+      if (this.formData.html !== html) {
+        this.formData.html = html
+      }
+    },
+    submit(type) { // 提交
+      this.$refs.formData.validate(valid => {
+        if (valid) {
+          if (![1, 2].includes(type)) {
+            type = 1
+          }
+          if (!this.formData.html) {
+            this.$message({
+              message: '请输入内容',
+              type: 'warning',
+              duration: 2.0 * 1000
+            })
+            return false
+          }
+
+          this.disabled = true
+          this.loading = true
+          const data = {
+            'rtx_id': store.getters.rtx_id,
+            'title': this.formData.title,
+            'author': this.formData.author,
+            'recommend': this.formData.recommend,
+            'summary': '',
+            'label': '',
+            'public': type === 1,
+            'public_time': this.formData.time,
+            'content': this.formData.html
+          }
+          return new Promise((resolve, reject) => {
+            sqlbaseAdd(data).then(response => {
+              const { status_id, message } = response
+              if (status_id === 100) {
+                this.$message({
+                  message: '新增成功' || message,
+                  type: 'success',
+                  duration: 2.0 * 1000
+                })
+                this.$emit('close-add-dg', true)
+              }
+              resolve(response)
+            }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
+              this.disabled = false
+              this.loading = false
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
+            })
+          })
+        }
       })
     }
   },
