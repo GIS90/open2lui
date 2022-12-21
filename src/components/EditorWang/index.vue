@@ -140,14 +140,16 @@ export default {
   overflow-y: auto;
   position: relative;
 }
+
 .editor-container {
-  width: 90%;
-  height: 100%;
+  width: 85%;
+  height: 84%;
   /*max-height: 500px;*/
   overflow-y: hidden;
   margin: 3% auto 3% auto;
   background-color: #fff;
-  padding: 20px 50px 50px 50px;
+  padding: 2% 5% 5% 5%;
+  /*padding: 20px 50px 50px 50px;*/
   border: 1px solid #e8e8e8;
   box-shadow: 0 20px 20px rgb(0 0 0 / 12%);
 }
