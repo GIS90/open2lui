@@ -119,7 +119,7 @@
         </el-row>
         <!-- 标签 -->
         <el-row>
-          <editor-wang :content="formData.html" @on-change-html="OnChangeHtml" />
+          <editor-wang :html="formData.html" :text="formData.text" @on-change-html="OnChangeHtml" />
         </el-row>
       </el-form>
       <!--footer-->
@@ -138,7 +138,7 @@
 import store from '@/store'
 import EditorWang from '@/components/EditorWang'
 import { getUserKVList } from '@/api/manage'
-import { sqlbaseAdd } from '@/api/search'
+import { searchSqlbaseAdd } from '@/api/search'
 
 const validateRecommend = (rule, value, callback) => {
   if (value === 0) {
@@ -268,14 +268,14 @@ export default {
       formData: {
         title: '', // 标题
         label: [], // 标签
-        html: '', // 内容
+        html: '', // html内容
+        text: '', // text内容
         author: '', // 作者，默认当前登录人
         time: '', // 时间
         recommend: 0 // 推荐度
       },
       formDataLimit: {
-        title: 55, // 标题
-        html: '' // 内容
+        title: 55 // 标题
       },
       formDataRules: {
         title: [
@@ -318,8 +318,9 @@ export default {
       this.formData.title = ''
       this.formData.label = []
       this.formData.html = ''
+      this.formData.text = ''
       this.formData.author = store.getters.rtx_id
-      this.formData.time = ''
+      this.formData.time = new Date() // 默认当前时间
       this.formData.recommend = 0
       this.$nextTick(() => {
         this.getUserList()
@@ -351,10 +352,9 @@ export default {
         })
       })
     },
-    OnChangeHtml(html) {
-      if (this.formData.html !== html) {
-        this.formData.html = html
-      }
+    OnChangeHtml(html, text) {
+      this.formData.html = html
+      this.formData.text = text
     },
     submit(type) { // 提交
       this.$refs.formData.validate(valid => {
@@ -382,10 +382,11 @@ export default {
             'label': '',
             'public': type === 1,
             'public_time': this.formData.time,
-            'content': this.formData.html
+            'html': this.formData.html,
+            'text': this.formData.text
           }
           return new Promise((resolve, reject) => {
-            sqlbaseAdd(data).then(response => {
+            searchSqlbaseAdd(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({

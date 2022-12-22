@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- toolbar -->
-    <div>
+    <div id="editor-header" class="editor-header">
       <wang-toolbar
         style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;"
         :editor="editor"
@@ -10,15 +10,20 @@
       />
     </div>
     <!-- editor -->
-    <div class="editor">
+    <div id="editor-text" class="editor-text">
       <wang-editor
-        v-model="html"
-        class="editor-container"
+        v-model="editorHtml"
+        class="editor-text-container"
         :default-config="editorConfig"
         :mode="mode"
         @onCreated="onCreated"
         @onChange="onChange"
       />
+    </div>
+    <!-- length -->
+    <div id="editor-footer" class="editor-footer">
+      <span>字符个数：<span class="editor-footer-count">{{ editorTextLength }}</span></span>
+      <span style="margin-left: 20px;">HTML个数：<span class="editor-footer-count">{{ editorHtmlLength }}</span></span>
     </div>
   </div>
 </template>
@@ -38,7 +43,7 @@ export default {
   },
   emits: ['on-change-html'],
   props: {
-    content: {
+    html: {
       type: String,
       require: false,
       default: ''
@@ -48,7 +53,9 @@ export default {
   data() {
     return {
       editor: null, // editor对象
-      html: this.content,
+      editorHtml: this.html,
+      editorText: this.text,
+      editorTextLength: 0, // text内容长度
       // 工具栏配置
       toolbarConfig: {
         insertKeys: [], // 自定义扩展的菜单
@@ -116,7 +123,11 @@ export default {
       mode: 'default' // 'default' or 'simple' 简洁模式
     }
   },
-  computed: {},
+  computed: {
+    editorHtmlLength() {
+      return this.editorHtml.length
+    }
+  },
   watch: {},
   created() {},
   mounted() {},
@@ -131,7 +142,8 @@ export default {
       if (this.editor.getText() === '') {
         return false
       }
-      this.$emit('on-change-html', this.editor.getHtml())
+      this.editorTextLength = this.editor.getText().length
+      this.$emit('on-change-html', this.editor.getHtml(), this.editor.getText())
     },
     beforeDestroy() {
       if (this.editor == null) return
@@ -142,14 +154,16 @@ export default {
 </script>
 
 <style scoped>
-.editor {
+.editor-header{}
+
+.editor-text {
   height: calc(65vh - 40px);
   background-color: rgb(245, 245, 245);
   overflow-y: auto;
   position: relative;
 }
 
-.editor-container {
+.editor-text-container {
   width: 85%;
   height: 84%;
   /*max-height: 500px;*/
@@ -160,6 +174,16 @@ export default {
   /*padding: 20px 50px 50px 50px;*/
   border: 1px solid #e8e8e8;
   box-shadow: 0 20px 20px rgb(0 0 0 / 12%);
+}
+
+.editor-footer{
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.editor-footer-count {
+  color: red;
 }
 </style>
 
