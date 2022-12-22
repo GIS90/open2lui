@@ -14,7 +14,7 @@
     </el-row>
 
     <!-- 新增 -->
-    <sql-base-add-editor :show="addDialogStatus" @close-add-dg="closeAddDialog" />
+    <sql-base-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import SqlBaseAddEditor from '@/services/search/SqlBaseAddEditor'
+import SqlBaseAdd from '@/services/search/SqlBaseAdd'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
@@ -112,7 +112,7 @@ import SearchBatchDelete from '@/services/search/SearchBatchDelete'
 export default {
   name: 'SqlBase',
   components: {
-    'sql-base-add-editor': SqlBaseAddEditor,
+    'sql-base-add': SqlBaseAdd,
     'search-batch-delete': SearchBatchDelete,
     'public-pagination': Pagination
   },

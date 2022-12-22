@@ -153,7 +153,7 @@ const validateRecommend = (rule, value, callback) => {
 }
 
 export default {
-  name: 'SqlBaseAddEditor',
+  name: 'SqlBaseAdd',
   components: {
     'editor-wang': EditorWang
   },
