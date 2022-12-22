@@ -66,15 +66,22 @@
         <el-table-column prop="count" label="浏览次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
           <template slot-scope="scope">
-            <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
-            </el-tooltip>
-            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="详情" placement="top">
-              <i class="el-icon-view" @click="rowHandleEdit(scope.$index, scope.row)" />
-            </el-tooltip>
-            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
-            </el-tooltip>
+            <div v-if="scope.row.edit === 'true'">
+              <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
+                <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+              </el-tooltip>
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="详情" placement="top">
+                <i class="el-icon-view" @click="rowHandleView(scope.$index, scope.row)" />
+              </el-tooltip>
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
+                <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
+              </el-tooltip>
+            </div>
+            <div v-else>
+              <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
+                <i class="el-icon-view" @click="rowHandleEdit(scope.$index, scope.row)" />
+              </el-tooltip>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -89,6 +96,9 @@
       @pagin-current-change="paginCurrentChange"
     />
 
+    <!-- 批量删除 -->
+    <search-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+
   </div>
 </template>
 
@@ -96,13 +106,14 @@
 import SqlBaseAddEditor from '@/services/search/SqlBaseAddEditor'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
-import { notifyQywxDelete } from '@/api/notify'
-import { searchSqlbaseList } from '@/api/search'
+import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
+import SearchBatchDelete from '@/services/search/SearchBatchDelete'
 
 export default {
   name: 'SqlBase',
   components: {
     'sql-base-add-editor': SqlBaseAddEditor,
+    'search-batch-delete': SearchBatchDelete,
     'public-pagination': Pagination
   },
   emits: [],
@@ -140,7 +151,7 @@ export default {
         hcr: true, // 是否要高亮当前行highlight-current-row true/false
         height: 450, // 高度
         maxHeight: 450, // 最大高度(属性为Table指定最大高度，此时若表格所需的高度大于最大高度，则会显示一个滚动条。)
-        showSum: true, // 表尾合计
+        showSum: false, // 表尾合计
         sumText: '统计', // 合计行第一列的文
         emptyText: '暂无数据' // 空数据时显示的文本内容
       },
@@ -164,11 +175,21 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       addDialogStatus: false, // 新增dialog状态
       setDialogStatus: false, // 设置dialog状态
+      viewDialogStatus: false, // 查看dialog状态
+      deleteSource: 'sqlbase', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    selectAllStatus(newVal, oldVal) { // watch select button status
+      if (newVal) {
+        this.selBtnText = '取消'
+      } else {
+        this.selBtnText = '全选'
+      }
+    }
+  },
   created() {
     this.$nextTick(() => {
       this.getTableList()
@@ -284,12 +305,12 @@ export default {
       this.oprSelectRowMd5 = row.md5_id
       this.setDialogStatus = true
     },
-    rowHandleSend(index, row) { // 打开发送dtalk dg
+    rowHandleView(index, row) { // table view 设置dialog
       if (!row || !row.md5_id) {
         return false
       }
       this.oprSelectRowMd5 = row.md5_id
-      this.sendDialogStatus = true
+      this.viewDialogStatus = true
     },
     rowHandleDelete(index, row) { // table row 删除
       if (!row || !row?.md5_id) {
@@ -301,7 +322,7 @@ export default {
       }
       this.btnDisabled = true
       return new Promise((resolve, reject) => {
-        notifyQywxDelete(data).then(response => {
+        searchSqlbaseDelete(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -324,6 +345,9 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    closeViewDialog() { // 关闭查看dg
+      this.viewDialogStatus = false
     }
   }
 }
