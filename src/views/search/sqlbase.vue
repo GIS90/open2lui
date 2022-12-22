@@ -42,7 +42,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="rtx_id" label="创建人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" sortable />
-        <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="author" label="作者" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="public_time" label="发布时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="推荐度" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
@@ -64,10 +64,13 @@
         </el-table-column>
         <el-table-column prop="text" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="count" label="浏览次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="360">
+        <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="260">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="详情" placement="top">
+              <i class="el-icon-view" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
