@@ -126,8 +126,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="info" @click.native.prevent="submit(2)">存草稿箱</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit(1)">发布</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">发布</el-button>
         </span>
       </template>
     </el-dialog>
@@ -137,8 +136,7 @@
 <script>
 import store from '@/store'
 import EditorWang from '@/components/EditorWang'
-import { getUserKVList } from '@/api/manage'
-import { searchSqlbaseAdd } from '@/api/search'
+import { searchSqlbaseDetail, searchSqlbaseUpdate } from '@/api/search'
 
 const validateRecommend = (rule, value, callback) => {
   if (value === 0) {
@@ -157,7 +155,7 @@ export default {
   components: {
     'editor-wang': EditorWang
   },
-  emits: ['close-add-dg'],
+  emits: ['close-set-dg'],
   props: {
     show: {
       type: Boolean,
@@ -166,6 +164,11 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
+    },
+    rowMd5: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   inject: {},
@@ -312,18 +315,15 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作，获取最新数据
+      // 初始化操作，获取最新数据
+      if (!this.rowMd5) {
+        this.$emit('close-set-dg', true)
+        return false
+      }
       // 初始化非全屏
       this.fullScreenStatus = false
-      // 初始化form data
-      this.formData.title = ''
-      this.formData.label = []
-      this.formData.html = ''
-      this.formData.text = ''
-      this.formData.author = store.getters.rtx_id
-      this.formData.time = new Date() // 默认当前时间
-      this.formData.recommend = 0
       this.$nextTick(() => {
-        this.getUserList()
+        this.getDNewInfo()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
@@ -331,20 +331,32 @@ export default {
     closeDialog() { // 关闭dg
       // 清空表单状态
       this.$refs.formData.clearValidate()
-      this.$emit('close-add-dg', false)
+      this.$emit('close-set-dg', false)
     },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    getUserList() {
+    getDNewInfo() {
       const data = {
-        'rtx_id': store.getters.rtx_id
+        'rtx_id': store.getters.rtx_id,
+        'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        getUserKVList(data).then(response => {
+        searchSqlbaseDetail(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.userList = data.list
+            // detail
+            this.formData.title = data.detail.title
+            this.formData.label = data.detail.label
+            this.formData.html = data.detail.html
+            this.formData.text = data.detail.text
+            this.formData.author = data.detail.author
+            this.formData.time = data.detail.public_time
+            this.formData.recommend = data.detail.recommend
+            // user list
+            this.userList = data.user
+          } else {
+            this.$emit('close-set-dg', false)
           }
           resolve(response)
         }).catch(error => {
@@ -356,12 +368,9 @@ export default {
       this.formData.html = html
       this.formData.text = text
     },
-    submit(type) { // 提交
+    submit() { // 提交
       this.$refs.formData.validate(valid => {
         if (valid) {
-          if (![1, 2].includes(type)) {
-            type = 1
-          }
           if (!this.formData.html) {
             this.$message({
               message: '请输入内容',
@@ -380,21 +389,21 @@ export default {
             'recommend': this.formData.recommend,
             'summary': '',
             'label': '',
-            'public': type === 1,
             'public_time': this.formData.time,
             'html': this.formData.html,
-            'text': this.formData.text
+            'text': this.formData.text,
+            'md5': this.rowMd5
           }
           return new Promise((resolve, reject) => {
-            searchSqlbaseAdd(data).then(response => {
+            searchSqlbaseUpdate(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '新增成功' || message,
+                  message: '更新成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-add-dg', true)
+                this.$emit('close-set-dg', true)
               }
               resolve(response)
             }).catch(error => {

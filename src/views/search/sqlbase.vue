@@ -13,9 +13,6 @@
       </el-button>
     </el-row>
 
-    <!-- 新增 -->
-    <sql-base-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
-
     <!--Table表格-->
     <div id="data-container" class="table-sty">
       <el-table
@@ -96,14 +93,20 @@
       @pagin-current-change="paginCurrentChange"
     />
 
+    <!-- 新增 -->
+    <sql-base-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
+
     <!-- 批量删除 -->
     <search-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
+    <!-- 编辑 -->
+    <sql-base-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
   </div>
 </template>
 
 <script>
 import SqlBaseAdd from '@/services/search/SqlBaseAdd'
+import SqlBaseSet from '@/services/search/SqlBaseSet'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
@@ -113,6 +116,7 @@ export default {
   name: 'SqlBase',
   components: {
     'sql-base-add': SqlBaseAdd,
+    'sql-base-set': SqlBaseSet,
     'search-batch-delete': SearchBatchDelete,
     'public-pagination': Pagination
   },

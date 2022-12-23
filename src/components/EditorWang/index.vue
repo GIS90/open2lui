@@ -139,9 +139,10 @@ export default {
     onChange(editor) {
       // console.log(this.editor.getHtml())
       // console.log(this.editor.getText())
-      if (this.editor.getText() === '') {
-        return false
-      }
+      // if (this.editor.getText() === '') {
+      //   this.editorTextLength = 0
+      //   return false
+      // }
       this.editorTextLength = this.editor.getText().length
       this.$emit('on-change-html', this.editor.getHtml(), this.editor.getText())
     },
