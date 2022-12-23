@@ -194,7 +194,7 @@ export default {
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '新增',
+        title: '浏览',
         width: '85%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -412,7 +412,7 @@ export default {
     closeDialog() { // 关闭dg
       // 清空表单状态
       this.$refs.formData.clearValidate()
-      this.$emit('close-set-dg', false)
+      this.$emit('close-set-dg', true)
     },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
@@ -420,7 +420,8 @@ export default {
     getDNewInfo() {
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'md5': this.rowMd5
+        'md5': this.rowMd5,
+        'type': 'view'
       }
       return new Promise((resolve, reject) => {
         searchSqlbaseDetail(data).then(response => {

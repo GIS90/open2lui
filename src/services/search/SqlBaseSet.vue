@@ -210,7 +210,7 @@ export default {
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '新增',
+        title: '编辑',
         width: '85%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -436,7 +436,8 @@ export default {
     getDNewInfo() {
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'md5': this.rowMd5
+        'md5': this.rowMd5,
+        'type': 'edit'
       }
       return new Promise((resolve, reject) => {
         searchSqlbaseDetail(data).then(response => {

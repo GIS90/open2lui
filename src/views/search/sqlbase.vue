@@ -76,7 +76,7 @@
             </div>
             <div v-else>
               <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
-                <i class="el-icon-view" @click="rowHandleEdit(scope.$index, scope.row)" />
+                <i class="el-icon-view" @click="rowHandleView(scope.$index, scope.row)" />
               </el-tooltip>
             </div>
           </template>
@@ -355,8 +355,11 @@ export default {
         this.getTableList()
       }
     },
-    closeViewDialog() { // 关闭查看dg
+    closeViewDialog(isRefresh) { // 关闭查看dg
       this.viewDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     }
   }
 }
