@@ -149,7 +149,7 @@
 import { Editor } from '@wangeditor/editor-for-vue'
 import { getToken } from '@/utils/auth'
 import store from '@/store'
-import { searchSqlbaseDetail, searchSqlbaseUpdate } from '@/api/search'
+import { searchSqlbaseDetail } from '@/api/search'
 
 const validateRecommend = (rule, value, callback) => {
   if (value === 0) {
@@ -467,57 +467,6 @@ export default {
     beforeDestroy() {
       if (this.editor == null) return
       this.editor.destroy() // 组件销毁时，及时销毁编辑器
-    },
-    submit() { // 提交
-      this.$refs.formData.validate(valid => {
-        if (valid) {
-          if (!this.formData.html) {
-            this.$message({
-              message: '请输入内容',
-              type: 'warning',
-              duration: 2.0 * 1000
-            })
-            return false
-          }
-
-          this.disabled = true
-          this.loading = true
-          const data = {
-            'rtx_id': store.getters.rtx_id,
-            'title': this.formData.title,
-            'author': this.formData.author,
-            'recommend': this.formData.recommend,
-            'summary': '',
-            'label': '',
-            'public_time': this.formData.time,
-            'html': this.formData.html,
-            'text': this.formData.text,
-            'md5': this.rowMd5
-          }
-          return new Promise((resolve, reject) => {
-            searchSqlbaseUpdate(data).then(response => {
-              const { status_id, message } = response
-              if (status_id === 100) {
-                this.$message({
-                  message: '更新成功' || message,
-                  type: 'success',
-                  duration: 2.0 * 1000
-                })
-                this.$emit('close-set-dg', true)
-              }
-              resolve(response)
-            }).catch(error => {
-              reject(error)
-            }).finally(() => {
-              // 重置按钮状态
-              this.disabled = false
-              this.loading = false
-              // 清空表单状态
-              this.$refs.formData.clearValidate()
-            })
-          })
-        }
-      })
     }
   },
   setup: {}
