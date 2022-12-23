@@ -119,15 +119,6 @@
         </el-row>
         <!-- editor -->
         <div>
-          <!-- toolbar -->
-          <div id="editor-header" class="editor-header">
-            <wang-toolbar
-              style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;"
-              :editor="editor"
-              :default-config="toolbarConfig"
-              :mode="editorMode"
-            />
-          </div>
           <!-- editor -->
           <div id="editor-text" class="editor-text">
             <wang-editor
@@ -147,12 +138,6 @@
         </div>
       </el-form>
       <!--footer-->
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">发布</el-button>
-        </span>
-      </template>
     </el-dialog>
   </div>
 </template>
@@ -179,7 +164,7 @@ const validateRecommend = (rule, value, callback) => {
 }
 
 export default {
-  name: 'SqlBaseSet',
+  name: 'SqlBaseView',
   components: {
     'wang-editor': Editor,
     'wang-toolbar': Toolbar
@@ -204,7 +189,7 @@ export default {
   data() {
     return {
       loading: false, // 组件loading，主要用于button
-      disabled: false, // 禁用组件
+      disabled: true, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
@@ -312,7 +297,7 @@ export default {
       // 编辑器配置
       editorConfig: {
         placeholder: '请输入内容......', // 配置编辑器 placeholder
-        readOnly: false, // 是否只读，只读状态可通过 editor.enable() 和 editor.disable() 切换
+        readOnly: true, // 是否只读，只读状态可通过 editor.enable() 和 editor.disable() 切换
         autoFocus: false, // 是否focus
         scroll: true, // 是否支持滚动
         MENU_CONF: {
@@ -417,8 +402,8 @@ export default {
         this.$emit('close-set-dg', true)
         return false
       }
-      // 初始化非全屏
-      this.fullScreenStatus = false
+      // 初始化全屏
+      this.fullScreenStatus = true
       this.$nextTick(() => {
         this.getDNewInfo()
         // 重置表单状态

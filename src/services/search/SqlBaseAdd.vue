@@ -297,11 +297,7 @@ export default {
       ]
     }
   },
-  computed: {
-    titleLength() {
-      return this.formData.title.length
-    }
-  },
+  computed: {},
   watch: {
     fullScreenStatus(newVal, oldVal) {
       newVal ? this.fullScreenIcon = 'el-icon-copy-document' : this.fullScreenIcon = 'el-icon-full-screen'

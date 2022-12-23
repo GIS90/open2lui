@@ -101,12 +101,16 @@
 
     <!-- 编辑 -->
     <sql-base-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
+
+    <!-- 查看 -->
+    <sql-base-view :show="viewDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeViewDialog" />
   </div>
 </template>
 
 <script>
 import SqlBaseAdd from '@/services/search/SqlBaseAdd'
 import SqlBaseSet from '@/services/search/SqlBaseSet'
+import SqlBaseView from '@/services/search/SqlBaseView'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
@@ -117,6 +121,7 @@ export default {
   components: {
     'sql-base-add': SqlBaseAdd,
     'sql-base-set': SqlBaseSet,
+    'sql-base-view': SqlBaseView,
     'search-batch-delete': SearchBatchDelete,
     'public-pagination': Pagination
   },

@@ -6,7 +6,7 @@
         style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;"
         :editor="editor"
         :default-config="toolbarConfig"
-        :mode="mode"
+        :mode="editorMode"
       />
     </div>
     <!-- editor -->
@@ -15,7 +15,7 @@
         v-model="editorHtml"
         class="editor-text-container"
         :default-config="editorConfig"
-        :mode="mode"
+        :mode="editorMode"
         @onCreated="onCreated"
         @onChange="onChange"
       />
@@ -27,6 +27,7 @@
     </div>
   </div>
 </template>
+
 <!-- wang-editor css -->
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 
@@ -45,7 +46,7 @@ export default {
   props: {
     html: {
       type: String,
-      require: false,
+      require: true,
       default: ''
     }
   },
@@ -120,7 +121,7 @@ export default {
           }
         }
       },
-      mode: 'default' // 'default' or 'simple' 简洁模式
+      editorMode: 'default' // 'default' or 'simple' 简洁模式
     }
   },
   computed: {
@@ -135,6 +136,7 @@ export default {
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
       // console.log(this.editor.getAllMenuKeys()) // 菜单KEYS
+      // this.editor.setHtml(this.html)
     },
     onChange(editor) {
       // console.log(this.editor.getHtml())
