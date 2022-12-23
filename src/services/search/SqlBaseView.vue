@@ -146,7 +146,7 @@
 <style src="@wangeditor/editor/dist/css/style.css"></style>
 
 <script>
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { Editor } from '@wangeditor/editor-for-vue'
 import { getToken } from '@/utils/auth'
 import store from '@/store'
 import { searchSqlbaseDetail, searchSqlbaseUpdate } from '@/api/search'
@@ -166,8 +166,7 @@ const validateRecommend = (rule, value, callback) => {
 export default {
   name: 'SqlBaseView',
   components: {
-    'wang-editor': Editor,
-    'wang-toolbar': Toolbar
+    'wang-editor': Editor
   },
   emits: ['close-set-dg'],
   props: {
