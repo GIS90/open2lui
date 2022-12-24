@@ -478,7 +478,8 @@ export default {
 .editor-header{}
 
 .editor-text {
-  height: calc(65vh - 40px);
+  min-height: calc(65vh - 40px);
+  max-height: calc(100vh);
   background-color: rgb(245, 245, 245);
   overflow-y: auto;
   position: relative;
@@ -487,7 +488,7 @@ export default {
 .editor-text-container {
   width: 85%;
   height: 84%;
-  /*max-height: 500px;*/
+  min-height: calc(65vh - 40px);
   overflow-y: hidden;
   margin: 3% auto 3% auto;
   background-color: #fff;
