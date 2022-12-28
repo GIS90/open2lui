@@ -35,14 +35,14 @@
       >
         <el-table-column fixed="left" type="selection" width="60" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="120" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="left" label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
+        <el-table-column fixed="left" label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="engname" label="RTX名称" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="chnname" label="中文名称" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="engname" label="RTX名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="chnname" label="中文名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="introduction" label="描述" width="350" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="330">
           <template slot-scope="scope">
