@@ -2,6 +2,7 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
+      <!-- 左侧按钮 -->
       <el-button id="btn-create" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddMenu">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
@@ -10,6 +11,12 @@
       </el-button>
       <!-- 是否展开 -->
       <menu-expand :expand="expandStatus" @menu-expand-status="menuExpandStatus" />
+      <!-- 右侧icon -->
+      <span style="float: right">
+        <el-tooltip effect="dark" content="刷新" placement="top">
+          <el-button icon="el-icon-refresh" circle @click="getTableList" />
+        </el-tooltip>
+      </span>
     </el-row>
 
     <!-- Table表格 order_id进行默认排序 -->

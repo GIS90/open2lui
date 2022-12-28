@@ -2,12 +2,19 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
+      <!-- 左侧按钮 -->
       <el-button id="btn-select" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
+      <!-- 右侧icon -->
+      <span style="float: right">
+        <el-tooltip effect="dark" content="刷新" placement="top">
+          <el-button icon="el-icon-refresh" circle @click="getTableData" />
+        </el-tooltip>
+      </span>
     </el-row>
 
     <!-- 高级筛选-->

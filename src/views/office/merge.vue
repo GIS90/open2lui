@@ -2,6 +2,7 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
+      <!-- 左侧按钮 -->
       <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openFileUpload">
         <svg-icon icon-class="i_upload" />  上传
       </el-button>
@@ -17,6 +18,12 @@
       <el-button id="btn-tip" type="success" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openTip()">
         <svg-icon icon-class="i_sm" />  操作说明
       </el-button>
+      <!-- 右侧icon -->
+      <span style="float: right">
+        <el-tooltip effect="dark" content="刷新" placement="top">
+          <el-button icon="el-icon-refresh" circle @click="getTableData" />
+        </el-tooltip>
+      </span>
     </el-row>
 
     <!-- 提示说明 -->

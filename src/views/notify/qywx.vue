@@ -2,6 +2,7 @@
   <div class="app-container">
     <!-- 按钮 -->
     <el-row>
+      <!-- 左侧按钮 -->
       <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddDialog">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
@@ -17,6 +18,12 @@
       <el-button id="btn-temp" type="warning" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="tempSendDialog">
         <svg-icon icon-class="i_notify" />  临时通知
       </el-button>
+      <!-- 右侧icon -->
+      <span style="float: right">
+        <el-tooltip effect="dark" content="刷新" placement="top">
+          <el-button icon="el-icon-refresh" circle @click="getTableList" />
+        </el-tooltip>
+      </span>
     </el-row>
 
     <!-- 新增 -->
