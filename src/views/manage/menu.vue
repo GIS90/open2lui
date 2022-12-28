@@ -16,6 +16,7 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        style="width: 100%;margin-bottom: 20px;"
         :data="tableData"
         :row-key="tableAttrs.rowKey"
         :size="tableAttrs.size"
@@ -23,7 +24,6 @@
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        style="width: 100%;margin-bottom: 20px;"
         :default-expand-all="tableAttrs.expand"
         :default-sort="{ prop: 'order_id', order: 'asc' }"
         :empty-text="tableAttrs.emptyText"
@@ -32,26 +32,26 @@
         :tree-props="tableAttrs.treeProps"
         :expand-row-keys="tableOneKeys"
       >
-        <el-table-column fixed="left" prop="id" label="菜单ID" width="180" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="name" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="title" label="中文名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="path" label="请求地址" width="200" :header-align="tableRowAttrs.headerAlign" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="icon" label="菜单图标" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="level" label="级别" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="shortcut" label="快捷入口" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="order_id" label="排序ID" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="id" label="菜单ID" width="180" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="RTX名称" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="title" label="中文名称" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="path" label="请求地址" width="200" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="icon" label="菜单图标" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="level" label="级别" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="shortcut" label="快捷入口" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="order_id" label="排序ID" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="上级菜单信息" :align="tableRowAttrs.align">
-          <el-table-column prop="pid" label="上级菜单ID" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="pname" label="上级菜单RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="ptitle" label="上级菜单名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="pid" label="上级菜单ID" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="pname" label="上级菜单RTX" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="ptitle" label="上级菜单名称" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         </el-table-column>
         <el-table-column label="开发者配置信息" :align="tableRowAttrs.align">
-          <el-table-column prop="component" label="组件" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="redirect" label="重定向" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="hidden" label="Hidden属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="cache" label="Cache属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="affix" label="Affix属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-          <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="component" label="组件" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="redirect" label="重定向" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="hidden" label="Hidden属性" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="cache" label="Cache属性" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="affix" label="Affix属性" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column prop="breadcrumb" label="Breadcrumb属性" width="200" sortable :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         </el-table-column>
         <el-table-column label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
           <template slot-scope="scope">
@@ -59,8 +59,8 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="create_rtx" label="创建者RTX" width="180" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
+        <el-table-column prop="create_rtx" label="创建者RTX" width="200" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="200">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row, 'detail')" />
