@@ -15,6 +15,7 @@ const routerMappings = {
   // info
   infoDepartment: () => import('@/views/info/department.vue'),
   infoDict: () => import('@/views/info/dict.vue'),
+  infoApi: () => import('@/views/info/api.vue'),
   // manage
   manageRole: () => import('@/views/manage/role.vue'),
   manageUser: () => import('@/views/manage/user.vue'),
