@@ -263,7 +263,7 @@ export default {
     setTableRowStyle({ row, rowIndex }) { // table row样式
       if (row && row.is_del === true) {
         return {
-          background: '#FFFFD2', // 42B984 FFFF00 FFEE99
+          background: '#F08A5D',
           color: '#000000'
         }
       }
