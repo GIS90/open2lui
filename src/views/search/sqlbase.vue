@@ -15,7 +15,7 @@
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
-          <el-button icon="el-icon-refresh" circle @click="getTableList" />
+          <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList" />
         </el-tooltip>
       </span>
     </el-row>
@@ -147,6 +147,14 @@ export default {
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
+      },
+      // button icon attributes
+      btnIconAttrs: {
+        size: 'medium', // 大小 medium / small / mini / ''
+        type: 'primary', // 类型 primary / success / warning / danger / info / text
+        plain: true, // 是否为朴素按钮
+        round: false, // 是否为圆角按钮
+        circle: true // 是否为圆形按钮
       },
       rateAttrs: {
         max: 3, // 最大分
