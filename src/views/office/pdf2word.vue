@@ -20,13 +20,13 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        style="width: 100%"
         :data="tableData"
         :size="tableAttrs.size"
         :fit="tableAttrs.fit"
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        style="width: 100%"
         :default-sort="{ prop: 'create_time', order: 'descending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
@@ -35,8 +35,8 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="上传时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="220" sortable>
+        <el-table-column fixed="left" type="selection" width="60" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column fixed="left" label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
@@ -49,8 +49,8 @@
         <el-table-column prop="start" label="开始页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="end" label="结束页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="pages" label="指标页列表" width="270" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="rtx_id" label="上传人RTX" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="360">
+        <el-table-column prop="rtx_id" label="上传人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="360">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
