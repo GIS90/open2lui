@@ -23,13 +23,13 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        style="width: 100%"
         :data="tableData"
         :size="tableAttrs.size"
         :fit="tableAttrs.fit"
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        style="width: 100%"
         :default-sort="{ prop: 'create_time', order: 'descending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
@@ -38,22 +38,22 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" :align="tableRowAttrs.align" width="60" />
-        <el-table-column fixed="left" label="创建时间" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="240" sortable>
+        <el-table-column fixed="left" type="selection" width="60" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column fixed="left" label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
           <template slot-scope="scope">
             <i class="el-icon-time" />
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="RTX名称" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="key" label="KEY" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="value" label="VALUE" width="270" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="description" label="描述" width="350" :header-align="tableRowAttrs.align" align="left" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="order_id" label="排序" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="create_rtx" label="创建者RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="update_rtx" label="最近更新者RTX" width="200" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="update_time" label="最近更新时间" width="220" :align="tableRowAttrs.align" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" width="200">
+        <el-table-column prop="name" label="RTX名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="key" label="KEY" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="value" label="VALUE" width="270" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="description" label="描述" width="350" sortable :header-align="tableRowAttrs.align" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="order_id" label="排序" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="创建者RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="update_rtx" label="最近更新者RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="update_time" label="最近更新时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="200">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -63,7 +63,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="200">
+        <el-table-column fixed="right" label="状态管理" width="200" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
           <template slot-scope="scope">
             <dict-status :row="scope.row" />
           </template>
