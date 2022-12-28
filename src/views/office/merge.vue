@@ -39,6 +39,7 @@
         :default-sort="{ prop: 'create_time', order: 'descending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
+        :row-style="setTableRowStyle"
         @select="selectRow"
         @selection-change="selectChange"
         @select-all="selectAll"
@@ -249,6 +250,8 @@ export default {
         background: '#eee',
         color: '#606266'
       }
+    },
+    setTableRowStyle() { // table row style
     },
     rowHandleEdit(index, row) { // table row 设置dialog
       if (!row || !row.md5_id) {

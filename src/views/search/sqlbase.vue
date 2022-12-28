@@ -27,6 +27,7 @@
         :default-sort="{ prop: 'create_time', order: 'descending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
+        :row-style="setTableRowStyle"
         @select="selectRow"
         @selection-change="selectChange"
         @select-all="selectAll"
@@ -246,6 +247,8 @@ export default {
         background: '#eee',
         color: '#606266'
       }
+    },
+    setTableRowStyle() { // table row style
     },
     getTableList() { // get source list data
       // 初始化选择参数

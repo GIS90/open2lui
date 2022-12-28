@@ -28,6 +28,7 @@
         :default-sort="{ prop: 'create_time', order: 'descending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
+        :row-style="setTableRowStyle"
         @select="selectRow"
         @selection-change="selectChange"
         @select-all="selectAll"
@@ -257,6 +258,14 @@ export default {
       return {
         background: '#eee',
         color: '#606266'
+      }
+    },
+    setTableRowStyle({ row, rowIndex }) { // table row样式
+      if (row && row.is_del === true) {
+        return {
+          background: '#FFFFD2', // 42B984 FFFF00 FFEE99
+          color: '#000000'
+        }
       }
     },
     rowHandlePw(index, row) { // table row 重置密码
