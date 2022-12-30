@@ -28,6 +28,7 @@
 import store from '@/store'
 import { InfoDictDeletes, InfoApiDeletes } from '@/api/info'
 import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
+import { searchSqlbaseDeletes } from '@/api/search'
 
 export default {
   name: 'BatchDelete',
@@ -113,6 +114,8 @@ export default {
         this.deleteInfoDict(data)
       } else if (this.source === 'info-api') {
         this.deleteInfoApi(data)
+      } else if (this.source === 'search-sqlbase') {
+        this.deleteSearchSqlbase(data)
       } else {
         return false
       }
@@ -241,6 +244,30 @@ export default {
     deleteInfoApi(data) {
       return new Promise((resolve, reject) => {
         InfoApiDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // search > sqlbase
+    deleteSearchSqlbase(data) {
+      return new Promise((resolve, reject) => {
+        searchSqlbaseDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

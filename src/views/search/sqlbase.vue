@@ -105,7 +105,7 @@
     <sql-base-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
 
     <!-- 批量删除 -->
-    <search-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 编辑 -->
     <sql-base-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -122,7 +122,7 @@ import SqlBaseView from '@/services/search/SqlBaseView'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
-import SearchBatchDelete from '@/services/search/SearchBatchDelete'
+import BatchDelete from '@/components/BatchDelete'
 
 export default {
   name: 'SqlBase',
@@ -130,7 +130,7 @@ export default {
     'sql-base-add': SqlBaseAdd,
     'sql-base-set': SqlBaseSet,
     'sql-base-view': SqlBaseView,
-    'search-batch-delete': SearchBatchDelete,
+    'batch-delete': BatchDelete,
     'public-pagination': Pagination
   },
   emits: [],
@@ -201,7 +201,7 @@ export default {
       addDialogStatus: false, // 新增dialog状态
       setDialogStatus: false, // 设置dialog状态
       viewDialogStatus: false, // 查看dialog状态
-      deleteSource: 'sqlbase', // delete source
+      deleteSource: 'search-sqlbase', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },
