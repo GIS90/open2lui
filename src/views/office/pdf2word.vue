@@ -87,7 +87,7 @@
     <public-pagination :page="pageCur" :size="pageSize" :total="pageTotal" @pagin-size-change="paginSizeChange" @pagin-current-change="paginCurrentChange" />
 
     <!-- 删除dialog -->
-    <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 文件设置dg -->
     <office-pdf-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -99,18 +99,18 @@
 
 <script>
 import store from '@/store'
-import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
 import OfficePDFSet from '@/services/office/OfficePDFSet'
 import OfficePDFToWord from '@/services/office/OfficePDFToWord'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
+import BatchDelete from '@/components/BatchDelete'
 import { officePDFDelete, officePdf2WordList } from '@/api/office'
 
 export default {
   name: 'Pdf2word',
   emits: [],
   components: {
-    'office-batch-delete': OfficeBatchDelete,
+    'batch-delete': BatchDelete,
     'office-pdf-set': OfficePDFSet,
     'office-pdf-to-word': OfficePDFToWord,
     'public-upload-file': UploadFile,

@@ -114,7 +114,7 @@
     <excel-split-opr :show="splitDialogStatus" :table-row="oprSelectData" @close-file-split="closeFileSplit" />
 
     <!-- 删除dialog -->
-    <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
@@ -123,9 +123,9 @@ import store from '@/store'
 import ExcelSplitTip from '@/services/office/ExcelSplitTip'
 import ExcelSplitSet from '@/services/office/ExcelSplitSet'
 import ExcelSplitOpr from '@/services/office/ExcelSplitOpr'
-import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
+import BatchDelete from '@/components/BatchDelete'
 import { officeExcelSourceList, officeExcelSourceDelete } from '@/api/office'
 
 export default {
@@ -134,7 +134,7 @@ export default {
     'excel-split-tip': ExcelSplitTip,
     'excel-split-set': ExcelSplitSet,
     'excel-split-opr': ExcelSplitOpr,
-    'office-batch-delete': OfficeBatchDelete,
+    'batch-delete': BatchDelete,
     'public-upload-file': UploadFile,
     'public-pagination': Pagination
   },
@@ -196,7 +196,7 @@ export default {
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
       splitDialogStatus: false, // 拆分dialog状态
-      deleteSource: 'excel-source', // delete source
+      deleteSource: 'office-excel-source', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },

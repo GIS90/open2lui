@@ -112,16 +112,16 @@
     <excel-history-set :show="setDialogStatus" :table-row="oprSelectData" @close-history-set="closeHistorySet" />
 
     <!-- 删除dialog -->
-    <office-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
 <script>
 import store from '@/store'
 import ExcelHistorySet from '@/services/office/ExcelHistorySet'
-import OfficeBatchDelete from '@/services/office/OfficeBatchDelete'
 import ExcelHistoryFilter from '@/services/office/ExcelHistoryFilter'
 import Pagination from '@/components/Pagination'
+import BatchDelete from '@/components/BatchDelete'
 import { officeExcelResultDelete, officeExcelResultList } from '@/api/office'
 
 export default {
@@ -129,7 +129,7 @@ export default {
   emits: [],
   components: {
     'excel-history-set': ExcelHistorySet,
-    'office-batch-delete': OfficeBatchDelete,
+    'batch-delete': BatchDelete,
     'excel-history-filter': ExcelHistoryFilter,
     'public-pagination': Pagination
   },
@@ -187,7 +187,7 @@ export default {
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
-      deleteSource: 'excel-result', // delete source
+      deleteSource: 'office-excel-result', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       dataFilter: { // 高级筛选
         name: '', // 名称

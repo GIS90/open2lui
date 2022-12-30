@@ -29,6 +29,7 @@ import store from '@/store'
 import { InfoDictDeletes, InfoApiDeletes } from '@/api/info'
 import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
 import { searchSqlbaseDeletes } from '@/api/search'
+import { officeExcelResultDeletes, officeExcelSourceDeletes, officePDFDeletes } from '@/api/office'
 
 export default {
   name: 'BatchDelete',
@@ -116,6 +117,12 @@ export default {
         this.deleteInfoApi(data)
       } else if (this.source === 'search-sqlbase') {
         this.deleteSearchSqlbase(data)
+      } else if (this.source === 'office-excel-source') {
+        this.deleteOfficeExcelSource(data)
+      } else if (this.source === 'office-excel-result') {
+        this.deleteOfficeExcelResult(data)
+      } else if (this.source === 'office-pdf') {
+        this.deleteOfficePDF2WORD(data)
       } else {
         return false
       }
@@ -268,6 +275,78 @@ export default {
     deleteSearchSqlbase(data) {
       return new Promise((resolve, reject) => {
         searchSqlbaseDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // office > excel-source
+    deleteOfficeExcelSource(data) {
+      return new Promise((resolve, reject) => {
+        officeExcelSourceDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // office > excel-result
+    deleteOfficeExcelResult(data) {
+      return new Promise((resolve, reject) => {
+        officeExcelResultDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // search > pdf-2-word
+    deleteOfficePDF2WORD(data) {
+      return new Promise((resolve, reject) => {
+        officePDFDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
