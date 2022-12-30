@@ -32,7 +32,7 @@
         </div>
       </template>
       <!--content-->
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto" style="width: 100%">
         <!-- 摘要 -->
         <el-row :gutter="20">
           <!-- 摘要：作者 -->
@@ -147,21 +147,9 @@
 
 <script>
 import { Editor } from '@wangeditor/editor-for-vue'
-import { getToken } from '@/utils/auth'
 import store from '@/store'
+import { getToken } from '@/utils/auth'
 import { searchSqlbaseDetail } from '@/api/search'
-
-const validateRecommend = (rule, value, callback) => {
-  if (value === 0) {
-    callback(new Error('请选择推荐度'))
-  } else if (value > 3) {
-    callback(new Error('请选择正确的推荐度'))
-  } else if (value < 0) {
-    callback(new Error('请选择正确的推荐度'))
-  } else {
-    callback()
-  }
-}
 
 export default {
   name: 'SqlBaseView',
@@ -360,21 +348,6 @@ export default {
       },
       formDataLimit: {
         title: 55 // 标题
-      },
-      formDataRules: {
-        title: [
-          { required: true, message: '请输入标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 55, message: '标题最大长度为55', trigger: ['blur', 'change'] }
-        ],
-        author: [
-          { required: true, message: '请选择作者', trigger: ['blur', 'change'] }
-        ],
-        time: [
-          { required: true, message: '请选择发布时间', trigger: ['blur', 'change'] }
-        ],
-        recommend: [
-          { validator: validateRecommend, trigger: 'change' }
-        ]
       },
       userList: [
         { key: store.getters.rtx_id, value: store.getters.rtx_id } // 默认当前用户
