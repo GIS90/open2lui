@@ -101,13 +101,13 @@ export default {
       }
       this.btnDisabled = true
       this.btnLoading = true
-      if (this.source === 'dtalk') {
+      if (this.source === 'notify-dtalk') {
         this.deleteDtalk(data)
-      } else if (this.source === 'dtalk-robot') {
+      } else if (this.source === 'notify-dtalk-robot') {
         this.deleteDtalkRobot(data)
-      } else if (this.source === 'qywx') {
+      } else if (this.source === 'notify-qywx') {
         this.deleteQywx(data)
-      } else if (this.source === 'qywx-robot') {
+      } else if (this.source === 'notify-qywx-robot') {
         this.deleteQywxRobot(data)
       } else {
         return false

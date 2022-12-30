@@ -27,6 +27,7 @@
 <script>
 import store from '@/store'
 import { InfoDictDeletes, InfoApiDeletes } from '@/api/info'
+import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
 
 export default {
   name: 'BatchDelete',
@@ -100,13 +101,117 @@ export default {
       }
       this.btnDisabled = true
       this.btnLoading = true
-      if (this.source === 'info-dict') {
+      if (this.source === 'notify-dtalk') {
+        this.deleteNotifyDtalk(data)
+      } else if (this.source === 'notify-dtalk-robot') {
+        this.deleteNotifyDtalkRobot(data)
+      } else if (this.source === 'notify-qywx') {
+        this.deleteNotifyQywx(data)
+      } else if (this.source === 'notify-qywx-robot') {
+        this.deleteNotifyQywxRobot(data)
+      } else if (this.source === 'info-dict') {
         this.deleteInfoDict(data)
       } else if (this.source === 'info-api') {
         this.deleteInfoApi(data)
       } else {
         return false
       }
+    },
+    // notify > dtalk
+    deleteNotifyDtalk(data) {
+      return new Promise((resolve, reject) => {
+        notifyDtalkDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // notify > dtalk robot
+    deleteNotifyDtalkRobot(data) {
+      return new Promise((resolve, reject) => {
+        notifyDtalkRobotDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // notify > qywx
+    deleteNotifyQywx(data) {
+      return new Promise((resolve, reject) => {
+        notifyQywxDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // notify > qywx robot
+    deleteNotifyQywxRobot(data) {
+      return new Promise((resolve, reject) => {
+        notifyQywxRobotDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
     },
     // info > dict
     deleteInfoDict(data) {

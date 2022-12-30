@@ -115,7 +115,7 @@
     <qywx-robot-add :show="addDialogStatus" @close-robot-add="closeRobotAdd" />
 
     <!-- 删除 -->
-    <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 设置 -->
     <qywx-robot-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeDialogSet" />
@@ -126,7 +126,7 @@
 import store from '@/store'
 import QywxRobotAdd from '@/services/notify/QywxRobotAdd'
 import QywxRobotSet from '@/services/notify/QywxRobotSet'
-import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
+import BatchDelete from '@/components/BatchDelete'
 import Pagination from '@/components/Pagination'
 import { notifyQywxRobotList, notifyQywxRobotDelete,
   notifyQywxRobotPing, notifyQywxRobotSelect } from '@/api/notify'
@@ -135,7 +135,7 @@ export default {
   name: 'QywxRobot',
   emits: [],
   components: {
-    'notify-batch-delete': NotifyBatchDelete,
+    'batch-delete': BatchDelete,
     'qywx-robot-add': QywxRobotAdd,
     'qywx-robot-set': QywxRobotSet,
     'public-pagination': Pagination
@@ -217,7 +217,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       addDialogStatus: false, // 新增dg状态
-      deleteSource: 'qywx-robot', // delete source
+      deleteSource: 'notify-qywx-robot', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },

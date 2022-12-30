@@ -114,7 +114,7 @@
     <dtalk-robot-add :show="addDialogStatus" @close-robot-add="closeRobotAdd" />
 
     <!-- 删除 -->
-    <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 设置 -->
     <dtalk-robot-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeDialogSet" />
@@ -125,7 +125,7 @@
 import store from '@/store'
 import DtalkRobotAdd from '@/services/notify/DtalkRobotAdd'
 import DtalkRobotSet from '@/services/notify/DtalkRobotSet'
-import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
+import BatchDelete from '@/components/BatchDelete'
 import Pagination from '@/components/Pagination'
 import { notifyDtalkRobotDelete, notifyDtalkRobotList,
   notifyDtalkRobotPing, notifyDtalkRobotSelect } from '@/api/notify'
@@ -134,7 +134,7 @@ export default {
   name: 'DtalkRobot',
   emits: [],
   components: {
-    'notify-batch-delete': NotifyBatchDelete,
+    'batch-delete': BatchDelete,
     'dtalk-robot-add': DtalkRobotAdd,
     'dtalk-robot-set': DtalkRobotSet,
     'public-pagination': Pagination
@@ -216,7 +216,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       addDialogStatus: false, // 新增dg状态
-      deleteSource: 'dtalk-robot', // delete source
+      deleteSource: 'notify-dtalk-robot', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },

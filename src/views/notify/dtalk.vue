@@ -118,7 +118,7 @@
     />
 
     <!-- 批量删除 -->
-    <notify-batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 设置 -->
     <dtalk-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -131,20 +131,20 @@
 
 <script>
 import store from '@/store'
-import NotifyBatchDelete from '@/services/notify/NotifyBatchDelete'
 import DtalkSet from '@/services/notify/DtalkSet'
 import DtalkTip from '@/services/notify/DtalkTip'
 import DtalkRobot from '@/services/notify/DtalkRobot'
 import DtalkSend from '@/services/notify/DtalkSend'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
+import BatchDelete from '@/components/BatchDelete'
 import { notifyDtalkList, notifyDtalkDelete } from '@/api/notify'
 
 export default {
   name: 'Dtalk',
   emits: [],
   components: {
-    'notify-batch-delete': NotifyBatchDelete,
+    'batch-delete': BatchDelete,
     'dtalk-set': DtalkSet,
     'dtalk-tip': DtalkTip,
     'dtalk-robot': DtalkRobot,
@@ -210,7 +210,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
-      deleteSource: 'dtalk', // delete source
+      deleteSource: 'notify-dtalk', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       robotDialogStatus: false, // Robot配置dg状态
       dtalkTemplateFile: 'http://2lstore.pygo2.top/templates/钉钉消息通知模板V1.0.xls' // dtalk模板文件
