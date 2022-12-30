@@ -98,3 +98,66 @@ export function InfoDepartUpdate(data) {
     data
   })
 }
+
+// API列表
+export function InfoApiList(data) {
+  return request({
+    url: '/info/api_list',
+    method: 'post',
+    data
+  })
+}
+
+// API单个删除
+export function InfoApiDelete(data) {
+  return request({
+    url: '/info/api_delete',
+    method: 'post',
+    data
+  })
+}
+
+// API批量删除
+export function InfoApiDeletes(data) {
+  return request({
+    url: '/info/api_deletes',
+    method: 'post',
+    data
+  })
+}
+
+// API详情
+export function InfoApiDetail(data) {
+  return request({
+    url: '/info/api_detail',
+    method: 'post',
+    data
+  })
+}
+
+// API更新
+export function InfoApiUpdate(data) {
+  return request({
+    url: '/info/api_update',
+    method: 'post',
+    data
+  })
+}
+
+// API新增
+export function InfoApiAdd(data) {
+  return request({
+    url: '/info/api_add',
+    method: 'post',
+    data
+  })
+}
+
+// API TYPE字典
+export function InfoApiTypeList(data) {
+  return request({
+    url: '/info/api_types',
+    method: 'post',
+    data
+  })
+}
