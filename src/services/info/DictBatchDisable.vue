@@ -101,15 +101,13 @@ export default {
               duration: 2.0 * 1000
             })
           }
-          this.btnDisabled = false
-          this.btnLoading = false
-          this.$emit('close-disable', true)
           resolve(response)
         }).catch(error => {
+          reject(error)
+        }).finally(() => {
           this.btnDisabled = false
           this.btnLoading = false
           this.$emit('close-disable', true)
-          reject(error)
         })
       })
     }

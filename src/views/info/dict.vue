@@ -100,8 +100,7 @@
     <dict-batch-disable :show="disableConfirm" :list="selectList" @close-disable="closeDisable" />
 
     <!-- 批量删除 -->
-    <dict-batch-delete :show="deleteConfirm" :list="selectList" @close-delete="closeDelete" />
-
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDelete" />
   </div>
 </template>
 
@@ -111,9 +110,9 @@ import DictAdd from '@/services/info/DictAdd'
 import DictMain from '@/services/info/DictMain'
 import DictEdit from '@/services/info/DictEdit'
 import DictStatus from '@/services/info/DictStatus'
-import DictBatchDelete from '@/services/info/DictBatchDelete'
 import DictBatchDisable from '@/services/info/DictBatchDisable'
 import Pagination from '@/components/Pagination'
+import BatchDelete from '@/components/BatchDelete'
 import { InfoDictDelete, InfoDictList } from '@/api/info'
 
 export default {
@@ -123,7 +122,7 @@ export default {
     'dict-add': DictAdd,
     'dict-main': DictMain,
     'dict-edit': DictEdit,
-    'dict-batch-delete': DictBatchDelete,
+    'batch-delete': BatchDelete,
     'dict-batch-disable': DictBatchDisable,
     'dict-status': DictStatus,
     'public-pagination': Pagination
@@ -183,6 +182,7 @@ export default {
       oprSelectMd5: '', // 当前选择数据的md5-id
       disableConfirm: false, // 批量禁用确认dialog状态
       deleteConfirm: false, // 批量删除确认dialog状态
+      deleteSource: 'info-dict', // delete source
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
       mainDialogStatus: false, // 维护dialog

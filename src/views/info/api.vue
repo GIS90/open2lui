@@ -85,14 +85,14 @@
     <!-- 新增 -->
     <api-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
 
-    <!-- 批量删除 -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
-
     <!-- 编辑 -->
     <api-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
     <!-- 详情 -->
     <api-view :show="viewDialogStatus" :row-md5="oprSelectRowMd5" @close-view-dg="closeViewDialog" />
+
+    <!-- 批量删除 -->
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
