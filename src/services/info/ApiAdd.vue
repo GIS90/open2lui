@@ -231,7 +231,7 @@ export default {
       },
       formDataLimit: {
         blueprint: '15',
-        apiname: '25',
+        apiname: '35',
         short: '35',
         long: '120',
         type: 1
@@ -243,7 +243,7 @@ export default {
         ],
         apiname: [
           { required: true, message: '请输入ApiName（英文）', trigger: ['blur', 'change'] },
-          { min: 1, max: 25, message: 'ApiName最大长度为25', trigger: ['blur', 'change'] }
+          { min: 1, max: 35, message: 'ApiName最大长度为25', trigger: ['blur', 'change'] }
         ],
         short: [
           { required: true, message: '请输入简述', trigger: ['blur', 'change'] },

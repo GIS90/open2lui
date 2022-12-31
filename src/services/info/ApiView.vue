@@ -296,7 +296,7 @@ export default {
       },
       formDataLimit: {
         blueprint: '15',
-        apiname: '25',
+        apiname: '35',
         short: '35',
         long: '120',
         type: 1,
