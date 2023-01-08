@@ -306,7 +306,8 @@ export default {
         // 排除掉指定菜单
         excludeKeys: [
           'uploadVideo', // 视频上传
-          'fullScreen' // 全屏
+          'fullScreen', // 全屏
+          'emotion' // 表情
         ]
       },
       // 编辑器配置
