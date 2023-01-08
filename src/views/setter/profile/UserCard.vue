@@ -47,7 +47,7 @@
           </div>
           <div class="progress-item">
             <span>摸鱼</span>
-            <el-progress :percentage="100" status="success" type="circle" />
+            <el-progress :percentage="100" status="success" />
           </div>
         </div>
       </div>
