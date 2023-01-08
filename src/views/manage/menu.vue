@@ -14,7 +14,7 @@
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
-          <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList" />
+          <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
       </span>
     </el-row>
@@ -200,7 +200,7 @@ export default {
   },
   mounted() {},
   methods: {
-    getTableList() { // 请求后台API初始化表格数据
+    getTableList(type) { // 请求后台API初始化表格数据
       // 初始化选择参数
       this.oprSelectRtx = ''
 
@@ -214,6 +214,18 @@ export default {
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
             this.tableOneKeys = data.keys
+          }
+          // 手动刷新提示
+          if (type === 2 && status_id === 100) {
+            this.$notify({
+              title: '消息', // 标题
+              type: 'success', // 类型：success/warning/info/error
+              message: '刷新成功', // 消息
+              duration: 1200, // 显示时间(毫秒)
+              // offset: 300, // 偏移量
+              position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
+              showClose: false // 是否显示关闭按钮
+            })
           }
           resolve(response)
         }).catch(error => {
