@@ -452,7 +452,7 @@ export default {
 
 .editor-text {
   min-height: calc(65vh - 40px);
-  max-height: calc(100vh);
+  /*max-height: calc(100vh);*/
   background-color: rgb(245, 245, 245);
   overflow-y: auto;
   position: relative;
