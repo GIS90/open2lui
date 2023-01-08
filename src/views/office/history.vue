@@ -265,42 +265,40 @@ export default {
       this.getTableData()
     },
     rowHandleEdit(index, row) { // 操作table row
-      if (!row) {
-        return false
+      if (row?.md5_id) {
+        this.oprSelectData = {
+          name: row.name,
+          md5: row.md5_id
+        }
+        this.setDialogStatus = true
       }
-      this.oprSelectData = {
-        name: row.name,
-        md5: row.md5_id
-      }
-      this.setDialogStatus = true
     },
     rowHandleDelete(index, row) { // table row 删除
-      if (!row || !row?.md5_id) {
-        return false
-      }
-      const data = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': row.md5_id
-      }
-      this.btnDisabled = true
-      return new Promise((resolve, reject) => {
-        officeExcelResultDelete(data).then(response => {
-          const { status_id, message } = response
-          if (status_id === 100) {
-            this.$message({
-              message: '删除成功' || message,
-              type: 'success',
-              duration: 2.0 * 1000
-            })
-            this.getTableData()
-          }
-          this.btnDisabled = false
-          resolve(response)
-        }).catch(error => {
-          this.btnDisabled = false
-          reject(error)
+      if (row?.md5_id) {
+        const data = {
+          'rtx_id': store.getters.rtx_id,
+          'md5': row.md5_id
+        }
+        this.btnDisabled = true
+        return new Promise((resolve, reject) => {
+          officeExcelResultDelete(data).then(response => {
+            const { status_id, message } = response
+            if (status_id === 100) {
+              this.$message({
+                message: '删除成功' || message,
+                type: 'success',
+                duration: 2.0 * 1000
+              })
+              this.getTableData()
+            }
+            this.btnDisabled = false
+            resolve(response)
+          }).catch(error => {
+            this.btnDisabled = false
+            reject(error)
+          })
         })
-      })
+      }
     },
     closeHistorySet(isRefresh) { // 关闭文件设置Dialog
       this.setDialogStatus = false

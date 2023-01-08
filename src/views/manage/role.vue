@@ -279,25 +279,22 @@ export default {
     setTableRowStyle() { // table row style
     },
     rowHandleDetail(index, row) { // table row 详情dialog
-      if (!row || !row.md5_id) {
-        return false
+      if (row?.md5_id) {
+        this.oprSelectRowMd5 = row.md5_id
+        this.detailDialogStatus = true
       }
-      this.oprSelectRowMd5 = row.md5_id
-      this.detailDialogStatus = true
     },
     rowHandleEdit(index, row) { // table row 设置dialog
-      if (!row || !row.md5_id) {
-        return false
+      if (row?.md5_id) {
+        this.oprSelectRowMd5 = row.md5_id
+        this.setDialogStatus = true
       }
-      this.oprSelectRowMd5 = row.md5_id
-      this.setDialogStatus = true
     },
     rowHandleAuth(index, row) { // table row 授权dialog
-      if (!row || !row.md5_id) {
-        return false
+      if (row?.md5_id) {
+        this.oprSelectRowMd5 = row.md5_id
+        this.authDialogStatus = true
       }
-      this.oprSelectRowMd5 = row.md5_id
-      this.authDialogStatus = true
     },
     closeFileSet(isRefresh) { // 关闭table row 设置dialog
       this.setDialogStatus = false
@@ -306,32 +303,31 @@ export default {
       }
     },
     rowHandleDelete(index, row) { // table row 删除
-      if (!row || !row?.md5_id) {
-        return false
-      }
-      const data = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': row.md5_id
-      }
-      this.btnDisabled = true
-      return new Promise((resolve, reject) => {
-        roleDelete(data).then(response => {
-          const { status_id, message } = response
-          if (status_id === 100) {
-            this.$message({
-              message: '删除成功' || message,
-              type: 'success',
-              duration: 2.0 * 1000
-            })
-            this.getTableList()
-          }
-          this.btnDisabled = false
-          resolve(response)
-        }).catch(error => {
-          this.btnDisabled = false
-          reject(error)
+      if (row?.md5_id) {
+        const data = {
+          'rtx_id': store.getters.rtx_id,
+          'md5': row.md5_id
+        }
+        this.btnDisabled = true
+        return new Promise((resolve, reject) => {
+          roleDelete(data).then(response => {
+            const { status_id, message } = response
+            if (status_id === 100) {
+              this.$message({
+                message: '删除成功' || message,
+                type: 'success',
+                duration: 2.0 * 1000
+              })
+              this.getTableList()
+            }
+            this.btnDisabled = false
+            resolve(response)
+          }).catch(error => {
+            this.btnDisabled = false
+            reject(error)
+          })
         })
-      })
+      }
     },
     openAddRole() { // 打开新增角色dialog
       this.addDialogStatus = true

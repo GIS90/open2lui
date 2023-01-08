@@ -314,11 +314,10 @@ export default {
       }
     },
     rowHandleEdit(index, row) { // table row 设置dialog
-      if (!row || !row.md5_id) {
-        return false
+      if (row?.md5_id) {
+        this.oprSelectRowMd5 = row.md5_id
+        this.setDialogStatus = true
       }
-      this.oprSelectRowMd5 = row.md5_id
-      this.setDialogStatus = true
     },
     closeDeleteDialog(isRefresh) { // 关闭删除Dialog
       this.deleteConfirm = false
@@ -338,32 +337,31 @@ export default {
       this.deleteConfirm = true
     },
     rowHandleDelete(index, row) { // table row 删除
-      if (!row || !row?.md5_id) {
-        return false
-      }
-      const data = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': row.md5_id
-      }
-      this.btnDisabled = true
-      return new Promise((resolve, reject) => {
-        notifyQywxRobotDelete(data).then(response => {
-          const { status_id, message } = response
-          if (status_id === 100) {
-            this.$message({
-              message: '删除成功' || message,
-              type: 'success',
-              duration: 2.0 * 1000
-            })
-            this.getTableList()
-          }
-          this.btnDisabled = false
-          resolve(response)
-        }).catch(error => {
-          this.btnDisabled = false
-          reject(error)
+      if (row?.md5_id) {
+        const data = {
+          'rtx_id': store.getters.rtx_id,
+          'md5': row.md5_id
+        }
+        this.btnDisabled = true
+        return new Promise((resolve, reject) => {
+          notifyQywxRobotDelete(data).then(response => {
+            const { status_id, message } = response
+            if (status_id === 100) {
+              this.$message({
+                message: '删除成功' || message,
+                type: 'success',
+                duration: 2.0 * 1000
+              })
+              this.getTableList()
+            }
+            this.btnDisabled = false
+            resolve(response)
+          }).catch(error => {
+            this.btnDisabled = false
+            reject(error)
+          })
         })
-      })
+      }
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize

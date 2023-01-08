@@ -67,7 +67,7 @@
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item table-handle-icon" effect="dark" content="重置密码" placement="top">
-              <i class="el-icon-setting" @click="rowHandlePw(scope.$index, scope.row)" />
+              <i class="el-icon-unlock" @click="rowHandlePw(scope.$index, scope.row)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -296,18 +296,16 @@ export default {
       }
     },
     rowHandlePw(index, row) { // table row 重置密码
-      if (!row) {
-        return false
+      if (row?.rtx_id) {
+        this.oprSelectRtx = row.rtx_id
+        this.pwDialogStatus = true
       }
-      this.oprSelectRtx = row.rtx_id
-      this.pwDialogStatus = true
     },
     rowHandleEdit(index, row) { // table row 编辑详情
-      if (!row) {
-        return false
+      if (row?.rtx_id) {
+        this.oprSelectRtx = row.rtx_id
+        this.setDialogStatus = true
       }
-      this.oprSelectRtx = row.rtx_id
-      this.setDialogStatus = true
     },
     openAddUser() { // 打开新增用户dialog
       this.addDialogStatus = true
