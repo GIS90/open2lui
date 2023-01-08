@@ -6,6 +6,9 @@
       <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddDialog">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
+      <el-button id="btn-search" class="btn-margin" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="search">
+        <svg-icon icon-class="search" />  查询
+      </el-button>
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
@@ -47,7 +50,22 @@
           </template>
         </el-table-column>
         <el-table-column prop="rtx_id" label="创建人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column :align="tableRowAttrs.align">
+          <template slot="header" slot-scope="scope">
+            <el-input
+              v-model="searchForm.title"
+              style="width: 100%;height: 100%"
+              type="text"
+              :clearable="searchInput.clear"
+              :show-word-limit="searchInput.limit"
+              :size="searchInput.size"
+              :prefix-icon="searchInput.prefixIcon"
+              :disabled="btnDisabled"
+              placeholder="请输入标题"
+            />
+          </template>
+          <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        </el-table-column>
         <el-table-column prop="author" label="作者" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="public_time" label="发布时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="推荐度" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
@@ -202,7 +220,36 @@ export default {
       setDialogStatus: false, // 设置dialog状态
       viewDialogStatus: false, // 查看dialog状态
       deleteSource: 'search-sqlbase', // delete source
-      deleteConfirm: false // 删除确认dialog状态
+      deleteConfirm: false, // 删除确认dialog状态
+      // search input attrs
+      searchInput: {
+        size: 'medium', // 大小：medium / small / mini / ''
+        clear: true, // 可清空的输入框
+        limit: false, // 展示字数统计
+        prefixIcon: 'el-icon-edit' // input前缀icon
+      },
+      // search input limit
+      searchLimit: {
+        title: 25,
+        summary: 25,
+        content: 50
+      },
+      // search form data
+      searchForm: {
+        create_time_start: '', // 起始创建时间
+        create_time_end: '', // 结束创建时间
+        rtx: [], // 用户RTX
+        title: '', // 标题
+        author: [], // 作者（定义数组，支持多选）
+        public_time_start: '', // 起始发布时间
+        public_time_end: '', // 结束发布时间
+        recommend: [], // 推荐度
+        summary: '', // 摘要
+        label: [], // 标签
+        content: '', // 内容
+        count_start: '', // 浏览次数上限
+        count_end: '' // 浏览次数下限
+      }
     }
   },
   computed: {},
@@ -389,6 +436,9 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    search() { // 筛选搜索
+
     }
   }
 }
