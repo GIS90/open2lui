@@ -179,15 +179,15 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="排序ID" prop="order_id">
-              <el-input
-                v-model.trim="formData.order_id"
-                type="text"
-                placeholder="请输入菜单左侧排序ID，ID值越小位置在前面"
-                :maxlength="menuLimit.order_id"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
+              <el-input-number
+                v-model="formData.order_id"
+                style="width: 100%"
+                :controls="numberAttrs.controls"
+                :controls-position="numberAttrs.controlsPosition"
+                :min="numberAttrs.min"
+                :max="numberAttrs.max"
+                :step="numberAttrs.step"
+                :size="numberAttrs.size"
                 :disabled="disabled"
               />
             </el-form-item>
@@ -403,6 +403,15 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
+      numberAttrs: { // input number attrs
+        size: '', // 大小：large, small
+        min: 1, // 最小值
+        max: 10000, // 最大值
+        step: 1, // 计数器步长
+        controls: true, // 是否使用控制按钮
+        controlsPosition: 'right',	// 控制按钮位置: right
+        placeholder: '请输入排序ID'
+      },
       selectAttrs: { // select attrs
         multiple: false, // 多选
         clearable: true, // 清空选择
@@ -442,7 +451,7 @@ export default {
         cache: '',
         affix: '',
         breadcrumb: '',
-        order_id: '',
+        order_id: 1, // undefined
         shortcut: ''
       },
       formDataRules: {

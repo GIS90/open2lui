@@ -95,15 +95,15 @@
           />
         </el-form-item>
         <el-form-item label="排序ID" prop="order_id">
-          <el-input
-            v-model.trim="formData.order_id"
-            type="text"
-            placeholder="请输入排序ID"
-            :maxlength="formDataLimit.order_id"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
+          <el-input-number
+            v-model="formData.order_id"
+            style="width: 100%"
+            :controls="numberAttrs.controls"
+            :controls-position="numberAttrs.controlsPosition"
+            :min="numberAttrs.min"
+            :max="numberAttrs.max"
+            :step="numberAttrs.step"
+            :size="numberAttrs.size"
             :disabled="disabled"
           />
         </el-form-item>
@@ -205,6 +205,15 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
+      numberAttrs: { // input number attrs
+        size: '', // 大小：large, small
+        min: 1, // 最小值
+        max: 10000, // 最大值
+        step: 1, // 计数器步长
+        controls: true, // 是否使用控制按钮
+        controlsPosition: '',	// 控制按钮位置: right
+        placeholder: '请输入排序ID'
+      },
       selectAttrs: { // select attrs
         multiple: false, // 多选
         clearable: true, // 清空选择
@@ -231,14 +240,13 @@ export default {
         key: '',
         value: '',
         description: '',
-        order_id: ''
+        order_id: 1 // undefined
       },
       formDataLimit: {
         name: '25',
         key: '25',
         value: '25',
-        description: '255',
-        order_id: '4'
+        description: '255'
       },
       formDataRules: {
         name: [{ required: true, trigger: 'blur', validator: validateName }],
@@ -266,7 +274,7 @@ export default {
       this.formData.key = ''
       this.formData.value = ''
       this.formData.description = ''
-      this.formData.order_id = ''
+      this.formData.order_id = 1
 
       this.$nextTick(() => {
         // 维护模式：枚举RTX
