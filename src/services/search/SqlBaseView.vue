@@ -138,6 +138,11 @@
         </div>
       </el-form>
       <!--footer-->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="closeDialog()">关闭</el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>
