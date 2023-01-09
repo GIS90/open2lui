@@ -56,6 +56,7 @@
               v-model="searchForm.title"
               style="width: 100%;height: 100%"
               type="text"
+              :nodata="scope"
               :clearable="searchInput.clear"
               :show-word-limit="searchInput.limit"
               :size="searchInput.size"
@@ -416,11 +417,11 @@ export default {
               })
               this.getTableList()
             }
-            this.btnDisabled = false
             resolve(response)
           }).catch(error => {
-            this.btnDisabled = false
             reject(error)
+          }).finally(() => {
+            this.btnDisabled = false
           })
         })
       }
