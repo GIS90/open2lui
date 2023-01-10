@@ -14,7 +14,7 @@
             :size="inputAttrs.size"
             :prefix-icon="inputAttrs.prefixIcon"
             :disabled="disabled"
-            placeholder="请输入内容"
+            placeholder="请输入搜索的关键字"
           />
         </el-form-item>
       </el-col>
@@ -138,7 +138,7 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
-            placeholder="请选择创建用户"
+            placeholder="请选择推荐度"
           >
             <el-option
               v-for="(item, index) in recommendList"
