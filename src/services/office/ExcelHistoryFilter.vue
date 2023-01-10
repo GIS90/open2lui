@@ -6,7 +6,7 @@
       </template>
       <div class="filter-desc">数据的高级筛选功能，支持模糊查询</div>
       <div class="filter-if">
-        <el-form>
+        <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="文件名称">
@@ -93,6 +93,7 @@ export default {
   props: {},
   data() {
     return {
+      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       disabled: false, // disabled状态
       loading: false, // loading状态
       dataFilter: { // 高级筛选
@@ -196,6 +197,7 @@ export default {
 }
 
 .filter-desc {
+  color: red;
   margin-top: 20px;
   font-size: 15px !important;
 }

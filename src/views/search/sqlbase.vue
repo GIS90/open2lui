@@ -24,105 +24,7 @@
     </el-row>
     <!--Search查询条件区域-->
     <div v-if="searchStatus" class="searchBox">
-      <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
-        <!-- 第一行 -->
-        <el-row :gutter="20">
-          <!-- 标题 -->
-          <el-col :span="12">
-            <el-form-item label="搜索标题">
-              <el-input
-                v-model="searchForm.title"
-                style="width: 100%;height: 100%"
-                type="text"
-                :clearable="searchInput.clear"
-                :maxlength="searchLimit.title"
-                :show-word-limit="searchInput.limit"
-                :size="searchInput.size"
-                :prefix-icon="searchInput.prefixIcon"
-                :disabled="btnDisabled"
-                placeholder="请输入标题"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <!-- 创建用户 -->
-            <el-form-item label="创建用户">
-              <el-select
-                v-model.trim="searchForm.rtx"
-                style="width: 100%"
-                :size="selectAttrs.size"
-                :disabled="btnDisabled"
-                :filterable="selectAttrs.filterable"
-                :multiple="selectAttrs.multiple"
-                :multiple-limit="selectAttrs.limit"
-                :clearable="selectAttrs.clearable"
-                :no-data-text="selectAttrs.noDataText"
-                :collapse-tags="selectAttrs.collapseTags"
-                placeholder="请选择创建用户"
-              >
-                <el-option
-                  v-for="(item, index) in userList"
-                  :key="index"
-                  :label="item.value"
-                  :value="item.key"
-                >
-                  <span class="select-opt-left">{{ item.value }}</span>
-                  <span class="select-opt-right">{{ item.key }}</span>
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <!-- 作者 -->
-          <el-col :span="6">
-            <el-form-item label="作者">
-              <el-select
-                v-model.trim="searchForm.author"
-                style="width: 100%"
-                :size="selectAttrs.size"
-                :disabled="btnDisabled"
-                :filterable="selectAttrs.filterable"
-                :multiple="selectAttrs.multiple"
-                :multiple-limit="selectAttrs.limit"
-                :clearable="selectAttrs.clearable"
-                :no-data-text="selectAttrs.noDataText"
-                :collapse-tags="selectAttrs.collapseTags"
-                placeholder="请选择作者"
-              >
-                <el-option
-                  v-for="(item, index) in userList"
-                  :key="index"
-                  :label="item.value"
-                  :value="item.key"
-                >
-                  <span class="select-opt-left">{{ item.value }}</span>
-                  <span class="select-opt-right">{{ item.key }}</span>
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <!-- 第二行 -->
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <!-- 搜索内容 -->
-            <el-form-item label="搜索内容">
-              <el-input
-                v-model="searchForm.content"
-                style="width: 100%;height: 100%"
-                type="text"
-                :clearable="searchInput.clear"
-                :maxlength="searchLimit.content"
-                :show-word-limit="searchInput.limit"
-                :size="searchInput.size"
-                :prefix-icon="searchInput.prefixIcon"
-                :disabled="btnDisabled"
-                placeholder="请输入内容"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-
+      <sql-base-filter :user-list="userList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
     </div>
 
     <!--Table表格-->
@@ -224,6 +126,7 @@
 import SqlBaseAdd from '@/services/search/SqlBaseAdd'
 import SqlBaseSet from '@/services/search/SqlBaseSet'
 import SqlBaseView from '@/services/search/SqlBaseView'
+import SqlBaseFilter from '@/services/search/SqlBaseFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
@@ -235,6 +138,7 @@ export default {
     'sql-base-add': SqlBaseAdd,
     'sql-base-set': SqlBaseSet,
     'sql-base-view': SqlBaseView,
+    'sql-base-filter': SqlBaseFilter,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination
   },
@@ -245,7 +149,6 @@ export default {
     return {
       selBtnText: '全选', // 选择按钮内容
       btnDisabled: false, // 按钮禁用状态
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // button attributes
       btnBaseAttrs: {
         size: 'medium', // 大小 medium / small / mini / ''
@@ -311,40 +214,12 @@ export default {
       deleteConfirm: false, // 删除确认dialog状态
       searchType: 'primary', // search button type: primary, success, default is primary
       searchBtnText: '展开查询', // search button text
-      searchStatus: true, // 是否展开查询条件
-      // search input attrs
-      searchInput: {
-        size: 'medium', // 大小：medium / small / mini / ''
-        clear: true, // 可清空的输入框
-        limit: true, // 展示字数统计
-        prefixIcon: 'el-icon-edit' // input前缀icon
-      },
-      // select attrs
-      selectAttrs: {
-        size: 'medium', // 大小：''/medium/small/mini
-        multiple: true, // 多选
-        clearable: true, // 清空选择
-        filterable: true, // 搜索功能
-        allowCreate: false,	// 是否允许用户创建新条目，需配合filterable使用
-        dfo: false, // default-first-option在输入框按下回车，选择第一个匹配项。需配合 filterable 或 remote 使用
-        collapseTags: false, // 多个合并成一个
-        limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
-        remote: false, // 是否为远程搜索
-        loading: false, // 是否正在从远程获取数据
-        loadingText: '正在加载中...',	// 远程加载时显示的文字
-        noDataText: '暂无数据' // 选项为空时显示的文字
-      },
-      // search input limit
-      searchLimit: {
-        title: 25,
-        summary: 25,
-        content: 50
-      },
+      searchStatus: false, // 是否展开查询条件
       // search form data
       searchForm: {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
-        rtx: [], // 用户RTX
+        create_rtx: [], // 创建用户RTX
         title: '', // 标题
         author: [], // 作者（定义数组，支持多选）
         public_time_start: '', // 起始发布时间
@@ -439,8 +314,10 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'public': true,
         'limit': this.pageSize || 15,
-        'offset': (this.pageCur - 1) * this.pageSize || 0
+        'offset': (this.pageCur - 1) * this.pageSize || 0,
+        ...this.searchForm
       }
+
       return new Promise((resolve, reject) => {
         searchSqlbaseList(data).then(response => {
           const { status_id, data } = response
@@ -450,11 +327,12 @@ export default {
             this.userList = data.user
           }
           // 手动刷新提示
-          if (type === 2 && status_id === 100) {
+          if ([2, 3].includes(type) && status_id === 100) {
+            const msg = type === 2 ? '刷新成功' : '查询成功'
             this.$notify({
               title: '消息', // 标题
               type: 'success', // 类型：success/warning/info/error
-              message: '刷新成功', // 消息
+              message: msg, // 消息
               duration: 1200, // 显示时间(毫秒)
               // offset: 300, // 偏移量
               position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
@@ -556,6 +434,10 @@ export default {
     },
     showSearch() {
       this.searchStatus = !this.searchStatus
+    },
+    filterSearchResult(data) { // 更新高级查询条件
+      this.searchForm = data
+      this.getTableList(3)
     },
     search() { // 筛选搜索
 
