@@ -6,14 +6,14 @@
       <el-button id="btn-upload" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="openAddDialog">
         <svg-icon icon-class="i_add" />  新增
       </el-button>
-      <el-button id="btn-search" class="btn-margin" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="search">
-        <svg-icon icon-class="search" />  查询
-      </el-button>
       <el-button id="btn-select" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
+      </el-button>
+      <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
+        <svg-icon icon-class="search" />  {{ searchBtnText }}
       </el-button>
       <!-- 右侧icon -->
       <span style="float: right">
@@ -22,6 +22,108 @@
         </el-tooltip>
       </span>
     </el-row>
+    <!--Search查询条件区域-->
+    <div v-if="searchStatus" class="searchBox">
+      <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
+        <!-- 第一行 -->
+        <el-row :gutter="20">
+          <!-- 标题 -->
+          <el-col :span="12">
+            <el-form-item label="搜索标题">
+              <el-input
+                v-model="searchForm.title"
+                style="width: 100%;height: 100%"
+                type="text"
+                :clearable="searchInput.clear"
+                :maxlength="searchLimit.title"
+                :show-word-limit="searchInput.limit"
+                :size="searchInput.size"
+                :prefix-icon="searchInput.prefixIcon"
+                :disabled="btnDisabled"
+                placeholder="请输入标题"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <!-- 创建用户 -->
+            <el-form-item label="创建用户">
+              <el-select
+                v-model.trim="searchForm.rtx"
+                style="width: 100%"
+                :size="selectAttrs.size"
+                :disabled="btnDisabled"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :multiple-limit="selectAttrs.limit"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+                placeholder="请选择创建用户"
+              >
+                <el-option
+                  v-for="(item, index) in userList"
+                  :key="index"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <span class="select-opt-left">{{ item.value }}</span>
+                  <span class="select-opt-right">{{ item.key }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- 作者 -->
+          <el-col :span="6">
+            <el-form-item label="作者">
+              <el-select
+                v-model.trim="searchForm.author"
+                style="width: 100%"
+                :size="selectAttrs.size"
+                :disabled="btnDisabled"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :multiple-limit="selectAttrs.limit"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+                placeholder="请选择作者"
+              >
+                <el-option
+                  v-for="(item, index) in userList"
+                  :key="index"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <span class="select-opt-left">{{ item.value }}</span>
+                  <span class="select-opt-right">{{ item.key }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <!-- 第二行 -->
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <!-- 搜索内容 -->
+            <el-form-item label="搜索内容">
+              <el-input
+                v-model="searchForm.content"
+                style="width: 100%;height: 100%"
+                type="text"
+                :clearable="searchInput.clear"
+                :maxlength="searchLimit.content"
+                :show-word-limit="searchInput.limit"
+                :size="searchInput.size"
+                :prefix-icon="searchInput.prefixIcon"
+                :disabled="btnDisabled"
+                placeholder="请输入内容"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+
+    </div>
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -49,93 +151,9 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column :align="tableRowAttrs.align">
-          <template slot="header" slot-scope="scope">
-            <el-select
-              v-model.trim="searchForm.rtx"
-              style="width: 100%"
-              :nodata="scope"
-              :size="selectAttrs.size"
-              :disabled="btnDisabled"
-              :filterable="selectAttrs.filterable"
-              :allow-create="selectAttrs.allowCreate"
-              :default-first-option="selectAttrs.dfo"
-              :multiple="selectAttrs.multiple"
-              :multiple-limit="selectAttrs.limit"
-              :clearable="selectAttrs.clearable"
-              :no-data-text="selectAttrs.noDataText"
-              :collapse-tags="selectAttrs.collapseTags"
-              :remote="selectAttrs.remote"
-              :remote-method="getUserList"
-              :loading="selectAttrs.loading"
-              :loading-text="selectAttrs.loadingText"
-              placeholder="请选择创建用户"
-            >
-              <el-option
-                v-for="(item, index) in userList"
-                :key="index"
-                :label="item.value"
-                :value="item.key"
-              >
-                <span class="select-opt-left">{{ item.value }}</span>
-                <span class="select-opt-right">{{ item.key }}</span>
-              </el-option>
-            </el-select>
-          </template>
-          <el-table-column prop="rtx_id" label="创建人RTX" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        </el-table-column>
-        <el-table-column :align="tableRowAttrs.align">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="searchForm.title"
-              style="width: 100%;height: 100%"
-              type="text"
-              :nodata="scope"
-              :clearable="searchInput.clear"
-              :show-word-limit="searchInput.limit"
-              :size="searchInput.size"
-              :prefix-icon="searchInput.prefixIcon"
-              :disabled="btnDisabled"
-              placeholder="请输入标题"
-            />
-          </template>
-          <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        </el-table-column>
-        <el-table-column :align="tableRowAttrs.align">
-          <template slot="header" slot-scope="scope">
-            <el-select
-              v-model.trim="searchForm.author"
-              style="width: 100%"
-              :nodata="scope"
-              :size="selectAttrs.size"
-              :disabled="btnDisabled"
-              :filterable="selectAttrs.filterable"
-              :allow-create="selectAttrs.allowCreate"
-              :default-first-option="selectAttrs.dfo"
-              :multiple="selectAttrs.multiple"
-              :multiple-limit="selectAttrs.limit"
-              :clearable="selectAttrs.clearable"
-              :no-data-text="selectAttrs.noDataText"
-              :collapse-tags="selectAttrs.collapseTags"
-              :remote="selectAttrs.remote"
-              :remote-method="getUserList"
-              :loading="selectAttrs.loading"
-              :loading-text="selectAttrs.loadingText"
-              placeholder="请选择作者"
-            >
-              <el-option
-                v-for="(item, index) in userList"
-                :key="index"
-                :label="item.value"
-                :value="item.key"
-              >
-                <span class="select-opt-left">{{ item.value }}</span>
-                <span class="select-opt-right">{{ item.key }}</span>
-              </el-option>
-            </el-select>
-          </template>
-          <el-table-column prop="author" label="作者" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        </el-table-column>
+        <el-table-column prop="rtx_id" label="创建人RTX" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="author" label="作者" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="public_time" label="发布时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="推荐度" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
@@ -154,23 +172,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column :align="tableRowAttrs.align">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="searchForm.content"
-              style="width: 100%;height: 100%"
-              type="text"
-              :nodata="scope"
-              :clearable="searchInput.clear"
-              :show-word-limit="searchInput.limit"
-              :size="searchInput.size"
-              :prefix-icon="searchInput.prefixIcon"
-              :disabled="btnDisabled"
-              placeholder="请输入内容"
-            />
-          </template>
-          <el-table-column prop="text" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        </el-table-column>
+        <el-table-column prop="text" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="count" label="浏览次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" min-width="260" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
@@ -226,7 +228,6 @@ import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
 import BatchDelete from '@/components/BatchDelete'
-import { getUserKVList } from '@/api/manage'
 
 export default {
   name: 'SqlBase',
@@ -244,6 +245,7 @@ export default {
     return {
       selBtnText: '全选', // 选择按钮内容
       btnDisabled: false, // 按钮禁用状态
+      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // button attributes
       btnBaseAttrs: {
         size: 'medium', // 大小 medium / small / mini / ''
@@ -307,11 +309,14 @@ export default {
       viewDialogStatus: false, // 查看dialog状态
       deleteSource: 'search-sqlbase', // delete source
       deleteConfirm: false, // 删除确认dialog状态
+      searchType: 'primary', // search button type: primary, success, default is primary
+      searchBtnText: '展开查询', // search button text
+      searchStatus: true, // 是否展开查询条件
       // search input attrs
       searchInput: {
         size: 'medium', // 大小：medium / small / mini / ''
         clear: true, // 可清空的输入框
-        limit: false, // 展示字数统计
+        limit: true, // 展示字数统计
         prefixIcon: 'el-icon-edit' // input前缀icon
       },
       // select attrs
@@ -324,7 +329,7 @@ export default {
         dfo: false, // default-first-option在输入框按下回车，选择第一个匹配项。需配合 filterable 或 remote 使用
         collapseTags: false, // 多个合并成一个
         limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
-        remote: true, // 是否为远程搜索
+        remote: false, // 是否为远程搜索
         loading: false, // 是否正在从远程获取数据
         loadingText: '正在加载中...',	// 远程加载时显示的文字
         noDataText: '暂无数据' // 选项为空时显示的文字
@@ -361,6 +366,15 @@ export default {
         this.selBtnText = '取消'
       } else {
         this.selBtnText = '全选'
+      }
+    },
+    searchStatus(newVal, oldVal) { // watch is or not show search if
+      if (newVal) {
+        this.searchBtnText = '关闭查询'
+        this.searchType = 'success'
+      } else {
+        this.searchBtnText = '展开查询'
+        this.searchType = 'primary'
       }
     }
   },
@@ -433,7 +447,7 @@ export default {
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
             this.pageTotal = data.total
-            // this.userList = data.user
+            this.userList = data.user
           }
           // 手动刷新提示
           if (type === 2 && status_id === 100) {
@@ -540,25 +554,8 @@ export default {
         this.getTableList()
       }
     },
-    getUserList() {
-      const data = {
-        'rtx_id': store.getters.rtx_id
-      }
-      this.selectAttrs.loading = true
-      return new Promise((resolve, reject) => {
-        getUserKVList(data).then(response => {
-          const { status_id, data } = response
-          if (status_id === 100) {
-            console.log(data)
-            this.userList = data.list
-          }
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        }).finally(() => {
-          this.selectAttrs.loading = false
-        })
-      })
+    showSearch() {
+      this.searchStatus = !this.searchStatus
     },
     search() { // 筛选搜索
 
@@ -566,3 +563,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.searchBox{
+  margin-top: 20px;
+}
+</style>
