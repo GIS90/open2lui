@@ -177,6 +177,21 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="排序ID" prop="order_id">
+              <el-input-number
+                v-model="formData.order_id"
+                style="width: 100%"
+                :controls="numberAttrs.controls"
+                :controls-position="numberAttrs.controlsPosition"
+                :min="numberAttrs.min"
+                :max="numberAttrs.max"
+                :step="numberAttrs.step"
+                :size="numberAttrs.size"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
         </el-row>
         <!-- 开发者配置 -->
         <el-divider content-position="left">开发者配置</el-divider>
@@ -325,7 +340,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitSetMenu()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -383,6 +398,15 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
+      numberAttrs: { // input number attrs
+        size: '', // 大小：large, small
+        min: 1, // 最小值
+        max: 10000, // 最大值
+        step: 1, // 计数器步长
+        controls: true, // 是否使用控制按钮
+        controlsPosition: 'right',	// 控制按钮位置: right
+        placeholder: '请输入排序ID'
+      },
       selectAttrs: { // select attrs
         multiple: false, // 多选
         clearable: true, // 清空选择
@@ -420,7 +444,8 @@ export default {
         cache: '',
         affix: '',
         breadcrumb: '',
-        shortcut: ''
+        shortcut: '',
+        order_id: undefined
       },
       formDataRules: {
         name: [
@@ -501,6 +526,7 @@ export default {
       this.formData.affix = ''
       this.formData.breadcrumb = ''
       this.formData.shortcut = ''
+      this.formData.order_id = undefined
       // 初始化非全屏
       this.fullScreenStatus = false
       this.$nextTick(() => {
@@ -529,10 +555,9 @@ export default {
         })
       })
     },
-    submitSetMenu() {
+    submit() {
       const data = {
         rtx_id: store.getters.rtx_id,
-        md5: this.rowMd5,
         name: this.formData.name,
         title: this.formData.title,
         path: this.formData.path,
@@ -545,7 +570,8 @@ export default {
         cache: this.formData.cache,
         affix: this.formData.affix,
         breadcrumb: this.formData.breadcrumb,
-        shortcut: this.formData.shortcut
+        shortcut: this.formData.shortcut,
+        order_id: this.formData.order_id
       }
       // menu add
       this.$refs.formData.validate(valid => {

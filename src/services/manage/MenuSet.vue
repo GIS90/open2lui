@@ -340,7 +340,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submitSetMenu()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -551,7 +551,7 @@ export default {
         })
       })
     },
-    submitSetMenu() {
+    submit() {
       if (!this.rowMd5) {
         return false
       }
