@@ -571,7 +571,7 @@ export default {
         affix: this.formData.affix,
         breadcrumb: this.formData.breadcrumb,
         shortcut: this.formData.shortcut,
-        order_id: this.formData.order_id
+        order_id: this.formData.order_id || 1
       }
       // menu add
       this.$refs.formData.validate(valid => {

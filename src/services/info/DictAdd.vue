@@ -256,7 +256,7 @@ export default {
       this.formData.key = ''
       this.formData.value = ''
       this.formData.description = ''
-      this.formData.order_id = 1
+      this.formData.order_id = undefined // 1
       this.$nextTick(() => {
         // 重置表单状态
         this.$refs.formData.resetFields()
@@ -280,7 +280,7 @@ export default {
             'name': this.formData.name,
             'key': this.formData.key,
             'value': this.formData.value,
-            'order_id': this.formData.order_id,
+            'order_id': this.formData.order_id || 1,
             'description': this.formData.description,
             'type': '1'
           }

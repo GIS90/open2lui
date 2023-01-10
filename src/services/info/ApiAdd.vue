@@ -279,7 +279,7 @@ export default {
       this.formData.type = ''
       this.formData.short = ''
       this.formData.long = ''
-      this.formData.order_id = 1
+      this.formData.order_id = undefined // 1
       this.$nextTick(() => {
         // 重置表单状态
         this.getTypeList()
@@ -322,7 +322,7 @@ export default {
             'type': this.formData.type,
             'short': this.formData.short,
             'long': this.formData.long,
-            'order_id': this.formData.order_id
+            'order_id': this.formData.order_id || 1
           }
           return new Promise((resolve, reject) => {
             InfoApiAdd(data).then(response => {
