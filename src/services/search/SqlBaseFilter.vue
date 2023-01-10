@@ -1,21 +1,20 @@
 <template>
   <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
-    <!-- 第一行 -->
     <el-row :gutter="20">
-      <!-- 标题 -->
+      <!-- 搜索内容 -->
       <el-col :span="24">
-        <el-form-item label="搜索标题">
+        <el-form-item label="搜索内容">
           <el-input
-            v-model="formData.title"
+            v-model="formData.content"
             style="width: 100%;height: 100%"
             type="text"
             :clearable="inputAttrs.clear"
-            :maxlength="searchLimit.title"
+            :maxlength="searchLimit.content"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
             :prefix-icon="inputAttrs.prefixIcon"
             :disabled="disabled"
-            placeholder="请输入标题"
+            placeholder="请输入内容"
           />
         </el-form-item>
       </el-col>
@@ -75,25 +74,6 @@
               <span class="select-opt-right">{{ item.key }}</span>
             </el-option>
           </el-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <!-- 搜索内容 -->
-      <el-col :span="24">
-        <el-form-item label="搜索内容">
-          <el-input
-            v-model="formData.content"
-            style="width: 100%;height: 100%"
-            type="text"
-            :clearable="inputAttrs.clear"
-            :maxlength="searchLimit.content"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-            placeholder="请输入内容"
-          />
         </el-form-item>
       </el-col>
     </el-row>
@@ -257,12 +237,10 @@ export default {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX
-        title: '', // 标题
         author: [], // 作者（定义数组，支持多选）
         public_time_start: '', // 起始发布时间
         public_time_end: '', // 结束发布时间
         recommend: [], // 推荐度
-        summary: '', // 摘要
         label: [], // 标签
         content: '', // 内容
         count_start: '', // 浏览次数上限
@@ -327,13 +305,11 @@ export default {
       this.public_date = ''
       this.formData.create_time_start = ''
       this.formData.create_time_end = ''
-      this.formData.create_rtx = ''
-      this.formData.title =
-      this.formData.author = ''
+      this.formData.create_rtx = []
+      this.formData.author = []
       this.formData.public_time_start = ''
       this.formData.public_time_end = ''
-      this.formData.recommend = ''
-      this.formData.summary = ''
+      this.formData.recommend = []
       this.formData.label = []
       this.formData.content = ''
       this.formData.count_start = ''

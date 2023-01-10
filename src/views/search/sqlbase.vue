@@ -220,12 +220,10 @@ export default {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX
-        title: '', // 标题
         author: [], // 作者（定义数组，支持多选）
         public_time_start: '', // 起始发布时间
         public_time_end: '', // 结束发布时间
         recommend: [], // 推荐度
-        summary: '', // 摘要
         label: [], // 标签
         content: '', // 内容
         count_start: '', // 浏览次数上限
