@@ -49,7 +49,41 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="rtx_id" label="创建人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column :align="tableRowAttrs.align">
+          <template slot="header" slot-scope="scope">
+            <el-select
+              v-model.trim="searchForm.rtx"
+              style="width: 100%"
+              :nodata="scope"
+              :size="selectAttrs.size"
+              :disabled="btnDisabled"
+              :filterable="selectAttrs.filterable"
+              :allow-create="selectAttrs.allowCreate"
+              :default-first-option="selectAttrs.dfo"
+              :multiple="selectAttrs.multiple"
+              :multiple-limit="selectAttrs.limit"
+              :clearable="selectAttrs.clearable"
+              :no-data-text="selectAttrs.noDataText"
+              :collapse-tags="selectAttrs.collapseTags"
+              :remote="selectAttrs.remote"
+              :remote-method="getUserList"
+              :loading="selectAttrs.loading"
+              :loading-text="selectAttrs.loadingText"
+              placeholder="请选择创建用户"
+            >
+              <el-option
+                v-for="(item, index) in userList"
+                :key="index"
+                :label="item.value"
+                :value="item.key"
+              >
+                <span class="select-opt-left">{{ item.value }}</span>
+                <span class="select-opt-right">{{ item.key }}</span>
+              </el-option>
+            </el-select>
+          </template>
+          <el-table-column prop="rtx_id" label="创建人RTX" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        </el-table-column>
         <el-table-column :align="tableRowAttrs.align">
           <template slot="header" slot-scope="scope">
             <el-input
@@ -67,7 +101,41 @@
           </template>
           <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         </el-table-column>
-        <el-table-column prop="author" label="作者" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column :align="tableRowAttrs.align">
+          <template slot="header" slot-scope="scope">
+            <el-select
+              v-model.trim="searchForm.author"
+              style="width: 100%"
+              :nodata="scope"
+              :size="selectAttrs.size"
+              :disabled="btnDisabled"
+              :filterable="selectAttrs.filterable"
+              :allow-create="selectAttrs.allowCreate"
+              :default-first-option="selectAttrs.dfo"
+              :multiple="selectAttrs.multiple"
+              :multiple-limit="selectAttrs.limit"
+              :clearable="selectAttrs.clearable"
+              :no-data-text="selectAttrs.noDataText"
+              :collapse-tags="selectAttrs.collapseTags"
+              :remote="selectAttrs.remote"
+              :remote-method="getUserList"
+              :loading="selectAttrs.loading"
+              :loading-text="selectAttrs.loadingText"
+              placeholder="请选择作者"
+            >
+              <el-option
+                v-for="(item, index) in userList"
+                :key="index"
+                :label="item.value"
+                :value="item.key"
+              >
+                <span class="select-opt-left">{{ item.value }}</span>
+                <span class="select-opt-right">{{ item.key }}</span>
+              </el-option>
+            </el-select>
+          </template>
+          <el-table-column prop="author" label="作者" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        </el-table-column>
         <el-table-column prop="public_time" label="发布时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="推荐度" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
@@ -86,7 +154,23 @@
             />
           </template>
         </el-table-column>
-        <el-table-column prop="text" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column :align="tableRowAttrs.align">
+          <template slot="header" slot-scope="scope">
+            <el-input
+              v-model="searchForm.content"
+              style="width: 100%;height: 100%"
+              type="text"
+              :nodata="scope"
+              :clearable="searchInput.clear"
+              :show-word-limit="searchInput.limit"
+              :size="searchInput.size"
+              :prefix-icon="searchInput.prefixIcon"
+              :disabled="btnDisabled"
+              placeholder="请输入内容"
+            />
+          </template>
+          <el-table-column prop="text" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        </el-table-column>
         <el-table-column prop="count" label="浏览次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" min-width="260" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
@@ -142,6 +226,7 @@ import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
 import BatchDelete from '@/components/BatchDelete'
+import { getUserKVList } from '@/api/manage'
 
 export default {
   name: 'SqlBase',
@@ -229,6 +314,21 @@ export default {
         limit: false, // 展示字数统计
         prefixIcon: 'el-icon-edit' // input前缀icon
       },
+      // select attrs
+      selectAttrs: {
+        size: 'medium', // 大小：''/medium/small/mini
+        multiple: true, // 多选
+        clearable: true, // 清空选择
+        filterable: true, // 搜索功能
+        allowCreate: false,	// 是否允许用户创建新条目，需配合filterable使用
+        dfo: false, // default-first-option在输入框按下回车，选择第一个匹配项。需配合 filterable 或 remote 使用
+        collapseTags: false, // 多个合并成一个
+        limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
+        remote: true, // 是否为远程搜索
+        loading: false, // 是否正在从远程获取数据
+        loadingText: '正在加载中...',	// 远程加载时显示的文字
+        noDataText: '暂无数据' // 选项为空时显示的文字
+      },
       // search input limit
       searchLimit: {
         title: 25,
@@ -250,7 +350,8 @@ export default {
         content: '', // 内容
         count_start: '', // 浏览次数上限
         count_end: '' // 浏览次数下限
-      }
+      },
+      userList: [] // user list
     }
   },
   computed: {},
@@ -332,6 +433,7 @@ export default {
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
             this.pageTotal = data.total
+            // this.userList = data.user
           }
           // 手动刷新提示
           if (type === 2 && status_id === 100) {
@@ -437,6 +539,26 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    getUserList() {
+      const data = {
+        'rtx_id': store.getters.rtx_id
+      }
+      this.selectAttrs.loading = true
+      return new Promise((resolve, reject) => {
+        getUserKVList(data).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            console.log(data)
+            this.userList = data.list
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          this.selectAttrs.loading = false
+        })
+      })
     },
     search() { // 筛选搜索
 
