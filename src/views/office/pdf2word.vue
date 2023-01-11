@@ -69,6 +69,7 @@
                 size="mini"
                 round
                 plain
+                :disabled="btnDisabled"
                 @click="rowHandleTo(scope.$index, scope.row)"
               />
             </el-tooltip>
@@ -251,6 +252,8 @@ export default {
       this.selectAllStatus = false
       this.selectList = []
       this.oprSelectRowMd5 = ''
+      // 禁用按钮/INPUT/SELECT
+      this.btnDisabled = true
 
       // list列表参数
       const data = {
@@ -280,6 +283,8 @@ export default {
           resolve(response)
         }).catch(error => {
           reject(error)
+        }).finally(() => {
+          this.btnDisabled = false
         })
       })
     },
