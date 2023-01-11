@@ -214,6 +214,7 @@ export default {
           return false
         }
       }
+      // 禁用交互组件
       this.disabled = true
       this.loading = true
       const data = {
@@ -226,8 +227,6 @@ export default {
       }
       return new Promise((resolve, reject) => {
         officePDFUpdate(data).then(response => {
-          this.disabled = false
-          this.loading = false
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -239,9 +238,11 @@ export default {
           }
           resolve(response)
         }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
           this.disabled = false
           this.loading = false
-          reject(error)
         })
       })
     }

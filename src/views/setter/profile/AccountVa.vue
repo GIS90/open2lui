@@ -149,7 +149,6 @@ export default {
           this.loading = true
           return new Promise((resolve, reject) => {
             updateInfo(this.userForm).then(response => {
-              this.loading = false
               const { status_id, message, data } = response
               if (status_id === 100) {
                 this.$message({
@@ -172,8 +171,9 @@ export default {
                 reject(message)
               }
             }).catch(error => {
-              this.loading = false
               reject(error)
+            }).finally(() => {
+              this.loading = false
             })
           })
         } else {

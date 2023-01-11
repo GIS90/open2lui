@@ -253,7 +253,6 @@ export default {
       }
       return new Promise((resolve, reject) => {
         updateInfo(data).then(response => {
-          this.loading = false
           const { status_id, message, data } = response
           if (status_id === 100) {
             this.$message({
@@ -268,8 +267,9 @@ export default {
             reject(response)
           }
         }).catch(error => {
-          this.loading = false
           reject(error)
+        }).finally(() => {
+          this.loading = false
         })
       })
     }

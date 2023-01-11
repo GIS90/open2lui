@@ -18,6 +18,7 @@
             placeholder="请输入老密码"
             maxlength="25"
             show-password
+            :disabled="disabled"
           />
         </el-form-item>
         <el-form-item label="新密码" style="margin-top: 20px">
@@ -27,6 +28,7 @@
             placeholder="请输入新密码"
             maxlength="25"
             show-password
+            :disabled="disabled"
           />
         </el-form-item>
         <el-form-item label="确认密码" style="margin-top: 20px">
@@ -36,6 +38,7 @@
             placeholder="再次输入确认密码"
             maxlength="25"
             show-password
+            :disabled="disabled"
           />
         </el-form-item>
         <el-form-item label="备注" style="margin-top: 20px">
@@ -45,8 +48,8 @@
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="closeDialog()">取消</el-button>
-          <el-button :loading="loading" type="primary" @click="submitPassword()">确定</el-button>
+          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
+          <el-button :loading="loading" :disabled="disabled" type="primary" @click="submitPassword()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -61,6 +64,7 @@ export default {
   name: 'Password',
   data() {
     return {
+      disabled: false,
       loading: false,
       status: false, // 是否显示密码dialog
       oldPassword: '', // 老密码
@@ -79,6 +83,7 @@ export default {
       this.oldPassword = ''
       this.newPassword = ''
       this.confirmPassword = ''
+      this.disabled = false
     },
     openDialog() {
       this.status = true
@@ -151,9 +156,9 @@ export default {
         'con_password': this.confirmPassword
       }
       this.loading = true
+      this.disabled = true
       return new Promise((resolve, reject) => {
         updatePassword(data).then(response => {
-          this.loading = false
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -172,8 +177,10 @@ export default {
             reject(response)
           }
         }).catch(error => {
-          this.loading = false
           reject(error)
+        }).finally(() => {
+          this.loading = false
+          this.disabled = false
         })
       })
     }
