@@ -13,7 +13,7 @@
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
       <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
-        <svg-icon icon-class="search" />  {{ searchBtnText }}
+        <svg-icon :icon-class="searchIcon" />  {{ searchBtnText }}
       </el-button>
       <!-- 右侧icon -->
       <span style="float: right">
@@ -213,6 +213,7 @@ export default {
       deleteSource: 'search-sqlbase', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       searchType: 'primary', // search button type: primary, success, default is primary
+      searchIcon: 'i-double-arrow-down', // search button icon
       searchBtnText: '展开查询', // search button text
       searchStatus: false, // 是否展开查询条件
       // search form data
@@ -245,9 +246,11 @@ export default {
       if (newVal) {
         this.searchBtnText = '关闭查询'
         this.searchType = 'success'
+        this.searchIcon = 'i-double-arrow-up'
       } else {
         this.searchBtnText = '展开查询'
         this.searchType = 'primary'
+        this.searchIcon = 'i-double-arrow-down'
       }
     }
   },
@@ -306,7 +309,8 @@ export default {
       this.selectAllStatus = false
       this.selectList = []
       this.oprSelectRowMd5 = ''
-
+      // 禁用按钮/INPUT/SELECT
+      this.btnDisabled = true
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
@@ -339,9 +343,9 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.loading = false
           reject(error)
         }).finally(() => {
+          this.btnDisabled = false
         })
       })
     },

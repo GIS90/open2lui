@@ -155,11 +155,11 @@
     </el-row>
     <!--查询-->
     <el-row>
-      <el-button icon="el-icon-search" @click.prevent.stop="filterQuery">
-        查询
+      <el-button id="btn-q-search" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="filterQuery">
+        <svg-icon icon-class="search" />  查询
       </el-button>
-      <el-button icon="el-icon-delete" type="info" @click.prevent.stop="clearQuery">
-        重置
+      <el-button id="btn-q-clear" type="info" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="filterQuery">
+        <svg-icon icon-class="i-reset" />  重置
       </el-button>
     </el-row>
   </el-form>
@@ -186,6 +186,14 @@ export default {
   data() {
     return {
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      // button attributes
+      btnBaseAttrs: {
+        size: 'medium', // 大小 medium / small / mini / ''
+        type: 'primary', // 类型 primary / success / warning / danger / info / text
+        plain: true, // 是否为朴素按钮
+        round: false, // 是否为圆角按钮
+        circle: false // 是否为圆形按钮
+      },
       // search input attrs
       inputAttrs: {
         size: 'medium', // 大小：medium / small / mini / ''
@@ -221,16 +229,6 @@ export default {
         prefixIcon: 'el-icon-date' // 自定义头部图标的类名
       },
       pickerOptions: this.getPickerOptions(),
-      rateAttrs: {
-        max: 3, // 最大分
-        half: false, // 是否允许半选
-        lowThreshold: 1, // 低分和中等分数的界限值，值本身被划分在低分中
-        highThreshold: 2.5, // 高分和中等分数的界限值，值本身被划分在高分中
-        showText: true, // 是否显示辅助文字
-        textColor: '#1F2D3D', // 辅助文字颜色
-        texts: ['一般', '常用', '频繁'], // 辅助文字数组
-        colors: ['#99A9BF', '#F7BA2A', '#FF0000'] // 颜色
-      },
       create_date: '', // 创建日期
       public_date: '', // 发布日期
       formData: {
