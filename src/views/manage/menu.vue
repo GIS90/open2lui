@@ -23,6 +23,7 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        v-loading="tableLoading"
         style="width: 100%;margin-bottom: 20px;"
         :data="tableData"
         :row-key="tableAttrs.rowKey"
@@ -155,6 +156,7 @@ export default {
         inactiveColor: '#13ce66' // 关闭时的背景色
       },
       // table attributes
+      tableLoading: false,
       tableAttrs: {
         rowKey: 'id',
         stripe: true, // 是否为斑马纹 true/false
@@ -201,6 +203,8 @@ export default {
   mounted() {},
   methods: {
     getTableList(type) { // 请求后台API初始化表格数据
+      // table loading
+      this.tableLoading = true
       // 初始化选择参数
       this.oprSelectRtx = ''
       // 禁用按钮/INPUT/SELECT
@@ -234,6 +238,7 @@ export default {
           reject(error)
         }).finally(() => {
           this.btnDisabled = false
+          this.tableLoading = false
         })
       })
     },

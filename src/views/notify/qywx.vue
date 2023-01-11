@@ -36,6 +36,7 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        v-loading="tableLoading"
         style="width: 100%"
         :data="tableData"
         :size="tableAttrs.size"
@@ -161,6 +162,7 @@ export default {
       tipDialogStatus: false, // 操作说明tip
       uploadDialogStatus: false, // 文件上传dialog
       // table attributes
+      tableLoading: false,
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
         border: true, // 是否带有纵向边框 true/false
@@ -262,6 +264,8 @@ export default {
     setTableRowStyle() { // table row style
     },
     getTableList(type) { // get source list data
+      // table loading
+      this.tableLoading = true
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -299,6 +303,7 @@ export default {
           reject(error)
         }).finally(() => {
           this.btnDisabled = false
+          this.tableLoading = false
         })
       })
     },

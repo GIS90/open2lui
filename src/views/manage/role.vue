@@ -24,6 +24,7 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        v-loading="tableLoading"
         style="width: 100%"
         :data="tableData"
         :row-key="tableAttrs.rowKey"
@@ -141,6 +142,7 @@ export default {
         circle: true // 是否为圆形按钮
       },
       // table attributes
+      tableLoading: false,
       tableAttrs: {
         rowKey: 'md5-id',
         stripe: true, // 是否为斑马纹 true/false
@@ -198,6 +200,8 @@ export default {
   mounted() {},
   methods: {
     getTableList(type) { // 获取role list数据
+      // table loading
+      this.tableLoading = true
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -236,6 +240,7 @@ export default {
           reject(error)
         }).finally(() => {
           this.btnDisabled = false
+          this.tableLoading = false
         })
       })
     },

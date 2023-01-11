@@ -24,6 +24,7 @@
     <div id="data-container" class="table-sty">
       <el-table
         ref="multipleTableRef"
+        v-loading="tableLoading"
         style="width: 100%"
         :data="tableData"
         :row-key="tableAttrs.rowKey"
@@ -152,6 +153,7 @@ export default {
         fit: 'cover' // 当展示类型为图片的时候，设置图片如何适应容器框fill / contain / cover / none / scale-down
       },
       // table attributes
+      tableLoading: false,
       tableAttrs: {
         rowKey: 'md5-id',
         stripe: true, // 是否为斑马纹 true/false
@@ -209,6 +211,8 @@ export default {
   mounted() {},
   methods: {
     getTableList(type) { // 请求后台API初始化表格数据
+      // table loading
+      this.tableLoading = true
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -246,6 +250,7 @@ export default {
           reject(error)
         }).finally(() => {
           this.btnDisabled = false
+          this.tableLoading = false
         })
       })
     },

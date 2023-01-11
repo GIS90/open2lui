@@ -48,6 +48,7 @@
       <div id="data-container" class="table-sty">
         <el-table
           ref="multipleTableRef"
+          v-loading="tableLoading"
           :data="tableData"
           :size="tableAttrs.size"
           :fit="tableAttrs.fit"
@@ -184,6 +185,7 @@ export default {
         circle: false // 是否为圆形按钮
       },
       // table attributes
+      tableLoading: false,
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
         border: false, // 是否带有纵向边框 true/false
@@ -250,6 +252,9 @@ export default {
       this.fullScreenStatus = !this.fullScreenStatus
     },
     getTableList() {
+      // table loading
+      this.tableLoading = true
+      this.btnDisabled = true
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
@@ -269,6 +274,9 @@ export default {
           resolve(response)
         }).catch(error => {
           reject(error)
+        }).finally(() => {
+          this.tableLoading = false
+          this.btnDisabled = false
         })
       })
     },
