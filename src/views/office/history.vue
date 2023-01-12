@@ -263,7 +263,7 @@ export default {
             this.pageTotal = data.total
           }
           // 手动刷新提示
-          if (type === 2 && status_id === 100) {
+          if ([2, 3].includes(type) && status_id === 100) {
             this.$notify({
               title: '消息', // 标题
               type: 'success', // 类型：success/warning/info/error
@@ -404,12 +404,14 @@ export default {
     showSearch() {
       this.searchStatus = !this.searchStatus
     },
-    filterResultList(data) { // 高级筛选参数赋值 && 刷新
+    filterResultList(data, isRefresh) { // 高级筛选参数赋值 && 刷新
       this.dataFilter.name = data.name
       this.dataFilter.type = data.typeList
       this.dataFilter.start_time = data.startTime
       this.dataFilter.end_time = data.endTime
-      this.getTableData(3)
+      if (isRefresh) {
+        this.getTableData(3)
+      }
     }
   }
 }

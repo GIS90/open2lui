@@ -180,7 +180,7 @@ export default {
         'endTime': this.dataFilter.date[1] ? this.dataFilter.date[1] + ' 23:59:59' : '',
         'typeList': this.dataFilter.typeList || []
       }
-      this.$emit('filter-result-list', data)
+      this.$emit('filter-result-list', data, true)
     },
     clearQuery() {
       this.dataFilter.name = ''
@@ -195,6 +195,13 @@ export default {
         position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
         showClose: false // 是否显示关闭按钮
       })
+      const data = {
+        'name': '',
+        'startTime': '',
+        'endTime': '',
+        'typeList': []
+      }
+      this.$emit('filter-result-list', data, true)
     }
   }
 }

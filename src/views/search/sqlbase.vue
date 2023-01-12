@@ -446,12 +446,11 @@ export default {
     showSearch() {
       this.searchStatus = !this.searchStatus
     },
-    filterSearchResult(data) { // 更新高级查询条件
+    filterSearchResult(data, isRefresh) { // 更新高级查询条件
       this.searchForm = data
-      this.getTableList(3)
-    },
-    search() { // 筛选搜索
-
+      if (isRefresh) {
+        this.getTableList(3)
+      }
     }
   }
 }

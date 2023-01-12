@@ -297,7 +297,7 @@ export default {
       this.formData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
       this.formData.public_time_start = this.public_date[0] ? this.public_date[0] + ' 00:00:00' : ''
       this.formData.public_time_end = this.public_date[1] ? this.public_date[1] + ' 23:59:59' : ''
-      this.$emit('filter-search-result', this.formData)
+      this.$emit('filter-search-result', this.formData, true)
     },
     clearQuery() {
       this.create_date = ''
@@ -322,6 +322,7 @@ export default {
         position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
         showClose: false // 是否显示关闭按钮
       })
+      this.$emit('filter-search-result', this.formData, true)
     }
   },
   setup: {}
