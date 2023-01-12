@@ -225,6 +225,7 @@ export default {
         endPlaceholder: '结束日期', // 范围选择时结束日期的占位内容
         format: 'yyyy 年 MM 月 dd 日', // 显示在输入框中的格式
         valueFormat: 'yyyy-MM-dd', // 绑定值的格式
+        defaultTime: "['00:00:00', '23:59:59']", // 日期默认时间
         align: 'center', // 对齐方式string：left, center, right
         prefixIcon: 'el-icon-date' // 自定义头部图标的类名
       },
@@ -292,10 +293,10 @@ export default {
       }
     },
     filterQuery() { // 回调给history进行高级搜索
-      this.formData.create_time_start = this.create_date[0] || ''
-      this.formData.create_time_end = this.create_date[1] || ''
-      this.formData.public_time_start = this.public_date[0] || ''
-      this.formData.public_time_end = this.public_date[1] || ''
+      this.formData.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
+      this.formData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
+      this.formData.public_time_start = this.public_date[0] ? this.public_date[0] + ' 00:00:00' : ''
+      this.formData.public_time_end = this.public_date[1] ? this.public_date[1] + ' 23:59:59' : ''
       this.$emit('filter-search-result', this.formData)
     },
     clearQuery() {

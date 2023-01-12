@@ -40,7 +40,7 @@
             <el-form-item label="作者" prop="author">
               <el-select
                 v-model.trim="formData.author"
-                style="width: 90%"
+                style="width: 95%"
                 :size="selectAttrs.size"
                 :placeholder="selectAttrs.placeholder"
                 :disabled="disabled"
@@ -68,6 +68,7 @@
             <el-form-item label="发布时间" prop="time">
               <el-date-picker
                 v-model="formData.time"
+                style="width: 95%"
                 :type="timeAttrs.type"
                 :format="timeAttrs.format"
                 :placeholder="timeAttrs.placeholder"
@@ -78,7 +79,6 @@
                 :size="timeAttrs.size"
                 :picker-options="timeAttrs.pickerOptions"
                 :disabled="disabled"
-                style="width: 90%"
               />
             </el-form-item>
           </el-col>

@@ -40,7 +40,7 @@
             <el-form-item label="作者" prop="author">
               <el-select
                 v-model.trim="formData.author"
-                style="width: 90%"
+                style="width: 95%"
                 :size="selectAttrs.size"
                 :placeholder="selectAttrs.placeholder"
                 :disabled="disabled"
@@ -68,6 +68,7 @@
             <el-form-item label="发布时间" prop="time">
               <el-date-picker
                 v-model="formData.time"
+                style="width: 95%"
                 :type="timeAttrs.type"
                 :format="timeAttrs.format"
                 :placeholder="timeAttrs.placeholder"
@@ -78,7 +79,6 @@
                 :size="timeAttrs.size"
                 :picker-options="timeAttrs.pickerOptions"
                 :disabled="disabled"
-                style="width: 90%"
               />
             </el-form-item>
           </el-col>
@@ -486,6 +486,21 @@ export default {
       if (this.editor == null) return
       this.editor.destroy() // 组件销毁时，及时销毁编辑器
     },
+    filterTime(time) {
+      const date = new Date(time)
+      const year = date.getFullYear()
+      let month = date.getMonth() + 1
+      month = month < 10 ? '0' + month : month
+      let day = date.getDate()
+      day = day < 10 ? '0' + day : day
+      let hour = date.getHours()
+      hour = hour < 10 ? '0' + hour : hour
+      let minute = date.getMinutes()
+      minute = minute < 10 ? '0' + minute : minute
+      let second = date.getSeconds()
+      second = second < 10 ? '0' + second : second
+      return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second
+    },
     submit() { // 提交
       this.$refs.formData.validate(valid => {
         if (valid) {
@@ -507,7 +522,7 @@ export default {
             'recommend': this.formData.recommend,
             'summary': '',
             'label': '',
-            'public_time': this.formData.time,
+            'public_time': this.filterTime(this.formData.time),
             'html': this.formData.html,
             'text': this.formData.text,
             'md5': this.rowMd5
