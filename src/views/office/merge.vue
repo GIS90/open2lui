@@ -207,7 +207,7 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      this.getTableData()
+      this.getTableData(1)
     })
   },
   mounted() {},
@@ -315,14 +315,17 @@ export default {
       }
     },
     getTableData(type) { // get excel source list data
-      // table loading
-      this.tableLoading = true
+      // type: 1-初始化，2-手动刷新，3-高级查询
+      if (type) {
+        // table loading
+        this.tableLoading = true
+        // 禁用按钮/INPUT/SELECT
+        this.btnDisabled = true
+      }
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
       this.oprSelectData = {}
-      // 禁用按钮/INPUT/SELECT
-      this.btnDisabled = true
 
       // list列表参数
       const data = {

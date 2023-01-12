@@ -203,20 +203,23 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      this.getTableList()
+      this.getTableList(1)
     })
   },
   mounted() {},
   methods: {
     getTableList(type) { // 请求后台API初始化表格数据
-      // table loading
-      this.tableLoading = true
+      // type: 1-初始化，2-手动刷新，3-高级查询
+      if (type) {
+        // table loading
+        this.tableLoading = true
+        // 禁用按钮/INPUT/SELECT
+        this.btnDisabled = true
+      }
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
       this.oprSelectMd5 = ''
-      // 禁用按钮/INPUT/SELECT
-      this.btnDisabled = true
 
       // list列表参数
       const data = {

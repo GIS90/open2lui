@@ -242,7 +242,7 @@ export default {
     openDialog() { // 初始化操作，获取最新数据
       // 初始化非全屏
       this.fullScreenStatus = false
-      this.getTableList()
+      this.getTableList(1)
     },
     closeDialog() { // 关闭dg
       this.$emit('close-robot-dg', false)
@@ -250,10 +250,14 @@ export default {
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    getTableList() {
-      // table loading
-      this.tableLoading = true
-      this.btnDisabled = true
+    getTableList(type) {
+      // type: 1-初始化，2-手动刷新，3-高级查询
+      if (type) {
+        // table loading
+        this.tableLoading = true
+        // 禁用按钮/INPUT/SELECT
+        this.btnDisabled = true
+      }
       // 初始化选择参数
       this.selectAllStatus = false
       this.selectList = []
