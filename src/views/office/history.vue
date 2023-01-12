@@ -9,6 +9,9 @@
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
+      <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
+        <svg-icon :icon-class="searchIcon" />  {{ searchBtnText }}
+      </el-button>
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
@@ -18,8 +21,8 @@
     </el-row>
 
     <!-- 高级筛选-->
-    <div class="table-sty">
-      <excel-history-filter @filter-result-list="filterResultList" />
+    <div v-if="searchStatus" class="searchBox">
+      <excel-history-filter :disabled="btnDisabled" @filter-result-list="filterResultList" />
     </div>
 
     <!--Table表格-->
@@ -191,11 +194,15 @@ export default {
       setDialogStatus: false, // 设置dialog状态
       deleteSource: 'office-excel-result', // delete source
       deleteConfirm: false, // 删除确认dialog状态
+      searchType: 'primary', // search button type: primary, success, default is primary
+      searchIcon: 'i-double-arrow-down', // search button icon
+      searchBtnText: '展开查询', // search button text
+      searchStatus: false, // 是否展开查询条件
       dataFilter: { // 高级筛选
         name: '', // 名称
-        typeList: [], // 文件类别选择的类型
-        startTime: '', // 开始日期
-        endTime: '' // 结束日期
+        type: [], // 文件类别选择的类型
+        start_time: '', // 开始日期
+        end_time: '' // 结束日期
       }
     }
   },
@@ -206,6 +213,17 @@ export default {
         this.selBtnText = '取消'
       } else {
         this.selBtnText = '全选'
+      }
+    },
+    searchStatus(newVal, oldVal) { // watch is or not show search if
+      if (newVal) {
+        this.searchBtnText = '关闭查询'
+        this.searchType = 'success'
+        this.searchIcon = 'i-double-arrow-up'
+      } else {
+        this.searchBtnText = '展开查询'
+        this.searchType = 'primary'
+        this.searchIcon = 'i-double-arrow-down'
       }
     }
   },
@@ -232,12 +250,9 @@ export default {
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
-        'name': this.dataFilter.name || '',
-        'type': this.dataFilter.typeList || [],
-        'start_time': this.dataFilter.startTime || '',
-        'end_time': this.dataFilter.endTime || '',
         'limit': this.pageSize || 15,
-        'offset': (this.pageCur - 1) * this.pageSize || 0
+        'offset': (this.pageCur - 1) * this.pageSize || 0,
+        ...this.dataFilter
       }
 
       return new Promise((resolve, reject) => {
@@ -386,11 +401,14 @@ export default {
       }
       this.deleteConfirm = true
     },
+    showSearch() {
+      this.searchStatus = !this.searchStatus
+    },
     filterResultList(data) { // 高级筛选参数赋值 && 刷新
       this.dataFilter.name = data.name
-      this.dataFilter.typeList = data.typeList
-      this.dataFilter.startTime = data.startTime
-      this.dataFilter.endTime = data.endTime
+      this.dataFilter.type = data.typeList
+      this.dataFilter.start_time = data.startTime
+      this.dataFilter.end_time = data.endTime
       this.getTableData(3)
     }
   }
@@ -412,5 +430,9 @@ export default {
 
 .el-table .row-split {
   background: #f0f9eb;
+}
+
+.searchBox{
+  margin-top: 20px;
 }
 </style>
