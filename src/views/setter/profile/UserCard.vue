@@ -70,6 +70,7 @@ export default {
       type: Object,
       default: () => {
         return {
+          rtx_id: '',
           name: '',
           email: '',
           phone: '',
