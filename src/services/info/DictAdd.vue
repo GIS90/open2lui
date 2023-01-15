@@ -117,8 +117,8 @@ import { InfoDictAdd } from '@/api/info'
 const validateName = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入枚举RTX'))
-  } else if (value.length > 25) {
-    callback(new Error('枚举RTX最大长度为25'))
+  } else if (value.length > 35) {
+    callback(new Error('枚举RTX最大长度为35'))
   } else {
     callback()
   }
@@ -127,8 +127,8 @@ const validateName = (rule, value, callback) => {
 const validateKey = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入枚举Key'))
-  } else if (value.length > 25) {
-    callback(new Error('枚举Key最大长度为25'))
+  } else if (value.length > 55) {
+    callback(new Error('枚举Key最大长度为55'))
   } else {
     callback()
   }
@@ -225,9 +225,9 @@ export default {
         order_id: 1 // undefined
       },
       formDataLimit: {
-        name: '25',
-        key: '25',
-        value: '25',
+        name: '35',
+        key: '55',
+        value: '55',
         description: '255'
       },
       formDataRules: {
