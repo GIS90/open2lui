@@ -314,3 +314,12 @@ export function notifyQywxSendTemp(data) {
     data
   })
 }
+
+// 消息qywx撤销
+export function notifyQywxSendBack(data) {
+  return request({
+    url: '/notify/qywx_sendback',
+    method: 'post',
+    data
+  })
+}

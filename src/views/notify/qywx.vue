@@ -65,7 +65,7 @@
         <el-table-column prop="count" label="发送次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="last_send_time" label="最新发送时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="创建人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
-        <el-table-column fixed="right" label="操作" min-width="360" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
+        <el-table-column fixed="right" label="操作" min-width="420" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -83,6 +83,11 @@
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="定时发送" placement="top">
               <i class="el-icon-setting" style="color: red" @click="rowHandleCron(scope.$index, scope.row)" />
             </el-tooltip>
+            <span v-if="scope.row.msg_id">
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="只允许撤销24小时之内发送的消息" placement="top">
+                <i class="el-icon-phone-outline" @click="rowHandleSendBack(scope.$index, scope.row)" />
+              </el-tooltip>
+            </span>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
             </el-tooltip>
@@ -112,6 +117,9 @@
     <!-- 临时发送 -->
     <qywx-send-temp :show="sendTempDialogStatus" @close-send-temp-dg="closeSendTempDialog" />
 
+    <!-- 撤销发送 -->
+    <qywx-send-back :show="sendBackDialogStatus" :row-md5="oprSelectRowMd5" @close-send-back-dg="closeSendBackDialog" />
+
   </div>
 </template>
 
@@ -122,6 +130,7 @@ import QywxAdd from '@/services/notify/QywxAdd'
 import QywxSet from '@/services/notify/QywxSet'
 import QywxSend from '@/services/notify/QywxSend'
 import QywxSendTemp from '@/services/notify/QywxSendTemp'
+import QywxSendBack from '@/services/notify/QywxSendBack'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
@@ -133,6 +142,7 @@ export default {
     'qywx-set': QywxSet,
     'qywx-send': QywxSend,
     'qywx-send-temp': QywxSendTemp,
+    'qywx-send-back': QywxSendBack,
     'qywx-robot': QywxRobot,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination
@@ -200,7 +210,8 @@ export default {
       sendTempDialogStatus: false, // send-temp-dialog状态(临时)
       deleteSource: 'notify-qywx', // delete source
       deleteConfirm: false, // 删除确认dialog状态
-      robotDialogStatus: false // Robot配置dg状态
+      robotDialogStatus: false, // Robot配置dg状态
+      sendBackDialogStatus: false // 撤销消息对话框状态
     }
   },
   computed: {},
@@ -417,6 +428,18 @@ export default {
     },
     closeSendTempDialog() { // 关闭临时发送dg
       this.sendTempDialogStatus = false
+    },
+    rowHandleSendBack(index, row) { // 打开撤销消息
+      if (row?.md5_id) {
+        this.oprSelectRowMd5 = row.md5_id
+        this.sendBackDialogStatus = true
+      }
+    },
+    closeSendBackDialog(isRefresh) { // 关闭撤销消息
+      this.sendBackDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     }
   },
   setup: {}
