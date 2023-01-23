@@ -16,7 +16,8 @@
     :center="dialogAttrs.center"
     @close="cancel"
   >
-    <span>确认要撤销已发送的消息吗？</span>
+    <h3>确认要撤销已发送的消息吗？</h3>
+    <div style="color: red;margin-top: 30px;">只允许撤销24小时内发送的消息</div>
     <span slot="footer" class="dialog-footer">
       <el-button :disabled="btnDisabled" @click="cancel">取 消</el-button>
       <el-button :disabled="btnDisabled" :loading="btnLoading" type="primary" @click="confirm">确 定</el-button>
