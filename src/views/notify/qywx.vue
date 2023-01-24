@@ -15,9 +15,11 @@
       <el-button id="btn-robot" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openRobotDialog">
         <svg-icon icon-class="i_robot" />  Robot配置
       </el-button>
-      <el-button id="btn-temp" type="warning" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="tempSendDialog">
-        <svg-icon icon-class="i_notify" />  临时通知
-      </el-button>
+      <el-tooltip effect="dark" content="临时消息通知无记录查询，请谨慎操作！" placement="top">
+        <el-button id="btn-temp" type="warning" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="tempSendDialog">
+          <svg-icon icon-class="i_notify" />  临时通知
+        </el-button>
+      </el-tooltip>
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
