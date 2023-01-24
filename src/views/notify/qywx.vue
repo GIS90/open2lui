@@ -84,7 +84,7 @@
               <i class="el-icon-setting" style="color: red" @click="rowHandleCron(scope.$index, scope.row)" />
             </el-tooltip>
             <span v-if="scope.row.msg_id">
-              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="只允许撤销24小时内发送的消息" placement="top">
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="撤销" placement="top">
                 <i class="el-icon-phone-outline" @click="rowHandleSendBack(scope.$index, scope.row)" />
               </el-tooltip>
             </span>
