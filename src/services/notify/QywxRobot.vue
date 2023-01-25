@@ -419,11 +419,11 @@ export default {
             })
             this.getTableList()
           }
-          this.btnDisabled = false
           resolve(response)
         }).catch(error => {
-          this.btnDisabled = false
           reject(error)
+        }).finally(() => {
+          this.btnDisabled = false
         })
       })
     },
@@ -446,11 +446,11 @@ export default {
               duration: 2.0 * 1000
             })
           }
-          this.btnDisabled = false
           resolve(response)
         }).catch(error => {
-          this.btnDisabled = false
           reject(error)
+        }).finally(() => {
+          this.btnDisabled = false
         })
       })
     }

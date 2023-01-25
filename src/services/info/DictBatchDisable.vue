@@ -105,8 +105,10 @@ export default {
         }).catch(error => {
           reject(error)
         }).finally(() => {
+          // 重置按钮状态
           this.btnDisabled = false
           this.btnLoading = false
+          // 关闭dg
           this.$emit('close-disable', true)
         })
       })

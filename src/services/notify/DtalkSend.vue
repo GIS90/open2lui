@@ -247,9 +247,11 @@ export default {
       })
       return new Promise((resolve, reject) => {
         notifyDtalkSend(data).then(response => {
-          // 关闭loading
+          // 关闭disabled
           this.disabled = false
+          // 关闭loading
           loading.close()
+
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -261,11 +263,13 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          // 关闭loading
+          // 关闭disabled
           this.disabled = false
+          // 关闭loading
           loading.close()
+
           reject(error)
-        })
+        }).finally(() => {})
       })
     }
   }

@@ -101,15 +101,15 @@ export default {
               duration: 2.0 * 1000
             })
           }
-          this.btnDisabled = false
-          this.btnLoading = false
-          this.$emit('close-delete-dialog', true)
           resolve(response)
         }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
           this.btnDisabled = false
           this.btnLoading = false
+          // 关闭dg
           this.$emit('close-delete-dialog', true)
-          reject(error)
         })
       })
     }
