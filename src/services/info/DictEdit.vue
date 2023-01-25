@@ -55,7 +55,7 @@
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
             :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
+            disabled
           />
         </el-form-item>
         <el-form-item label="枚举Value" prop="value">
@@ -310,7 +310,7 @@ export default {
           const data = {
             'rtx_id': store.getters.rtx_id,
             'md5': this.md5,
-            'key': this.formData.key,
+            // 'key': this.formData.key, // 禁用key更新
             'value': this.formData.value,
             'status': this.formData.status,
             'order_id': this.formData.order_id,
