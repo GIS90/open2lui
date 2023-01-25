@@ -9,6 +9,15 @@ export function searchSqlbaseAdd(data) {
   })
 }
 
+// search > Sqlbase add init
+export function searchSqlbaseAddInit(data) {
+  return request({
+    url: '/search/sqlbase_add_init',
+    method: 'post',
+    data
+  })
+}
+
 // search > Sqlbase list
 export function searchSqlbaseList(data) {
   return request({

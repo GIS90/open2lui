@@ -42,11 +42,10 @@
                 v-model.trim="formData.author"
                 style="width: 95%"
                 :size="selectAttrs.size"
-                :placeholder="selectAttrs.placeholder"
+                placeholder="请选择作者"
                 :disabled="disabled"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
-                :multiple-limit="formDataLimit.author"
                 :clearable="selectAttrs.clearable"
                 :no-data-text="selectAttrs.noDataText"
                 :collapse-tags="selectAttrs.collapseTags"
@@ -102,6 +101,35 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <!-- 摘要：数据库类型 -->
+          <el-col :span="8">
+            <el-form-item label="数据库" prop="database">
+              <el-select
+                v-model.trim="formData.database"
+                style="width: 95%"
+                :size="selectAttrs.size"
+                placeholder="请选择数据库类型"
+                :disabled="disabled"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+              >
+                <el-option
+                  v-for="(item, index) in dataBaseList"
+                  :key="index"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <span class="select-opt-left">{{ item.value }}</span>
+                  <span class="select-opt-right">{{ item.key }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 标题 -->
         <el-row>
           <el-form-item label="标题" prop="title">
@@ -152,7 +180,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="info" @click.native.prevent="submit(2)">存草稿箱</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="info" @click.native.prevent="submit(1)">存草稿箱</el-button>
           <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit(1)">发布</el-button>
         </span>
       </template>
@@ -167,8 +195,7 @@
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { getToken } from '@/utils/auth'
 import store from '@/store'
-import { getUserKVList } from '@/api/manage'
-import { searchSqlbaseAdd } from '@/api/search'
+import { searchSqlbaseAdd, searchSqlbaseAddInit } from '@/api/search'
 
 const validateRecommend = (rule, value, callback) => {
   if (value === 0) {
@@ -373,7 +400,8 @@ export default {
         text: '', // text内容
         author: '', // 作者，默认当前登录人
         time: '', // 时间
-        recommend: 0 // 推荐度
+        recommend: 0, // 推荐度
+        database: '' // 数据库类型
       },
       formDataLimit: {
         title: 55 // 标题
@@ -391,10 +419,18 @@ export default {
         ],
         recommend: [
           { validator: validateRecommend, trigger: 'change' }
+        ],
+        database: [
+          { required: true, message: '请选择数据库类型', trigger: ['blur', 'change'] }
         ]
       },
       userList: [
         { key: store.getters.rtx_id, value: store.getters.rtx_id } // 默认当前用户
+      ],
+      // 默认数据库列表
+      dataBaseList: [
+        { key: 'Oracle', value: 'Oracle' },
+        { key: 'DB2', value: 'DB2' }
       ]
     }
   },
@@ -423,8 +459,9 @@ export default {
       this.formData.author = store.getters.rtx_id
       this.formData.time = new Date() // 默认当前时间
       this.formData.recommend = 0
+      this.formData.database = ''
       this.$nextTick(() => {
-        this.getUserList()
+        this.getEnumList()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
@@ -437,15 +474,16 @@ export default {
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    getUserList() {
+    getEnumList() {
       const data = {
         'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        getUserKVList(data).then(response => {
+        searchSqlbaseAddInit(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.userList = data.list
+            this.userList = data.user
+            this.dataBaseList = data.database
           }
           resolve(response)
         }).catch(error => {
@@ -513,6 +551,7 @@ export default {
             'title': this.formData.title,
             'author': this.formData.author,
             'recommend': this.formData.recommend,
+            'database': this.formData.database,
             'summary': '',
             'label': '',
             'public': type === 1,

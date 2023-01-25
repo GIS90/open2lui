@@ -101,6 +101,35 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <!-- 摘要：数据库类型 -->
+          <el-col :span="8">
+            <el-form-item label="数据库" prop="database">
+              <el-select
+                v-model.trim="formData.database"
+                style="width: 95%"
+                :size="selectAttrs.size"
+                placeholder="请选择数据库类型"
+                :disabled="disabled"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+              >
+                <el-option
+                  v-for="(item, index) in dataBaseList"
+                  :key="index"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <span class="select-opt-left">{{ item.value }}</span>
+                  <span class="select-opt-right">{{ item.key }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 标题 -->
         <el-row>
           <el-form-item label="标题" prop="title">
@@ -350,13 +379,19 @@ export default {
         text: '', // text内容
         author: '', // 作者，默认当前登录人
         time: '', // 时间
-        recommend: 0 // 推荐度
+        recommend: 0, // 推荐度
+        database: '' // 数据库类型
       },
       formDataLimit: {
         title: 55 // 标题
       },
       userList: [
         { key: store.getters.rtx_id, value: store.getters.rtx_id } // 默认当前用户
+      ],
+      // 默认数据库列表
+      dataBaseList: [
+        { key: 'Oracle', value: 'Oracle' },
+        { key: 'DB2', value: 'DB2' }
       ]
     }
   },
@@ -414,8 +449,11 @@ export default {
             this.formData.author = data.detail.author
             this.formData.time = data.detail.public_time
             this.formData.recommend = data.detail.recommend
+            this.formData.database = data.detail.database
             // user list
             this.userList = data.user
+            // database type list
+            this.dataBaseList = data.database
           } else {
             this.$emit('close-set-dg', false)
           }
