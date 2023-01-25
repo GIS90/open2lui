@@ -24,7 +24,7 @@
     </el-row>
     <!--Search查询条件区域-->
     <div v-if="searchStatus" class="searchBox">
-      <sql-base-filter :user-list="userList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+      <sql-base-filter :user-list="userList" :data-base-list="dataBaseList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
     </div>
 
     <!--Table表格-->
@@ -227,12 +227,14 @@ export default {
         public_time_start: '', // 起始发布时间
         public_time_end: '', // 结束发布时间
         recommend: [], // 推荐度
+        database: [], // 数据库类型
         label: [], // 标签
         content: '', // 内容
         count_start: '', // 浏览次数上限
         count_end: '' // 浏览次数下限
       },
-      userList: [] // user list
+      userList: [], // user list
+      dataBaseList: [] // database list
     }
   },
   computed: {},
@@ -335,6 +337,7 @@ export default {
             this.tableData = data.list
             this.pageTotal = data.total
             this.userList = data.user
+            this.dataBaseList = data.database
           }
           // 手动刷新提示
           if ([2, 3].includes(type) && status_id === 100) {

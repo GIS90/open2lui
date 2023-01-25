@@ -152,6 +152,34 @@
           </el-select>
         </el-form-item>
       </el-col>
+      <!--数据库-->
+      <el-col :span="12">
+        <el-form-item label="数据库">
+          <el-select
+            v-model.trim="formData.database"
+            style="width: 100%"
+            :size="selectAttrs.size"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+            placeholder="请选择数据库类型"
+          >
+            <el-option
+              v-for="(item, index) in dataBaseList"
+              :key="index"
+              :label="item.value"
+              :value="item.key"
+            >
+              <span class="select-opt-left">{{ item.value }}</span>
+              <span class="select-opt-right">{{ item.key }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
     </el-row>
     <!--查询-->
     <el-row>
@@ -171,6 +199,11 @@ export default {
   components: {},
   emits: ['filter-search-result'],
   props: {
+    dataBaseList: {
+      type: Array,
+      require: true,
+      default: () => []
+    },
     userList: {
       type: Array,
       require: true,
@@ -240,6 +273,7 @@ export default {
         public_time_start: '', // 起始发布时间
         public_time_end: '', // 结束发布时间
         recommend: [], // 推荐度
+        database: [], // 数据库类型
         label: [], // 标签
         content: '', // 内容
         count_start: '', // 浏览次数上限
@@ -309,6 +343,7 @@ export default {
       this.formData.public_time_start = ''
       this.formData.public_time_end = ''
       this.formData.recommend = []
+      this.formData.database = []
       this.formData.label = []
       this.formData.content = ''
       this.formData.count_start = ''
