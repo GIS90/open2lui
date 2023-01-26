@@ -117,15 +117,7 @@
                 :no-data-text="selectAttrs.noDataText"
                 :collapse-tags="selectAttrs.collapseTags"
               >
-                <el-option
-                  v-for="(item, index) in dataBaseList"
-                  :key="index"
-                  :label="item.value"
-                  :value="item.key"
-                >
-                  <span class="select-opt-left">{{ item.value }}</span>
-                  <span class="select-opt-right">{{ item.key }}</span>
-                </el-option>
+                <el-option v-for="(item, index) in dataBaseList" :key="index" :label="item.value" :value="item.key" />
               </el-select>
             </el-form-item>
           </el-col>

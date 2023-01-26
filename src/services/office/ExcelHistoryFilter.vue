@@ -33,10 +33,7 @@
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
           >
-            <el-option v-for="item in selectTypeData" :key="item.value" :label="item.label" :value="item.value">
-              <span style="float: left">{{ item.label }}</span>
-              <span style="float: right; color: #8492a6;">{{ item.value }}</span>
-            </el-option>
+            <el-option v-for="item in selectTypeData" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
       </el-col>

@@ -168,15 +168,7 @@
             :collapse-tags="selectAttrs.collapseTags"
             placeholder="请选择数据库类型"
           >
-            <el-option
-              v-for="(item, index) in dataBaseList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
+            <el-option v-for="(item, index) in dataBaseList" :key="index" :label="item.value" :value="item.key" />
           </el-select>
         </el-form-item>
       </el-col>
