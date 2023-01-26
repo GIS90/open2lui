@@ -75,6 +75,7 @@
             />
           </template>
         </el-table-column>
+        <el-table-column prop="database_value" label="数据库" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="text" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="count" label="浏览次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" min-width="260" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
