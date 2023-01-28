@@ -81,7 +81,9 @@ export default {
     }
   },
   created() {
-    this.getTimeLineList()
+    this.$nextTick(() => {
+      this.getTimeLineList()
+    })
   },
   methods: {
     getTimeLineList() {
