@@ -117,7 +117,9 @@
                 :no-data-text="selectAttrs.noDataText"
                 :collapse-tags="selectAttrs.collapseTags"
               >
-                <el-option v-for="(item, index) in dataBaseList" :key="index" :label="item.value" :value="item.key" />
+                <el-option-group v-for="group in dataBaseList" :key="group.label" :label="group.label">
+                  <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value" />
+                </el-option-group>
               </el-select>
             </el-form-item>
           </el-col>
