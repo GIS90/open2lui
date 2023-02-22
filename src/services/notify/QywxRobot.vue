@@ -264,7 +264,9 @@ export default {
       this.selectList = []
 
       const data = {
-        'rtx_id': store.getters.rtx_id
+        'rtx_id': store.getters.rtx_id,
+        'limit': this.pageSize || 15,
+        'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
         notifyQywxRobotList(data).then(response => {
