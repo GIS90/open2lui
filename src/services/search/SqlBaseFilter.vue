@@ -157,18 +157,19 @@
         <el-form-item label="数据库">
           <el-select
             v-model.trim="formData.database"
-            style="width: 100%"
+            style="width: 95%"
             :size="selectAttrs.size"
+            placeholder="请选择数据库类型"
             :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
-            placeholder="请选择数据库类型"
           >
-            <el-option v-for="(item, index) in dataBaseList" :key="index" :label="item.value" :value="item.key" />
+            <el-option-group v-for="group in dataBaseList" :key="group.label" :label="group.label">
+              <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value" />
+            </el-option-group>
           </el-select>
         </el-form-item>
       </el-col>
