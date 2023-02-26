@@ -80,7 +80,7 @@
           <el-input
             v-model.trim="formData.user"
             type="textarea"
-            placeholder="用户列表，多个用户用英文;分割"
+            placeholder="用户列表，多个用户用英文;分割，最多支持1000人"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
             :maxlength="formDataLimit.user"
