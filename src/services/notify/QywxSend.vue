@@ -46,20 +46,6 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="消息内容" prop="content">
-          <el-input
-            v-model.trim="formData.content"
-            type="textarea"
-            placeholder="请输入消息内容"
-            :rows="textAreaAttrs.rows"
-            :autosize="textAreaAttrs.autoSize"
-            :maxlength="formDataLimit.content"
-            :clearable="textAreaAttrs.clear"
-            :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
         <el-form-item label="消息类型" prop="type">
           <el-select
             v-model="formData.type"
@@ -75,6 +61,20 @@
           >
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="消息内容" prop="content">
+          <el-input
+            v-model.trim="formData.content"
+            type="textarea"
+            placeholder="请输入消息内容"
+            :rows="textAreaAttrs.rows"
+            :autosize="textAreaAttrs.autoSize"
+            :maxlength="formDataLimit.content"
+            :clearable="textAreaAttrs.clear"
+            :show-word-limit="textAreaAttrs.limit"
+            :prefix-icon="textAreaAttrs.prefixIcon"
+            :disabled="disabled"
+          />
         </el-form-item>
         <el-form-item label="用户列表" prop="user">
           <el-input
