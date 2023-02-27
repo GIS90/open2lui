@@ -33,6 +33,34 @@
       </template>
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
+        <!-- 机器人设置 -->
+        <el-divider content-position="left">消息机器人</el-divider>
+        <el-form-item label="Robot选择" prop="robot">
+          <el-select
+            v-model="formData.robot"
+            style="width: 100%"
+            placeholder="请选择消息发送的Robot"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+          >
+            <el-option
+              v-for="(item, index) in formData.robotLists"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            >
+              <span class="select-opt-left">{{ item.label }}</span>
+              <span class="select-opt-right">{{ item.rtx }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <!-- 消息设置 -->
+        <el-divider content-position="left">消息设置</el-divider>
         <el-form-item label="消息标题" prop="title">
           <el-input
             v-model.trim="formData.title"
@@ -165,7 +193,7 @@ export default {
       },
       textAreaAttrs: { // textArea attrs
         rows: 8, // 输入框行数
-        autoSize: false, // 自适应内容高度
+        autoSize: { minRows: 6, maxRows: 12 }, // 自适应内容高度，默认false，只对 type="textarea" 有效，可传入对象，如，{ minRows: 2, maxRows: 6 }
         clear: true, // 可清空的输入框
         length: '80', // 最大输入长度
         limit: true, // 展示字数统计
@@ -187,12 +215,14 @@ export default {
         content: '', // 内容
         user: '', // 接收人列表
         type: '', // 消息类型
-        typeLists: [] // 消息类型列表
+        typeLists: [], // 消息类型列表
+        robot: '', // 消息机器人
+        robotLists: [] // 消息机器人列表
       },
       formDataLimit: {
         title: 55,
         content: 1000,
-        user: 1000
+        user: 10000
       },
       formDataRules: {
         title: [
@@ -205,11 +235,14 @@ export default {
         ],
         user: [
           { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
-          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] },
+          { min: 1, max: 10000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] },
           { required: true, trigger: 'blur', validator: validateUser } // 特殊校验
         ],
         type: [
           { required: true, message: '请选择消息类型', trigger: ['blur', 'change'] }
+        ],
+        robot: [
+          { required: true, message: '请选择消息发送的Robot', trigger: ['blur', 'change'] }
         ]
       }
     }
@@ -260,6 +293,8 @@ export default {
             this.formData.user = data.user
             this.formData.type = data.type
             this.formData.typeLists = data.type_lists
+            this.formData.robot = data.robot
+            this.formData.robotLists = data.robot_lists
           } else {
             this.$emit('close-set-dg', false)
           }
@@ -280,6 +315,7 @@ export default {
             'content': this.formData.content,
             'user': this.formData.user,
             'type': this.formData.type,
+            'robot': this.formData.robot,
             'md5': this.rowMd5
           }
 
