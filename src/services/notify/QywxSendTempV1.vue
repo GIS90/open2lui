@@ -33,34 +33,6 @@
       </template>
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
-        <!-- 机器人设置 -->
-        <el-divider content-position="left">消息机器人</el-divider>
-        <el-form-item label="Robot选择" prop="robot">
-          <el-select
-            v-model="formData.robot"
-            style="width: 100%"
-            placeholder="请选择消息发送的Robot"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-          >
-            <el-option
-              v-for="(item, index) in formData.robotLists"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            >
-              <span class="select-opt-left">{{ item.label }}</span>
-              <span class="select-opt-right">{{ item.rtx }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <!-- 消息设置 -->
-        <el-divider content-position="left">消息设置</el-divider>
         <el-form-item label="消息标题" prop="title">
           <el-input
             v-model.trim="formData.title"
@@ -118,12 +90,28 @@
             :disabled="disabled"
           />
         </el-form-item>
+        <el-form-item label="Robot选择" prop="robot">
+          <el-select
+            v-model="formData.robot"
+            style="width: 100%"
+            placeholder="请选择消息发送的Robot"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+          >
+            <el-option v-for="(item, index) in formData.robotLists" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
       </el-form>
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
-          <el-button :disabled="btnDisabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="btnDisabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
+          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">发送</el-button>
         </span>
       </template>
     </el-dialog>
@@ -132,7 +120,7 @@
 
 <script>
 import store from '@/store'
-import { notifyQywxSendInit, notifyQywxSend } from '@/api/notify'
+import { notifyQywxSendTemp, notifyQywxSendInitTemp } from '@/api/notify'
 
 const validateUser = (rule, value, callback) => {
   if (value.includes('；')) {
@@ -143,8 +131,8 @@ const validateUser = (rule, value, callback) => {
 }
 
 export default {
-  name: 'QywxSend',
-  emits: ['close-send-dg'],
+  name: 'QywxSendTemp',
+  emits: ['close-send-temp-dg'],
   props: {
     show: {
       type: Boolean,
@@ -153,24 +141,18 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
-    },
-    rowMd5: {
-      type: String,
-      require: true,
-      default: ''
     }
   },
   data() {
     return {
       loading: false, // 组件loading，主要用于button
-      disabled: true, // 禁用组件
-      btnDisabled: false, // 按钮禁用组件
+      disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '发送',
+        title: '临时通知',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -194,7 +176,7 @@ export default {
       },
       textAreaAttrs: { // textArea attrs
         rows: 8, // 输入框行数
-        autoSize: { minRows: 6, maxRows: 12 }, // 自适应内容高度，默认false，只对 type="textarea" 有效，可传入对象，如，{ minRows: 2, maxRows: 6 }
+        autoSize: false, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '80', // 最大输入长度
         limit: true, // 展示字数统计
@@ -223,7 +205,7 @@ export default {
       formDataLimit: {
         title: 55,
         content: 1000,
-        user: 10000
+        user: 1000
       },
       formDataRules: {
         title: [
@@ -236,7 +218,7 @@ export default {
         ],
         user: [
           { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
-          { min: 1, max: 10000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] },
+          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] },
           { required: true, trigger: 'blur', validator: validateUser } // 特殊校验
         ],
         type: [
@@ -258,12 +240,12 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    openDialog() {
-      // 初始化操作，获取最新数据
-      if (!this.rowMd5) {
-        this.$emit('close-send-dg', true)
-        return false
-      }
+    openDialog() { // 初始化操作，获取最新数据
+      // 初始化数据为空
+      this.formData.title = ''
+      this.formData.content = ''
+      this.formData.user = ''
+      this.formData.type = ''
       // 初始化非全屏
       this.fullScreenStatus = false
       this.$nextTick(() => {
@@ -275,29 +257,24 @@ export default {
     closeDialog() { // 关闭dg
       // 清空表单状态
       this.$refs.formData.clearValidate()
-      this.$emit('close-send-dg', false)
+      this.$emit('close-send-temp-dg', false)
     },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
     getDNewInfo() {
       const data = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': this.rowMd5
+        'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        notifyQywxSendInit(data).then(response => {
+        notifyQywxSendInitTemp(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.formData.title = data.title
-            this.formData.content = data.content
-            this.formData.user = data.user
-            this.formData.type = data.type
             this.formData.typeLists = data.type_lists
             this.formData.robot = data.robot
             this.formData.robotLists = data.robot_lists
           } else {
-            this.$emit('close-send-dg', false)
+            this.$emit('close-send-temp-dg', false)
           }
           resolve(response)
         }).catch(error => {
@@ -308,7 +285,7 @@ export default {
     submit() { // 提交设置
       this.$refs.formData.validate(valid => {
         if (valid) {
-          this.btnDisabled = true // 按钮状态
+          this.disabled = true
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
@@ -316,13 +293,11 @@ export default {
             'content': this.formData.content,
             'user': this.formData.user,
             'type': this.formData.type,
-            'robot': this.formData.robot,
-            // 'temp': false, // 非临时通知
-            'md5': this.rowMd5
+            'robot': this.formData.robot
           }
 
           return new Promise((resolve, reject) => {
-            notifyQywxSend(data).then(response => {
+            notifyQywxSendTemp(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
@@ -330,14 +305,14 @@ export default {
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-send-dg', true)
+                this.$emit('close-send-temp-dg', true)
               }
               resolve(response)
             }).catch(error => {
               reject(error)
             }).finally(() => {
               // 重置按钮状态
-              this.btnDisabled = false
+              this.disabled = false
               this.loading = false
               // 清空表单状态
               this.$refs.formData.clearValidate()

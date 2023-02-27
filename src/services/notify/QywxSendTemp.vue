@@ -33,6 +33,34 @@
       </template>
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
+        <!-- 机器人设置 -->
+        <el-divider content-position="left">消息机器人</el-divider>
+        <el-form-item label="Robot选择" prop="robot">
+          <el-select
+            v-model="formData.robot"
+            style="width: 100%"
+            placeholder="请选择消息发送的Robot"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+          >
+            <el-option
+              v-for="(item, index) in formData.robotLists"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            >
+              <span class="select-opt-left">{{ item.label }}</span>
+              <span class="select-opt-right">{{ item.rtx }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <!-- 消息设置 -->
+        <el-divider content-position="left">消息设置</el-divider>
         <el-form-item label="消息标题" prop="title">
           <el-input
             v-model.trim="formData.title"
@@ -64,7 +92,7 @@
         </el-form-item>
         <el-form-item label="消息内容" prop="content">
           <el-input
-            v-model.trim="formData.content"
+            v-model="formData.content"
             type="textarea"
             placeholder="请输入消息内容"
             :rows="textAreaAttrs.rows"
@@ -90,28 +118,12 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="Robot选择" prop="robot">
-          <el-select
-            v-model="formData.robot"
-            style="width: 100%"
-            placeholder="请选择消息发送的Robot"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-          >
-            <el-option v-for="(item, index) in formData.robotLists" :key="index" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
       </el-form>
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">发送</el-button>
         </span>
       </template>
     </el-dialog>
@@ -120,7 +132,7 @@
 
 <script>
 import store from '@/store'
-import { notifyQywxSendTemp, notifyQywxSendInitTemp } from '@/api/notify'
+import { notifyQywxSend, notifyQywxSendInitTemp } from '@/api/notify'
 
 const validateUser = (rule, value, callback) => {
   if (value.includes('；')) {
@@ -176,7 +188,7 @@ export default {
       },
       textAreaAttrs: { // textArea attrs
         rows: 8, // 输入框行数
-        autoSize: false, // 自适应内容高度
+        autoSize: { minRows: 6, maxRows: 12 }, // 自适应内容高度，默认false，只对 type="textarea" 有效，可传入对象，如，{ minRows: 2, maxRows: 6 }
         clear: true, // 可清空的输入框
         length: '80', // 最大输入长度
         limit: true, // 展示字数统计
@@ -205,7 +217,7 @@ export default {
       formDataLimit: {
         title: 55,
         content: 1000,
-        user: 1000
+        user: 10000
       },
       formDataRules: {
         title: [
@@ -213,12 +225,12 @@ export default {
           { min: 1, max: 55, message: '消息标题最大长度为55', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
-          { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
+          { required: true, message: '请输入消息内容', trigger: ['blur', 'change'] },
+          { min: 1, max: 1000, message: '消息内容最大长度为1000', trigger: ['blur', 'change'] }
         ],
         user: [
           { required: true, message: '请输入用户人列表', trigger: ['blur', 'change'] },
-          { min: 1, max: 1000, message: '用户列表最大长度为1000', trigger: ['blur', 'change'] },
+          { min: 1, max: 10000, message: '用户列表最大长度为10000', trigger: ['blur', 'change'] },
           { required: true, trigger: 'blur', validator: validateUser } // 特殊校验
         ],
         type: [
@@ -241,13 +253,14 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作，获取最新数据
+      // 初始化非全屏
+      this.fullScreenStatus = false
       // 初始化数据为空
       this.formData.title = ''
       this.formData.content = ''
       this.formData.user = ''
       this.formData.type = ''
-      // 初始化非全屏
-      this.fullScreenStatus = false
+      this.formData.robot = '' // 默认为空机器人
       this.$nextTick(() => {
         this.getDNewInfo()
         // 重置表单状态
@@ -263,15 +276,15 @@ export default {
       this.fullScreenStatus = !this.fullScreenStatus
     },
     getDNewInfo() {
-      const data = {
+      const params = {
         'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        notifyQywxSendInitTemp(data).then(response => {
+        notifyQywxSendInitTemp(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.formData.typeLists = data.type_lists
-            this.formData.robot = data.robot
+            // this.formData.robot = data.robot // NULL
             this.formData.robotLists = data.robot_lists
           } else {
             this.$emit('close-send-temp-dg', false)
@@ -293,11 +306,12 @@ export default {
             'content': this.formData.content,
             'user': this.formData.user,
             'type': this.formData.type,
-            'robot': this.formData.robot
+            'robot': this.formData.robot,
+            'temp': true // 临时通知
           }
 
           return new Promise((resolve, reject) => {
-            notifyQywxSendTemp(data).then(response => {
+            notifyQywxSend(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
