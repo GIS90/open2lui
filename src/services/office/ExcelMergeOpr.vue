@@ -90,7 +90,7 @@ export default {
     return {
       dialogAttrs: {
         title: '合并',
-        width: '45%', // Dialog 的宽度
+        width: '50%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层

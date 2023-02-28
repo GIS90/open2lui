@@ -73,7 +73,7 @@ export default {
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
         title: '设置',
-        width: '40%', // Dialog 的宽度
+        width: '50%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '10%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
