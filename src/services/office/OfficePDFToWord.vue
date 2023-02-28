@@ -96,7 +96,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" type="primary" @click="submitConvert()">确定</el-button>
+          <el-button :disabled="disabled" type="primary" @click="submit()">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -164,8 +164,8 @@ export default {
       },
       formDataLimit: {
         name: 80,
-        start: 4,
-        end: 4,
+        start: 6,
+        end: 6,
         pages: 120
       },
       // data
@@ -221,16 +221,16 @@ export default {
         })
       })
     },
-    submitConvert() { // 提交
-      // 页码判断
-      if (this.formData.start === '0') {
-        this.$message({
-          message: '起始页码不允许设置0',
-          type: 'warning',
-          duration: 2.0 * 1000
-        })
-        return false
-      }
+    submit() { // 提交
+      // 页码判断，页码为0，也就是转换下角标0，第一页
+      // if (this.formData.start === '0') {
+      //   this.$message({
+      //     message: '起始页码不允许设置0',
+      //     type: 'warning',
+      //     duration: 2.0 * 1000
+      //   })
+      //   return false
+      // }
       if (this.formData.end === '0') {
         this.$message({
           message: '结束页码不允许设置0',
@@ -240,7 +240,7 @@ export default {
         return false
       }
       if (this.formData.start && this.formData.end) {
-        if (this.formData.start > this.formData.end) {
+        if (parseInt(this.formData.start) >= parseInt(this.formData.end)) {
           this.$message({
             message: '起始页码不允许小于结束页码',
             type: 'warning',

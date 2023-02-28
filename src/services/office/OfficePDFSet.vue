@@ -148,8 +148,8 @@ export default {
         inactiveColor: '#13ce66' // 关闭时的背景色
       },
       formDataLimit: {
-        start: 4,
-        end: 4,
+        start: 6,
+        end: 6,
         pages: 120
       },
       // data
@@ -203,9 +203,25 @@ export default {
       })
     },
     submitSet() { // 提交
-      // 页码判断
+      // 页码判断，页码为0，也就是转换下角标0，第一页
+      // if (this.formData.start === '0') {
+      //   this.$message({
+      //     message: '起始页码不允许设置0',
+      //     type: 'warning',
+      //     duration: 2.0 * 1000
+      //   })
+      //   return false
+      // }
+      if (this.formData.end === '0') {
+        this.$message({
+          message: '结束页码不允许设置0',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
       if (this.formData.start && this.formData.end) {
-        if (this.formData.start > this.formData.end) {
+        if (parseInt(this.formData.start) >= parseInt(this.formData.end)) {
           this.$message({
             message: '起始页码不允许小于结束页码',
             type: 'warning',
