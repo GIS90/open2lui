@@ -17,6 +17,17 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
+      <!--tip提示-->
+      <el-alert
+        v-show="tipShow"
+        :title="alertAttrs.title"
+        :type="alertAttrs.type"
+        :show-icon="alertAttrs.showIcon"
+        :closable="alertAttrs.closable"
+        :effect="alertAttrs.effect"
+        style="margin-bottom: 40px !important;"
+      />
+
       <!--title-->
       <template #title>
         <div @dblclick="handleFull">
@@ -157,6 +168,7 @@ export default {
   },
   data() {
     return {
+      tipShow: false, // tip提示状态
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
@@ -203,6 +215,16 @@ export default {
         limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
         noDataText: '暂无数据', // 选项为空时显示的文字
         placeholder: '' // 默认显示内容
+      },
+      alertAttrs: { // alert attrs
+        title: '暂无机器人，请优先创建机器人再进行消息发送！', // 标题
+        type: 'error', // 主题：success/warning/info/error
+        description: '', // 描述
+        closable: true, // 是否可关闭
+        center: false, // 文字是否居中
+        closeText: '关闭', // 关闭按钮自定义文本
+        showIcon: true, // 是否显示图标
+        effect: 'light' // 主题：light/dark
       },
       // data
       formData: {
@@ -255,6 +277,7 @@ export default {
     openDialog() { // 初始化操作，获取最新数据
       // 初始化非全屏
       this.fullScreenStatus = false
+      this.tipShow = false
       // 初始化数据为空
       this.formData.title = ''
       this.formData.content = ''
@@ -286,6 +309,10 @@ export default {
             this.formData.typeLists = data.type_lists
             this.formData.robot = data.robot
             this.formData.robotLists = data.robot_lists
+            // 显示tip新建机器人
+            if (data.robot_lists.length === 0) {
+              this.tipShow = true
+            }
           } else {
             this.$emit('close-add-dg', false)
           }

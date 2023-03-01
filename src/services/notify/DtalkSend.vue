@@ -17,6 +17,17 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
+      <!--tip提示-->
+      <el-alert
+        v-show="tipShow"
+        :title="alertAttrs.title"
+        :type="alertAttrs.type"
+        :show-icon="alertAttrs.showIcon"
+        :closable="alertAttrs.closable"
+        :effect="alertAttrs.effect"
+        style="margin-bottom: 40px !important;"
+      />
+
       <!--title-->
       <template #title>
         <div @dblclick="handleFull">
@@ -116,6 +127,7 @@ export default {
   },
   data() {
     return {
+      tipShow: false, // tip提示状态
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
@@ -145,6 +157,16 @@ export default {
         noDataText: '暂无数据', // 选项为空时显示的文字
         placeholder: '' // 默认显示内容
       },
+      alertAttrs: { // alert attrs
+        title: '暂无机器人，请优先创建机器人再进行消息发送！', // 标题
+        type: 'error', // 主题：success/warning/info/error
+        description: '', // 描述
+        closable: true, // 是否可关闭
+        center: false, // 文字是否居中
+        closeText: '关闭', // 关闭按钮自定义文本
+        showIcon: true, // 是否显示图标
+        effect: 'light' // 主题：light/dark
+      },
       // data
       formData: {
         robotIndex: '', // 默认选择的robot
@@ -171,6 +193,7 @@ export default {
       }
       // 初始化非全屏
       this.fullScreenStatus = false
+      this.tipShow = false
       this.$nextTick(() => {
         this.getInitData()
         // 重置表单状态
@@ -198,6 +221,10 @@ export default {
             this.formData.robotEnums = data.robot_enums
             this.formData.sheetIndexs = data.sheet_index
             this.formData.sheetNames = data.sheet_names
+            // 显示tip新建机器人
+            if (data.robot_enums.length === 0) {
+              this.tipShow = true
+            }
           } else {
             this.$emit('close-send-dg')
           }
