@@ -344,7 +344,8 @@ export default {
 
             // 显示tip新建机器人
             if (data.robot_lists.length === 0) {
-              this.tipShow = true
+              this.tipShow = true // 展示tip
+              this.disabled = true // 禁用组件，不允许操作
             }
           } else {
             this.$emit('close-add-dg', false)
