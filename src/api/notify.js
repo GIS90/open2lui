@@ -323,3 +323,12 @@ export function notifyQywxSendBack(data) {
     data
   })
 }
+
+// 企业微信临时附件上传 single file
+export function qywxUploadTempFile(data) {
+  return request({
+    url: '/notify/qywx_temp_upload',
+    method: 'post',
+    data
+  })
+}

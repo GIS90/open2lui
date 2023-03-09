@@ -17,7 +17,7 @@
       @close="handleClose"
       @open="handleOpen"
     >
-      <!--title-->
+      <!--dialog > title-->
       <template #title>
         <div @dblclick="handleFull">
           <span class="dialog-title">
@@ -31,7 +31,7 @@
           </span>
         </div>
       </template>
-      <!-- upload -->
+      <!-- dialog > upload -->
       <div style="text-align: center;">
         <el-upload
           ref="uploadRef"
@@ -65,32 +65,19 @@
               <p>上传文件数量： <strong>{{ fileList.length }}</strong>（{{ uploadAttrs.limit>0 ? '单次上传限制'+uploadAttrs.limit : '无限制' }}）</p>
             </div>
           </template>
-
         </el-upload>
       </div>
 
       <!-- dialog footer -->
       <template #footer>
         <span class="dialog-footer">
-          <el-button
-            v-show="fileList.length>0"
-            :disabled="uploadBtnAttrs.disabled"
-            @click="handleClear"
-          >
+          <el-button v-show="fileList.length>0" :disabled="uploadBtnAttrs.disabled" @click="handleClear">
             清空
           </el-button>
-          <el-button
-            :disabled="uploadBtnAttrs.disabled"
-            @click.prevent.stop="handleClose"
-          >
+          <el-button :disabled="uploadBtnAttrs.disabled" @click.prevent.stop="handleClose">
             取消
           </el-button>
-          <el-button
-            type="primary"
-            :disabled="uploadBtnAttrs.disabled"
-            :loading="uploadBtnAttrs.loading"
-            @click="submitUpload"
-          >
+          <el-button type="primary" :disabled="uploadBtnAttrs.disabled" :loading="uploadBtnAttrs.loading" @click="submitUpload">
             上传
           </el-button>
         </span>
@@ -306,6 +293,7 @@ export default {
     },
     manualUpload() {
       /* 手动上传的hook */
+      // not found upload file
       if (this.fileList.length < 1) {
         this.$message({
           message: '请选择上传文件',
@@ -338,9 +326,6 @@ export default {
       })
       return new Promise((resolve, reject) => {
         uploadMulFiles(uploadForm).then(response => {
-          this.uploadAttrs.disabled = false
-          this.uploadBtnAttrs.disabled = false
-          this.uploadBtnAttrs.loading = false
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -352,15 +337,16 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.uploadAttrs.disabled = false
-          this.uploadBtnAttrs.disabled = false
-          this.uploadBtnAttrs.loading = false
           this.$message({
             message: '服务端发异常，请稍后尝试',
             type: 'warning',
             duration: 2.0 * 1000
           })
           reject(error)
+        }).finally(() => {
+          this.uploadAttrs.disabled = false
+          this.uploadBtnAttrs.disabled = false
+          this.uploadBtnAttrs.loading = false
         })
       })
     }

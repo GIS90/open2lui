@@ -317,7 +317,6 @@ export default {
             'user': this.formData.user,
             'type': this.formData.type,
             'robot': this.formData.robot,
-            // 'temp': false, // 非临时通知
             'md5': this.rowMd5
           }
 

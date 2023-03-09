@@ -15,11 +15,6 @@
       <el-button id="btn-robot" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openRobotDialog">
         <svg-icon icon-class="i_robot" />  Robot配置
       </el-button>
-      <el-tooltip effect="dark" content="临时消息通知无记录查询，请谨慎操作！" placement="top">
-        <el-button id="btn-temp" type="warning" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="tempSendDialog">
-          <svg-icon icon-class="i_notify" />  临时通知
-        </el-button>
-      </el-tooltip>
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
@@ -116,9 +111,6 @@
     <!-- 发送 -->
     <qywx-send :show="sendDialogStatus" :row-md5="oprSelectRowMd5" @close-send-dg="closeSendDialog" />
 
-    <!-- 临时发送 -->
-    <qywx-send-temp :show="sendTempDialogStatus" @close-send-temp-dg="closeSendTempDialog" />
-
     <!-- 撤销发送 -->
     <qywx-send-back :show="sendBackDialogStatus" :row-md5="oprSelectRowMd5" @close-send-back-dg="closeSendBackDialog" />
 
@@ -131,7 +123,6 @@ import QywxRobot from '@/services/notify/QywxRobot'
 import QywxAdd from '@/services/notify/QywxAdd'
 import QywxSet from '@/services/notify/QywxSet'
 import QywxSend from '@/services/notify/QywxSend'
-import QywxSendTemp from '@/services/notify/QywxSendTemp'
 import QywxSendBack from '@/services/notify/QywxSendBack'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
@@ -143,7 +134,6 @@ export default {
     'qywx-add': QywxAdd,
     'qywx-set': QywxSet,
     'qywx-send': QywxSend,
-    'qywx-send-temp': QywxSendTemp,
     'qywx-send-back': QywxSendBack,
     'qywx-robot': QywxRobot,
     'batch-delete': BatchDelete,

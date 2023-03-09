@@ -58,6 +58,7 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            @change="changeSelectRobot"
           >
             <el-option
               v-for="(item, index) in formData.robotLists"
@@ -97,23 +98,47 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            @change="selectChangeType"
           >
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+        <!-- 根据消息类型显示不同的消息内容主体 -->
         <el-form-item label="消息内容" prop="content">
-          <el-input
-            v-model="formData.content"
-            type="textarea"
-            placeholder="请输入消息内容"
-            :rows="textAreaAttrs.rows"
-            :autosize="textAreaAttrs.autoSize"
-            :maxlength="formDataLimit.content"
-            :clearable="textAreaAttrs.clear"
-            :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
-            :disabled="disabled"
-          />
+          <!-- text文本消息 markdown消息 -->
+          <div v-if="['text', 'markdown'].includes(formData.type)">
+            <el-input
+              v-model="formData.content"
+              type="textarea"
+              placeholder="请输入消息内容"
+              :rows="textAreaAttrs.rows"
+              :autosize="textAreaAttrs.autoSize"
+              :maxlength="formDataLimit.content"
+              :clearable="textAreaAttrs.clear"
+              :show-word-limit="textAreaAttrs.limit"
+              :prefix-icon="textAreaAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </div>
+          <!-- image图片消息 voice音频消息 video视频消息 file文件消息 -->
+          <div v-else-if="['image', 'voice', 'video', 'file'].includes(formData.type)">
+            <qywx-upload :robot="selectRobot" :type="selectType" @file-upload-success="fileUploadSuccess" />
+          </div>
+          <!-- 其他类型 -->
+          <div v-else>
+            <el-input
+              v-model="formData.content"
+              type="textarea"
+              placeholder="请输入消息内容"
+              :rows="textAreaAttrs.rows"
+              :autosize="textAreaAttrs.autoSize"
+              :maxlength="formDataLimit.content"
+              :clearable="textAreaAttrs.clear"
+              :show-word-limit="textAreaAttrs.limit"
+              :prefix-icon="textAreaAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </div>
         </el-form-item>
         <el-form-item label="用户列表" prop="user">
           <el-input
@@ -144,6 +169,7 @@
 <script>
 import store from '@/store'
 import { notifyQywxAdd, notifyQywxAddInit } from '@/api/notify'
+import QywxUpload from '@/services/notify/QywxUpload'
 
 const validateUser = (rule, value, callback) => {
   if (value.includes('；')) {
@@ -155,6 +181,9 @@ const validateUser = (rule, value, callback) => {
 
 export default {
   name: 'QywxAdd',
+  components: {
+    'qywx-upload': QywxUpload
+  },
   emits: ['close-add-dg'],
   props: {
     show: {
@@ -227,6 +256,8 @@ export default {
         effect: 'light' // 主题：light/dark
       },
       // data
+      selectType: '', // 当前选择的消息类型
+      selectRobot: '', // 当前选择的消息机器人
       formData: {
         title: '', // 标题
         content: '', // 内容
@@ -306,9 +337,11 @@ export default {
         notifyQywxAddInit(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.formData.typeLists = data.type_lists
-            this.formData.robot = data.robot
-            this.formData.robotLists = data.robot_lists
+            this.formData.typeLists = data.type_lists // 消息类型枚举
+            this.formData.robotLists = data.robot_lists // 消息机器人枚举
+            this.formData.robot = data.robot // form表单robot
+            this.selectRobot = data.robot // 文件上传robot
+
             // 显示tip新建机器人
             if (data.robot_lists.length === 0) {
               this.tipShow = true
@@ -360,6 +393,21 @@ export default {
           })
         }
       })
+    },
+    selectChangeType(value) {
+      this.selectType = value
+      // 切换不同消息类型，把content重置为空
+      this.formData.content = ''
+    },
+    changeSelectRobot(value) {
+      this.selectRobot = value
+      // judge if type is file type, content is rewrite null
+      if (['image', 'voice', 'video', 'file'].includes(this.formData.type)) {
+        this.formData.content = ''
+      }
+    },
+    fileUploadSuccess(data) {
+      this.formData.content = data
     }
   }
 }
