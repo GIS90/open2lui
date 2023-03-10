@@ -204,7 +204,7 @@ export default {
               duration: 2.0 * 1000
             })
             // this.handleClear() // 手动清除上传文件列表
-            this.$emit('file-upload-success', data.media_id)
+            this.$emit('file-upload-success', JSON.stringify(data))
           }
           resolve(response)
         }).catch(error => {

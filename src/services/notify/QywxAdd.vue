@@ -122,7 +122,7 @@
           </div>
           <!-- image图片消息 voice音频消息 video视频消息 file文件消息 -->
           <div v-else-if="['image', 'voice', 'video', 'file'].includes(formData.type)">
-            <qywx-upload :robot="selectRobot" :type="selectType" @file-upload-success="fileUploadSuccess" />
+            <qywx-upload :robot="formData.robot" :type="formData.type" @file-upload-success="fileUploadSuccess" />
           </div>
           <!-- 其他类型 -->
           <div v-else>
@@ -256,8 +256,6 @@ export default {
         effect: 'light' // 主题：light/dark
       },
       // data
-      selectType: '', // 当前选择的消息类型
-      selectRobot: '', // 当前选择的消息机器人
       formData: {
         title: '', // 标题
         content: '', // 内容
@@ -278,7 +276,7 @@ export default {
           { min: 1, max: 55, message: '消息标题最大长度为55', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入消息内容', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入消息内容或者上传发送的消息附件', trigger: ['blur', 'change'] },
           { min: 1, max: 1000, message: '消息内容最大长度为1000', trigger: ['blur', 'change'] }
         ],
         user: [
@@ -306,9 +304,9 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作，获取最新数据
-      // 初始化非全屏
-      this.fullScreenStatus = false
-      this.tipShow = false
+      this.fullScreenStatus = false // 初始化非全屏
+      this.tipShow = false // 禁用tip提示
+
       // 初始化数据为空
       this.formData.title = ''
       this.formData.content = ''
@@ -340,7 +338,6 @@ export default {
             this.formData.typeLists = data.type_lists // 消息类型枚举
             this.formData.robotLists = data.robot_lists // 消息机器人枚举
             this.formData.robot = data.robot // form表单robot
-            this.selectRobot = data.robot // 文件上传robot
 
             // 显示tip新建机器人
             if (data.robot_lists.length === 0) {
@@ -395,17 +392,17 @@ export default {
         }
       })
     },
+    clearFormDataContent(type) {
+      // judge if type is file type, content is rewrite temp content to up
+      if (['image', 'voice', 'video', 'file'].includes(type)) {
+        this.formData.content = '' // 附件与type,robot关联，每次更新清空
+      }
+    },
     selectChangeType(value) {
-      this.selectType = value
-      // 切换不同消息类型，把content重置为空
-      this.formData.content = ''
+      this.clearFormDataContent(value)
     },
     changeSelectRobot(value) {
-      this.selectRobot = value
-      // judge if type is file type, content is rewrite null
-      if (['image', 'voice', 'video', 'file'].includes(this.formData.type)) {
-        this.formData.content = ''
-      }
+      this.clearFormDataContent(this.formData.type)
     },
     fileUploadSuccess(data) {
       this.formData.content = data
