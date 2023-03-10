@@ -407,6 +407,12 @@ export default {
         }
       })
     },
+    clearFormDataContent(type) {
+      // judge if type is file type, content is rewrite temp content to up
+      if (['image', 'voice', 'video', 'file'].includes(type)) {
+        this.formData.content = '' // 附件与type,robot关联，每次更新清空
+      }
+    },
     selectChangeType(value) {
       this.clearFormDataContent(value)
     },

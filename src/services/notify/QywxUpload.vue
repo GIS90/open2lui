@@ -16,7 +16,7 @@
       :limit="uploadAttrs.limit"
       :drag="uploadAttrs.drag"
       :multiple="uploadAttrs.multiple"
-      :disabled="uploadAttrs.disabled"
+      :disabled="disabled"
       :on-success="uploadSuccess"
       :on-remove="uploadRemove"
       :on-change="uploadChange"
@@ -51,20 +51,32 @@ export default {
   components: {},
   emits: ['file-upload-success'],
   props: {
+    // 消息机器人
     robot: {
       type: String,
       require: true,
       default: ''
     },
+    // 消息类型
     type: {
       type: String,
       require: true,
       default: ''
     },
+    // 附件下载地址
     fileUrl: {
       type: String,
-      require: true,
+      require: false,
       default: ''
+    },
+    // el-upload disabled
+    disabled: {
+      type: Boolean,
+      require: false,
+      default: false,
+      validator(value) {
+        return [true, false].includes(value)
+      }
     }
   },
   inject: {},
@@ -97,7 +109,7 @@ export default {
         listType: 'text', // 文件列表的类型 "text" | "picture" | "picture-card"
         autoUpload: false, // 是否自动上传文件
         limit: 1, // 允许上传文件的最大数量
-        disabled: false
+        disabled: false // 外部参数控制，默认false
       },
       // 上传button
       uploadBtnAttrs: {

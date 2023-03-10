@@ -47,6 +47,7 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            @change="changeSelectRobot"
           >
             <el-option
               v-for="(item, index) in formData.robotLists"
@@ -86,23 +87,47 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            @change="selectChangeType"
           >
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+        <!-- 根据消息类型显示不同的消息内容主体 -->
         <el-form-item label="消息内容" prop="content">
-          <el-input
-            v-model.trim="formData.content"
-            type="textarea"
-            placeholder="请输入消息内容"
-            :rows="textAreaAttrs.rows"
-            :autosize="textAreaAttrs.autoSize"
-            :maxlength="formDataLimit.content"
-            :clearable="textAreaAttrs.clear"
-            :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
-            :disabled="disabled"
-          />
+          <!-- text文本消息 markdown消息 -->
+          <div v-if="['text', 'markdown'].includes(formData.type)">
+            <el-input
+              v-model="formData.content"
+              type="textarea"
+              placeholder="请输入消息内容"
+              :rows="textAreaAttrs.rows"
+              :autosize="textAreaAttrs.autoSize"
+              :maxlength="formDataLimit.content"
+              :clearable="textAreaAttrs.clear"
+              :show-word-limit="textAreaAttrs.limit"
+              :prefix-icon="textAreaAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </div>
+          <!-- image图片消息 voice音频消息 video视频消息 file文件消息 -->
+          <div v-else-if="['image', 'voice', 'video', 'file'].includes(formData.type)">
+            <qywx-upload :robot="formData.robot" :type="formData.type" :file-url="tempFileUrl" :disabled="disabled" @file-upload-success="fileUploadSuccess" />
+          </div>
+          <!-- 其他类型 -->
+          <div v-else>
+            <el-input
+              v-model="formData.content"
+              type="textarea"
+              placeholder="请输入消息内容"
+              :rows="textAreaAttrs.rows"
+              :autosize="textAreaAttrs.autoSize"
+              :maxlength="formDataLimit.content"
+              :clearable="textAreaAttrs.clear"
+              :show-word-limit="textAreaAttrs.limit"
+              :prefix-icon="textAreaAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </div>
         </el-form-item>
         <el-form-item label="用户列表" prop="user">
           <el-input
@@ -132,6 +157,7 @@
 
 <script>
 import store from '@/store'
+import QywxUpload from '@/services/notify/QywxUpload'
 import { notifyQywxSendInit, notifyQywxSend } from '@/api/notify'
 
 const validateUser = (rule, value, callback) => {
@@ -144,6 +170,9 @@ const validateUser = (rule, value, callback) => {
 
 export default {
   name: 'QywxSend',
+  components: {
+    'qywx-upload': QywxUpload
+  },
   emits: ['close-send-dg'],
   props: {
     show: {
@@ -211,6 +240,7 @@ export default {
         placeholder: '' // 默认显示内容
       },
       // data
+      tempFileUrl: '', // 上传附件的下载地址
       formData: {
         title: '', // 标题
         content: '', // 内容
@@ -231,7 +261,7 @@ export default {
           { min: 1, max: 55, message: '消息标题最大长度为55', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入消息内容或者上传发送的消息附件', trigger: ['blur', 'change'] },
           { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
         ],
         user: [
@@ -296,6 +326,11 @@ export default {
             this.formData.typeLists = data.type_lists
             this.formData.robot = data.robot
             this.formData.robotLists = data.robot_lists
+
+            // 附件预览地址
+            if (['image', 'voice', 'video', 'file'].includes(data.type) && data.content) {
+              this.tempFileUrl = JSON.parse(data.content).url
+            }
           } else {
             this.$emit('close-send-dg', false)
           }
@@ -317,6 +352,7 @@ export default {
             'user': this.formData.user,
             'type': this.formData.type,
             'robot': this.formData.robot,
+            // 'temp': false, // 非临时消息发送
             'md5': this.rowMd5
           }
 
@@ -344,6 +380,21 @@ export default {
           })
         }
       })
+    },
+    clearFormDataContent(type) {
+      // judge if type is file type, content is rewrite temp content to up
+      if (['image', 'voice', 'video', 'file'].includes(type)) {
+        this.formData.content = '' // 附件与type,robot关联，每次更新清空
+      }
+    },
+    selectChangeType(value) {
+      this.clearFormDataContent(value)
+    },
+    changeSelectRobot(value) {
+      this.clearFormDataContent(this.formData.type)
+    },
+    fileUploadSuccess(data) {
+      this.formData.content = data
     }
   }
 }
