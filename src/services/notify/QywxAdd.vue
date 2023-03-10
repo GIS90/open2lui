@@ -122,7 +122,7 @@
           </div>
           <!-- image图片消息 voice音频消息 video视频消息 file文件消息 -->
           <div v-else-if="['image', 'voice', 'video', 'file'].includes(formData.type)">
-            <qywx-upload :robot="formData.robot" :type="formData.type" @file-upload-success="fileUploadSuccess" />
+            <qywx-upload :robot="formData.robot" :type="formData.type" :disabled="disabled" @file-upload-success="fileUploadSuccess" />
           </div>
           <!-- 其他类型 -->
           <div v-else>
