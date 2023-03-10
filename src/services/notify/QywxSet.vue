@@ -17,6 +17,17 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
+      <!--tip提示-->
+      <el-alert
+        v-show="tipShow"
+        :title="alertAttrs.title"
+        :type="alertAttrs.type"
+        :show-icon="alertAttrs.showIcon"
+        :closable="alertAttrs.closable"
+        :effect="alertAttrs.effect"
+        style="margin-bottom: 40px !important;"
+      />
+
       <!--title-->
       <template #title>
         <div @dblclick="handleFull">
@@ -47,6 +58,7 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            @change="changeSelectRobot"
           >
             <el-option
               v-for="(item, index) in formData.robotLists"
@@ -86,23 +98,47 @@
             :clearable="selectAttrs.clearable"
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
+            @change="selectChangeType"
           >
             <el-option v-for="(item, index) in formData.typeLists" :key="index" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+        <!-- 根据消息类型显示不同的消息内容主体 -->
         <el-form-item label="消息内容" prop="content">
-          <el-input
-            v-model="formData.content"
-            type="textarea"
-            placeholder="请输入消息内容"
-            :rows="textAreaAttrs.rows"
-            :autosize="textAreaAttrs.autoSize"
-            :maxlength="formDataLimit.content"
-            :clearable="textAreaAttrs.clear"
-            :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="textAreaAttrs.prefixIcon"
-            :disabled="disabled"
-          />
+          <!-- text文本消息 markdown消息 -->
+          <div v-if="['text', 'markdown'].includes(formData.type)">
+            <el-input
+              v-model="formData.content"
+              type="textarea"
+              placeholder="请输入消息内容"
+              :rows="textAreaAttrs.rows"
+              :autosize="textAreaAttrs.autoSize"
+              :maxlength="formDataLimit.content"
+              :clearable="textAreaAttrs.clear"
+              :show-word-limit="textAreaAttrs.limit"
+              :prefix-icon="textAreaAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </div>
+          <!-- image图片消息 voice音频消息 video视频消息 file文件消息 -->
+          <div v-else-if="['image', 'voice', 'video', 'file'].includes(formData.type)">
+            <qywx-upload :robot="formData.robot" :type="formData.type" :file-url="tempFileUrl" @file-upload-success="fileUploadSuccess" />
+          </div>
+          <!-- 其他类型 -->
+          <div v-else>
+            <el-input
+              v-model="formData.content"
+              type="textarea"
+              placeholder="请输入消息内容"
+              :rows="textAreaAttrs.rows"
+              :autosize="textAreaAttrs.autoSize"
+              :maxlength="formDataLimit.content"
+              :clearable="textAreaAttrs.clear"
+              :show-word-limit="textAreaAttrs.limit"
+              :prefix-icon="textAreaAttrs.prefixIcon"
+              :disabled="disabled"
+            />
+          </div>
         </el-form-item>
         <el-form-item label="用户列表" prop="user">
           <el-input
@@ -132,6 +168,7 @@
 
 <script>
 import store from '@/store'
+import QywxUpload from '@/services/notify/QywxUpload'
 import { notifyQywxUpdate, notifyQywxDetail } from '@/api/notify'
 
 const validateUser = (rule, value, callback) => {
@@ -144,6 +181,9 @@ const validateUser = (rule, value, callback) => {
 
 export default {
   name: 'QywxSet',
+  components: {
+    'qywx-upload': QywxUpload
+  },
   emits: ['close-set-dg'],
   props: {
     show: {
@@ -162,6 +202,7 @@ export default {
   },
   data() {
     return {
+      tipShow: false, // tip提示状态
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
@@ -209,7 +250,18 @@ export default {
         noDataText: '暂无数据', // 选项为空时显示的文字
         placeholder: '' // 默认显示内容
       },
+      alertAttrs: { // alert attrs
+        title: '暂无机器人，请优先创建机器人再进行消息发送！', // 标题
+        type: 'error', // 主题：success/warning/info/error
+        description: '', // 描述
+        closable: true, // 是否可关闭
+        center: false, // 文字是否居中
+        closeText: '关闭', // 关闭按钮自定义文本
+        showIcon: true, // 是否显示图标
+        effect: 'light' // 主题：light/dark
+      },
       // data
+      tempFileUrl: '', // 上传附件的下载地址
       formData: {
         title: '', // 标题
         content: '', // 内容
@@ -230,7 +282,7 @@ export default {
           { min: 1, max: 55, message: '消息标题最大长度为55', trigger: ['blur', 'change'] }
         ],
         content: [
-          { required: true, message: '请输入消息标题', trigger: ['blur', 'change'] },
+          { required: true, message: '请输入消息内容或者上传发送的消息附件', trigger: ['blur', 'change'] },
           { min: 1, max: 1000, message: '消息标题最大长度为1000', trigger: ['blur', 'change'] }
         ],
         user: [
@@ -263,8 +315,9 @@ export default {
         this.$emit('close-set-dg', true)
         return false
       }
-      // 初始化非全屏
-      this.fullScreenStatus = false
+      this.fullScreenStatus = false // 初始化非全屏
+      this.tipShow = false // 禁用tip提示
+      // 最新数据
       this.$nextTick(() => {
         this.getDNewInfo()
         // 重置表单状态
@@ -295,6 +348,16 @@ export default {
             this.formData.typeLists = data.type_lists
             this.formData.robot = data.robot
             this.formData.robotLists = data.robot_lists
+            // 附件预览地址
+            if (['image', 'voice', 'video', 'file'].includes(data.type) && data.content) {
+              this.tempFileUrl = JSON.parse(data.content).url
+            }
+
+            // 显示tip新建机器人
+            if (data.robot_lists.length === 0) {
+              this.tipShow = true // 展示tip
+              this.disabled = true // 禁用组件，不允许操作
+            }
           } else {
             this.$emit('close-set-dg', false)
           }
@@ -343,6 +406,15 @@ export default {
           })
         }
       })
+    },
+    selectChangeType(value) {
+      this.clearFormDataContent(value)
+    },
+    changeSelectRobot(value) {
+      this.clearFormDataContent(this.formData.type)
+    },
+    fileUploadSuccess(data) {
+      this.formData.content = data
     }
   }
 }

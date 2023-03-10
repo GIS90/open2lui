@@ -27,10 +27,15 @@
       <el-button v-show="fileList.length>0" class="btn-margin" size="medium" type="primary" :disabled="uploadBtnAttrs.disabled" :loading="uploadBtnAttrs.loading" @click.prevent="submitUpload">
         上传
       </el-button>
+      <el-tooltip class="item" effect="dark" content="附件有效期3天，注意要及时获取，以免过期" placement="top">
+        <el-link v-show="tempFileUrl" class="btn-margin" :href="tempFileUrl" type="primary" target="_blank" :underline="false" icon="el-icon-view">
+          预览
+        </el-link>
+      </el-tooltip>
       <div slot="tip" class="el-upload__tip">
         <!-- 提示说明 支持html显示-->
         <div v-html="tips" />
-        <div>切换不同文件类型，需要重新上传附件。</div>
+        <div>切换不同附件消息类型，需要重新上传附件。</div>
       </div>
     </el-upload>
   </div>
@@ -55,12 +60,16 @@ export default {
       type: String,
       require: true,
       default: ''
+    },
+    fileUrl: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   inject: {},
   data() {
     return {
-      selectType: this.type,
       tips: '',
       fileList: [], // 文件列表
       isManualUpload: true, // 是否手动上传，值为false：upload组件自带的每次只上传一个，多文件为循环上传
@@ -94,7 +103,8 @@ export default {
       uploadBtnAttrs: {
         disabled: false,
         loading: false
-      }
+      },
+      tempFileUrl: this.fileUrl // 上传附件的下载地址
     }
   },
   computed: {},
@@ -203,6 +213,8 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
+
+            this.tempFileUrl = data.url // 设置文件预览地址
             // this.handleClear() // 手动清除上传文件列表
             this.$emit('file-upload-success', JSON.stringify(data))
           }
