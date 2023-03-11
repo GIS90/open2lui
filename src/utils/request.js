@@ -31,6 +31,7 @@ service.interceptors.request.use(
       // record user to use method
       config.headers['X-Rtx-Id'] = store.getters.rtx_id
     }
+    // CORS credential
     config.headers['Access-Control-Allow-Origin'] = '*'
     return config
   },
@@ -64,7 +65,7 @@ service.interceptors.response.use(
     // if the custom status_id is not 100, it is judged as an error.
     if (res.status_id !== 100) {
       // status_id大于500均为Server故障
-      if (res.status_id > 500) {
+      if (res.status_id >= 500) {
         Message({
           message: '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'error',
