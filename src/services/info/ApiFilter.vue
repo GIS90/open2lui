@@ -5,7 +5,7 @@
       <el-col :span="24">
         <el-form-item label="搜索内容">
           <el-input
-            v-model="searchForm.content"
+            v-model="searchData.content"
             style="width: 100%;height: 100%"
             type="text"
             :clearable="inputAttrs.clear"
@@ -24,7 +24,7 @@
       <el-col :span="12">
         <el-form-item label="BluePrint">
           <el-input
-            v-model="searchForm.blueprint"
+            v-model="searchData.blueprint"
             style="width: 100%;height: 100%"
             type="text"
             :clearable="inputAttrs.clear"
@@ -41,7 +41,7 @@
       <el-col :span="12">
         <el-form-item label="ApiName">
           <el-input
-            v-model="searchForm.apiname"
+            v-model="searchData.apiname"
             style="width: 100%;height: 100%"
             type="text"
             :clearable="inputAttrs.clear"
@@ -60,7 +60,7 @@
       <el-col :span="12">
         <el-form-item label="创建用户">
           <el-select
-            v-model="searchForm.create_rtx"
+            v-model="searchData.create_rtx"
             style="width: 100%"
             :size="selectAttrs.size"
             :disabled="disabled"
@@ -88,7 +88,7 @@
       <el-col :span="12">
         <el-form-item label="接口类型">
           <el-select
-            v-model="searchForm.type"
+            v-model="searchData.type"
             style="width: 100%"
             :size="selectAttrs.size"
             :disabled="disabled"
@@ -223,7 +223,7 @@ export default {
       },
       pickerOptions: this.getPickerOptions(),
       create_date: '', // 创建日期
-      searchForm: {
+      searchData: {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX，多个
@@ -275,19 +275,19 @@ export default {
       }
     },
     filterQuery() { // 回调给history进行高级搜索
-      this.searchForm.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
-      this.searchForm.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
-      this.$emit('filter-search-result', this.searchForm, true)
+      this.searchData.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
+      this.searchData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
+      this.$emit('filter-search-result', this.searchData, true)
     },
     clearQuery() {
       this.create_date = ''
-      this.searchForm.create_time_start = ''
-      this.searchForm.create_time_end = ''
-      this.searchForm.create_rtx = []
-      this.searchForm.type = []
-      this.searchForm.blueprint = ''
-      this.searchForm.apiname = ''
-      this.searchForm.content = ''
+      this.searchData.create_time_start = ''
+      this.searchData.create_time_end = ''
+      this.searchData.create_rtx = []
+      this.searchData.type = []
+      this.searchData.blueprint = ''
+      this.searchData.apiname = ''
+      this.searchData.content = ''
       this.$notify({
         title: '消息', // 标题
         type: 'success', // 类型：success/warning/info/error
@@ -297,7 +297,7 @@ export default {
         position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
         showClose: false // 是否显示关闭按钮
       })
-      this.$emit('filter-search-result', this.searchForm, true)
+      this.$emit('filter-search-result', this.searchData, true)
     }
   },
   setup: {}

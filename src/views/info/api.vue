@@ -200,7 +200,7 @@ export default {
       searchBtnText: '展开查询', // search button text
       searchStatus: false, // 是否展开查询条件
       // search form data
-      searchForm: {
+      searchData: {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX，多个
@@ -335,7 +335,7 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'limit': this.pageSize || 15,
         'offset': (this.pageCur - 1) * this.pageSize || 0,
-        ...this.searchForm
+        ...this.searchData
       }
       return new Promise((resolve, reject) => {
         InfoApiList(data).then(response => {
@@ -457,7 +457,7 @@ export default {
       this.searchStatus = !this.searchStatus
     },
     filterSearchResult(data, isRefresh) { // 更新高级查询条件
-      this.searchForm = data
+      this.searchData = data
       if (isRefresh) {
         this.getTableList(3)
       }
