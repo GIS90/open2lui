@@ -235,24 +235,24 @@ export default {
         order_id: 1
       },
       formDataLimit: {
-        blueprint: '15',
+        blueprint: '25',
         apiname: '35',
-        short: '35',
+        short: '55',
         long: '120',
         type: 1
       },
       formDataRules: {
         blueprint: [
           { required: true, message: '请输入BluePrint（英文）', trigger: ['blur', 'change'] },
-          { min: 1, max: 15, message: 'BluePrint最大长度为15', trigger: ['blur', 'change'] }
+          { min: 1, max: 25, message: 'BluePrint最大长度为25', trigger: ['blur', 'change'] }
         ],
         apiname: [
           { required: true, message: '请输入ApiName（英文）', trigger: ['blur', 'change'] },
-          { min: 1, max: 35, message: 'ApiName最大长度为25', trigger: ['blur', 'change'] }
+          { min: 1, max: 35, message: 'ApiName最大长度为35', trigger: ['blur', 'change'] }
         ],
         short: [
           { required: true, message: '请输入简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 35, message: '简述最大长度为35', trigger: ['blur', 'change'] }
+          { min: 1, max: 55, message: '简述最大长度为55', trigger: ['blur', 'change'] }
         ],
         long: [
           { required: true, message: '请输入说明', trigger: ['blur', 'change'] },

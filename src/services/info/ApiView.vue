@@ -141,7 +141,7 @@
               <el-input
                 v-model.trim="formData.create_rtx"
                 type="text"
-                placeholder=""
+                :maxlength="formDataLimit.create_rtx"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -155,7 +155,6 @@
               <el-input
                 v-model.trim="formData.create_time"
                 type="text"
-                placeholder=""
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -171,7 +170,7 @@
               <el-input
                 v-model.trim="formData.update_rtx"
                 type="text"
-                placeholder=""
+                :maxlength="formDataLimit.update_rtx"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -185,7 +184,6 @@
               <el-input
                 v-model.trim="formData.update_rtx"
                 type="text"
-                placeholder=""
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -295,13 +293,13 @@ export default {
         update_time: ''
       },
       formDataLimit: {
-        blueprint: '15',
+        blueprint: '25',
         apiname: '35',
-        short: '35',
+        short: '55',
         long: '120',
         type: 1,
-        create_rtx: 25,
-        update_rtx: 25
+        create_rtx: '25',
+        update_rtx: '25'
       },
       typeList: []
     }

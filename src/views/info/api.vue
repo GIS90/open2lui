@@ -12,6 +12,9 @@
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
         <svg-icon icon-class="i_delete" />  删除
       </el-button>
+      <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
+        <svg-icon :icon-class="searchIcon" />  {{ searchBtnText }}
+      </el-button>
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
@@ -19,6 +22,10 @@
         </el-tooltip>
       </span>
     </el-row>
+    <!--Search查询条件区域-->
+    <div v-if="searchStatus" class="searchBox">
+      <api-filter :user-list="userList" :type-list="typeList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+    </div>
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -101,6 +108,7 @@
 import ApiAdd from '@/services/info/ApiAdd'
 import ApiSet from '@/services/info/ApiSet'
 import ApiView from '@/services/info/ApiView'
+import ApiFilter from '@/services/info/ApiFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { InfoApiDelete, InfoApiList } from '@/api/info'
@@ -112,6 +120,7 @@ export default {
     'api-add': ApiAdd,
     'api-set': ApiSet,
     'api-view': ApiView,
+    'api-filter': ApiFilter,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination
   },
@@ -185,7 +194,23 @@ export default {
       setDialogStatus: false, // 设置dialog状态
       viewDialogStatus: false, // 查看dialog状态
       deleteSource: 'info-api', // delete source
-      deleteConfirm: false // 删除确认dialog状态
+      deleteConfirm: false, // 删除确认dialog状态
+      searchType: 'primary', // search button type: primary, success, default is primary
+      searchIcon: 'i-double-arrow-down', // search button icon
+      searchBtnText: '展开查询', // search button text
+      searchStatus: false, // 是否展开查询条件
+      // search form data
+      searchForm: {
+        create_time_start: '', // 起始创建时间
+        create_time_end: '', // 结束创建时间
+        create_rtx: [], // 创建用户RTX，多个
+        blueprint: '', // bluePrint
+        apiname: '', // apiName
+        type: [], // API类型，多个
+        content: '' // 模糊查询搜索内容
+      },
+      userList: [], // user list
+      typeList: [] // type list
     }
   },
   computed: {},
@@ -195,6 +220,17 @@ export default {
         this.selBtnText = '取消'
       } else {
         this.selBtnText = '全选'
+      }
+    },
+    searchStatus(newVal, oldVal) { // watch is or not show search if
+      if (newVal) {
+        this.searchBtnText = '关闭查询'
+        this.searchType = 'success'
+        this.searchIcon = 'i-double-arrow-up'
+      } else {
+        this.searchBtnText = '展开查询'
+        this.searchType = 'primary'
+        this.searchIcon = 'i-double-arrow-down'
       }
     }
   },
@@ -298,7 +334,8 @@ export default {
       const data = {
         'rtx_id': store.getters.rtx_id,
         'limit': this.pageSize || 15,
-        'offset': (this.pageCur - 1) * this.pageSize || 0
+        'offset': (this.pageCur - 1) * this.pageSize || 0,
+        ...this.searchForm
       }
       return new Promise((resolve, reject) => {
         InfoApiList(data).then(response => {
@@ -306,9 +343,12 @@ export default {
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
             this.pageTotal = data.total
+            // filter参数传入
+            this.userList = data.user
+            this.typeList = data.type
           }
           // 手动刷新提示
-          if (type === 2 && status_id === 100) {
+          if ([2, 3].includes(type) && status_id === 100) {
             this.$notify({
               title: '消息', // 标题
               type: 'success', // 类型：success/warning/info/error
@@ -412,7 +452,22 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    showSearch() {
+      this.searchStatus = !this.searchStatus
+    },
+    filterSearchResult(data, isRefresh) { // 更新高级查询条件
+      this.searchForm = data
+      if (isRefresh) {
+        this.getTableList(3)
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+.searchBox{
+  margin-top: 20px;
+}
+</style>
