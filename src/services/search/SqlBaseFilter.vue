@@ -5,7 +5,7 @@
       <el-col :span="24">
         <el-form-item label="搜索内容">
           <el-input
-            v-model="formData.content"
+            v-model="searchData.content"
             style="width: 100%;height: 100%"
             type="text"
             :clearable="inputAttrs.clear"
@@ -24,7 +24,7 @@
       <el-col :span="12">
         <el-form-item label="创建用户">
           <el-select
-            v-model.trim="formData.create_rtx"
+            v-model.trim="searchData.create_rtx"
             style="width: 100%"
             :size="selectAttrs.size"
             :disabled="disabled"
@@ -52,7 +52,7 @@
       <el-col :span="12">
         <el-form-item label="作者">
           <el-select
-            v-model.trim="formData.author"
+            v-model.trim="searchData.author"
             style="width: 100%"
             :size="selectAttrs.size"
             :disabled="disabled"
@@ -128,7 +128,7 @@
       <el-col :span="12">
         <el-form-item label="推荐度">
           <el-select
-            v-model.trim="formData.recommend"
+            v-model.trim="searchData.recommend"
             style="width: 100%"
             :size="selectAttrs.size"
             :disabled="disabled"
@@ -156,7 +156,7 @@
       <el-col :span="12">
         <el-form-item label="数据库">
           <el-select
-            v-model.trim="formData.database"
+            v-model.trim="searchData.database"
             style="width: 95%"
             :size="selectAttrs.size"
             placeholder="请选择数据库类型"
@@ -258,7 +258,7 @@ export default {
       pickerOptions: this.getPickerOptions(),
       create_date: '', // 创建日期
       public_date: '', // 发布日期
-      formData: {
+      searchData: {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX
@@ -320,27 +320,27 @@ export default {
       }
     },
     filterQuery() { // 回调给history进行高级搜索
-      this.formData.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
-      this.formData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
-      this.formData.public_time_start = this.public_date[0] ? this.public_date[0] + ' 00:00:00' : ''
-      this.formData.public_time_end = this.public_date[1] ? this.public_date[1] + ' 23:59:59' : ''
-      this.$emit('filter-search-result', this.formData, true)
+      this.searchData.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
+      this.searchData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
+      this.searchData.public_time_start = this.public_date[0] ? this.public_date[0] + ' 00:00:00' : ''
+      this.searchData.public_time_end = this.public_date[1] ? this.public_date[1] + ' 23:59:59' : ''
+      this.$emit('filter-search-result', this.searchData, true)
     },
     clearQuery() {
       this.create_date = ''
       this.public_date = ''
-      this.formData.create_time_start = ''
-      this.formData.create_time_end = ''
-      this.formData.create_rtx = []
-      this.formData.author = []
-      this.formData.public_time_start = ''
-      this.formData.public_time_end = ''
-      this.formData.recommend = []
-      this.formData.database = []
-      this.formData.label = []
-      this.formData.content = ''
-      this.formData.count_start = ''
-      this.formData.count_end = ''
+      this.searchData.create_time_start = ''
+      this.searchData.create_time_end = ''
+      this.searchData.create_rtx = []
+      this.searchData.author = []
+      this.searchData.public_time_start = ''
+      this.searchData.public_time_end = ''
+      this.searchData.recommend = []
+      this.searchData.database = []
+      this.searchData.label = []
+      this.searchData.content = ''
+      this.searchData.count_start = ''
+      this.searchData.count_end = ''
       this.$notify({
         title: '消息', // 标题
         type: 'success', // 类型：success/warning/info/error
@@ -350,7 +350,7 @@ export default {
         position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
         showClose: false // 是否显示关闭按钮
       })
-      this.$emit('filter-search-result', this.formData, true)
+      this.$emit('filter-search-result', this.searchData, true)
     }
   },
   setup: {}
