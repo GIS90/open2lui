@@ -275,8 +275,13 @@ export default {
       }
     },
     filterQuery() { // 回调给history进行高级搜索
-      this.searchData.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
-      this.searchData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
+      if (this.create_date !== null && this.create_date !== '' && this.create_date !== undefined) {
+        this.searchData.create_time_start = this.create_date[0] + ' 00:00:00'
+        this.searchData.create_time_end = this.create_date[1] + ' 23:59:59'
+      } else {
+        this.searchData.create_time_start = ''
+        this.searchData.create_time_end = ''
+      }
       this.$emit('filter-search-result', this.searchData, true)
     },
     clearQuery() {
