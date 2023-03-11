@@ -337,11 +337,6 @@ export default {
           }
           resolve(response)
         }).catch(error => {
-          this.$message({
-            message: '服务端发异常，请稍后尝试',
-            type: 'warning',
-            duration: 2.0 * 1000
-          })
           reject(error)
         }).finally(() => {
           this.uploadAttrs.disabled = false
