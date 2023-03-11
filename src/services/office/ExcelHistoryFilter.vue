@@ -5,7 +5,7 @@
       <el-col :span="24">
         <el-form-item label="文件名称">
           <el-input
-            v-model="dataFilter.name"
+            v-model="searchData.name"
             style="width: 100%"
             placeholder="支持文件名称模糊查询"
             :maxlength="inputAttrs.length"
@@ -19,12 +19,13 @@
     </el-row>
     <!-- 操作类型 -->
     <el-row :gutter="20">
+      <!-- 操作类型 -->
       <el-col :span="24">
         <el-form-item label="操作类型">
           <el-select
-            v-model="dataFilter.typeList"
+            v-model="searchData.type"
             style="width: 100%"
-            :placeholder="selectAttrs.placeholder"
+            placeholder="请选择类型，不选择为全部查询"
             :disabled="disabled"
             :filterable="selectAttrs.filterable"
             :multiple="selectAttrs.multiple"
@@ -33,17 +34,17 @@
             :no-data-text="selectAttrs.noDataText"
             :collapse-tags="selectAttrs.collapseTags"
           >
-            <el-option v-for="item in selectTypeData" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option v-for="item in typeList" :key="item.key" :label="item.value" :value="item.key" />
           </el-select>
         </el-form-item>
       </el-col>
     </el-row>
-    <!-- 文件类别 -->
+    <!-- 创建日期 -->
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="创建日期">
           <el-date-picker
-            v-model="dataFilter.date"
+            v-model="create_date"
             style="width: 100%"
             :disabled="disabled"
             :clearable="pickerAttrs.clearable"
@@ -77,9 +78,14 @@
 <script>
 export default {
   name: 'ExcelHistoryFilter',
-  emits: ['filter-result-list'],
+  emits: ['filter-search-result'],
   components: {},
   props: {
+    typeList: {
+      type: Array,
+      require: true,
+      default: () => []
+    },
     disabled: {
       type: Boolean,
       require: true,
@@ -89,10 +95,12 @@ export default {
   data() {
     return {
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
-      dataFilter: { // 高级筛选
+      create_date: '', // 创建日期
+      searchData: { // 高级筛选
         name: '', // 名称
-        typeList: [], // 文件类别选择的类型
-        date: '' // 日期
+        type: [], // 文件类别选择的类型
+        create_time_start: '', // 起始创建时间
+        create_time_end: '' // 结束创建时间
       },
       // button attributes
       btnBaseAttrs: {
@@ -114,12 +122,8 @@ export default {
         collapseTags: false, // 多个合并成一个
         limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
         noDataText: '暂无数据', // 选项为空时显示的文字
-        placeholder: '请选择类型（不选择为全部查询）' // 默认显示内容
+        placeholder: '' // 默认显示内容
       },
-      selectTypeData: [ // 文件类别选择的数据
-        { value: '1', label: '合并' },
-        { value: '2', label: '拆分' }
-      ],
       pickerAttrs: { // picker attrs
         type: 'daterange', // 显示类型 year/month/date/dates/week/datetime/datetimerange/daterange/monthrange
         clearable: true, // 清空选择
@@ -171,18 +175,17 @@ export default {
       }
     },
     filterQuery() { // 回调给history进行高级搜索
-      const data = {
-        'name': this.dataFilter.name || '',
-        'startTime': this.dataFilter.date[0] ? this.dataFilter.date[0] + ' 00:00:00' : '',
-        'endTime': this.dataFilter.date[1] ? this.dataFilter.date[1] + ' 23:59:59' : '',
-        'typeList': this.dataFilter.typeList || []
-      }
-      this.$emit('filter-result-list', data, true)
+      this.searchData.create_time_start = this.create_date[0] ? this.create_date[0] + ' 00:00:00' : ''
+      this.searchData.create_time_end = this.create_date[1] ? this.create_date[1] + ' 23:59:59' : ''
+      this.$emit('filter-search-result', this.searchData, true)
     },
     clearQuery() {
-      this.dataFilter.name = ''
-      this.dataFilter.date = ''
-      this.dataFilter.typeList = []
+      // 清空查询条件
+      this.create_date = ''
+      this.searchData.name = ''
+      this.searchData.create_time_start = ''
+      this.searchData.create_time_end = ''
+      this.searchData.type = []
       this.$notify({
         title: '消息', // 标题
         type: 'success', // 类型：success/warning/info/error
@@ -192,13 +195,7 @@ export default {
         position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
         showClose: false // 是否显示关闭按钮
       })
-      const data = {
-        'name': '',
-        'startTime': '',
-        'endTime': '',
-        'typeList': []
-      }
-      this.$emit('filter-result-list', data, true)
+      this.$emit('filter-search-result', this.searchData, true)
     }
   }
 }

@@ -22,7 +22,7 @@
 
     <!-- 高级筛选-->
     <div v-if="searchStatus" class="searchBox">
-      <excel-history-filter :disabled="btnDisabled" @filter-result-list="filterResultList" />
+      <excel-history-filter :type-list="typeList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
     </div>
 
     <!--Table表格-->
@@ -198,12 +198,13 @@ export default {
       searchIcon: 'i-double-arrow-down', // search button icon
       searchBtnText: '展开查询', // search button text
       searchStatus: false, // 是否展开查询条件
-      dataFilter: { // 高级筛选
+      searchData: { // 高级筛选
         name: '', // 名称
         type: [], // 文件类别选择的类型
-        start_time: '', // 开始日期
-        end_time: '' // 结束日期
-      }
+        create_time_start: '', // 起始创建时间
+        create_time_end: '' // 结束创建时间
+      },
+      typeList: [] // type list
     }
   },
   computed: {},
@@ -252,7 +253,7 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'limit': this.pageSize || 15,
         'offset': (this.pageCur - 1) * this.pageSize || 0,
-        ...this.dataFilter
+        ...this.searchData
       }
 
       return new Promise((resolve, reject) => {
@@ -261,6 +262,7 @@ export default {
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
             this.pageTotal = data.total
+            this.typeList = data.type
           }
           // 手动刷新提示
           if ([2, 3].includes(type) && status_id === 100) {
@@ -404,11 +406,8 @@ export default {
     showSearch() {
       this.searchStatus = !this.searchStatus
     },
-    filterResultList(data, isRefresh) { // 高级筛选参数赋值 && 刷新
-      this.dataFilter.name = data.name
-      this.dataFilter.type = data.typeList
-      this.dataFilter.start_time = data.startTime
-      this.dataFilter.end_time = data.endTime
+    filterSearchResult(data, isRefresh) { // 高级筛选参数赋值 && 刷新
+      this.searchData = data
       if (isRefresh) {
         this.getTableData(3)
       }
