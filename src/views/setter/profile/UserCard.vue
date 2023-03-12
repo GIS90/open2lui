@@ -8,8 +8,12 @@
       <!-- user avatar -->
       <div class="box-center">
         <pan-thumb :image="user.avatar" :height="image.height" :width="image.width" :hoverable="false">
-          <div style="margin-top: 15px;">Hello</div>
-          <div class="user-name text-center" style="margin-top: 20px;color: red;">{{ user.rtx_id }}</div>
+          <div class="user-name" style="margin-top: 15px;color: red;">{{ user.rtx_id }}</div>
+          <div class="text-center" style="margin-top: 20px;">
+            <el-button id="btn-random-avatar" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" @click="openRandomAvatar">
+              Click me!
+            </el-button>
+          </div>
         </pan-thumb>
       </div>
       <div class="box-center">
@@ -52,18 +56,22 @@
         </div>
       </div>
     </div>
+    <!-- user random avatar -->
+    <random-avatar :show="randomStatus" @close-random-avatar="closeRandomAvatar" />
   </el-card>
 </template>
 
 <script>
 import PanThumb from '@/components/PanThumb'
 import Avatar from './Avatar'
+import RandomAvatar from './RandomAvatar'
 
 export default {
   name: 'UserCard',
   components: {
     'pan-thumb': PanThumb,
-    'avatar': Avatar
+    'avatar': Avatar,
+    'random-avatar': RandomAvatar
   },
   props: {
     user: {
@@ -82,16 +90,31 @@ export default {
   },
   data() {
     return {
+      // button attributes
+      btnBaseAttrs: {
+        size: 'small', // 大小 medium / small / mini / ''
+        type: 'danger', // 类型 primary / success / warning / danger / info / text
+        plain: false, // 是否为朴素按钮
+        round: true, // 是否为圆角按钮
+        circle: false // 是否为圆形按钮
+      },
       // 头像设置
       image: {
         height: '150px',
         width: '150px'
-      }
+      },
+      randomStatus: false // 随机头像功能状态
     }
   },
   methods: {
     updateAvatar(value) {
       this.user.avatar = value
+    },
+    openRandomAvatar() {
+      this.randomStatus = true
+    },
+    closeRandomAvatar() {
+      this.randomStatus = false
     }
   }
 }
@@ -110,6 +133,7 @@ export default {
 .user-profile {
   .user-name {
     font-weight: bold;
+    text-align: center;
   }
 
   .box-center {
