@@ -63,8 +63,8 @@
           @selection-change="selectChange"
           @select-all="selectAll"
         >
-          <el-table-column fixed="left" type="selection" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="60" />
-          <el-table-column fixed="left" prop="id" label="序号" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="100" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
+          <el-table-column fixed="left" type="selection" width="70" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+          <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column fixed="left" prop="name" label="名称" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="240" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="key" label="KEY" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
           <el-table-column prop="secret" label="SECRET" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.headerAlign" width="280" sortable :show-overflow-tooltip="tableRowAttrs.sot" />
