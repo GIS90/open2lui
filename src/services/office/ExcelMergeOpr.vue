@@ -18,8 +18,9 @@
       @close="handleClose"
       @open="handleOpen"
     >
+      <div style="font-weight: bold;">合并文件数量：<span class="info_red">{{ list.length }}</span></div>
       <!-- form -->
-      <div id="main-opr-div" style="text-align: center;">
+      <div id="main-opr-div" style="text-align: center;margin-top: 20px;">
         <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
           <el-form-item label="新文件名称">
             <el-input
