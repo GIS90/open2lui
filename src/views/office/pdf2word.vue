@@ -59,23 +59,18 @@
         <el-table-column prop="end" label="结束页" width="180" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="pages" label="指标页列表" width="270" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="上传人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="360">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="420">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="icon-item" effect="light" content="转换" placement="top">
-              <el-button
-                icon="el-icon-refresh"
-                type="primary"
-                size="mini"
-                round
-                plain
-                :disabled="btnDisabled"
-                @click="rowHandleTo(scope.$index, scope.row)"
-              />
+              <el-button icon="el-icon-refresh" type="primary" size="mini" round plain :disabled="btnDisabled" @click="rowHandleTo(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip v-if="scope.row.transfer_url" class="table-handle-icon icon-item" effect="dark" content="下载" placement="top">
+            <el-tooltip v-if="scope.row.store_url" class="table-handle-icon icon-item" effect="dark" content="PDF下载" placement="top">
+              <a :href="scope.row.store_url"><i class="el-icon-upload2" /></a>
+            </el-tooltip>
+            <el-tooltip v-if="scope.row.transfer_url" class="table-handle-icon icon-item" effect="dark" content="WORD下载" placement="top">
               <a :href="scope.row.transfer_url"><i class="el-icon-download" /></a>
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
