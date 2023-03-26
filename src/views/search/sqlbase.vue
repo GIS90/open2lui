@@ -83,13 +83,13 @@
           <template slot-scope="scope">
             <div v-if="scope.row.edit === 'true'">
               <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
-                <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+                <el-button type="primary" icon="el-icon-edit" :circle="opBtnBaseAttrs.circle" :size="opBtnBaseAttrs.size" :plain="opBtnBaseAttrs.plain" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
-              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="详情" placement="top">
-                <i class="el-icon-view" @click="rowHandleView(scope.$index, scope.row)" />
+              <el-tooltip class="table-handle-icon op-btn-margin" effect="dark" content="详情" placement="top">
+                <el-button type="primary" icon="el-icon-view" :circle="opBtnBaseAttrs.circle" :size="opBtnBaseAttrs.size" :plain="opBtnBaseAttrs.plain" @click="rowHandleView(scope.$index, scope.row)" />
               </el-tooltip>
-              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
-                <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
+              <el-tooltip class="table-handle-icon op-btn-margin" effect="dark" content="删除" placement="top">
+                <el-button type="danger" icon="el-icon-delete" :circle="opBtnBaseAttrs.circle" :size="opBtnBaseAttrs.size" :plain="opBtnBaseAttrs.plain" @click="rowHandleDelete(scope.$index, scope.row)" />
               </el-tooltip>
             </div>
             <div v-else>
@@ -159,6 +159,13 @@ export default {
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
+      },
+      opBtnBaseAttrs: {
+        size: 'mini', // 大小 medium / small / mini / ''
+        type: 'primary', // 类型 primary / success / warning / danger / info / text
+        plain: true, // 是否为朴素按钮
+        round: false, // 是否为圆角按钮
+        circle: true // 是否为圆形按钮
       },
       // button icon attributes
       btnIconAttrs: {
@@ -464,5 +471,9 @@ export default {
 <style scoped>
 .searchBox{
   margin-top: 20px;
+}
+
+.op-btn-margin {
+  margin-left: 35px;
 }
 </style>
