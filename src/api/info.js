@@ -179,3 +179,12 @@ export function InfoDepartAdd(data) {
     data
   })
 }
+
+// 删除部门
+export function InfoDepartRemove(data) {
+  return request({
+    url: '/info/depart_remove',
+    method: 'post',
+    data
+  })
+}

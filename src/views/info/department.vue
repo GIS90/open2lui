@@ -39,7 +39,7 @@
               <span>
                 <el-button class="handle-icon" type="text" size="mini" @click="openAdd(node)">新增</el-button>
                 <el-button class="handle-icon" type="text" size="mini" @click="openEdit(node)">编辑</el-button>
-                <el-button class="handle-icon-danger" type="text" size="mini" @click="openRemove(node, data)">删除</el-button>
+                <el-button class="handle-icon-danger" type="text" size="mini" @click="nodeRemove(node, data)">删除</el-button>
               </span>
             </span>
           </el-tree>
@@ -69,7 +69,7 @@
 import JsonViewer from 'vue-json-viewer'
 import store from '@/store'
 import DepartAdd from '@/services/info/DepartAdd'
-import { InfoDepartList, InfoDepartUpdateTree } from '@/api/info'
+import { InfoDepartList, InfoDepartUpdateTree, InfoDepartRemove } from '@/api/info'
 
 export default {
   name: 'Department',
@@ -178,23 +178,39 @@ export default {
       }
     },
     // 节点删除
-    openRemove(node, tree) {
-      if (!node) {
+    nodeRemove(node, nodeData) {
+      if (!node || !node.data || !nodeData) {
         return false
       }
-      this.removeDialogStatus = true
 
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === tree.id)
-      children.splice(index, 1)
-    },
-    // 关闭节点删除
-    closeRemove(isRefresh) {
-      this.removeDialogStatus = false
-      if (isRefresh) {
-        this.getData()
+      this.btnDisabled = true
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': nodeData.md5_id
       }
+      return new Promise((resolve, reject) => {
+        InfoDepartRemove(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            const parent = node.parent
+            const children = parent.data.children || parent.data
+            const index = children.findIndex(d => d.id === nodeData.id)
+            children.splice(index, 1)
+
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+        })
+      })
     },
     // 提交节点
     submit() {
