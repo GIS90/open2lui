@@ -81,24 +81,6 @@ export function InfoDictNames(data) {
   })
 }
 
-// 部门树列表
-export function InfoDepartList(data) {
-  return request({
-    url: '/info/depart_list',
-    method: 'post',
-    data
-  })
-}
-
-// 更新部门信息
-export function InfoDepartUpdate(data) {
-  return request({
-    url: '/info/depart_update',
-    method: 'post',
-    data
-  })
-}
-
 // API列表
 export function InfoApiList(data) {
   return request({
@@ -157,6 +139,42 @@ export function InfoApiAdd(data) {
 export function InfoApiTypeList(data) {
   return request({
     url: '/info/api_types',
+    method: 'post',
+    data
+  })
+}
+
+// 部门树列表
+export function InfoDepartList(data) {
+  return request({
+    url: '/info/depart_list',
+    method: 'post',
+    data
+  })
+}
+
+// 更新部门信息
+export function InfoDepartUpdateTree(data) {
+  return request({
+    url: '/info/depart_update_tree',
+    method: 'post',
+    data
+  })
+}
+
+// 部门新增初始化参数
+export function InfoDepartAddInit(data) {
+  return request({
+    url: '/info/depart_init',
+    method: 'post',
+    data
+  })
+}
+
+// 新增部门
+export function InfoDepartAdd(data) {
+  return request({
+    url: '/info/depart_add',
     method: 'post',
     data
   })
