@@ -31,52 +31,45 @@
             :default-expanded-keys="defaultExpandedKeys"
             :default-checked-keys="defaultCheckedKeys"
             :props="treeAttrs.defaultProps"
+            @node-click="nodeClick"
           >
             <span slot-scope="{ node, data }" class="custom-tree-node">
               <!--节点名称-->
               <span>{{ node.label }}</span>
               <!--节点操作-->
               <span>
-                <el-button class="handle-icon" type="text" size="mini" @click="openAdd(node)">新增</el-button>
-                <el-button class="handle-icon" type="text" size="mini" @click="openEdit(node)">编辑</el-button>
+                <el-button class="handle-icon" type="text" size="mini" @click="openAdd(node, data)">新增</el-button>
                 <el-button class="handle-icon-danger" type="text" size="mini" @click="nodeRemove(node, data)">删除</el-button>
               </span>
             </span>
           </el-tree>
         </el-col>
-        <!-- json 2 -->
+        <!-- edit 2 -->
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-          <div>
-            <json-viewer
-              :value="treeData"
-              :expand-depth="5"
-              copyable
-              :boxed="false"
-              sort
-            />
-          </div>
+          <depart-edit :form-data="editNode" :user-list="userList" @edit-after="editAfter" />
         </el-col>
       </el-row>
     </div>
 
     <!-- 新增 -->
-    <depart-add :show="addDialogStatus" :up-node="oprNode" @close-add="closeAdd" />
+    <depart-add :show="addDialogStatus" :up-node="newUpNode" @close-add="closeAdd" />
 
   </div>
 </template>
 
 <script>
-import JsonViewer from 'vue-json-viewer'
 import store from '@/store'
 import DepartAdd from '@/services/info/DepartAdd'
-import { InfoDepartList, InfoDepartUpdateTree, InfoDepartRemove } from '@/api/info'
+import DepartEdit from '@/services/info/DepartEdit'
+import { InfoDepartList, InfoDepartUpdateTree,
+  InfoDepartRemove, InfoDepartDetail } from '@/api/info'
 
 export default {
   name: 'Department',
   emits: [],
   components: {
-    'json-viewer': JsonViewer,
-    'depart-add': DepartAdd
+    'depart-add': DepartAdd,
+    'depart-edit': DepartEdit
   },
   props: {},
   data() {
@@ -115,10 +108,10 @@ export default {
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
-      oprNode: {}, // 当前选择操作的节点
+      newUpNode: {}, // 当前新增节点的父节点
       addDialogStatus: false, // 新增dialog状态
-      editDialogStatus: false, // 编辑dialog状态
-      removeDialogStatus: false // 删除dialog状态
+      userList: [], // 用户列表
+      editNode: {} // 编辑的节点信息
     }
   },
   computed: {},
@@ -148,31 +141,16 @@ export default {
       })
     },
     // 节点新增
-    openAdd(node) {
-      if (!node || !node.data) {
+    openAdd(node, nodeData) {
+      if (!node || !node.data || !nodeData) {
         return false
       }
       this.addDialogStatus = true
-      this.oprNode = { id: node.data.id, name: node.data.label, 'path': node.data.dept_path }
+      this.newUpNode = { id: nodeData.id, name: nodeData.label, path: nodeData.dept_path }
     },
     // 关闭节点新增
     closeAdd(isRefresh) {
       this.addDialogStatus = false
-      if (isRefresh) {
-        this.getData()
-      }
-    },
-    // 节点编辑
-    openEdit(node) {
-      if (!node || !node.data) {
-        return false
-      }
-      this.editDialogStatus = true
-      this.oprNode = { id: node.data.id, name: node.data.label, 'path': node.data.dept_path }
-    },
-    // 关闭节点编辑
-    closeEdit(isRefresh) {
-      this.editDialogStatus = false
       if (isRefresh) {
         this.getData()
       }
@@ -185,13 +163,15 @@ export default {
 
       this.btnDisabled = true
       const data = {
-        'rtx_id': store.getters.rtx_id,
-        'md5': nodeData.md5_id
+        rtx_id: store.getters.rtx_id,
+        md5: nodeData.md5_id
       }
       return new Promise((resolve, reject) => {
         InfoDepartRemove(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
+            // 后台软删除
+            // 前端tree删除
             const parent = node.parent
             const children = parent.data.children || parent.data
             const index = children.findIndex(d => d.id === nodeData.id)
@@ -211,6 +191,34 @@ export default {
           this.btnDisabled = false
         })
       })
+    },
+    // 点击节点事件
+    nodeClick(nodeData, node, event) {
+      if (!node || !node.data || !nodeData) {
+        return false
+      }
+
+      const data = {
+        rtx_id: store.getters.rtx_id,
+        md5: nodeData.md5_id
+      }
+      // 获取最新数据
+      return new Promise((resolve, reject) => {
+        InfoDepartDetail(data).then(response => {
+          const { status_id } = response
+          status_id === 100 ? this.editNode = response.data.depart : this.editNode = nodeData
+          this.userList = response.data.user
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 编辑节点刷新
+    editAfter(isRefresh) {
+      if (isRefresh) {
+        this.getData()
+      }
     },
     // 提交节点
     submit() {

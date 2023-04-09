@@ -188,3 +188,21 @@ export function InfoDepartRemove(data) {
     data
   })
 }
+
+// 部门详情
+export function InfoDepartDetail(data) {
+  return request({
+    url: '/info/depart_detail',
+    method: 'post',
+    data
+  })
+}
+
+// 部门详情更新
+export function InfoDepartUpdate(data) {
+  return request({
+    url: '/info/depart_update',
+    method: 'post',
+    data
+  })
+}
