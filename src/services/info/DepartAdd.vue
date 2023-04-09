@@ -73,10 +73,10 @@
         <el-divider content-position="left">新部门信息</el-divider>
         <el-form-item label="名称" prop="name">
           <el-input
-            v-model.trim="formData.name"
+            v-model.trim="formData.label"
             type="text"
             placeholder="请输入部门名称"
-            :maxlength="formDataLimit.name"
+            :maxlength="formDataLimit.label"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -180,7 +180,7 @@ export default {
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
-      fullScreenStatus: false, // DIALOG是否全屏状态，默认false
+      fullScreenStatus: false, // 是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
@@ -208,7 +208,7 @@ export default {
       },
       textAreaAttrs: { // textArea attrs
         rows: 4, // 输入框行数
-        autoSize: false, // 自适应内容高度
+        autoSize: { minRows: 4, maxRows: 6 }, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '255', // 最大输入长度
         limit: true, // 展示字数统计
@@ -226,7 +226,7 @@ export default {
         placeholder: '请选择管理员' // 默认显示内容
       },
       numberAttrs: { // input number attrs
-        size: '', // 大小：large, small
+        size: '', // 大小：large, small, ''默认
         min: 1, // 最小值
         max: 10000, // 最大值
         step: 1, // 计数器步长
@@ -243,25 +243,25 @@ export default {
         ban: true
       },
       formData: {
-        name: '',
-        description: '',
-        manage_rtx: '',
-        lock: false,
-        order_id: 1 // undefined
+        label: '', // 名称
+        description: '', // 简述
+        manage_rtx: '', // 管理员
+        lock: false, // 状态
+        order_id: 1 // undefined 排序ID
       },
       formDataLimit: {
-        name: '30',
-        description: '200',
+        label: '30',
+        description: '240',
         manage_rtx: '25'
       },
       formDataRules: {
-        name: [
+        label: [
           { required: true, message: '请输入部门名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 25, message: '部门名称最大长度为30', trigger: ['blur', 'change'] }
+          { min: 1, max: 30, message: '部门名称最大长度为30', trigger: ['blur', 'change'] }
         ],
         description: [
           { required: true, message: '请输入部门简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 200, message: '部门简述最大长度为200', trigger: ['blur', 'change'] }
+          { min: 1, max: 240, message: '部门简述最大长度为240', trigger: ['blur', 'change'] }
         ],
         manage_rtx: [
           { required: true, message: '请选择部门管理员', trigger: ['blur', 'change'] }
@@ -284,7 +284,7 @@ export default {
       // 初始化非全屏
       this.fullScreenStatus = false
       // 表单初始化
-      this.formData.name = ''
+      this.formData.label = ''
       this.formData.description = ''
       this.formData.manage_rtx = ''
       this.formData.lock = false
@@ -311,7 +311,7 @@ export default {
         InfoDepartAddInit(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.userList = data.user
+            this.userList = data.user // 用户列表
           }
           resolve(response)
         }).catch(error => {
@@ -326,7 +326,7 @@ export default {
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'name': this.formData.name,
+            'name': this.formData.label,
             'description': this.formData.description,
             'manage_rtx': this.formData.manage_rtx,
             'lock': this.formData.lock,

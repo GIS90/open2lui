@@ -1,6 +1,5 @@
 <template>
-  <div v-show="formData">
-    <!--content-->
+  <div>
     <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
       <el-form-item label="名称" prop="label">
         <el-input
@@ -112,8 +111,8 @@ export default {
         suffixIcon: '' // input后缀icon
       },
       textAreaAttrs: { // textArea attrs
-        rows: 4, // 输入框行数
-        autoSize: false, // 自适应内容高度
+        rows: 8, // 输入框行数
+        autoSize: { minRows: 8, maxRows: 10 }, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '255', // 最大输入长度
         limit: true, // 展示字数统计
@@ -131,7 +130,7 @@ export default {
         placeholder: '请选择管理员' // 默认显示内容
       },
       numberAttrs: { // input number attrs
-        size: '', // 大小：large, small
+        size: '', // 大小：large, small, ''默认
         min: 1, // 最小值
         max: 10000, // 最大值
         step: 1, // 计数器步长
@@ -149,17 +148,17 @@ export default {
       },
       formDataLimit: {
         label: '30',
-        description: '200',
+        description: '240',
         manage_rtx: '25'
       },
       formDataRules: {
         label: [
           { required: true, message: '请输入部门名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 25, message: '部门名称最大长度为30', trigger: ['blur', 'change'] }
+          { min: 1, max: 30, message: '部门名称最大长度为30', trigger: ['blur', 'change'] }
         ],
         description: [
           { required: true, message: '请输入部门简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 200, message: '部门简述最大长度为200', trigger: ['blur', 'change'] }
+          { min: 1, max: 240, message: '部门简述最大长度为240', trigger: ['blur', 'change'] }
         ],
         manage_rtx: [
           { required: true, message: '请选择部门管理员', trigger: ['blur', 'change'] }

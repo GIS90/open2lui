@@ -10,7 +10,7 @@
     <!-- 树 -->
     <div id="data-container" class="table-sty">
       <el-row :gutter="32">
-        <!-- tree 1 -->
+        <!-- left: tree -->
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <el-tree
             ref="menuTree"
@@ -44,15 +44,15 @@
             </span>
           </el-tree>
         </el-col>
-        <!-- edit 2 -->
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <!-- right: node information -->
+        <el-col v-show="showEdit" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <depart-edit :form-data="editNode" :user-list="userList" @edit-after="editAfter" />
         </el-col>
       </el-row>
     </div>
 
     <!-- 新增 -->
-    <depart-add :show="addDialogStatus" :up-node="newUpNode" @close-add="closeAdd" />
+    <depart-add :show="addDialogStatus" :up-node="newNodeUp" @close-add="closeAdd" />
 
   </div>
 </template>
@@ -108,14 +108,20 @@ export default {
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
-      newUpNode: {}, // 当前新增节点的父节点
+      newNodeUp: {}, // 当前新增节点的父节点
       addDialogStatus: false, // 新增dialog状态
       userList: [], // 用户列表
+      showEdit: false, // 是否显示编辑
       editNode: {} // 编辑的节点信息
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    editNode(newVal, oldVal) {
+      // 默认editNode具有order_id默认值，依据md5_id判断
+      newVal.md5_id ? this.showEdit = true : false
+    }
+  },
   created() {},
   mounted() {
     this.$nextTick(() => {
@@ -142,11 +148,11 @@ export default {
     },
     // 节点新增
     openAdd(node, nodeData) {
-      if (!node || !node.data || !nodeData) {
+      if (!node || !nodeData) {
         return false
       }
       this.addDialogStatus = true
-      this.newUpNode = { id: nodeData.id, name: nodeData.label, path: nodeData.dept_path }
+      this.newNodeUp = { id: nodeData.id, name: nodeData.label, path: nodeData.dept_path }
     },
     // 关闭节点新增
     closeAdd(isRefresh) {
@@ -157,7 +163,15 @@ export default {
     },
     // 节点删除
     nodeRemove(node, nodeData) {
-      if (!node || !node.data || !nodeData) {
+      if (!node || !nodeData) {
+        return false
+      }
+      if (nodeData.id === 1) {
+        this.$message({
+          message: '根节点不允许删除',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
         return false
       }
 
@@ -168,9 +182,9 @@ export default {
       }
       return new Promise((resolve, reject) => {
         InfoDepartRemove(data).then(response => {
+          // 后台软删除
           const { status_id, message } = response
           if (status_id === 100) {
-            // 后台软删除
             // 前端tree删除
             const parent = node.parent
             const children = parent.data.children || parent.data
@@ -194,27 +208,27 @@ export default {
     },
     // 点击节点事件
     nodeClick(nodeData, node, event) {
-      if (!node || !node.data || !nodeData) {
+      if (!node || !nodeData) {
         return false
       }
 
+      // 获取最新数据
       const data = {
         rtx_id: store.getters.rtx_id,
         md5: nodeData.md5_id
       }
-      // 获取最新数据
       return new Promise((resolve, reject) => {
         InfoDepartDetail(data).then(response => {
           const { status_id } = response
-          status_id === 100 ? this.editNode = response.data.depart : this.editNode = nodeData
-          this.userList = response.data.user
+          status_id === 100 ? this.editNode = response.data.depart : this.editNode = nodeData // 节点详情
+          this.userList = response.data.user // 用户列表
           resolve(response)
         }).catch(error => {
           reject(error)
         })
       })
     },
-    // 编辑节点刷新
+    // 编辑节点后的动作
     editAfter(isRefresh) {
       if (isRefresh) {
         this.getData()
