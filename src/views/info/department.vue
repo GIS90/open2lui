@@ -38,8 +38,8 @@
               <span>{{ node.label }}</span>
               <!--节点操作-->
               <span>
-                <el-button class="handle-icon" type="text" size="mini" @click="openAdd(node, data)">新增</el-button>
-                <el-button class="handle-icon-danger" type="text" size="mini" @click="nodeRemove(node, data)">删除</el-button>
+                <el-button class="handle-icon" type="text" size="mini" :disabled="data.lock" @click="openAdd(node, data)">新增</el-button>
+                <el-button v-show="data.id !== 1" class="handle-icon-danger" type="text" size="mini" :disabled="data.lock" @click="nodeRemove(node, data)">删除</el-button>
               </span>
             </span>
           </el-tree>
