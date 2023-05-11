@@ -206,3 +206,12 @@ export function InfoDepartUpdate(data) {
     data
   })
 }
+
+// 部门详情更新
+export function InfoDepartDrag(data) {
+  return request({
+    url: '/info/depart_drag',
+    method: 'post',
+    data
+  })
+}

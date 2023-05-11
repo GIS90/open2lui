@@ -251,7 +251,7 @@ export default {
       },
       formDataLimit: {
         label: '30',
-        description: '240',
+        description: '300',
         manage_rtx: '25'
       },
       formDataRules: {
@@ -261,7 +261,7 @@ export default {
         ],
         description: [
           { required: true, message: '请输入部门简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 240, message: '部门简述最大长度为240', trigger: ['blur', 'change'] }
+          { min: 1, max: 300, message: '部门简述最大长度为300', trigger: ['blur', 'change'] }
         ],
         manage_rtx: [
           { required: true, message: '请选择部门管理员', trigger: ['blur', 'change'] }

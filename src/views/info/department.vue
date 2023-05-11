@@ -31,7 +31,10 @@
             :default-expanded-keys="defaultExpandedKeys"
             :default-checked-keys="defaultCheckedKeys"
             :props="treeAttrs.defaultProps"
+            :allow-drag="allowDrag"
             @node-click="nodeClick"
+            @node-drag-start="dragStart"
+            @node-drag-end="dragEnd"
           >
             <span slot-scope="{ node, data }" class="custom-tree-node">
               <!--节点名称-->
@@ -62,7 +65,7 @@ import store from '@/store'
 import DepartAdd from '@/services/info/DepartAdd'
 import DepartEdit from '@/services/info/DepartEdit'
 import { InfoDepartList, InfoDepartUpdateTree,
-  InfoDepartRemove, InfoDepartDetail } from '@/api/info'
+  InfoDepartRemove, InfoDepartDetail, InfoDepartDrag } from '@/api/info'
 
 export default {
   name: 'Department',
@@ -220,8 +223,12 @@ export default {
       return new Promise((resolve, reject) => {
         InfoDepartDetail(data).then(response => {
           const { status_id } = response
-          status_id === 100 ? this.editNode = response.data.depart : this.editNode = nodeData // 节点详情
-          this.userList = response.data.user // 用户列表
+          if (status_id === 100) {
+            this.editNode = response.data.depart // 部门详情
+            this.userList = response.data.user // 用户列表
+          } else {
+            this.editNode = nodeData
+          }
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -258,6 +265,77 @@ export default {
         }).catch(error => {
           reject(error)
         }).finally(() => {
+          this.btnDisabled = false
+        })
+      })
+    },
+    // 判断节点能否被拖拽
+    allowDrag(draggingNode) {
+      if (!draggingNode || !draggingNode.data) {
+        return
+      }
+      return !draggingNode.data.lock
+    },
+    // 拖拽前：节点拖拽前判断是否可操作
+    dragStart(dropNode, event) {
+      if (!dropNode || !dropNode.data) {
+        return
+      }
+      if (dropNode.data.lock) {
+        this.$message({
+          message: '节点被禁用，不允许调整',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+      }
+    },
+    // 拖拽后：调整节点顺序
+    dragEnd(draggingNode, dropNode, dropType, event) {
+      if (!draggingNode || !draggingNode.data) {
+        return
+      }
+      if (!dropNode || !dropNode.data) {
+        return
+      }
+
+      // 根据dropType类型判断父节点，
+      // before、after：dropNode用pid
+      // inner：dropNode用id
+      // none：return
+      if (dropType === 'none') {
+        return false
+      }
+      if (!['before', 'after', 'inner'].includes(dropType)) {
+        this.$message({
+          message: '节点拖拽类型错误',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+
+      this.btnDisabled = true
+      const data = {
+        rtx_id: store.getters.rtx_id,
+        md5: draggingNode.data.md5_id,
+        pid: ['before', 'after'].includes(dropType) ? dropNode.data.pid : dropNode.data.id
+      }
+
+      return new Promise((resolve, reject) => {
+        InfoDepartDrag(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '调整成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
           this.btnDisabled = false
         })
       })

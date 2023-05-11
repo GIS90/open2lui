@@ -1,6 +1,16 @@
 <template>
   <div>
     <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
+      <!--只读信息-->
+      <el-form-item label="ID" prop="id">
+        <el-input
+          v-model.trim="formData.id"
+          type="text"
+          :size="inputAttrs.size"
+          disabled
+        />
+      </el-form-item>
+      <!--只读信息 end-->
       <el-form-item label="名称" prop="label">
         <el-input
           v-model.trim="formData.label"
@@ -19,7 +29,7 @@
           v-model="formData.description"
           type="textarea"
           placeholder="请输入部门简述"
-          :rows="textAreaAttrs.rows"
+          :autosize="textAreaAttrs.autoSize"
           :maxlength="formDataLimit.description"
           :clearable="textAreaAttrs.clear"
           :show-word-limit="textAreaAttrs.limit"
@@ -27,6 +37,16 @@
           :disabled="disabled"
         />
       </el-form-item>
+      <!--只读信息-->
+      <el-form-item label="路径" prop="dept_path">
+        <el-input
+          v-model.trim="formData.dept_path"
+          type="text"
+          :size="inputAttrs.size"
+          disabled
+        />
+      </el-form-item>
+      <!--只读信息 end-->
       <el-form-item label="管理员" prop="manage_rtx">
         <el-select
           v-model.trim="formData.manage_rtx"
@@ -112,7 +132,7 @@ export default {
       },
       textAreaAttrs: { // textArea attrs
         rows: 8, // 输入框行数
-        autoSize: { minRows: 8, maxRows: 10 }, // 自适应内容高度
+        autoSize: { minRows: 6, maxRows: 8 }, // 自适应内容高度
         clear: true, // 可清空的输入框
         length: '255', // 最大输入长度
         limit: true, // 展示字数统计
@@ -148,7 +168,7 @@ export default {
       },
       formDataLimit: {
         label: '30',
-        description: '240',
+        description: '300',
         manage_rtx: '25'
       },
       formDataRules: {
@@ -158,7 +178,7 @@ export default {
         ],
         description: [
           { required: true, message: '请输入部门简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 240, message: '部门简述最大长度为240', trigger: ['blur', 'change'] }
+          { min: 1, max: 300, message: '部门简述最大长度为300', trigger: ['blur', 'change'] }
         ],
         manage_rtx: [
           { required: true, message: '请选择部门管理员', trigger: ['blur', 'change'] }
@@ -179,7 +199,7 @@ export default {
           const data = {
             'rtx_id': store.getters.rtx_id,
             'md5': this.formData.md5_id,
-            'pid': this.formData.pid,
+            // 'pid': this.formData.pid,
             'name': this.formData.label,
             'description': this.formData.description,
             'manage_rtx': this.formData.manage_rtx,
