@@ -3,9 +3,27 @@
     <!-- 按钮 -->
     <el-row>
       <!-- 左侧按钮 -->
-      <el-button id="btn-add" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="submit">
-        <svg-icon icon-class="i_main" />  更新树
-      </el-button>
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <el-input
+          v-model.trim="filterText"
+          type="text"
+          placeholder="输入关键字进行过滤"
+          :maxlength="inputAttrs.length"
+          :clearable="inputAttrs.clear"
+          :show-word-limit="inputAttrs.limit"
+          :size="inputAttrs.size"
+          :prefix-icon="inputAttrs.prefixIcon"
+          :disabled="btnDisabled"
+        />
+      </el-col>
+      <!-- 右侧icon -->
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <span style="float: right">
+          <el-tooltip effect="dark" content="刷新" placement="top">
+            <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="refreshTree" />
+          </el-tooltip>
+        </span>
+      </el-col>
     </el-row>
     <!-- 树 -->
     <div id="data-container" class="table-sty">
@@ -13,7 +31,7 @@
         <!-- left: tree -->
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <el-tree
-            ref="menuTree"
+            ref="tree"
             :data="treeData"
             :show-checkbox="treeAttrs.checkbox"
             :node-key="treeAttrs.nodeKey"
@@ -32,6 +50,7 @@
             :default-checked-keys="defaultCheckedKeys"
             :props="treeAttrs.defaultProps"
             :allow-drag="allowDrag"
+            :filter-node-method="filterTreeNode"
             @node-click="nodeClick"
             @node-drag-start="dragStart"
             @node-drag-end="dragEnd"
@@ -64,8 +83,7 @@
 import store from '@/store'
 import DepartAdd from '@/services/info/DepartAdd'
 import DepartEdit from '@/services/info/DepartEdit'
-import { InfoDepartList, InfoDepartUpdateTree,
-  InfoDepartRemove, InfoDepartDetail, InfoDepartDrag } from '@/api/info'
+import { InfoDepartList, InfoDepartRemove, InfoDepartDetail, InfoDepartDrag } from '@/api/info'
 
 export default {
   name: 'Department',
@@ -111,11 +129,28 @@ export default {
         round: false, // 是否为圆角按钮
         circle: false // 是否为圆形按钮
       },
+      // button icon attributes
+      btnIconAttrs: {
+        size: 'medium', // 大小 medium / small / mini / ''
+        type: 'primary', // 类型 primary / success / warning / danger / info / text
+        plain: true, // 是否为朴素按钮
+        round: false, // 是否为圆角按钮
+        circle: true // 是否为圆形按钮
+      },
+      inputAttrs: { // input attrs
+        size: 'medium', // 大小：medium / small / mini / ''
+        clear: true, // 可清空的输入框
+        length: '25', // 最大输入长度
+        limit: true, // 展示字数统计
+        prefixIcon: 'el-icon-edit', // input前缀icon
+        suffixIcon: '' // input后缀icon
+      },
       newNodeUp: {}, // 当前新增节点的父节点
       addDialogStatus: false, // 新增dialog状态
       userList: [], // 用户列表
       showEdit: false, // 是否显示编辑
-      editNode: {} // 编辑的节点信息
+      editNode: {}, // 编辑的节点信息
+      filterText: '' // 过滤内容
     }
   },
   computed: {},
@@ -123,6 +158,9 @@ export default {
     editNode(newVal, oldVal) {
       // 默认editNode具有order_id默认值，依据md5_id判断
       newVal.md5_id ? this.showEdit = true : false
+    },
+    filterText(newVal, oldVal) {
+      this.$refs.tree.filter(newVal)
     }
   },
   created() {},
@@ -133,7 +171,8 @@ export default {
   },
   methods: {
     // 数据初始化
-    getData() {
+    getData(type) {
+      // type: 1-初始化，2-手动刷新，3-高级查询
       const data = {
         'rtx_id': store.getters.rtx_id
       }
@@ -143,11 +182,27 @@ export default {
           if (status_id === 100) {
             this.treeData = data.tree // tree数据
           }
+          // 手动刷新提示
+          if ([2, 3].includes(type) && status_id === 100) {
+            this.$notify({
+              title: '消息', // 标题
+              type: 'success', // 类型：success/warning/info/error
+              message: '刷新成功', // 消息
+              duration: 1200, // 显示时间(毫秒)
+              // offset: 300, // 偏移量
+              position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
+              showClose: false // 是否显示关闭按钮
+            })
+          }
           resolve(response)
         }).catch(error => {
           reject(error)
         })
       })
+    },
+    // 手工刷新树
+    refreshTree() {
+      this.getData(2)
     },
     // 节点新增
     openAdd(node, nodeData) {
@@ -241,34 +296,6 @@ export default {
         this.getData()
       }
     },
-    // 提交节点
-    submit() {
-      if (!this.treeData) {
-        return false
-      }
-      this.btnDisabled = true
-      const data = {
-        'rtx_id': store.getters.rtx_id,
-        'data': this.treeData // string: JSON.stringify(this.treeData)
-      }
-      return new Promise((resolve, reject) => {
-        InfoDepartUpdateTree(data).then(response => {
-          const { status_id, message } = response
-          if (status_id === 100) {
-            this.$message({
-              message: '成功' || message,
-              type: 'success',
-              duration: 2.0 * 1000
-            })
-          }
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        }).finally(() => {
-          this.btnDisabled = false
-        })
-      })
-    },
     // 判断节点能否被拖拽
     allowDrag(draggingNode) {
       if (!draggingNode || !draggingNode.data) {
@@ -339,6 +366,10 @@ export default {
           this.btnDisabled = false
         })
       })
+    },
+    filterTreeNode(value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     }
   }
 }
