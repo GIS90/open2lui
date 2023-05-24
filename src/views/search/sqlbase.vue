@@ -93,8 +93,8 @@
               </el-tooltip>
             </div>
             <div v-else>
-              <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
-                <i class="el-icon-view" @click="rowHandleView(scope.$index, scope.row)" />
+              <el-tooltip class="table-handle-icon op-btn-margin" effect="dark" content="详情" placement="top">
+                <el-button type="primary" icon="el-icon-view" :circle="opBtnBaseAttrs.circle" :size="opBtnBaseAttrs.size" :plain="opBtnBaseAttrs.plain" @click="rowHandleView(scope.$index, scope.row)" />
               </el-tooltip>
             </div>
           </template>
