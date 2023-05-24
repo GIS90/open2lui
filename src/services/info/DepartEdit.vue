@@ -40,7 +40,7 @@
       <!--只读信息-->
       <el-form-item label="路径" prop="dept_path">
         <el-input
-          v-model.trim="formData.dept_path"
+          v-model="formData.dept_path"
           type="text"
           :size="inputAttrs.size"
           disabled
@@ -49,7 +49,7 @@
       <!--只读信息 end-->
       <el-form-item label="管理员" prop="manage_rtx">
         <el-select
-          v-model.trim="formData.manage_rtx"
+          v-model="formData.manage_rtx"
           style="width: 100%"
           :size="selectAttrs.size"
           placeholder="请选择部门管理员"

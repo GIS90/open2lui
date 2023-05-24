@@ -99,7 +99,7 @@
         </el-form-item>
         <el-form-item label="管理员" prop="manage_rtx">
           <el-select
-            v-model.trim="formData.manage_rtx"
+            v-model="formData.manage_rtx"
             style="width: 100%"
             :size="selectAttrs.size"
             placeholder="请选择部门管理员"

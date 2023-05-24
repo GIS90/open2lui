@@ -70,7 +70,7 @@
         <el-divider content-position="left">基础信息</el-divider>
         <el-form-item label="类型" prop="type">
           <el-select
-            v-model.trim="formData.type"
+            v-model="formData.type"
             style="width: 100%"
             :size="selectAttrs.size"
             :placeholder="selectAttrs.placeholder"
@@ -108,7 +108,7 @@
         </el-form-item>
         <el-form-item label="说明" prop="long">
           <el-input
-            v-model.trim="formData.long"
+            v-model="formData.long"
             type="textarea"
             placeholder="请输入API说明"
             :rows="textAreaAttrs.rows"
