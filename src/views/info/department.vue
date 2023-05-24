@@ -67,6 +67,16 @@
           </el-tree>
         </el-col>
         <!-- right: node information -->
+        <!-- 初始化内容 -->
+        <el-col v-show="!showEdit" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+          <h3>操作说明</h3>
+          <p>1、部门可以进行新增、编辑、删除、调整等操作</p>
+          <p>2、节点信息通过点击部门，在详情中进行信息编辑</p>
+          <p>3、部门调整通过拖拽的方式进行调整，禁用部门不允许进行调整</p>
+          <p>4、树根节点不允许删除</p>
+          <p>5、筛选功能可以根据关键字进行节点筛选过滤</p>
+        </el-col>
+        <!-- 编辑 -->
         <el-col v-show="showEdit" :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <depart-edit :form-data="editNode" :user-list="userList" @edit-after="editAfter" />
         </el-col>
