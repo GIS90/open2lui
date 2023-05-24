@@ -39,7 +39,7 @@
           <el-col :span="8">
             <el-form-item label="作者" prop="author">
               <el-select
-                v-model.trim="formData.author"
+                v-model="formData.author"
                 style="width: 95%"
                 :size="selectAttrs.size"
                 :placeholder="selectAttrs.placeholder"
@@ -105,7 +105,7 @@
           <el-col :span="8">
             <el-form-item label="数据库" prop="database">
               <el-select
-                v-model.trim="formData.database"
+                v-model="formData.database"
                 style="width: 95%"
                 :size="selectAttrs.size"
                 placeholder="请选择数据库类型"
@@ -127,7 +127,7 @@
         <el-row>
           <el-form-item label="标题" prop="title">
             <el-input
-              v-model.trim="formData.title"
+              v-model="formData.title"
               type="text"
               placeholder="请输入文章标题"
               :maxlength="formDataLimit.title"
