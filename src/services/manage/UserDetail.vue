@@ -108,7 +108,7 @@
         <el-divider content-position="left">权限信息</el-divider>
         <el-form-item label="角色" prop="role">
           <el-select
-            v-model.trim="formData.role"
+            v-model="formData.role"
             style="width: 100%"
             :placeholder="selectAttrs.placeholder"
             :filterable="selectAttrs.filterable"
@@ -133,7 +133,7 @@
         </el-form-item>
         <el-form-item label="自我介绍" prop="introduction">
           <el-input
-            v-model.trim="formData.introduction"
+            v-model="formData.introduction"
             type="textarea"
             placeholder="请输入自我介绍"
             :rows="textAreaAttrs.rows"

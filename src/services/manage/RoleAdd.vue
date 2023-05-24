@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item label="描述" prop="introduction">
           <el-input
-            v-model.trim="formData.introduction"
+            v-model="formData.introduction"
             type="textarea"
             placeholder="请输入相关描述"
             :rows="textAreaAttrs.rows"

@@ -89,7 +89,7 @@
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input
-            v-model.trim="formData.password"
+            v-model="formData.password"
             type="text"
             placeholder="请输入密码，默认为abc1234"
             show-password
@@ -103,7 +103,7 @@
         <el-divider content-position="left">权限信息</el-divider>
         <el-form-item label="角色" prop="role">
           <el-select
-            v-model.trim="formData.role"
+            v-model="formData.role"
             style="width: 100%"
             :placeholder="selectAttrs.placeholder"
             :disabled="disabled"
@@ -127,7 +127,7 @@
         </el-form-item>
         <el-form-item label="自我介绍" prop="introduction">
           <el-input
-            v-model.trim="formData.introduction"
+            v-model="formData.introduction"
             type="textarea"
             placeholder="请输入自我介绍"
             :rows="textAreaAttrs.rows"

@@ -59,7 +59,7 @@
         </el-form-item>
         <el-form-item label="描述">
           <el-input
-            v-model.trim="role.introduction"
+            v-model="role.introduction"
             type="textarea"
             :rows="textAreaAttrs.rows"
             :autosize="textAreaAttrs.autoSize"
