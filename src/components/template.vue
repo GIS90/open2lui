@@ -8,6 +8,7 @@
 export default {
   name: 'Template',
   components: {},
+  directives: {},
   emits: [],
   props: {},
   inject: {},
@@ -19,7 +20,10 @@ export default {
   created() {},
   mounted() {},
   methods: {},
-  setup: {}
+  template: '',
+  setup() {
+    return {}
+  }
 }
 </script>
 
