@@ -37,13 +37,24 @@
         <viewer ref="viewer" :option="viewerOption" @inited="inited">
           <img v-for="img in images" :key="img.id" :src="img.url" class="viewer-box-image">
         </viewer>
-        <!-- 分页 -->
+        <!-- page分页 -->
         <el-pagination
           class="viewer-box-pagin"
-          background
-          layout="prev, pager, next"
-          :total="1000">
-        </el-pagination>
+          :current-page="pageCur"
+          :total="pageTotal"
+          :page-size="pageSize"
+          :layout="pagAttrs.layout"
+          :page-sizes="pagAttrs.pageSizes"
+          :pager-count="pagAttrs.pagerCount"
+          :small="pagAttrs.small"
+          :background="pagAttrs.background"
+          :disabled="pagAttrs.disabled"
+          :prev-text="pagAttrs.prevText"
+          :next-text="pagAttrs.nextText"
+          :hide-on-single-page="pagAttrs.hosp"
+          @pagin-size-change="paginSizeChange"
+          @pagin-current-change="paginCurrentChange"
+        />
       </div>
 
       <!--footer-->
@@ -91,7 +102,7 @@ export default {
         title: '隐藏功能 > 随即头像',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '6%', // Dialog CSS 中的 margin-top 值
+        top: '5%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
@@ -101,6 +112,21 @@ export default {
         showClose: false, // 是否显示关闭按钮
         draggable: false, // 为 Dialog 启用可拖拽功能
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
+      },
+      // pagination attrs
+      pageCur: 1, // 当前page
+      pageSize: 15, // 每页显示条目个数
+      pageTotal: 0, // 总条数
+      pagAttrs: {
+        layout: 'total, sizes, prev, pager, next, jumper', // 组件布局
+        background: true, // 是否为分页按钮添加背景色
+        pageSizes: [15, 30, 50, 100, 500], // 每页显示个数选择器的选项设置
+        pagerCount: 5, // 页码按钮的数量，当总页数超过该值时会折叠(大于等于 5 且小于等于 21 的奇数)
+        hosp: false, // hide-on-single-page 只有一页时是否隐藏
+        small: false, // 是否使用小型分页样式，默认false，可选值：true, false
+        prevText: '<',
+        nextText: '>',
+        disabled: false
       },
       viewerOption: {
         title: false,
@@ -120,8 +146,14 @@ export default {
         { id: 11, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
         { id: 12, url: 'http://2lstore.pygo2.top/avatars/e3471b6c8b2806548eae9d4b4a22d596.jpeg' },
         { id: 13, url: 'http://2lstore.pygo2.top/avatars/f0cfc6c28eb2cee49f3c65130c28868e.jpeg' },
-        { id: 14, url: 'http://2lstore.pygo2.top/avatars/f71b2efcb9b12fc50d4fe91174291430.jpeg' }
-
+        { id: 14, url: 'http://2lstore.pygo2.top/avatars/f71b2efcb9b12fc50d4fe91174291430.jpeg' },
+        { id: 15, url: 'http://2lstore.pygo2.top/avatars/4336fa14f3f2a6c075395fad6d631611.jpeg' },
+        { id: 16, url: 'http://2lstore.pygo2.top/avatars/b7cbcdc96f20fdf497c4d3d4f5a0dbc2.jpeg' },
+        { id: 17, url: 'http://2lstore.pygo2.top/avatars/c933509f3fcc721e6f8e8612f7ec8725.jpeg' },
+        { id: 18, url: 'http://2lstore.pygo2.top/avatars/cf54984fcab697eed7df219d5128cda0.jpeg' },
+        { id: 19, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
+        { id: 20, url: 'http://2lstore.pygo2.top/avatars/e3471b6c8b2806548eae9d4b4a22d596.jpeg' },
+        { id: 21, url: 'http://2lstore.pygo2.top/avatars/f0cfc6c28eb2cee49f3c65130c28868e.jpeg' }
       ]
     }
   },
@@ -145,6 +177,9 @@ export default {
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
+    getDataList() { // 数据获取
+
+    },
     inited(viewer) {
       this.$refs.viewer = viewer
     },
@@ -153,6 +188,14 @@ export default {
     },
     submit() { // 提交
 
+    },
+    paginSizeChange(pageSize) { // pageSize 改变时会触发
+      this.pageSize = pageSize
+      this.getDataList()
+    },
+    paginCurrentChange(page) { // currentPage 改变时会触发
+      this.pageCur = page
+      this.getDataList()
     }
   },
   setup: {}

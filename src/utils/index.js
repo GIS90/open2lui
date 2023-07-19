@@ -355,3 +355,23 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+/**
+ * @returns {Array}
+ * desc: 获取当前浏览器本身宽度，高度
+ */
+export function WindowOuterSize() {
+  const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
+  const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
+  return [width, height]
+}
+
+/**
+ * @returns {Array}
+ * desc: 获取当前浏览器内置页面宽度，高度
+ */
+export function WindowInnerSize() {
+  const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
+  const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
+  return [width, height]
+}
