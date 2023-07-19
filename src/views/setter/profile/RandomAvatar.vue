@@ -17,7 +17,7 @@
       @open="openDialog()"
       @close="closeDialog()"
     >
-      <!--title-->
+      <!-- title -->
       <template #title>
         <div @dblclick="handleFull">
           <span class="dialog-title">
@@ -31,15 +31,28 @@
           </span>
         </div>
       </template>
-      随机头像
-      <div>
-        <viewer ref="viewer" class="viewer" :images="images" :option="viewerOption" @inited="inited">
-          <template #default="scope">
-            <img v-for="src in scope.images" :key="src" :src="src" style="width: 200px;height: 200px;">{{ scope.options }}
-          </template>
+      <!-- content -->
+      <div class="viewer-box">
+        <!-- 图片 -->
+        <viewer ref="viewer" :option="viewerOption" @inited="inited">
+          <img v-for="img in images" :key="img.id" :src="img.url" class="viewer-box-image">
         </viewer>
-        <button type="button" @click="showViewer">Show</button>
+        <!-- 分页 -->
+        <el-pagination
+          class="viewer-box-pagin"
+          background
+          layout="prev, pager, next"
+          :total="1000">
+        </el-pagination>
       </div>
+
+      <!--footer-->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submit">确定</el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -75,10 +88,10 @@ export default {
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '隐藏功能',
-        width: '55%', // Dialog 的宽度
+        title: '隐藏功能 > 随即头像',
+        width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '10%', // Dialog CSS 中的 margin-top 值
+        top: '6%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
@@ -90,16 +103,25 @@ export default {
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
       },
       viewerOption: {
+        title: false,
         toolbar: false
       },
       images: [
-        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201905%2F06%2F20190506144331_HzNai.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688567771&t=a2b094ba45810322dd07b2741f50581d',
-        'https://up.enterdesk.com/edpic/8f/aa/16/8faa1679a1b494fe39f329cc3551b15c.jpg',
-        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fblog%2F202009%2F20%2F20200920233141_8676c.thumb.1000_0.webp&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688567938&t=7724e0a386a529898ffb8b24dcd47a71',
-        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202008%2F12%2F20200812105950_4WFTF.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688567938&t=7ba61063927fff4ab4c0ccb92869e8a1',
-        'https://up.enterdesk.com/edpic_source/31/8c/55/318c5586cf3a7a757684d9567fdbee66.jpg',
-        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fblog%2F202108%2F05%2F20210805211949_e77e4.thumb.1000_0.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688567938&t=54a48e345d516a37039244750bf714ce',
-        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F202004%2F02%2F20200402223216_wctja.thumb.1000_0.jpg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1688567998&t=8fe7266cf5e0084d5c896a66b64a508e'
+        { id: 1, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 2, url: 'http://2lstore.pygo2.top/avatars/2fbdcfae592accd03f6c0170b288e985.jpeg' },
+        { id: 3, url: 'http://2lstore.pygo2.top/avatars/3c87f0f3cc5af848c32d80ca05f24542.jpeg' },
+        { id: 4, url: 'http://2lstore.pygo2.top/avatars/4f6162b0284b95fa699e17f8e6f5929d.jpeg' },
+        { id: 5, url: 'http://2lstore.pygo2.top/avatars/5d9b1e6862029fce98b342e2a1b727be.jpeg' },
+        { id: 6, url: 'http://2lstore.pygo2.top/avatars/f6203911630ee1b04db542c02629b25b.jpeg' },
+        { id: 7, url: 'http://2lstore.pygo2.top/avatars/4336fa14f3f2a6c075395fad6d631611.jpeg' },
+        { id: 8, url: 'http://2lstore.pygo2.top/avatars/b7cbcdc96f20fdf497c4d3d4f5a0dbc2.jpeg' },
+        { id: 9, url: 'http://2lstore.pygo2.top/avatars/c933509f3fcc721e6f8e8612f7ec8725.jpeg' },
+        { id: 10, url: 'http://2lstore.pygo2.top/avatars/cf54984fcab697eed7df219d5128cda0.jpeg' },
+        { id: 11, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
+        { id: 12, url: 'http://2lstore.pygo2.top/avatars/e3471b6c8b2806548eae9d4b4a22d596.jpeg' },
+        { id: 13, url: 'http://2lstore.pygo2.top/avatars/f0cfc6c28eb2cee49f3c65130c28868e.jpeg' },
+        { id: 14, url: 'http://2lstore.pygo2.top/avatars/f71b2efcb9b12fc50d4fe91174291430.jpeg' }
+
       ]
     }
   },
@@ -124,10 +146,13 @@ export default {
       this.fullScreenStatus = !this.fullScreenStatus
     },
     inited(viewer) {
-      this.$viewer = viewer
+      this.$refs.viewer = viewer
     },
-    showViewer() {
+    showViewer() { // 展示浏览图片
       this.$viewer.show()
+    },
+    submit() { // 提交
+
     }
   },
   setup: {}
@@ -135,5 +160,31 @@ export default {
 </script>
 
 <style scoped>
+.viewer-box {
+  text-align: center;
+}
 
+.viewer-box-image {
+  width: 120px;
+  height: 120px;
+  margin: 5px 6px 5px 6px;
+  transition: transform .4s ease-in-out;
+  /* transition-property: none| all | property >>> all表示所有属性都有过渡效果，property定义应用过渡效果的 CSS 属性名称列表，列表以逗号分隔 */
+  /* transition-duration: time值； >>> 默认是0 没有动画效果，以秒或者毫秒计 */
+  /* transition-timing-function:linear|ease|ease-in|ease-out|ease-in-out >>> 动画效果[https://easings.net/] */
+  /* transition-delay >>> 延迟执行的时间 */
+  transform-origin: center center; /* 中心点 */
+}
+
+.viewer-box-image:hover {
+  transform: scale(1.2) rotate(360deg); /* 缩放+旋转 */
+  /*transform: translate(10px, 10px);  !* 平移translateX, translateY *!*/
+  /*transform: rotate(360deg);  !* 旋转 *!*/
+  /*transform: scale(1.2);  !* 缩放 *!*/
+  /*transform: skew(90deg, 10deg);  !* 扭曲skewX, skewY *!*/
+}
+
+.viewer-box-pagin {
+  margin-top: 20px;
+}
 </style>
