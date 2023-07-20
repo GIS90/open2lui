@@ -358,9 +358,41 @@ export function removeClass(ele, cls) {
 
 /**
  * @returns {Array}
- * desc: 获取当前浏览器本身宽度，高度
+ * desc: 屏幕宽度，高度
+ * 包含任务栏宽度/高度
  */
-export function WindowOuterSize() {
+export function WindowScreenSize() {
+  const width = screen.width ? screen.width : document.documentElement.clientWidth
+  const height = screen.height ? screen.height : document.documentElement.clientHeight
+  return [width, height]
+}
+
+/**
+ * @returns {Array}
+ * desc: 屏幕可用宽度，高度
+ */
+export function WindowScreenAvailSize() {
+  const width = screen.availWidth ? screen.availWidth : screen.width ? screen.width : document.documentElement.clientWidth
+  const height = screen.availHeight ? screen.availHeight : screen.height ? screen.height : document.documentElement.clientHeight
+  return [width, height]
+}
+
+/**
+ * @returns {Array}
+ * desc: 浏览器宽度，高度
+ */
+export function WindowBrowserOuterSize() {
+  const width = window.outerWidth ? window.outerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
+  const height = window.outerHeight ? window.outerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
+  return [width, height]
+}
+
+/**
+ * @returns {Array}
+ * desc: 浏览器可用宽度，高度
+ * 包含滚动条宽度/高度、工具栏宽度/高度
+ */
+export function WindowBrowserInnerSize() {
   const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
   const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
   return [width, height]
@@ -368,10 +400,10 @@ export function WindowOuterSize() {
 
 /**
  * @returns {Array}
- * desc: 获取当前浏览器内置页面宽度，高度
+ * desc: 浏览器页面宽度，高度
  */
-export function WindowInnerSize() {
-  const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width
-  const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height
+export function WindowBrowserPageSize() {
+  const width = document.body.clientWidth ? document.body.clientWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : window.innerWidth
+  const height = document.body.clientHeight ? document.body.clientHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : window.innerWidth
   return [width, height]
 }

@@ -34,7 +34,7 @@
       <!-- content -->
       <div class="viewer-box">
         <!-- 图片 -->
-        <viewer ref="viewer" :option="viewerOption" @inited="inited">
+        <viewer ref="viewer" :options="viewerOption" @inited="inited">
           <img v-for="img in images" :key="img.id" :src="img.url" class="viewer-box-image">
         </viewer>
         <!-- page分页 -->
@@ -72,6 +72,7 @@
 // import store from '@/store'
 import 'viewerjs/dist/viewer.css'
 import { component as Viewer } from 'v-viewer'
+import { WindowBrowserPageSize } from '@/utils/index.js'
 
 export default {
   name: 'RandomAvatar',
@@ -98,6 +99,7 @@ export default {
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
+      // dialog attrs
       dialogAttrs: {
         title: '隐藏功能 > 随即头像',
         width: '65%', // Dialog 的宽度
@@ -115,12 +117,12 @@ export default {
       },
       // pagination attrs
       pageCur: 1, // 当前page
-      pageSize: 15, // 每页显示条目个数
+      pageSize: 21, // 每页显示条目个数
       pageTotal: 0, // 总条数
       pagAttrs: {
         layout: 'total, sizes, prev, pager, next, jumper', // 组件布局
         background: true, // 是否为分页按钮添加背景色
-        pageSizes: [15, 30, 50, 100, 500], // 每页显示个数选择器的选项设置
+        pageSizes: [21, 42, 105, 210, 420], // 每页显示个数选择器的选项设置*1, *2, *5, *10, *20
         pagerCount: 5, // 页码按钮的数量，当总页数超过该值时会折叠(大于等于 5 且小于等于 21 的奇数)
         hosp: false, // hide-on-single-page 只有一页时是否隐藏
         small: false, // 是否使用小型分页样式，默认false，可选值：true, false
@@ -128,9 +130,33 @@ export default {
         nextText: '>',
         disabled: false
       },
+      // v-viewer options
       viewerOption: {
-        title: false,
-        toolbar: false
+        inline: false, // 线上模式（区域内展示，非全屏覆盖）
+        title: false, // 图片名称
+        button: true, // 关闭按钮
+        toolbar: true, // 工具栏
+        navbar: true, // 缩略图导航栏
+        fullscreen: true, // 播放全屏
+        loading: true, // 加载
+        loop: true, // 循环浏览
+        movable: true, // 拖动
+        rotatable: true, // 旋转
+        scalable: true, // 翻转
+        toggleOnDblclick: true, // 双击还原大小
+        transition: true, // 动画过渡
+        keyboard: true, // 键盘操作
+        focus: true, // 导航栏聚焦
+        zoomable: true, // 缩放
+        zoomOnTouch: true, // 触摸缩放
+        zoomOnWheel: true, // 鼠标缩放
+        tooltip: true, // 缩放百分比提示
+        zoomRatio: 0.1, // 鼠标滚轮缩放比例
+        maxZoomRatio: 10, // 鼠标滚轮缩放最大比例
+        minZoomRatio: 0.1, // 鼠标滚轮缩放最小比例
+        backdrop: true, // 预览modal背景
+        interval: 2800 // 播放时间间隔
+
       },
       images: [
         { id: 1, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
@@ -154,18 +180,39 @@ export default {
         { id: 19, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
         { id: 20, url: 'http://2lstore.pygo2.top/avatars/e3471b6c8b2806548eae9d4b4a22d596.jpeg' },
         { id: 21, url: 'http://2lstore.pygo2.top/avatars/f0cfc6c28eb2cee49f3c65130c28868e.jpeg' }
-      ]
+      ],
+      browserWidth: 0,
+      browserHeight: 0
     }
   },
-  computed: {},
+  computed: {
+    watchBrowserSize: () => {
+      const browserSize = this.browserWidth + this.browserHeight
+      this.reCalImageCount(browserSize)
+    }
+  },
   watch: {
+    // 监控浏览器宽度变化
+    browserWidth(newVal, oldVal) {
+      // this.reCalImageCount()
+    },
+    // 监控浏览器高度变化
+    browserHeight(newVal, oldVal) {
+      // this.reCalImageCount()
+    },
+    // 监控是否全屏
     fullScreenStatus(newVal, oldVal) {
       newVal ? this.fullScreenIcon = 'el-icon-copy-document' : this.fullScreenIcon = 'el-icon-full-screen'
       newVal ? this.fullScreenText = '缩小' : this.fullScreenText = '全屏'
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    const [width, height] = WindowBrowserPageSize()
+    this.browserWidth = width
+    this.browserHeight = height
+    this.reCalImageCount()
+  },
   methods: {
     openDialog() { // 初始化操作
       // 初始化非全屏
@@ -196,6 +243,18 @@ export default {
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
       this.getDataList()
+    },
+    reCalImageCount(size) { // 重新计算一行图片展示的个数，以及展示的行数
+      // 图片宽度：132 = 120（图片宽度）+ margin-left（6px）+margin-right（6px）
+      console.log(this.browserWidth, this.browserHeight)
+      console.log(this.browserWidth * 0.65 / 162)
+      const imageRow = parseInt(this.browserWidth * 0.65 / 132) > 0 ? parseInt(this.browserWidth * 0.65 / 132) : 1
+      // 图片高度：130 = 120（图片宽度）+ margin-top（5px）+margin-bottom（5px）
+      const imageCol = parseInt((this.browserHeight - 200) / 130) > 0 ? parseInt((this.browserHeight - 200) / 130) : 1
+      this.pageSize = imageRow * imageCol
+      this.pagAttrs.pageSizes = [
+        this.pageSize, this.pageSize * 2, this.pageSize * 5, this.pageSize * 10, this.pageSize * 20
+      ]
     }
   },
   setup: {}

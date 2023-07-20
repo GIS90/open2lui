@@ -11,7 +11,7 @@
           <div class="user-name" style="margin-top: 15px;color: red;">{{ user.rtx_id }}</div>
           <div class="text-center" style="margin-top: 20px;">
             <el-button id="btn-random-avatar" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" @click="openRandomAvatar">
-              Click me!
+              隐藏功能!
             </el-button>
           </div>
         </pan-thumb>
