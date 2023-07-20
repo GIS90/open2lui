@@ -110,7 +110,7 @@ export default {
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
         closeDelay: 0, // Dialog 关闭的延时时间，单位毫秒
         closeOnClickModal: true, // 是否可以通过点击 modal 关闭 Dialog
-        closeOnPressEscape: true, // 是否可以通过按下 ESC 关闭 Dialog
+        closeOnPressEscape: false, // 是否可以通过按下 ESC 关闭 Dialog
         showClose: false, // 是否显示关闭按钮
         draggable: false, // 为 Dialog 启用可拖拽功能
         center: false // 是否让 Dialog 的 header 和 footer 部分居中排列
