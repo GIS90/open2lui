@@ -31,6 +31,7 @@
           </span>
         </div>
       </template>
+
       <!-- content -->
       <div class="viewer-box">
         <!-- 图片 -->
@@ -73,6 +74,8 @@
 import 'viewerjs/dist/viewer.css'
 import { component as Viewer } from 'v-viewer'
 import { WindowBrowserPageSize } from '@/utils/index.js'
+import store from '@/store'
+import { ImageAvatarList } from '@/api/image'
 
 export default {
   name: 'RandomAvatar',
@@ -101,7 +104,7 @@ export default {
       fullScreenText: '全屏', // DIALOG全屏文本提示
       // dialog attrs
       dialogAttrs: {
-        title: '隐藏功能 > 随即头像',
+        title: '隐藏功能 > 随机头像',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -158,60 +161,43 @@ export default {
         interval: 2800 // 播放时间间隔
 
       },
-      images: [
-        { id: 1, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 2, url: 'http://2lstore.pygo2.top/avatars/2fbdcfae592accd03f6c0170b288e985.jpeg' },
-        { id: 3, url: 'http://2lstore.pygo2.top/avatars/3c87f0f3cc5af848c32d80ca05f24542.jpeg' },
-        { id: 4, url: 'http://2lstore.pygo2.top/avatars/4f6162b0284b95fa699e17f8e6f5929d.jpeg' },
-        { id: 5, url: 'http://2lstore.pygo2.top/avatars/5d9b1e6862029fce98b342e2a1b727be.jpeg' },
-        { id: 6, url: 'http://2lstore.pygo2.top/avatars/f6203911630ee1b04db542c02629b25b.jpeg' },
-        { id: 7, url: 'http://2lstore.pygo2.top/avatars/4336fa14f3f2a6c075395fad6d631611.jpeg' },
-        { id: 8, url: 'http://2lstore.pygo2.top/avatars/b7cbcdc96f20fdf497c4d3d4f5a0dbc2.jpeg' },
-        { id: 9, url: 'http://2lstore.pygo2.top/avatars/c933509f3fcc721e6f8e8612f7ec8725.jpeg' },
-        { id: 10, url: 'http://2lstore.pygo2.top/avatars/cf54984fcab697eed7df219d5128cda0.jpeg' },
-        { id: 11, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
-        { id: 12, url: 'http://2lstore.pygo2.top/avatars/e3471b6c8b2806548eae9d4b4a22d596.jpeg' },
-        { id: 13, url: 'http://2lstore.pygo2.top/avatars/f0cfc6c28eb2cee49f3c65130c28868e.jpeg' },
-        { id: 14, url: 'http://2lstore.pygo2.top/avatars/f71b2efcb9b12fc50d4fe91174291430.jpeg' },
-        { id: 15, url: 'http://2lstore.pygo2.top/avatars/4336fa14f3f2a6c075395fad6d631611.jpeg' },
-        { id: 16, url: 'http://2lstore.pygo2.top/avatars/b7cbcdc96f20fdf497c4d3d4f5a0dbc2.jpeg' },
-        { id: 17, url: 'http://2lstore.pygo2.top/avatars/c933509f3fcc721e6f8e8612f7ec8725.jpeg' },
-        { id: 18, url: 'http://2lstore.pygo2.top/avatars/cf54984fcab697eed7df219d5128cda0.jpeg' },
-        { id: 19, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
-        { id: 20, url: 'http://2lstore.pygo2.top/avatars/e3471b6c8b2806548eae9d4b4a22d596.jpeg' },
-        { id: 21, url: 'http://2lstore.pygo2.top/avatars/f0cfc6c28eb2cee49f3c65130c28868e.jpeg' }
-      ],
-      browserWidth: 0,
-      browserHeight: 0
+      images: [], // 头像Array
+      browserWidth: 0, // Modal可用展示宽度
+      browserHeight: 0 // Modal可用展示高度
     }
   },
-  computed: {
-    watchBrowserSize: () => {
-      const browserSize = this.browserWidth + this.browserHeight
-      this.reCalImageCount(browserSize)
-    }
-  },
+  computed: {},
   watch: {
-    // 监控浏览器宽度变化
-    browserWidth(newVal, oldVal) {
-      // this.reCalImageCount()
-    },
-    // 监控浏览器高度变化
-    browserHeight(newVal, oldVal) {
-      // this.reCalImageCount()
-    },
     // 监控是否全屏
     fullScreenStatus(newVal, oldVal) {
       newVal ? this.fullScreenIcon = 'el-icon-copy-document' : this.fullScreenIcon = 'el-icon-full-screen'
       newVal ? this.fullScreenText = '缩小' : this.fullScreenText = '全屏'
+      // 是否全屏触发重新渲染
+      this.reCalImageCount()
     }
   },
-  created() {},
+  created() {
+    this.$nextTick(() => {
+      this.getDataList()
+    })
+  },
   mounted() {
+    // mount初始化宽度、高度
     const [width, height] = WindowBrowserPageSize()
     this.browserWidth = width
     this.browserHeight = height
     this.reCalImageCount()
+
+    // 监控浏览器宽度、高度变化【不建议开启实时监听，否则造成API请求频繁】
+    /*
+    window.onresize = () => {
+      console.log('===========>resize')
+      const [width, height] = WindowBrowserPageSize()
+      this.browserWidth = width
+      this.browserHeight = height
+      this.reCalImageCount()
+    }
+    */
   },
   methods: {
     openDialog() { // 初始化操作
@@ -225,7 +211,29 @@ export default {
       this.fullScreenStatus = !this.fullScreenStatus
     },
     getDataList() { // 数据获取
+      // 组件禁用
+      this.disabled = true
+      // list列表参数
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'limit': this.pageSize || 21,
+        'offset': (this.pageCur - 1) * this.pageSize || 0
+      }
 
+      return new Promise((resolve, reject) => {
+        ImageAvatarList(data).then(response => {
+          const { status_id, data } = response
+          if (status_id === 100 || status_id === 101) {
+            this.images = data.list
+            this.pageTotal = data.total
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          this.disabled = false
+        })
+      })
     },
     inited(viewer) {
       this.$refs.viewer = viewer
@@ -244,17 +252,22 @@ export default {
       this.pageCur = page
       this.getDataList()
     },
-    reCalImageCount(size) { // 重新计算一行图片展示的个数，以及展示的行数
+    reCalImageCount() { // 重新计算一行图片展示的个数，以及展示的行数
       // 图片宽度：132 = 120（图片宽度）+ margin-left（6px）+margin-right（6px）
-      console.log(this.browserWidth, this.browserHeight)
-      console.log(this.browserWidth * 0.65 / 162)
-      const imageRow = parseInt(this.browserWidth * 0.65 / 132) > 0 ? parseInt(this.browserWidth * 0.65 / 132) : 1
+      // 0.65为modal宽度占比比例
+      // not exist 负值
+      const imageRow = parseInt(this.browserWidth * 0.65 / 132) > 1 ? parseInt(this.browserWidth * 0.65 / 132) : 1
       // 图片高度：130 = 120（图片宽度）+ margin-top（5px）+margin-bottom（5px）
-      const imageCol = parseInt((this.browserHeight - 200) / 130) > 0 ? parseInt((this.browserHeight - 200) / 130) : 1
+      // extraHeight  = modal header + modal footer + modal距离底部的距离
+      const extraHeight = this.fullScreenStatus ? 200 : 450
+      const imageCol = parseInt((this.browserHeight - extraHeight) / 130) > 1 ? parseInt((this.browserHeight - extraHeight) / 130) : 1
       this.pageSize = imageRow * imageCol
       this.pagAttrs.pageSizes = [
         this.pageSize, this.pageSize * 2, this.pageSize * 5, this.pageSize * 10, this.pageSize * 20
       ]
+
+      // 重新加载图片
+      this.getDataList()
     }
   },
   setup: {}
