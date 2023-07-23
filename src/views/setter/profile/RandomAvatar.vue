@@ -73,7 +73,7 @@
 // import store from '@/store'
 import 'viewerjs/dist/viewer.css'
 import { component as Viewer } from 'v-viewer'
-import { WindowBrowserPageSize } from '@/utils/index.js'
+import { WindowBrowserInnerSize } from '@/utils/index.js'
 import store from '@/store'
 import { ImageAvatarList } from '@/api/image'
 
@@ -183,18 +183,12 @@ export default {
   },
   mounted() {
     // mount初始化宽度、高度
-    const [width, height] = WindowBrowserPageSize()
-    this.browserWidth = width
-    this.browserHeight = height
     this.reCalImageCount()
 
     // 监控浏览器宽度、高度变化【不建议开启实时监听，否则造成API请求频繁】
     /*
     window.onresize = () => {
       console.log('===========>resize')
-      const [width, height] = WindowBrowserPageSize()
-      this.browserWidth = width
-      this.browserHeight = height
       this.reCalImageCount()
     }
     */
@@ -253,10 +247,17 @@ export default {
       this.getDataList()
     },
     reCalImageCount() { // 重新计算一行图片展示的个数，以及展示的行数
+      // 浏览器的高度、宽度
+      // const [width, height] = this.fullScreenStatus ? WindowBrowserInnerSize() : WindowBrowserPageSize
+      const [width, height] = WindowBrowserInnerSize()
+      this.browserWidth = width
+      this.browserHeight = height
+      // console.log('=============>resize: ', width, height)
+
       // 图片宽度：132 = 120（图片宽度）+ margin-left（6px）+margin-right（6px）
-      // 0.65为modal宽度占比比例
-      // not exist 负值
-      const imageRow = parseInt(this.browserWidth * 0.65 / 132) > 1 ? parseInt(this.browserWidth * 0.65 / 132) : 1
+      // modal宽度占比比例：0.65为modal，1为全屏
+      const ratioWidth = this.fullScreenStatus ? 1 : 0.65
+      const imageRow = parseInt(this.browserWidth * ratioWidth / 132) > 1 ? parseInt(this.browserWidth * ratioWidth / 132) : 1
       // 图片高度：130 = 120（图片宽度）+ margin-top（5px）+margin-bottom（5px）
       // extraHeight  = modal header + modal footer + modal距离底部的距离
       const extraHeight = this.fullScreenStatus ? 200 : 450
