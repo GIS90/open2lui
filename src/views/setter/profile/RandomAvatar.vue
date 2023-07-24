@@ -53,8 +53,8 @@
           :prev-text="pagAttrs.prevText"
           :next-text="pagAttrs.nextText"
           :hide-on-single-page="pagAttrs.hosp"
-          @pagin-size-change="paginSizeChange"
-          @pagin-current-change="paginCurrentChange"
+          @size-change="paginSizeChange"
+          @current-change="paginCurrentChange"
         />
       </div>
 
@@ -75,7 +75,7 @@ import 'viewerjs/dist/viewer.css'
 import { component as Viewer } from 'v-viewer'
 import { WindowBrowserInnerSize } from '@/utils/index.js'
 import store from '@/store'
-import { ImageAvatarList } from '@/api/image'
+import { ImageProfileAvatarList } from '@/api/image'
 
 export default {
   name: 'RandomAvatar',
@@ -215,7 +215,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        ImageAvatarList(data).then(response => {
+        ImageProfileAvatarList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.images = data.list

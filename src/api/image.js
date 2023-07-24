@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 // 数据字典列表
-export function ImageAvatarList(data) {
+export function ImageProfileAvatarList(data) {
   return request({
-    url: '/image/avatar_list',
+    url: '/image/profile_avatar_list',
     method: 'post',
     data
   })
