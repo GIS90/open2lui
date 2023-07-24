@@ -159,7 +159,6 @@ export default {
         minZoomRatio: 0.1, // 鼠标滚轮缩放最小比例
         backdrop: true, // 预览modal背景
         interval: 2800 // 播放时间间隔
-
       },
       images: [], // 头像Array
       browserWidth: 0, // Modal可用展示宽度
