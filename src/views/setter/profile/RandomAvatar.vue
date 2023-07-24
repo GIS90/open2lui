@@ -143,14 +143,14 @@ export default {
         fullscreen: true, // 播放全屏
         loading: true, // 加载
         loop: true, // 循环浏览
-        movable: true, // 拖动
-        rotatable: true, // 旋转
-        scalable: true, // 翻转
+        movable: true, // 拖动【toolbar】
+        rotatable: true, // 旋转【toolbar】
+        scalable: true, // 翻转【toolbar】
         toggleOnDblclick: true, // 双击还原大小
         transition: true, // 动画过渡
         keyboard: true, // 键盘操作
         focus: true, // 导航栏聚焦
-        zoomable: true, // 缩放
+        zoomable: true, // 缩放【toolbar】
         zoomOnTouch: true, // 触摸缩放
         zoomOnWheel: true, // 鼠标缩放
         tooltip: true, // 缩放百分比提示
