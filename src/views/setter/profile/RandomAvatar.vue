@@ -244,7 +244,7 @@ export default {
         ImageProfileAvatarList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
-            // this.images = data.list
+            this.images = data.list
             this.pageTotal = data.total
           }
           resolve(response)
