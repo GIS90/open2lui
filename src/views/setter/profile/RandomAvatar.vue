@@ -35,9 +35,10 @@
       <!-- content -->
       <div class="viewer-box">
         <!-- 图片 -->
-        <viewer ref="viewer" :options="viewerOption" @inited="inited">
+        <viewer ref="viewer" :options="viewerOption">
           <img v-for="img in images" :key="img.id" :src="img.url" class="viewer-box-image">
         </viewer>
+
         <!-- page分页 -->
         <el-pagination
           class="viewer-box-pagin"
@@ -138,7 +139,28 @@ export default {
         inline: false, // 线上模式（区域内展示，非全屏覆盖）
         title: false, // 图片名称
         button: true, // 关闭按钮
-        toolbar: true, // 工具栏
+        // toolbar: true, // 工具栏
+        toolbar: { // 工具栏（boolean | Visibility(0 | 1 | 2 | 3 | 4) | ToolbarButtonSize('small' | 'medium' | 'large') | Function | ToolbarButtonOptions | undefined;）
+          zoomIn: 'large', // 缩小
+          zoomOut: 'large', // 放大
+          oneToOne: 'large', // 100%
+          prev: 'large', // 上一个
+          play: 'large', // 播放
+          next: 'large', // 下一个
+          rotateLeft: 'large', // 左旋转
+          rotateRight: 'large', // 右旋转
+          flipHorizontal: 'large', // 水平翻转
+          flipVertical: 'large', // 垂直翻转
+          reset: 'large', // 重置
+          // 自定义按钮: 下载
+          download: {
+            click: function(event) {
+              console.log(event)
+            },
+            show: false,
+            size: 'large'
+          }
+        },
         navbar: true, // 缩略图导航栏
         fullscreen: true, // 播放全屏
         loading: true, // 加载
@@ -160,7 +182,13 @@ export default {
         backdrop: true, // 预览modal背景
         interval: 2800 // 播放时间间隔
       },
-      images: [], // 头像Array
+      // images: [], // 头像Array
+      images: [
+        { id: 1, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 2, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 3, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 4, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' }
+      ],
       browserWidth: 0, // Modal可用展示宽度
       browserHeight: 0 // Modal可用展示高度
     }
@@ -187,7 +215,6 @@ export default {
     // 监控浏览器宽度、高度变化【不建议开启实时监听，否则造成API请求频繁】
     /*
     window.onresize = () => {
-      console.log('===========>resize')
       this.reCalImageCount()
     }
     */
@@ -217,7 +244,7 @@ export default {
         ImageProfileAvatarList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
-            this.images = data.list
+            // this.images = data.list
             this.pageTotal = data.total
           }
           resolve(response)
@@ -228,14 +255,11 @@ export default {
         })
       })
     },
-    inited(viewer) {
-      this.$refs.viewer = viewer
-    },
     showViewer() { // 展示浏览图片
       this.$viewer.show()
     },
     submit() { // 提交
-
+      console.log('submit')
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
