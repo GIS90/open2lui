@@ -190,13 +190,13 @@ export default {
         }
       },
       curImage: '', // 当前选择的图片MD5
-      // images: [], // 头像Array
-      images: [
-        { id: 1, md5_id: 100, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 2, md5_id: 200, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 3, md5_id: 300, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 4, md5_id: 400, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' }
-      ]
+      images: [] // 头像Array
+      // images: [
+      //   { id: 1, md5_id: 100, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+      //   { id: 2, md5_id: 200, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
+      //   { id: 3, md5_id: 300, url: 'http://2lstore.pygo2.top/avatars/c933509f3fcc721e6f8e8612f7ec8725.jpeg' },
+      //   { id: 4, md5_id: 400, url: 'http://2lstore.pygo2.top/avatars/4336fa14f3f2a6c075395fad6d631611.jpeg' }
+      // ]
     }
   },
   computed: {},
