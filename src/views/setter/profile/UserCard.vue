@@ -57,7 +57,7 @@
       </div>
     </div>
     <!-- user random avatar -->
-    <random-avatar :show="randomStatus" @close-random-avatar="closeRandomAvatar" />
+    <random-avatar :show="randomStatus" @close-random-avatar="closeRandomAvatar" @update-avatar="updateAvatar" />
   </el-card>
 </template>
 

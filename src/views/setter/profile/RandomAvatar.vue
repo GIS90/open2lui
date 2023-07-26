@@ -85,7 +85,7 @@ export default {
   components: {
     'viewer': Viewer
   },
-  emits: ['close-random-avatar'],
+  emits: ['close-random-avatar', 'update-avatar'],
   props: {
     show: {
       type: Boolean,
@@ -335,8 +335,12 @@ export default {
 
       return new Promise((resolve, reject) => {
         ImageProfileAvatarSet(data).then(response => {
-          const { status_id } = response
-          if (status_id === 100 || status_id === 101) {
+          const { status_id, data } = response
+          if (status_id === 100) {
+            // 更新UserCard avatar
+            this.$emit('update-avatar', data.avatar)
+            // 更新Navbar avatar
+            this.$store.commit('user/SET_AVATAR', data.avatar)
             this.$message({
               message: '设置成功',
               type: 'success',
