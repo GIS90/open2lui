@@ -35,8 +35,8 @@
       <!-- content -->
       <div class="viewer-box">
         <!-- 图片 -->
-        <viewer ref="viewer" :options="viewerOption">
-          <img v-for="img in images" :key="img.id" :src="img.url" class="viewer-box-image">
+        <viewer ref="viewer" :options="viewerOption" :images="images" @inited="viewerInited">
+          <img v-for="(img, index) in images" :id="img.md5_id" :ref="img.md5_id" :key="index" :src="img.url" class="viewer-box-image" @click="selectViewerImage(index)">
         </viewer>
 
         <!-- page分页 -->
@@ -62,6 +62,7 @@
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
+          <el-button :disabled="disabled" type="success" @click="viewerPlay()">开始浏览</el-button>
           <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
           <el-button :disabled="disabled" :loading="loading" type="primary" @click="submit">确定</el-button>
         </span>
@@ -135,6 +136,7 @@ export default {
         disabled: false
       },
       // v-viewer options
+      viewer: '', // viewer对象
       viewerOption: {
         inline: false, // 线上模式（区域内展示，非全屏覆盖）
         title: false, // 图片名称
@@ -154,8 +156,9 @@ export default {
           reset: 'large', // 重置
           // 自定义按钮: 下载
           download: {
-            click: function(event) {
+            click: function(event, e2) {
               console.log(event)
+              console.log(e2)
             },
             show: false,
             size: 'large'
@@ -180,17 +183,19 @@ export default {
         maxZoomRatio: 10, // 鼠标滚轮缩放最大比例
         minZoomRatio: 0.1, // 鼠标滚轮缩放最小比例
         backdrop: true, // 预览modal背景
-        interval: 2800 // 播放时间间隔
+        interval: 2800, // 播放时间间隔
+        zIndex: 9999,
+        view: function() { // 图片查看事件
+        }
       },
+      curImage: '', // 当前选择的图片MD5
       // images: [], // 头像Array
       images: [
-        { id: 1, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 2, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 3, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-        { id: 4, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' }
-      ],
-      browserWidth: 0, // Modal可用展示宽度
-      browserHeight: 0 // Modal可用展示高度
+        { id: 1, md5_id: 100, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 2, md5_id: 200, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 3, md5_id: 300, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
+        { id: 4, md5_id: 400, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' }
+      ]
     }
   },
   computed: {},
@@ -255,8 +260,39 @@ export default {
         })
       })
     },
-    showViewer() { // 展示浏览图片
-      this.$viewer.show()
+    viewerInited(viewer) {
+      // 初始化viewer对象
+      // this.$viewer = viewer
+      if (viewer) {
+        this.viewer = viewer
+      }
+    },
+    viewerPlay() { // 浏览图片
+      console.log(this.viewer)
+      if (this.viewer) {
+        // 设置从0开始
+        this.viewer.index = 0
+        setTimeout(() => {
+          this.viewer.show()
+        }, 250)
+      }
+    },
+    selectViewerImage(selectIndex) {
+      if (this.images && selectIndex >= 0) {
+        this.images.forEach((item, index) => {
+          // 清空image选择样式
+          // document.getElementById(item.md5_id).classList.remove('viewer-select-image')
+          this.$refs[item.md5_id][0].classList.remove('viewer-select-image') // ref动态变量[0]
+
+          if (index === selectIndex) {
+            // 当前选择image-md5
+            this.curImage = item.md5_id
+            // 当前被选择查看的image的样式
+            // document.getElementById(item.md5_id).classList.add('viewer-select-image')
+            this.$refs[item.md5_id][0].classList.add('viewer-select-image')
+          }
+        })
+      }
     },
     submit() { // 提交
       console.log('submit')
@@ -273,18 +309,16 @@ export default {
       // 浏览器的高度、宽度
       // const [width, height] = this.fullScreenStatus ? WindowBrowserInnerSize() : WindowBrowserPageSize
       const [width, height] = WindowBrowserInnerSize()
-      this.browserWidth = width
-      this.browserHeight = height
       // console.log('=============>resize: ', width, height)
 
       // 图片宽度：132 = 120（图片宽度）+ margin-left（6px）+margin-right（6px）
       // modal宽度占比比例：0.65为modal，1为全屏
       const ratioWidth = this.fullScreenStatus ? 1 : 0.65
-      const imageRow = parseInt(this.browserWidth * ratioWidth / 132) > 1 ? parseInt(this.browserWidth * ratioWidth / 132) : 1
+      const imageRow = parseInt(width * ratioWidth / 132) > 1 ? parseInt(width * ratioWidth / 132) : 1
       // 图片高度：130 = 120（图片宽度）+ margin-top（5px）+margin-bottom（5px）
       // extraHeight  = modal header + modal footer + modal距离底部的距离
       const extraHeight = this.fullScreenStatus ? 200 : 450
-      const imageCol = parseInt((this.browserHeight - extraHeight) / 130) > 1 ? parseInt((this.browserHeight - extraHeight) / 130) : 1
+      const imageCol = parseInt((height - extraHeight) / 130) > 1 ? parseInt((height - extraHeight) / 130) : 1
       this.pageSize = imageRow * imageCol
       this.pagAttrs.pageSizes = [
         this.pageSize, this.pageSize * 2, this.pageSize * 5, this.pageSize * 10, this.pageSize * 20
@@ -304,6 +338,7 @@ export default {
 }
 
 .viewer-box-image {
+  border: 3px dotted blue;
   width: 120px;
   height: 120px;
   margin: 5px 6px 5px 6px;
@@ -325,5 +360,9 @@ export default {
 
 .viewer-box-pagin {
   margin-top: 20px;
+}
+
+.viewer-select-image {
+  border: 5px solid red !important;
 }
 </style>
