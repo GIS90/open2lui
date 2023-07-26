@@ -62,8 +62,9 @@
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
-          <el-button :disabled="disabled" type="success" @click="viewerPlay()">开始浏览</el-button>
-          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
+          <el-button :disabled="disabled" type="success" @click="viewerPlay">开始浏览</el-button>
+          <el-button :disabled="disabled" type="danger" @click="clearSelectViewer">清空选择</el-button>
+          <el-button :disabled="disabled" @click="closeDialog">取消</el-button>
           <el-button :disabled="disabled" :loading="loading" type="primary" @click="submit">确定</el-button>
         </span>
       </template>
@@ -107,7 +108,7 @@ export default {
       // dialog attrs
       dialogAttrs: {
         title: '隐藏功能 > 随机头像',
-        width: '65%', // Dialog 的宽度
+        width: '68%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
@@ -294,6 +295,22 @@ export default {
         })
       }
     },
+    clearSelectViewer() {
+      if (this.curImage) {
+        this.$refs[this.curImage][0].classList.remove('viewer-select-image')
+        this.curImage = ''
+      } else {
+        this.$notify({
+          title: '警告', // 标题
+          type: 'warning', // 类型：success/warning/info/error
+          message: '无选择头像', // 消息
+          duration: 2000, // 显示时间(毫秒)
+          // offset: 300, // 偏移量
+          position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
+          showClose: false // 是否显示关闭按钮
+        })
+      }
+    },
     submit() { // 提交
       console.log('submit')
     },
@@ -311,14 +328,14 @@ export default {
       const [width, height] = WindowBrowserInnerSize()
       // console.log('=============>resize: ', width, height)
 
-      // 图片宽度：132 = 120（图片宽度）+ margin-left（6px）+margin-right（6px）
+      // 图片宽度：132 = 120（图片宽度）+ margin-left（9px）+margin-right（9px）
       // modal宽度占比比例：0.65为modal，1为全屏
-      const ratioWidth = this.fullScreenStatus ? 1 : 0.65
-      const imageRow = parseInt(width * ratioWidth / 132) > 1 ? parseInt(width * ratioWidth / 132) : 1
-      // 图片高度：130 = 120（图片宽度）+ margin-top（5px）+margin-bottom（5px）
+      const ratioWidth = this.fullScreenStatus ? 1 : 0.68
+      const imageRow = parseInt(width * ratioWidth / 139) > 1 ? parseInt(width * ratioWidth / 139) : 1
+      // 图片高度：130 = 120（图片宽度）+ margin-top（7px）+margin-bottom（7px）
       // extraHeight  = modal header + modal footer + modal距离底部的距离
       const extraHeight = this.fullScreenStatus ? 200 : 450
-      const imageCol = parseInt((height - extraHeight) / 130) > 1 ? parseInt((height - extraHeight) / 130) : 1
+      const imageCol = parseInt((height - extraHeight) / 134) > 1 ? parseInt((height - extraHeight) / 134) : 1
       this.pageSize = imageRow * imageCol
       this.pagAttrs.pageSizes = [
         this.pageSize, this.pageSize * 2, this.pageSize * 5, this.pageSize * 10, this.pageSize * 20
@@ -338,10 +355,11 @@ export default {
 }
 
 .viewer-box-image {
-  border: 3px dotted blue;
+  /*border: 3px solid blue;*/
+  border-radius: 5px;
   width: 120px;
   height: 120px;
-  margin: 5px 6px 5px 6px;
+  margin: 7px 9px 7px 9px;
   transition: transform .4s ease-in-out;
   /* transition-property: none| all | property >>> all表示所有属性都有过渡效果，property定义应用过渡效果的 CSS 属性名称列表，列表以逗号分隔 */
   /* transition-duration: time值； >>> 默认是0 没有动画效果，以秒或者毫秒计 */
@@ -358,11 +376,12 @@ export default {
   /*transform: skew(90deg, 10deg);  !* 扭曲skewX, skewY *!*/
 }
 
-.viewer-box-pagin {
-  margin-top: 20px;
+.viewer-select-image {
+  border: 7px double red;
+  border-image: linear-gradient(to right, #FFFF00FF, #FF0000FF) 1;
 }
 
-.viewer-select-image {
-  border: 5px solid red !important;
+.viewer-box-pagin {
+  margin-top: 20px;
 }
 </style>
