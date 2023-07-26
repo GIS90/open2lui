@@ -8,3 +8,13 @@ export function ImageProfileAvatarList(data) {
     data
   })
 }
+
+// 数据字典列表
+export function ImageProfileAvatarSet(data) {
+  return request({
+    url: '/image/profile_avatar_set',
+    method: 'post',
+    data
+  })
+}
+

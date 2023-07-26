@@ -62,10 +62,10 @@
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
-          <el-button :disabled="disabled" type="success" @click="viewerPlay">开始浏览</el-button>
+          <el-button :disabled="disabled" type="primary" plain @click="viewerPlay">开始浏览</el-button>
           <el-button :disabled="disabled" type="danger" @click="clearSelectViewer">清空选择</el-button>
-          <el-button :disabled="disabled" @click="closeDialog">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click="submit">确定</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="success" @click="submit">设置</el-button>
+          <el-button :disabled="disabled" @click="closeDialog">关闭</el-button>
         </span>
       </template>
     </el-dialog>
@@ -78,7 +78,7 @@ import 'viewerjs/dist/viewer.css'
 import { component as Viewer } from 'v-viewer'
 import { WindowBrowserInnerSize } from '@/utils/index.js'
 import store from '@/store'
-import { ImageProfileAvatarList } from '@/api/image'
+import { ImageProfileAvatarList, ImageProfileAvatarSet } from '@/api/image'
 
 export default {
   name: 'RandomAvatar',
@@ -239,6 +239,7 @@ export default {
     getDataList() { // 数据获取
       // 组件禁用
       this.disabled = true
+
       // list列表参数
       const data = {
         'rtx_id': store.getters.rtx_id,
@@ -312,7 +313,44 @@ export default {
       }
     },
     submit() { // 提交
-      console.log('submit')
+      // check
+      if (!this.curImage) {
+        this.$message({
+          message: '请选择喜欢的头像',
+          type: 'warning',
+          duration: 2.0 * 1000
+        })
+        return false
+      }
+
+      // 组件禁用
+      this.disabled = true
+      this.loading = true
+
+      // list列表参数
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'avatar': this.curImage
+      }
+
+      return new Promise((resolve, reject) => {
+        ImageProfileAvatarSet(data).then(response => {
+          const { status_id } = response
+          if (status_id === 100 || status_id === 101) {
+            this.$message({
+              message: '设置成功',
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        }).finally(() => {
+          this.disabled = false
+          this.loading = false
+        })
+      })
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
