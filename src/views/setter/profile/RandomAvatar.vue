@@ -420,7 +420,7 @@ export default {
 
 .viewer-select-image {
   border: 7px double red;
-  border-image: linear-gradient(to right, #FFFF00FF, #FF0000FF) 1;
+  border-image: linear-gradient(to right, #FF0000FF, #FFFF00FF) 1;
 }
 
 .viewer-box-pagin {
