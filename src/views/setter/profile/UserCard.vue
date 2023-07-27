@@ -1,7 +1,7 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <strong>About me</strong>
+      <strong>一个人的自我修养</strong>
     </div>
 
     <div class="user-profile">
