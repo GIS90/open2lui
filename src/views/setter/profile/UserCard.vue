@@ -26,7 +26,7 @@
     <!-- user introduction -->
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>自我介绍</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="education" style="color: red" /><span>自我介绍</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             <div class="user-introduction text-muted">{{ user.introduction }}</div>
