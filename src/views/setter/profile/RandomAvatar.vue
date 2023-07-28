@@ -190,13 +190,8 @@ export default {
         }
       },
       curImage: '', // 当前选择的图片MD5
+      curImageIndex: '', // 当前选择的图片索引
       images: [] // 头像Array
-      // images: [
-      //   { id: 1, md5_id: 100, url: 'http://2lstore.pygo2.top/avatars/1a02dfe1808eaadc5e9c8d70f5733daa.jpeg' },
-      //   { id: 2, md5_id: 200, url: 'http://2lstore.pygo2.top/avatars/d65d529de6fb7a186d07e3920767307a.jpeg' },
-      //   { id: 3, md5_id: 300, url: 'http://2lstore.pygo2.top/avatars/c933509f3fcc721e6f8e8612f7ec8725.jpeg' },
-      //   { id: 4, md5_id: 400, url: 'http://2lstore.pygo2.top/avatars/4336fa14f3f2a6c075395fad6d631611.jpeg' }
-      // ]
     }
   },
   computed: {},
@@ -270,7 +265,6 @@ export default {
       }
     },
     viewerPlay() { // 浏览图片
-      console.log(this.viewer)
       if (this.viewer) {
         // 设置从0开始
         this.viewer.index = 0
@@ -281,6 +275,9 @@ export default {
     },
     selectViewerImage(selectIndex) {
       if (this.images && selectIndex >= 0) {
+        // 设置当前图片选择的索引
+        this.curImageIndex = selectIndex
+        // 设置选择的样式
         this.images.forEach((item, index) => {
           // 清空image选择样式
           // document.getElementById(item.md5_id).classList.remove('viewer-select-image')
@@ -397,7 +394,7 @@ export default {
 }
 
 .viewer-box-image {
-  /*border: 3px solid blue;*/
+  /*border: 8px outset #FF6600;*/
   border-radius: 5px;
   width: 120px;
   height: 120px;
@@ -407,10 +404,10 @@ export default {
   /* transition-duration: time值； >>> 默认是0 没有动画效果，以秒或者毫秒计 */
   /* transition-timing-function:linear|ease|ease-in|ease-out|ease-in-out >>> 动画效果[https://easings.net/] */
   /* transition-delay >>> 延迟执行的时间 */
-  transform-origin: center center; /* 中心点 */
 }
 
 .viewer-box-image:hover {
+  transform-origin: center center; /* 中心点 */
   transform: scale(1.2) rotate(360deg); /* 缩放+旋转 */
   /*transform: translate(10px, 10px);  !* 平移translateX, translateY *!*/
   /*transform: rotate(360deg);  !* 旋转 *!*/
@@ -418,9 +415,19 @@ export default {
   /*transform: skew(90deg, 10deg);  !* 扭曲skewX, skewY *!*/
 }
 
+@keyframes select-image-an {
+  0% {
+    border: 27px solid;
+    border-image: linear-gradient(#FF0000FF, #84cdfa, #FFFF00FF) 1;
+  }
+  100% {
+    border: 7px solid;
+    border-image: linear-gradient(#FF0000FF, #84cdfa, #FFFF00FF) 1;
+  }
+}
+
 .viewer-select-image {
-  border: 7px double red;
-  border-image: linear-gradient(to right, #FF0000FF, #FFFF00FF) 1;
+  animation: select-image-an 1.5s linear infinite alternate;
 }
 
 .viewer-box-pagin {
