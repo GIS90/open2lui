@@ -476,4 +476,9 @@ export default {
 .op-btn-margin {
   margin-left: 35px;
 }
+
+/* 更改操作按钮大小 */
+.el-button--mini.is-circle {
+  padding: 5px !important;
+}
 </style>
