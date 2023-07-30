@@ -10,7 +10,7 @@ const infoRouter = {
   meta: {
     // roles: ['admin','editor']
     title: '信息维护',
-    icon: 'i_info'
+    icon: 'c-info'
   },
   children: [
     {

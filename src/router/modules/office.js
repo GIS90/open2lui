@@ -10,7 +10,7 @@ const officeRouter = {
   meta: {
     // roles: ['admin','editor']
     title: '表格工具',
-    icon: 'i_office'
+    icon: 'c-office'
   },
   children: [
     {

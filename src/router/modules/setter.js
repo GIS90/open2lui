@@ -10,7 +10,7 @@ const setterRouter = {
   meta: {
     // roles: ['admin','editor']
     title: '个人设置',
-    icon: 'i_setter'
+    icon: 'c-setter'
   },
   children: [
     {

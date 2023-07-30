@@ -10,7 +10,7 @@ const searchRouter = {
   meta: {
     // roles: ['admin','editor']
     title: '问题检索',
-    icon: 'i_search'
+    icon: 'c-search'
   },
   children: [
     {

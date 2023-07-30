@@ -10,7 +10,7 @@ const manageRouter = {
   meta: {
     // roles: ['admin','editor']
     title: '权限管理',
-    icon: 'i_manage'
+    icon: 'c-manage'
   },
   children: [
     {

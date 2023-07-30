@@ -16,7 +16,7 @@
       <el-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2" class="card-box">
         <el-tooltip content="快捷功能编辑" placement="top" effect="dark">
           <div class="card-box-icon-wrapper card-box-icon-div-edit" @click="openEdit">
-            <svg-icon icon-class="c_edit" class-name="card-box-icon" />
+            <svg-icon icon-class="c-edit" class-name="card-box-icon" />
           </div>
         </el-tooltip>
       </el-col>

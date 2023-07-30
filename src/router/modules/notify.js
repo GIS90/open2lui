@@ -10,7 +10,7 @@ const notifyRouter = {
   meta: {
     // roles: ['admin','editor']
     title: '通知消息',
-    icon: 'i_notify'
+    icon: 'c-notify'
   },
   children: [
     {
