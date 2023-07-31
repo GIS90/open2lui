@@ -75,7 +75,7 @@
                 <p><el-tag>表{{ index }}</el-tag>: {{ item.value }}</p>
               </div>
               <div slot="reference">
-                <el-tag effect="dark" type="danger">{{ scope.row.nsheet }}</el-tag>
+                <el-tag type="danger">{{ scope.row.nsheet }}</el-tag>
               </div>
             </el-popover>
           </template>
