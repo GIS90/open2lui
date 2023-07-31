@@ -51,6 +51,19 @@ const infoRouter = {
         affix: false,
         breadcrumb: true
       }
+    },
+    {
+      name: 'InfoAvatar',
+      path: 'avatar',
+      hidden: false,
+      component: () => import('@/views/info/avatar.vue'),
+      meta: {
+        title: '头像管理',
+        icon: 'i-avatar',
+        noCache: false,
+        affix: false,
+        breadcrumb: true
+      }
     }
   ]
 }
