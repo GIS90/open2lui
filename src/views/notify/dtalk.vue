@@ -70,12 +70,12 @@
         <el-table-column prop="set_sheet_name" label="操作Sheet" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column label="Sheet数" width="170" sortable :align="tableRowAttrs.align">
           <template slot-scope="scope">
-            <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
+            <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="320">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
-                <p>{{ item.key }}: {{ item.value }}</p>
+                <p><el-tag>表{{ index }}</el-tag>: {{ item.value }}</p>
               </div>
               <div slot="reference">
-                <el-tag effect="plain">{{ scope.row.nsheet }}</el-tag>
+                <el-tag effect="dark" type="danger">{{ scope.row.nsheet }}</el-tag>
               </div>
             </el-popover>
           </template>
