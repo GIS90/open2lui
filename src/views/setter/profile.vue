@@ -31,7 +31,7 @@ import Timeline from './profile/Timeline'
 import Account from './profile/Account'
 
 export default {
-  name: 'Profile',
+  name: 'SetterProfile',
   components: {
     'user-card': UserCard,
     'time-line': Timeline,

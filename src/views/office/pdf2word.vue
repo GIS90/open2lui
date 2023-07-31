@@ -105,7 +105,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { officePDFDelete, officePdf2WordList } from '@/api/office'
 
 export default {
-  name: 'Pdf2word',
+  name: 'OfficePdf2word',
   emits: [],
   components: {
     'batch-delete': BatchDelete,

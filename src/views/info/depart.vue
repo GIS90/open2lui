@@ -96,7 +96,7 @@ import DepartEdit from '@/services/info/DepartEdit'
 import { InfoDepartList, InfoDepartRemove, InfoDepartDetail, InfoDepartDrag } from '@/api/info'
 
 export default {
-  name: 'Department',
+  name: 'InfoDepart',
   emits: [],
   components: {
     'depart-add': DepartAdd,

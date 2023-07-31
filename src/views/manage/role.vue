@@ -109,7 +109,7 @@ import { roleDelete, getRoleList } from '@/api/manage'
 import { adminRoleRtx } from '@/settings.js'
 
 export default {
-  name: 'Role',
+  name: 'ManageRole',
   emits: [],
   components: {
     'role-add': RoleAdd,

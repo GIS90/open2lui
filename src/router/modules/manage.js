@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
 const manageRouter = {
+  name: 'Manage',
   path: '/manage',
   hidden: false,
   component: Layout,
   redirect: '/manage/user',
-  name: 'Manage',
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
@@ -14,10 +14,10 @@ const manageRouter = {
   },
   children: [
     {
+      name: 'ManageUser',
       path: 'user',
       hidden: false,
       component: () => import('@/views/manage/user.vue'),
-      name: 'ManageUser',
       meta: {
         title: '用户管理',
         icon: 'peoples',
@@ -27,10 +27,10 @@ const manageRouter = {
       }
     },
     {
+      name: 'ManageRole',
       path: 'role',
       hidden: false,
       component: () => import('@/views/manage/role.vue'),
-      name: 'ManageRole',
       meta: {
         title: '角色管理',
         icon: 'i_role',
@@ -40,10 +40,10 @@ const manageRouter = {
       }
     },
     {
+      name: 'ManageMenu',
       path: 'menu',
       hidden: false,
       component: () => import('@/views/manage/menu.vue'),
-      name: 'ManageMenu',
       meta: {
         title: '菜单管理',
         icon: 'component',

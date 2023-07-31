@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
 const searchRouter = {
+  name: 'Search',
   path: '/search',
   hidden: false,
   component: Layout,
-  redirect: '/search/probase',
-  name: 'Search',
+  redirect: '/search/sqlbase',
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
@@ -14,10 +14,23 @@ const searchRouter = {
   },
   children: [
     {
+      name: 'SearchSqlbase',
+      path: 'sqlbase',
+      hidden: false,
+      component: () => import('@/views/search/sqlbase.vue'),
+      meta: {
+        title: '取数仓库',
+        icon: 'i_sql',
+        noCache: false,
+        affix: false,
+        breadcrumb: true
+      }
+    },
+    {
+      name: 'SearchProbase',
       path: 'probase',
       hidden: false,
       component: () => import('@/views/search/probase.vue'),
-      name: 'SearchProbase',
       meta: {
         title: '问题仓库',
         icon: 'i_problem',
@@ -27,13 +40,13 @@ const searchRouter = {
       }
     },
     {
-      path: 'sqlbase',
+      name: 'SearchShare',
+      path: 'share',
       hidden: false,
-      component: () => import('@/views/search/sqlbase.vue'),
-      name: 'SearchSqlbase',
+      component: () => import('@/views/search/share.vue'),
       meta: {
-        title: '取数仓库',
-        icon: 'i_sql',
+        title: '知识分享',
+        icon: 'i_share',
         noCache: false,
         affix: false,
         breadcrumb: true

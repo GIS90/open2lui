@@ -113,7 +113,7 @@ import MenuStatus from '@/services/manage/MenuStatus'
 import { getMenuList } from '@/api/manage'
 
 export default {
-  name: 'Menu',
+  name: 'ManageMenu',
   emits: [],
   components: {
     'menu-expand': MenuExpand,

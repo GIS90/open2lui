@@ -118,7 +118,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { InfoDictDelete, InfoDictList } from '@/api/info'
 
 export default {
-  name: 'Dict',
+  name: 'InfoDict',
   emits: [],
   components: {
     'dict-add': DictAdd,

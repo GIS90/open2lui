@@ -143,7 +143,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { notifyDtalkList, notifyDtalkDelete } from '@/api/notify'
 
 export default {
-  name: 'Dtalk',
+  name: 'NotifyDtalk',
   emits: [],
   components: {
     'batch-delete': BatchDelete,

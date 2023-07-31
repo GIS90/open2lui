@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
 const officeRouter = {
+  name: 'Office',
   path: '/office',
   hidden: false,
   component: Layout,
   redirect: '/office/pdf2word',
-  name: 'Excel',
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
@@ -14,10 +14,10 @@ const officeRouter = {
   },
   children: [
     {
+      name: 'PdfToWord',
       path: 'pdf2word',
       hidden: false,
       component: () => import('@/views/office/pdf2word.vue'),
-      name: 'PdfToWord',
       meta: {
         title: 'PDF转WORD',
         icon: 'i_word',
@@ -27,10 +27,10 @@ const officeRouter = {
       }
     },
     {
-      path: 'emerge',
+      name: 'ExcelMerge',
+      path: 'merge',
       hidden: false,
       component: () => import('@/views/office/merge.vue'),
-      name: 'ExcelMerge',
       meta: {
         title: '表格合并',
         icon: 'i_merge',
@@ -40,10 +40,10 @@ const officeRouter = {
       }
     },
     {
-      path: 'esplit',
+      name: 'ExcelSplit',
+      path: 'split',
       hidden: false,
       component: () => import('@/views/office/split.vue'),
-      name: 'ExcelSplit',
       meta: {
         title: '表格拆分',
         icon: 'i_split',
@@ -53,10 +53,10 @@ const officeRouter = {
       }
     },
     {
-      path: 'ehistory',
+      name: 'ExcelHistory',
+      path: 'history',
       hidden: false,
       component: () => import('@/views/office/history.vue'),
-      name: 'ExcelHistory',
       meta: {
         title: '表格历史',
         icon: 'i_excel',

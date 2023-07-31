@@ -130,7 +130,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { officeExcelResultDelete, officeExcelResultList } from '@/api/office'
 
 export default {
-  name: 'History',
+  name: 'OfficeHistory',
   emits: [],
   components: {
     'excel-history-set': ExcelHistorySet,

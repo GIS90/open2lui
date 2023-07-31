@@ -131,7 +131,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { officeExcelSourceList, officeExcelSourceDelete } from '@/api/office'
 
 export default {
-  name: 'Split',
+  name: 'OfficeSplit',
   components: {
     'excel-split-tip': ExcelSplitTip,
     'excel-split-set': ExcelSplitSet,

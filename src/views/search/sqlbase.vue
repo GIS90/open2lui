@@ -136,7 +136,7 @@ import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
 import BatchDelete from '@/components/BatchDelete'
 
 export default {
-  name: 'SqlBase',
+  name: 'SearchSqlBase',
   components: {
     'sql-base-add': SqlBaseAdd,
     'sql-base-set': SqlBaseSet,

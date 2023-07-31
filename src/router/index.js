@@ -7,12 +7,12 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import searchRouter from './modules/search'
-import officeRouter from './modules/office'
-import notifyRouter from './modules/notify'
-import infoRouter from './modules/info'
-import manageRouter from './modules/manage'
-import setterRouter from './modules/setter'
+// import searchRouter from './modules/search'
+// import officeRouter from './modules/office'
+// import notifyRouter from './modules/notify'
+// import infoRouter from './modules/info'
+// import manageRouter from './modules/manage'
+// import setterRouter from './modules/setter'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -88,12 +88,12 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
 
-  searchRouter,
-  officeRouter,
-  notifyRouter,
-  infoRouter,
-  manageRouter,
-  setterRouter,
+  // searchRouter,
+  // officeRouter,
+  // notifyRouter,
+  // infoRouter,
+  // manageRouter,
+  // setterRouter,
 
   {
     path: '/icon',

@@ -124,7 +124,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { officeExcelSourceList, officeExcelSourceDelete } from '@/api/office'
 
 export default {
-  name: 'Merge',
+  name: 'OfficeMerge',
   components: {
     'excel-merge-tip': ExcelMergeTip,
     'excel-merge-set': ExcelMergeSet,

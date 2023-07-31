@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
 const notifyRouter = {
+  name: 'Notify',
   path: '/notify',
   hidden: false,
   component: Layout,
   redirect: '/notify/message',
-  name: 'Notify',
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
@@ -14,23 +14,10 @@ const notifyRouter = {
   },
   children: [
     {
-      path: 'message',
-      hidden: false,
-      component: () => import('@/views/notify/message.vue'),
-      name: 'NotifyMessage',
-      meta: {
-        title: '短信通知',
-        icon: 'message',
-        noCache: false,
-        affix: false,
-        breadcrumb: true
-      }
-    },
-    {
+      name: 'NotifyDtalk',
       path: 'dtalk',
       hidden: false,
       component: () => import('@/views/notify/dtalk.vue'),
-      name: 'NotifyDtalk',
       meta: {
         title: '钉钉绩效',
         icon: 'i_dtalk',
@@ -40,13 +27,26 @@ const notifyRouter = {
       }
     },
     {
+      name: 'NotifyQywx',
       path: 'qywx',
       hidden: false,
       component: () => import('@/views/notify/qywx.vue'),
-      name: 'NotifyQywx',
       meta: {
         title: '企微通知',
         icon: 'i_qywx',
+        noCache: false,
+        affix: false,
+        breadcrumb: true
+      }
+    },
+    {
+      name: 'NotifyMessage',
+      path: 'message',
+      hidden: false,
+      component: () => import('@/views/notify/message.vue'),
+      meta: {
+        title: '短信通知',
+        icon: 'message',
         noCache: false,
         affix: false,
         breadcrumb: true

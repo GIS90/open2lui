@@ -24,7 +24,7 @@ import steps from './guide/steps.js'
 import { baseInfo, logoTitle, loginTitle } from '@/settings.js'
 
 export default {
-  name: 'Guide',
+  name: 'SetterGuide',
   components: {
     typewriter
   },

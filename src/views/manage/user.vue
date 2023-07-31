@@ -114,7 +114,7 @@ import Pagination from '@/components/Pagination'
 import { getUserList } from '@/api/manage'
 
 export default {
-  name: 'User',
+  name: 'ManageUser',
   emits: [],
   components: {
     'user-add': UserAdd,

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'SearchProBase'
+  name: 'SearchShare'
 }
 </script>
 

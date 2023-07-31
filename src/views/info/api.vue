@@ -116,7 +116,7 @@ import { InfoApiDelete, InfoApiList } from '@/api/info'
 import BatchDelete from '@/components/BatchDelete'
 
 export default {
-  name: 'Api',
+  name: 'InfoApi',
   components: {
     'api-add': ApiAdd,
     'api-set': ApiSet,

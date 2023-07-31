@@ -130,7 +130,7 @@ import BatchDelete from '@/components/BatchDelete'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
 
 export default {
-  name: 'Qywx',
+  name: 'NotifyQywx',
   components: {
     'qywx-add': QywxAdd,
     'qywx-set': QywxSet,

@@ -1,11 +1,11 @@
 import Layout from '@/layout'
 
 const infoRouter = {
+  name: 'Info',
   path: '/info',
   hidden: false,
   component: Layout,
-  redirect: '/info/department',
-  name: 'Info',
+  redirect: '/info/depart',
   alwaysShow: true,
   meta: {
     // roles: ['admin','editor']
@@ -14,10 +14,10 @@ const infoRouter = {
   },
   children: [
     {
-      path: 'department',
+      name: 'InfoDepart',
+      path: 'depart',
       hidden: false,
-      component: () => import('@/views/info/department.vue'),
-      name: 'InfoDepartment',
+      component: () => import('@/views/info/depart.vue'),
       meta: {
         title: '部门架构',
         icon: 'tree',
@@ -27,13 +27,26 @@ const infoRouter = {
       }
     },
     {
+      name: 'InfoDict',
       path: 'dict',
       hidden: false,
       component: () => import('@/views/info/dict.vue'),
-      name: 'InfoDict',
       meta: {
         title: '数据字典',
         icon: 'i_dict',
+        noCache: false,
+        affix: false,
+        breadcrumb: true
+      }
+    },
+    {
+      name: 'InfoApi',
+      path: 'api',
+      hidden: false,
+      component: () => import('@/views/info/api.vue'),
+      meta: {
+        title: '后台API',
+        icon: 'i_api',
         noCache: false,
         affix: false,
         breadcrumb: true
