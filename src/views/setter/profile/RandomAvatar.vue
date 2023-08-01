@@ -427,6 +427,7 @@ export default {
 }
 
 .viewer-select-image {
+  /* 动画效果[https://easings.net/] */
   animation: select-image-an 1.5s linear infinite alternate;
 }
 
