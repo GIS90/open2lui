@@ -62,9 +62,9 @@
       <!--footer-->
       <template #footer>
         <span class="dialog-footer">
-          <el-button :disabled="disabled" type="primary" plain @click="viewerPlay">开始浏览</el-button>
-          <el-button :disabled="disabled" type="danger" @click="clearSelectViewer">清空选择</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="success" @click="submit">设置</el-button>
+          <el-button :disabled="disabled" type="success" plain @click="viewerPlay">开始浏览</el-button>
+          <el-button :disabled="disabled" type="danger" plain @click="clearSelectViewer">清空选择</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" plain @click="submit">选择</el-button>
           <el-button :disabled="disabled" @click="closeDialog">关闭</el-button>
         </span>
       </template>
@@ -107,7 +107,7 @@ export default {
       fullScreenText: '全屏', // DIALOG全屏文本提示
       // dialog attrs
       dialogAttrs: {
-        title: '隐藏功能 > 随机头像',
+        title: '隐藏功能 > 头像超市',
         width: '68%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
