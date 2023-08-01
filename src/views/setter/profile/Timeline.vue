@@ -1,7 +1,7 @@
 <template>
   <div class="block">
     <!-- Back top 回到顶部 -->
-    <el-backtop :bottom="200" style="color: white;background-color: #42B984"/>
+    <el-backtop :bottom="200" style="color: white;background-color: #42B984" />
 
     <el-timeline>
       <el-timeline-item
