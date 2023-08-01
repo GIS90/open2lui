@@ -66,7 +66,7 @@ export default {
       pagAttrs: {
         layout: 'total, sizes, prev, pager, next, jumper', // 组件布局
         background: false, // 是否为分页按钮添加背景色
-        pageSizes: [10, 25, 100, 500, 200], // 每页显示个数选择器的选项设置
+        pageSizes: [10, 25, 100, 500, 2000], // 每页显示个数选择器的选项设置
         pagerCount: 5, // 页码按钮的数量，当总页数超过该值时会折叠(大于等于 5 且小于等于 21 的奇数)
         hosp: false, // hide-on-single-page 只有一页时是否隐藏
         small: false, // 是否使用小型分页样式，默认false，可选值：true, false
