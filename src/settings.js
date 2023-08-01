@@ -56,7 +56,7 @@ module.exports = {
    * */
   baseInfo: {
     name: 'OpenTool-Z',
-    version: 'V1.2.1',
+    version: 'V1.3.0',
     author: 'PyGo²',
     furl: 'https://github.com/GIS90/open2lui.git',
     burl: 'https://github.com/GIS90/open2lisapi.git'

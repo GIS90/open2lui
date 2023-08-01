@@ -2,6 +2,7 @@
   <div class="drawer-container">
     <!-- 登录人 -->
     <h3>欢迎，<span class="info_red"> {{ rtx_id }}</span></h3>
+    <div class="drawer-item">系统有隐藏功能，快去寻宝吧</div>
     <!-- 系统基础信息 -->
     <div v-show="info">
       <h3 class="drawer-title">系统信息</h3>
