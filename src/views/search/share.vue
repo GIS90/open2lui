@@ -126,10 +126,10 @@ export default {
 <style scoped>
 .col-box {
   border: 6px double #ccc;;
-  margin: 10px 0 20px 0;
+  margin: 10px 10px 20px 10px;
   text-align: center;
   /*height: 350px;*/
-  width: 94% !important;
+  /*width: 94% !important;*/
 }
 
 .col-box-margin {
