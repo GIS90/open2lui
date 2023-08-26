@@ -62,3 +62,12 @@ export function searchSqlbaseUpdate(data) {
     data
   })
 }
+
+// search > share list
+export function searchShareList(data) {
+  return request({
+    url: '/search/share_list',
+    method: 'post',
+    data
+  })
+}
