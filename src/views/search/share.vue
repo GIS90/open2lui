@@ -1,5 +1,24 @@
 <template>
   <div class="app-container">
+    <!-- 按钮 -->
+    <el-row>
+      <!-- 左侧按钮 -->
+      <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
+        <svg-icon :icon-class="searchIcon" />  {{ searchBtnText }}
+      </el-button>
+      <!-- 右侧icon -->
+      <span style="float: right">
+        <el-tooltip effect="dark" content="刷新" placement="top">
+          <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList()" />
+        </el-tooltip>
+      </span>
+    </el-row>
+    <!--Search查询条件区域-->
+    <div v-if="searchStatus" class="searchBox">
+      <share-filter :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+    </div>
+
+    <!-- 数据 -->
     <el-row v-for="(value, key) in dataList" :key="key" :gutter="30">
       <el-col v-for="item in value" :key="item.md5" :span="6">
         <div class="col-box">
@@ -29,47 +48,73 @@
             </div>
             <!-- 操作 -->
             <div class="col-box-opr col-box-margin">
-              <el-button :size="btnAttrs.size" :type="btnAttrs.type" :plain="btnAttrs.plain" :circle="btnAttrs.circle" :round="btnAttrs.round" @click="openReaderWindow(item.url)">在线阅读 >></el-button>
+              <el-button :size="btnBaseAttrs.size" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openReaderWindow(item.url)">在线阅读 >></el-button>
             </div>
           </div>
         </div>
       </el-col>
     </el-row>
+
+    <!-- page分页 -->
+    <public-pagination
+      :page="pageCur"
+      :size="pageSize"
+      :total="pageTotal"
+      @pagin-size-change="paginSizeChange"
+      @pagin-current-change="paginCurrentChange"
+    />
   </div>
 </template>
 
 <script>
 import store from '@/store'
 import { searchShareList } from '@/api/search'
+import Pagination from '@/components/Pagination'
+import ShareFilter from '@/services/search/ShareFilter'
 
 export default {
   name: 'SearchShare',
-  components: {},
+  components: {
+    'share-filter': ShareFilter,
+    'public-pagination': Pagination
+  },
   directives: {},
   emits: [],
   props: {},
   inject: {},
   data() {
     return {
+      btnDisabled: false, // 按钮禁用状态
       // image attrs
       imageAttrs: {
         fit: 'fill', //	确定图片如何适应容器框:fill / contain / cover / none / scale-down
         lazy: false
       },
-      // button attrs
-      btnAttrs: {
-        size: 'medium', // 大小：medium / small / mini / ''
-        type: 'success', // 类型：primary / success / warning / danger / info / text
-        plain: true, // 是否朴素按钮
-        round: true, // 是否圆角按钮
-        circle: false // 是否圆形按钮
+      // button attributes
+      btnBaseAttrs: {
+        size: 'medium', // 大小 medium / small / mini / ''
+        type: 'primary', // 类型 primary / success / warning / danger / info / text
+        plain: true, // 是否为朴素按钮
+        round: false, // 是否为圆角按钮
+        circle: false // 是否为圆形按钮
+      },
+      // button icon attributes
+      btnIconAttrs: {
+        size: 'medium', // 大小 medium / small / mini / ''
+        type: 'primary', // 类型 primary / success / warning / danger / info / text
+        plain: true, // 是否为朴素按钮
+        round: false, // 是否为圆角按钮
+        circle: true // 是否为圆形按钮
       },
       // pagination attrs
       pageCur: 1, // 当前page
       pageSize: 15, // 每页显示条目个数
       pageTotal: 0, // 总条数
-      // search form data
-      searchData: {},
+      searchType: 'primary', // search button type: primary, success, default is primary
+      searchIcon: 'i-double-arrow-down', // search button icon
+      searchBtnText: '展开查询', // search button text
+      searchStatus: false, // 是否展开查询条件
+      searchData: {}, // search form data
       dataList: []
     }
   },
@@ -85,9 +130,15 @@ export default {
     openReaderWindow(url) {
       window.open(url, '_blank')
     },
+    paginSizeChange(pageSize) { // pageSize 改变时会触发
+      this.pageSize = pageSize
+      this.getTableList()
+    },
+    paginCurrentChange(page) { // currentPage 改变时会触发
+      this.pageCur = page
+      this.getTableList()
+    },
     getTableList() { // get source list data
-      // table loading
-      this.tableLoading = true
       // 禁用按钮/INPUT/SELECT
       this.btnDisabled = true
 
@@ -111,9 +162,17 @@ export default {
           reject(error)
         }).finally(() => {
           this.btnDisabled = false
-          this.tableLoading = false
         })
       })
+    },
+    showSearch() {
+      this.searchStatus = !this.searchStatus
+    },
+    filterSearchResult(data, isRefresh) { // 更新高级查询条件
+      this.searchData = data
+      if (isRefresh) {
+        this.getTableList()
+      }
     }
   },
   template: '',
@@ -161,4 +220,7 @@ export default {
   /*width: 90%;*/
 }
 
+.searchBox{
+  margin-top: 20px;
+}
 </style>
