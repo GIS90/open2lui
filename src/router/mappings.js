@@ -9,6 +9,7 @@ const routerMappings = {
   searchSqlbase: () => import('@/views/search/sqlbase.vue'),
   searchProbase: () => import('@/views/search/probase.vue'),
   searchShare: () => import('@/views/search/share.vue'),
+  searchSheep: () => import('@/views/search/sheep.vue'),
   // notify
   notifyDtalk: () => import('@/views/notify/dtalk.vue'),
   notifyQywx: () => import('@/views/notify/qywx.vue'),
