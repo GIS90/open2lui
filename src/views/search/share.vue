@@ -256,12 +256,21 @@ export default {
   margin-top: 20px;
 }
 
-.v-enter-active,.v-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+.v-enter-active {
+  animation: bounce-in 0.5s;
 }
-
-.v-enter-from, .v-leave-to {
-  transform: translateX(50px);
-  opacity: 0;
+.v-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
