@@ -9,14 +9,16 @@
       <!-- 右侧icon -->
       <span style="float: right">
         <el-tooltip effect="dark" content="刷新" placement="top">
-          <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList()" />
+          <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
       </span>
     </el-row>
     <!--Search查询条件区域-->
     <div v-if="searchStatus" class="searchBox">
-      <share-filter :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+      <share-filter :user-list="userList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
     </div>
+
+    <div style="margin-top: 10px;" />
 
     <!-- 数据 -->
     <el-row v-for="(value, key) in dataList" :key="key" :gutter="30">
@@ -115,14 +117,27 @@ export default {
       searchBtnText: '展开查询', // search button text
       searchStatus: false, // 是否展开查询条件
       searchData: {}, // search form data
+      userList: [], // user list
       dataList: []
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    searchStatus(newVal, oldVal) { // watch is or not show search if
+      if (newVal) {
+        this.searchBtnText = '关闭查询'
+        this.searchType = 'success'
+        this.searchIcon = 'i-double-arrow-up'
+      } else {
+        this.searchBtnText = '展开查询'
+        this.searchType = 'primary'
+        this.searchIcon = 'i-double-arrow-down'
+      }
+    }
+  },
   created() {
     this.$nextTick(() => {
-      this.getTableList()
+      this.getTableList(1)
     })
   },
   mounted() {},
@@ -138,7 +153,8 @@ export default {
       this.pageCur = page
       this.getTableList()
     },
-    getTableList() { // get source list data
+    getTableList(type) { // get source list data
+      // type: 1-初始化，2-手动刷新，3-高级查询
       // 禁用按钮/INPUT/SELECT
       this.btnDisabled = true
 
@@ -156,6 +172,20 @@ export default {
           if (status_id === 100 || status_id === 101) {
             this.dataList = data.list
             this.pageTotal = data.total
+            this.userList = data.user
+          }
+          // 手动刷新提示
+          if ([2, 3].includes(type) && status_id === 100) {
+            const msg = type === 2 ? '刷新成功' : '查询成功'
+            this.$notify({
+              title: '消息', // 标题
+              type: 'success', // 类型：success/warning/info/error
+              message: msg, // 消息
+              duration: 1200, // 显示时间(毫秒)
+              // offset: 300, // 偏移量
+              position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
+              showClose: false // 是否显示关闭按钮
+            })
           }
           resolve(response)
         }).catch(error => {
@@ -171,7 +201,7 @@ export default {
     filterSearchResult(data, isRefresh) { // 更新高级查询条件
       this.searchData = data
       if (isRefresh) {
-        this.getTableList()
+        this.getTableList(3)
       }
     }
   },

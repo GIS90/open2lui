@@ -2,177 +2,65 @@
   <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
     <el-row :gutter="20">
       <!-- 搜索内容 -->
-      <el-col :span="24">
-        <el-form-item label="搜索内容">
-          <el-input
-            v-model="searchData.content"
-            style="width: 100%;height: 100%"
-            type="text"
-            :clearable="inputAttrs.clear"
-            :maxlength="searchLimit.content"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-            placeholder="请输入搜索的关键字"
-          />
-        </el-form-item>
-      </el-col>
+      <el-form-item label="搜索内容">
+        <el-input
+          v-model="searchData.content"
+          style="width: 100%;height: 100%"
+          type="text"
+          :clearable="inputAttrs.clear"
+          :maxlength="searchLimit.content"
+          :show-word-limit="inputAttrs.limit"
+          :size="inputAttrs.size"
+          :prefix-icon="inputAttrs.prefixIcon"
+          :disabled="disabled"
+          placeholder="请输入搜索的关键字"
+        />
+      </el-form-item>
     </el-row>
     <el-row :gutter="20">
-      <!-- 创建用户 -->
-      <el-col :span="12">
-        <el-form-item label="创建用户">
-          <el-select
-            v-model.trim="searchData.create_rtx"
-            style="width: 100%"
-            :size="selectAttrs.size"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-            placeholder="请选择创建用户"
-          >
-            <el-option
-              v-for="(item, index) in userList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <!-- 作者 -->
-      <el-col :span="12">
-        <el-form-item label="作者">
-          <el-select
-            v-model.trim="searchData.author"
-            style="width: 100%"
-            :size="selectAttrs.size"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-            placeholder="请选择作者"
-          >
-            <el-option
-              v-for="(item, index) in userList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
+      <!-- 分享用户 -->
+      <el-form-item label="分享用户">
+        <el-select
+          v-model.trim="searchData.create_rtx"
+          style="width: 100%"
+          :size="selectAttrs.size"
+          :disabled="disabled"
+          :filterable="selectAttrs.filterable"
+          :multiple="selectAttrs.multiple"
+          :multiple-limit="selectAttrs.limit"
+          :clearable="selectAttrs.clearable"
+          :no-data-text="selectAttrs.noDataText"
+          :collapse-tags="selectAttrs.collapseTags"
+          placeholder="请选择分享用户"
+        >
+          <el-option v-for="(item, index) in userList" :key="index" :label="item.value" :value="item.key">
+            <span class="select-opt-left">{{ item.value }}</span>
+            <span class="select-opt-right">{{ item.key }}</span>
+          </el-option>
+        </el-select>
+      </el-form-item>
     </el-row>
     <el-row :gutter="20">
       <!-- 创建时间 -->
-      <el-col :span="12">
-        <el-form-item label="创建日期">
-          <el-date-picker
-            v-model="create_date"
-            :disabled="disabled"
-            :clearable="pickerAttrs.clearable"
-            :size="pickerAttrs.size"
-            style="width: 100%"
-            :type="pickerAttrs.type"
-            :align="pickerAttrs.align"
-            :unlink-panels="pickerAttrs.link"
-            range-separator="至"
-            :start-placeholder="pickerAttrs.startPlaceholder"
-            :end-placeholder="pickerAttrs.endPlaceholder"
-            :prefix-icon="pickerAttrs.prefixIcon"
-            :format="pickerAttrs.format"
-            :value-format="pickerAttrs.valueFormat"
-            :picker-options="pickerOptions"
-          />
-        </el-form-item>
-      </el-col>
-      <!-- 发布时间 -->
-      <el-col :span="12">
-        <el-form-item label="发布日期">
-          <el-date-picker
-            v-model="public_date"
-            :disabled="disabled"
-            :clearable="pickerAttrs.clearable"
-            :size="pickerAttrs.size"
-            style="width: 100%"
-            :type="pickerAttrs.type"
-            :align="pickerAttrs.align"
-            :unlink-panels="pickerAttrs.link"
-            range-separator="至"
-            :start-placeholder="pickerAttrs.startPlaceholder"
-            :end-placeholder="pickerAttrs.endPlaceholder"
-            :prefix-icon="pickerAttrs.prefixIcon"
-            :format="pickerAttrs.format"
-            :value-format="pickerAttrs.valueFormat"
-            :picker-options="pickerOptions"
-          />
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <!--推荐度-->
-      <el-col :span="12">
-        <el-form-item label="推荐度">
-          <el-select
-            v-model.trim="searchData.recommend"
-            style="width: 100%"
-            :size="selectAttrs.size"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-            placeholder="请选择推荐度"
-          >
-            <el-option
-              v-for="(item, index) in recommendList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <!--数据库-->
-      <el-col :span="12">
-        <el-form-item label="数据库">
-          <el-select
-            v-model.trim="searchData.database"
-            style="width: 95%"
-            :size="selectAttrs.size"
-            placeholder="请选择数据库类型"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-          >
-            <el-option-group v-for="group in dataBaseList" :key="group.label" :label="group.label">
-              <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value" />
-            </el-option-group>
-          </el-select>
-        </el-form-item>
-      </el-col>
+      <el-form-item label="创建日期">
+        <el-date-picker
+          v-model="create_date"
+          :disabled="disabled"
+          :clearable="pickerAttrs.clearable"
+          :size="pickerAttrs.size"
+          style="width: 100%"
+          :type="pickerAttrs.type"
+          :align="pickerAttrs.align"
+          :unlink-panels="pickerAttrs.link"
+          range-separator="至"
+          :start-placeholder="pickerAttrs.startPlaceholder"
+          :end-placeholder="pickerAttrs.endPlaceholder"
+          :prefix-icon="pickerAttrs.prefixIcon"
+          :format="pickerAttrs.format"
+          :value-format="pickerAttrs.valueFormat"
+          :picker-options="pickerOptions"
+        />
+      </el-form-item>
     </el-row>
     <!--查询-->
     <el-row>
@@ -192,11 +80,6 @@ export default {
   components: {},
   emits: ['filter-search-result'],
   props: {
-    dataBaseList: {
-      type: Array,
-      require: true,
-      default: () => []
-    },
     userList: {
       type: Array,
       require: true,
@@ -257,32 +140,16 @@ export default {
       },
       pickerOptions: this.getPickerOptions(),
       create_date: '', // 创建日期
-      public_date: '', // 发布日期
       searchData: {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX
-        author: [], // 作者（定义数组，支持多选）
-        public_time_start: '', // 起始发布时间
-        public_time_end: '', // 结束发布时间
-        recommend: [], // 推荐度
-        database: [], // 数据库类型
-        label: [], // 标签
-        content: '', // 内容
-        count_start: '', // 浏览次数上限
-        count_end: '' // 浏览次数下限
+        content: '' // 内容
       },
       // search input limit
       searchLimit: {
-        title: 25,
-        summary: 25,
         content: 50
-      },
-      recommendList: [
-        { value: '一般', key: 1 },
-        { value: '常用', key: 2 },
-        { value: '频繁', key: 3 }
-      ]
+      }
     }
   },
   computed: {},
@@ -327,30 +194,14 @@ export default {
         this.searchData.create_time_start = ''
         this.searchData.create_time_end = ''
       }
-      if (this.public_date !== null && this.public_date !== '' && this.public_date !== undefined) {
-        this.searchData.public_time_start = this.public_date[0] + ' 00:00:00'
-        this.searchData.public_time_end = this.public_date[1] + ' 23:59:59'
-      } else {
-        this.searchData.public_time_start = ''
-        this.searchData.public_time_end = ''
-      }
       this.$emit('filter-search-result', this.searchData, true)
     },
     clearQuery() {
       this.create_date = ''
-      this.public_date = ''
       this.searchData.create_time_start = ''
       this.searchData.create_time_end = ''
       this.searchData.create_rtx = []
-      this.searchData.author = []
-      this.searchData.public_time_start = ''
-      this.searchData.public_time_end = ''
-      this.searchData.recommend = []
-      this.searchData.database = []
-      this.searchData.label = []
       this.searchData.content = ''
-      this.searchData.count_start = ''
-      this.searchData.count_end = ''
       this.$notify({
         title: '消息', // 标题
         type: 'success', // 类型：success/warning/info/error
@@ -360,7 +211,7 @@ export default {
         position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
         showClose: false // 是否显示关闭按钮
       })
-      this.$emit('filter-search-result', this.searchData, true)
+      this.$emit('filter-search-result', {}, true)
     }
   },
   setup: {}
