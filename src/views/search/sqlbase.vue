@@ -23,9 +23,11 @@
       </span>
     </el-row>
     <!--Search查询条件区域-->
-    <div v-if="searchStatus" class="searchBox">
-      <sql-base-filter :user-list="userList" :data-base-list="dataBaseList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
-    </div>
+    <Transition>
+      <div v-if="searchStatus" class="searchBox">
+        <sql-base-filter :user-list="userList" :data-base-list="dataBaseList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+      </div>
+    </Transition>
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -480,5 +482,23 @@ export default {
 /* 更改操作按钮大小 */
 .el-button--mini.is-circle {
   padding: 5px !important;
+}
+
+.v-enter-active {
+  animation: bounce-in 0.5s;
+}
+.v-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
