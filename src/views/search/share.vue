@@ -14,9 +14,11 @@
       </span>
     </el-row>
     <!--Search查询条件区域-->
-    <div v-if="searchStatus" class="searchBox">
-      <share-filter :user-list="userList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
-    </div>
+    <Transition>
+      <div v-if="searchStatus" class="searchBox">
+        <share-filter :user-list="userList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+      </div>
+    </Transition>
 
     <div style="margin-top: 10px;" />
 
@@ -252,5 +254,14 @@ export default {
 
 .searchBox{
   margin-top: 20px;
+}
+
+.v-enter-active,.v-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.v-enter-from, .v-leave-to {
+  transform: translateX(50px);
+  opacity: 0;
 }
 </style>
