@@ -52,7 +52,8 @@
             </div>
             <!-- 操作 -->
             <div class="col-box-opr col-box-margin">
-              <el-button :size="btnBaseAttrs.size" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openReaderWindow(item.url)">在线阅读 >></el-button>
+              <el-button :size="btnBaseAttrs.oprSize" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openReaderWindow(item.url)">在线阅读</el-button>
+              <el-button :size="btnBaseAttrs.oprSize" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openDetailWindow(item.md5)">详情 >></el-button>
             </div>
           </div>
         </div>
@@ -97,6 +98,7 @@ export default {
       // button attributes
       btnBaseAttrs: {
         size: 'medium', // 大小 medium / small / mini / ''
+        oprSize: 'small', // 大小 medium / small / mini / ''
         type: 'primary', // 类型 primary / success / warning / danger / info / text
         plain: true, // 是否为朴素按钮
         round: false, // 是否为圆角按钮
@@ -120,7 +122,8 @@ export default {
       searchStatus: false, // 是否展开查询条件
       searchData: {}, // search form data
       userList: [], // user list
-      dataList: []
+      dataList: [],
+      selectMd5: '' // 当前选择数据
     }
   },
   computed: {},
@@ -205,6 +208,9 @@ export default {
       if (isRefresh) {
         this.getTableList(3)
       }
+    },
+    openDetailWindow(md5) {
+      this.selectMd5 = md5
     }
   },
   template: '',
