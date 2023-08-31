@@ -53,7 +53,7 @@
             <!-- 操作 -->
             <div class="col-box-opr col-box-margin">
               <el-button :size="btnBaseAttrs.oprSize" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openReaderWindow(item.url)">在线阅读</el-button>
-              <el-button :size="btnBaseAttrs.oprSize" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openDetailWindow(item.md5)">详情 >></el-button>
+              <el-button :size="btnBaseAttrs.oprSize" :type="btnBaseAttrs.type" :plain="btnBaseAttrs.plain" :circle="btnBaseAttrs.circle" :round="btnBaseAttrs.round" @click="openDetailWindow(item.md5)">知识详情</el-button>
             </div>
           </div>
         </div>
@@ -61,13 +61,10 @@
     </el-row>
 
     <!-- page分页 -->
-    <public-pagination
-      :page="pageCur"
-      :size="pageSize"
-      :total="pageTotal"
-      @pagin-size-change="paginSizeChange"
-      @pagin-current-change="paginCurrentChange"
-    />
+    <public-pagination :page="pageCur" :size="pageSize" :total="pageTotal" @pagin-size-change="paginSizeChange" @pagin-current-change="paginCurrentChange" />
+
+    <!--详情-->
+    <share-detail :row-md5="selectMd5" :show="openDetailStatus" :edit='editStatus' @close-detail-window="closeDetailWindow" />
   </div>
 </template>
 
@@ -76,11 +73,13 @@ import store from '@/store'
 import { searchShareList } from '@/api/search'
 import Pagination from '@/components/Pagination'
 import ShareFilter from '@/services/search/ShareFilter'
+import ShareDetail from '@/services/search/ShareDetail'
 
 export default {
   name: 'SearchShare',
   components: {
     'share-filter': ShareFilter,
+    'share-detail': ShareDetail,
     'public-pagination': Pagination
   },
   directives: {},
@@ -123,7 +122,9 @@ export default {
       searchData: {}, // search form data
       userList: [], // user list
       dataList: [],
-      selectMd5: '' // 当前选择数据
+      selectMd5: '', // 当前选择数据
+      editStatus: false, // 编辑状态
+      openDetailStatus: false // 详情dialog
     }
   },
   computed: {},
@@ -211,6 +212,10 @@ export default {
     },
     openDetailWindow(md5) {
       this.selectMd5 = md5
+      this.openDetailStatus = true
+    },
+    closeDetailWindow() {
+      this.openDetailStatus = false
     }
   },
   template: '',
