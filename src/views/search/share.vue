@@ -64,7 +64,7 @@
     <public-pagination :page="pageCur" :size="pageSize" :total="pageTotal" @pagin-size-change="paginSizeChange" @pagin-current-change="paginCurrentChange" />
 
     <!--详情-->
-    <share-detail :row-md5="selectMd5" :show="openDetailStatus" :edit='editStatus' @close-detail-window="closeDetailWindow" />
+    <share-detail :row-md5="selectMd5" :show="openDetailStatus" :edit="editStatus" @close-detail-window="closeDetailWindow" />
   </div>
 </template>
 
