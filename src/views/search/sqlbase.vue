@@ -22,12 +22,13 @@
         </el-tooltip>
       </span>
     </el-row>
-    <!--Search查询条件区域-->
+    <!--Search查询条件区域
     <Transition>
-      <div v-if="searchStatus" class="searchBox">
-        <sql-base-filter :user-list="userList" :data-base-list="dataBaseList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
-      </div>
     </Transition>
+    -->
+    <div v-if="searchStatus" class="searchBox">
+      <sql-base-filter :user-list="userList" :data-base-list="dataBaseList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+    </div>
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
