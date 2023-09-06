@@ -91,9 +91,10 @@
 
 <script>
 import store from '@/store'
-import DepartAdd from '@/services/info/DepartAdd'
-import DepartEdit from '@/services/info/DepartEdit'
-import { InfoDepartList, InfoDepartRemove, InfoDepartDetail, InfoDepartDrag } from '@/api/info'
+import DepartAdd from '@/services/system/DepartAdd'
+import DepartEdit from '@/services/system/DepartEdit'
+import { SystemDepartList, SystemDepartRemove,
+  SystemDepartDetail, SystemDepartDrag } from '@/api/system'
 
 export default {
   name: 'InfoDepart',
@@ -187,7 +188,7 @@ export default {
         'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        InfoDepartList(data).then(response => {
+        SystemDepartList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.treeData = data.tree // tree数据
@@ -249,7 +250,7 @@ export default {
         md5: nodeData.md5_id
       }
       return new Promise((resolve, reject) => {
-        InfoDepartRemove(data).then(response => {
+        SystemDepartRemove(data).then(response => {
           // 后台软删除
           const { status_id, message } = response
           if (status_id === 100) {
@@ -286,7 +287,7 @@ export default {
         md5: nodeData.md5_id
       }
       return new Promise((resolve, reject) => {
-        InfoDepartDetail(data).then(response => {
+        SystemDepartDetail(data).then(response => {
           const { status_id } = response
           if (status_id === 100) {
             this.editNode = response.data.depart // 部门详情
@@ -359,7 +360,7 @@ export default {
       }
 
       return new Promise((resolve, reject) => {
-        InfoDepartDrag(data).then(response => {
+        SystemDepartDrag(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

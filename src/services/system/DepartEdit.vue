@@ -97,7 +97,7 @@
 
 <script>
 import store from '@/store'
-import { InfoDepartUpdate } from '@/api/info'
+import { SystemDepartUpdate } from '@/api/system'
 
 export default {
   name: 'DepartEdit',
@@ -207,7 +207,7 @@ export default {
             'order_id': this.formData.order_id || 1
           }
           return new Promise((resolve, reject) => {
-            InfoDepartUpdate(data).then(response => {
+            SystemDepartUpdate(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({

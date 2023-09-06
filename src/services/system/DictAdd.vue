@@ -33,50 +33,24 @@
       </template>
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
-        <el-divider content-position="left">上级部门信息</el-divider>
-        <el-form-item label="上级ID">
+        <el-form-item label="RTX名称" prop="name">
           <el-input
-            v-model.trim="upNode.id"
+            v-model.trim="formData.name"
             type="text"
+            placeholder="请输入RTX名称（建议使用英文）"
             :maxlength="formDataLimit.name"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            disabled
+            :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="上级名称">
+        <el-form-item label="枚举Key" prop="key">
           <el-input
-            v-model.trim="upNode.name"
+            v-model.trim="formData.key"
             type="text"
-            :maxlength="formDataLimit.name"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            disabled
-          />
-        </el-form-item>
-        <el-form-item label="上级路径">
-          <el-input
-            v-model.trim="upNode.path"
-            type="text"
-            :maxlength="formDataLimit.name"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            disabled
-          />
-        </el-form-item>
-        <el-divider content-position="left">新部门信息</el-divider>
-        <el-form-item label="名称" prop="name">
-          <el-input
-            v-model.trim="formData.label"
-            type="text"
-            placeholder="请输入部门名称"
-            :maxlength="formDataLimit.label"
+            placeholder="请输入枚举key"
+            :maxlength="formDataLimit.key"
             :clearable="inputAttrs.clear"
             :show-word-limit="inputAttrs.limit"
             :size="inputAttrs.size"
@@ -84,46 +58,32 @@
             :disabled="disabled"
           />
         </el-form-item>
-        <el-form-item label="简述" prop="description">
+        <el-form-item label="枚举Value" prop="value">
+          <el-input
+            v-model.trim="formData.value"
+            type="text"
+            placeholder="请输入枚举Value"
+            :maxlength="formDataLimit.value"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            :size="inputAttrs.size"
+            :prefix-icon="inputAttrs.prefixIcon"
+            :disabled="disabled"
+          />
+        </el-form-item>
+        <el-form-item label="描述" prop="description">
           <el-input
             v-model="formData.description"
             type="textarea"
-            placeholder="请输入部门简述"
+            placeholder="请输入枚举描述"
             :rows="textAreaAttrs.rows"
+            :autosize="{ minRows: 4, maxRows: 6 }"
             :maxlength="formDataLimit.description"
             :clearable="textAreaAttrs.clear"
             :show-word-limit="textAreaAttrs.limit"
             :prefix-icon="inputAttrs.prefixIcon"
             :disabled="disabled"
           />
-        </el-form-item>
-        <el-form-item label="管理员" prop="manage_rtx">
-          <el-select
-            v-model="formData.manage_rtx"
-            style="width: 100%"
-            :size="selectAttrs.size"
-            placeholder="请选择部门管理员"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-          >
-            <el-option
-              v-for="(item, index) in userList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态" prop="lock">
-          <el-radio v-model="formData.lock" :label="radioValue.use">启用</el-radio>
-          <el-radio v-model="formData.lock" :label="radioValue.ban">禁用</el-radio>
         </el-form-item>
         <el-form-item label="排序ID" prop="order_id">
           <el-input-number
@@ -152,10 +112,49 @@
 
 <script>
 import store from '@/store'
-import { InfoDepartAdd, InfoDepartAddInit } from '@/api/info'
+import { SystemDictAdd } from '@/api/system'
 
+const validateName = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入枚举RTX'))
+  } else if (value.length > 35) {
+    callback(new Error('枚举RTX最大长度为35'))
+  } else {
+    callback()
+  }
+}
+
+const validateKey = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入枚举Key'))
+  } else if (value.length > 55) {
+    callback(new Error('枚举Key最大长度为55'))
+  } else {
+    callback()
+  }
+}
+
+const validateValue = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入枚举Value'))
+  } else if (value.length > 55) {
+    callback(new Error('枚举Value最大长度为55'))
+  } else {
+    callback()
+  }
+}
+
+const validateDescription = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入枚举描述'))
+  } else if (value.length > 255) {
+    callback(new Error('枚举描述最大长度为255'))
+  } else {
+    callback()
+  }
+}
 export default {
-  name: 'DepartAdd',
+  name: 'DictEdit',
   emits: ['close-add'],
   components: {},
   props: {
@@ -166,13 +165,6 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
-    },
-    upNode: {
-      type: Object,
-      require: true,
-      default() {
-        return {}
-      }
     }
   },
   data() {
@@ -180,12 +172,12 @@ export default {
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
-      fullScreenStatus: false, // 是否全屏状态，默认false
+      fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
         title: '新增',
-        width: '65%', // Dialog 的宽度
+        width: '45%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
@@ -206,27 +198,8 @@ export default {
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
       },
-      textAreaAttrs: { // textArea attrs
-        rows: 4, // 输入框行数
-        autoSize: { minRows: 4, maxRows: 6 }, // 自适应内容高度
-        clear: true, // 可清空的输入框
-        length: '255', // 最大输入长度
-        limit: true, // 展示字数统计
-        prefixIcon: 'el-icon-edit', // input前缀icon
-        suffixIcon: '' // input后缀icon
-      },
-      selectAttrs: { // select attrs
-        size: 'medium', // 大小：''/medium/small/mini
-        multiple: false, // 多选
-        clearable: true, // 清空选择
-        filterable: true, // 搜索功能
-        collapseTags: false, // 多个合并成一个
-        limit: 1, // 多选时用户最多可以选择的项目数，为 0 则不限制
-        noDataText: '暂无数据', // 选项为空时显示的文字
-        placeholder: '请选择管理员' // 默认显示内容
-      },
       numberAttrs: { // input number attrs
-        size: '', // 大小：large, small, ''默认
+        size: '', // 大小：large, small
         min: 1, // 最小值
         max: 10000, // 最大值
         step: 1, // 计数器步长
@@ -234,40 +207,35 @@ export default {
         controlsPosition: '',	// 控制按钮位置: right
         placeholder: '请输入排序ID'
       },
-      radioAttrs: { // radio attrs
-        border: false, // 边框
-        size: 'small' // Radio 的尺寸medium / small / mini
+      textAreaAttrs: { // textArea attrs
+        rows: 2, // 输入框行数
+        autoSize: false, // 自适应内容高度
+        clear: true, // 可清空的输入框
+        length: '255', // 最大输入长度
+        limit: true, // 展示字数统计
+        prefixIcon: 'el-icon-edit', // input前缀icon
+        suffixIcon: '' // input后缀icon
       },
-      radioValue: {
-        use: false,
-        ban: true
-      },
+      // data
       formData: {
-        label: '', // 名称
-        description: '', // 简述
-        manage_rtx: '', // 管理员
-        lock: false, // 状态
-        order_id: 1 // undefined 排序ID
+        name: '',
+        key: '',
+        value: '',
+        description: '',
+        order_id: 1 // undefined
       },
       formDataLimit: {
-        label: '30',
-        description: '300',
-        manage_rtx: '25'
+        name: '35',
+        key: '55',
+        value: '55',
+        description: '255'
       },
       formDataRules: {
-        label: [
-          { required: true, message: '请输入部门名称', trigger: ['blur', 'change'] },
-          { min: 1, max: 30, message: '部门名称最大长度为30', trigger: ['blur', 'change'] }
-        ],
-        description: [
-          { required: true, message: '请输入部门简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 300, message: '部门简述最大长度为300', trigger: ['blur', 'change'] }
-        ],
-        manage_rtx: [
-          { required: true, message: '请选择部门管理员', trigger: ['blur', 'change'] }
-        ]
-      },
-      userList: []
+        name: [{ required: true, trigger: 'blur', validator: validateName }],
+        key: [{ required: true, trigger: 'blur', validator: validateKey }],
+        value: [{ required: true, trigger: 'blur', validator: validateValue }],
+        description: [{ required: true, trigger: 'blur', validator: validateDescription }]
+      }
     }
   },
   computed: {},
@@ -284,14 +252,13 @@ export default {
       // 初始化非全屏
       this.fullScreenStatus = false
       // 表单初始化
-      this.formData.label = ''
+      this.formData.name = ''
+      this.formData.key = ''
+      this.formData.value = ''
       this.formData.description = ''
-      this.formData.manage_rtx = ''
-      this.formData.lock = false
-      this.formData.order_id = 1 // undefined or 1
+      this.formData.order_id = undefined // 1
       this.$nextTick(() => {
         // 重置表单状态
-        this.initDepart()
         this.$refs.formData.resetFields()
       })
     },
@@ -303,22 +270,6 @@ export default {
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    initDepart() {
-      const params = {
-        'rtx_id': store.getters.rtx_id
-      }
-      return new Promise((resolve, reject) => {
-        InfoDepartAddInit(params).then(response => {
-          const { status_id, data } = response
-          if (status_id === 100) {
-            this.userList = data.user // 用户列表
-          }
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
     submit() {
       this.$refs.formData.validate(valid => {
         if (valid) {
@@ -326,15 +277,15 @@ export default {
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
-            'name': this.formData.label,
-            'description': this.formData.description,
-            'manage_rtx': this.formData.manage_rtx,
-            'lock': this.formData.lock,
+            'name': this.formData.name,
+            'key': this.formData.key,
+            'value': this.formData.value,
             'order_id': this.formData.order_id || 1,
-            'pid': this.upNode.id
+            'description': this.formData.description,
+            'type': '1'
           }
           return new Promise((resolve, reject) => {
-            InfoDepartAdd(data).then(response => {
+            SystemDictAdd(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({

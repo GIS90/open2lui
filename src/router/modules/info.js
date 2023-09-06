@@ -17,7 +17,7 @@ const infoRouter = {
       name: 'InfoDepart',
       path: 'depart',
       hidden: false,
-      component: () => import('@/views/info/depart.vue'),
+      component: () => import('@/views/system/depart.vue'),
       meta: {
         title: '部门架构',
         icon: 'tree',
@@ -30,7 +30,7 @@ const infoRouter = {
       name: 'InfoDict',
       path: 'dict',
       hidden: false,
-      component: () => import('@/views/info/dict.vue'),
+      component: () => import('@/views/system/dict.vue'),
       meta: {
         title: '数据字典',
         icon: 'i_dict',
@@ -43,7 +43,7 @@ const infoRouter = {
       name: 'InfoApi',
       path: 'api',
       hidden: false,
-      component: () => import('@/views/info/api.vue'),
+      component: () => import('@/views/system/api.vue'),
       meta: {
         title: '后台API',
         icon: 'i_api',
@@ -56,7 +56,7 @@ const infoRouter = {
       name: 'InfoAvatar',
       path: 'avatar',
       hidden: false,
-      component: () => import('@/views/info/avatar.vue'),
+      component: () => import('@/views/system/avatar.vue'),
       meta: {
         title: '头像管理',
         icon: 'i-avatar',

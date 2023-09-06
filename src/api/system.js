@@ -1,216 +1,216 @@
 import request from '@/utils/request'
 
 // 数据字典列表
-export function InfoDictList(data) {
+export function SystemDictList(data) {
   return request({
-    url: '/info/dict_list',
+    url: '/system/dict_list',
     method: 'post',
     data
   })
 }
 
 // 数据字典状态转换
-export function InfoDictStatus(data) {
+export function SystemDictStatus(data) {
   return request({
-    url: '/info/dict_status',
+    url: '/system/dict_status',
     method: 'post',
     data
   })
 }
 
 // 数据字典单个删除
-export function InfoDictDelete(data) {
+export function SystemDictDelete(data) {
   return request({
-    url: '/info/dict_delete',
+    url: '/system/dict_delete',
     method: 'post',
     data
   })
 }
 
 // 数据字典批量删除
-export function InfoDictDeletes(data) {
+export function SystemDictDeletes(data) {
   return request({
-    url: '/info/dict_deletes',
+    url: '/system/dict_deletes',
     method: 'post',
     data
   })
 }
 
 // 数据字典批量禁用
-export function InfoDictDisables(data) {
+export function SystemDictDisables(data) {
   return request({
-    url: '/info/dict_disables',
+    url: '/system/dict_disables',
     method: 'post',
     data
   })
 }
 
 // 数据字典详情
-export function InfoDictDetail(data) {
+export function SystemDictDetail(data) {
   return request({
-    url: '/info/dict_detail',
+    url: '/system/dict_detail',
     method: 'post',
     data
   })
 }
 
 // 数据字典更新
-export function InfoDictUpdate(data) {
+export function SystemDictUpdate(data) {
   return request({
-    url: '/info/dict_update',
+    url: '/system/dict_update',
     method: 'post',
     data
   })
 }
 
 // 数据字典新增
-export function InfoDictAdd(data) {
+export function SystemDictAdd(data) {
   return request({
-    url: '/info/dict_add',
+    url: '/system/dict_add',
     method: 'post',
     data
   })
 }
 
 // 数据字典NAMES
-export function InfoDictNames(data) {
+export function SystemDictNames(data) {
   return request({
-    url: '/info/dict_names',
+    url: '/system/dict_names',
     method: 'post',
     data
   })
 }
 
 // API列表
-export function InfoApiList(data) {
+export function SystemApiList(data) {
   return request({
-    url: '/info/api_list',
+    url: '/system/api_list',
     method: 'post',
     data
   })
 }
 
 // API单个删除
-export function InfoApiDelete(data) {
+export function SystemApiDelete(data) {
   return request({
-    url: '/info/api_delete',
+    url: '/system/api_delete',
     method: 'post',
     data
   })
 }
 
 // API批量删除
-export function InfoApiDeletes(data) {
+export function SystemApiDeletes(data) {
   return request({
-    url: '/info/api_deletes',
+    url: '/system/api_deletes',
     method: 'post',
     data
   })
 }
 
 // API详情
-export function InfoApiDetail(data) {
+export function SystemApiDetail(data) {
   return request({
-    url: '/info/api_detail',
+    url: '/system/api_detail',
     method: 'post',
     data
   })
 }
 
 // API更新
-export function InfoApiUpdate(data) {
+export function SystemApiUpdate(data) {
   return request({
-    url: '/info/api_update',
+    url: '/system/api_update',
     method: 'post',
     data
   })
 }
 
 // API新增
-export function InfoApiAdd(data) {
+export function SystemApiAdd(data) {
   return request({
-    url: '/info/api_add',
+    url: '/system/api_add',
     method: 'post',
     data
   })
 }
 
 // API TYPE字典
-export function InfoApiTypeList(data) {
+export function SystemApiTypeList(data) {
   return request({
-    url: '/info/api_types',
+    url: '/system/api_types',
     method: 'post',
     data
   })
 }
 
 // 部门树列表
-export function InfoDepartList(data) {
+export function SystemDepartList(data) {
   return request({
-    url: '/info/depart_list',
+    url: '/system/depart_list',
     method: 'post',
     data
   })
 }
 
 // 更新部门信息
-export function InfoDepartUpdateTree(data) {
+export function SystemDepartUpdateTree(data) {
   return request({
-    url: '/info/depart_update_tree',
+    url: '/system/depart_update_tree',
     method: 'post',
     data
   })
 }
 
 // 部门新增初始化参数
-export function InfoDepartAddInit(data) {
+export function SystemDepartAddInit(data) {
   return request({
-    url: '/info/depart_init',
+    url: '/system/depart_init',
     method: 'post',
     data
   })
 }
 
 // 新增部门
-export function InfoDepartAdd(data) {
+export function SystemDepartAdd(data) {
   return request({
-    url: '/info/depart_add',
+    url: '/system/depart_add',
     method: 'post',
     data
   })
 }
 
 // 删除部门
-export function InfoDepartRemove(data) {
+export function SystemDepartRemove(data) {
   return request({
-    url: '/info/depart_remove',
+    url: '/system/depart_remove',
     method: 'post',
     data
   })
 }
 
 // 部门详情
-export function InfoDepartDetail(data) {
+export function SystemDepartDetail(data) {
   return request({
-    url: '/info/depart_detail',
+    url: '/system/depart_detail',
     method: 'post',
     data
   })
 }
 
 // 部门详情更新
-export function InfoDepartUpdate(data) {
+export function SystemDepartUpdate(data) {
   return request({
-    url: '/info/depart_update',
+    url: '/system/depart_update',
     method: 'post',
     data
   })
 }
 
 // 部门详情更新
-export function InfoDepartDrag(data) {
+export function SystemDepartDrag(data) {
   return request({
-    url: '/info/depart_drag',
+    url: '/system/depart_drag',
     method: 'post',
     data
   })

@@ -32,7 +32,7 @@
         </div>
       </template>
       <!--content-->
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto" style="width: 100%">
         <!-- 配置信息 -->
         <el-divider content-position="left">配置信息</el-divider>
         <el-row :gutter="20">
@@ -67,6 +67,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <!-- 基础信息 -->
         <el-divider content-position="left">基础信息</el-divider>
         <el-form-item label="类型" prop="type">
           <el-select
@@ -132,25 +133,78 @@
             :disabled="disabled"
           />
         </el-form-item>
+        <!-- 其他信息 -->
+        <el-divider content-position="left">其他信息</el-divider>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="创建人RTX" prop="create_rtx">
+              <el-input
+                v-model.trim="formData.create_rtx"
+                type="text"
+                :maxlength="formDataLimit.create_rtx"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="创建时间" prop="create_time">
+              <el-input
+                v-model.trim="formData.create_time"
+                type="text"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="更新人RTX" prop="update_rtx">
+              <el-input
+                v-model.trim="formData.update_rtx"
+                type="text"
+                :maxlength="formDataLimit.update_rtx"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="更新时间" prop="update_rtx">
+              <el-input
+                v-model.trim="formData.update_rtx"
+                type="text"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
-      <!--footer-->
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
-          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
-        </span>
-      </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import store from '@/store'
-import { InfoApiAdd, InfoApiTypeList } from '@/api/info'
+import { SystemApiDetail } from '@/api/system'
 
 export default {
-  name: 'ApiAdd',
-  emits: ['close-add-dg'],
+  name: 'ApiView',
+  emits: ['close-view-dg'],
   components: {},
   props: {
     show: {
@@ -160,18 +214,23 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
+    },
+    rowMd5: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   data() {
     return {
       loading: false, // 组件loading，主要用于button
-      disabled: false, // 禁用组件
+      disabled: true, // 禁用组件
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '新增',
+        title: '详情',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -188,7 +247,7 @@ export default {
       inputAttrs: { // input attrs
         size: 'medium', // 大小：medium / small / mini / ''
         clear: true, // 可清空的输入框
-        length: '25', // 最大输入长度
+        // length: '25', // 最大输入长度
         limit: true, // 展示字数统计
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
@@ -197,7 +256,7 @@ export default {
         rows: 3, // 输入框行数
         autoSize: false, // 自适应内容高度
         clear: true, // 可清空的输入框
-        length: '255', // 最大输入长度
+        // length: '255', // 最大输入长度
         limit: true, // 展示字数统计
         prefixIcon: 'el-icon-edit', // input前缀icon
         suffixIcon: '' // input后缀icon
@@ -227,35 +286,20 @@ export default {
         type: '',
         short: '',
         long: '',
-        order_id: 1 // undefined
+        order_id: 1,
+        create_rtx: '',
+        create_time: '',
+        update_rtx: '',
+        update_time: ''
       },
       formDataLimit: {
         blueprint: '25',
         apiname: '35',
         short: '55',
         long: '120',
-        type: 1
-      },
-      formDataRules: {
-        blueprint: [
-          { required: true, message: '请输入BluePrint（英文）', trigger: ['blur', 'change'] },
-          { min: 1, max: 25, message: 'BluePrint最大长度为25', trigger: ['blur', 'change'] }
-        ],
-        apiname: [
-          { required: true, message: '请输入ApiName（英文）', trigger: ['blur', 'change'] },
-          { min: 1, max: 35, message: 'ApiName最大长度为35', trigger: ['blur', 'change'] }
-        ],
-        short: [
-          { required: true, message: '请输入简述', trigger: ['blur', 'change'] },
-          { min: 1, max: 55, message: '简述最大长度为55', trigger: ['blur', 'change'] }
-        ],
-        long: [
-          { required: true, message: '请输入说明', trigger: ['blur', 'change'] },
-          { min: 1, max: 120, message: '说明最大长度为120', trigger: ['blur', 'change'] }
-        ],
-        type: [
-          { required: true, message: '请选择类型', trigger: ['blur', 'change'] }
-        ]
+        type: 1,
+        create_rtx: '25',
+        update_rtx: '25'
       },
       typeList: []
     }
@@ -273,80 +317,49 @@ export default {
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
-      // 表单初始化
-      this.formData.blueprint = ''
-      this.formData.apiname = ''
-      this.formData.type = ''
-      this.formData.short = ''
-      this.formData.long = ''
-      this.formData.order_id = undefined // 1
       this.$nextTick(() => {
         // 重置表单状态
-        this.getTypeList()
+        this.getDNewInfo()
         this.$refs.formData.resetFields()
       })
     },
     closeDialog() { // 关闭dialog
       // 清空表单状态
       this.$refs.formData.clearValidate()
-      this.$emit('close-add-dg', false)
+      this.$emit('close-view-dg', false)
     },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    getTypeList() {
-      const params = {
-        'rtx_id': store.getters.rtx_id
+    getDNewInfo() {
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        InfoApiTypeList(params).then(response => {
+        SystemApiDetail(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.typeList = data
+            // detail
+            this.formData.blueprint = data.detail.blueprint
+            this.formData.apiname = data.detail.apiname
+            this.formData.type = data.detail.type
+            this.formData.short = data.detail.short
+            this.formData.long = data.detail.long
+            this.formData.order_id = data.detail.order_id
+            this.formData.create_rtx = data.detail.create_rtx
+            this.formData.create_time = data.detail.create_time
+            this.formData.update_rtx = data.detail.update_rtx
+            this.formData.update_time = data.detail.update_time
+            // type list
+            this.typeList = data.type
+          } else {
+            this.$emit('close-view-dg', false)
           }
           resolve(response)
         }).catch(error => {
           reject(error)
         })
-      })
-    },
-    submit() {
-      this.$refs.formData.validate(valid => {
-        if (valid) {
-          this.disabled = true
-          this.loading = true
-          const data = {
-            'rtx_id': store.getters.rtx_id,
-            'blueprint': this.formData.blueprint,
-            'apiname': this.formData.apiname,
-            'type': this.formData.type,
-            'short': this.formData.short,
-            'long': this.formData.long,
-            'order_id': this.formData.order_id || 1
-          }
-          return new Promise((resolve, reject) => {
-            InfoApiAdd(data).then(response => {
-              const { status_id, message } = response
-              if (status_id === 100) {
-                this.$message({
-                  message: '新增成功' || message,
-                  type: 'success',
-                  duration: 2.0 * 1000
-                })
-                this.$emit('close-add-dg', true)
-              }
-              resolve(response)
-            }).catch(error => {
-              reject(error)
-            }).finally(() => {
-              // 重置按钮状态
-              this.disabled = false
-              this.loading = false
-              // 清空表单状态
-              this.$refs.formData.clearValidate()
-            })
-          })
-        }
       })
     }
   }

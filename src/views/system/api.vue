@@ -106,13 +106,13 @@
 </template>
 
 <script>
-import ApiAdd from '@/services/info/ApiAdd'
-import ApiSet from '@/services/info/ApiSet'
-import ApiView from '@/services/info/ApiView'
-import ApiFilter from '@/services/info/ApiFilter'
+import ApiAdd from '@/services/system/ApiAdd'
+import ApiSet from '@/services/system/ApiSet'
+import ApiView from '@/services/system/ApiView'
+import ApiFilter from '@/services/system/ApiFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
-import { InfoApiDelete, InfoApiList } from '@/api/info'
+import { SystemApiDelete, SystemApiList } from '@/api/system'
 import BatchDelete from '@/components/BatchDelete'
 
 export default {
@@ -339,7 +339,7 @@ export default {
         ...this.searchData
       }
       return new Promise((resolve, reject) => {
-        InfoApiList(data).then(response => {
+        SystemApiList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -423,7 +423,7 @@ export default {
         }
         this.btnDisabled = true
         return new Promise((resolve, reject) => {
-          InfoApiDelete(data).then(response => {
+          SystemApiDelete(data).then(response => {
             const { status_id, message } = response
             if (status_id === 100) {
               this.$message({

@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { InfoDictDisables } from '@/api/info'
+import { SystemDictDisables } from '@/api/system'
 
 export default {
   name: 'DictBatchDisable',
@@ -92,7 +92,7 @@ export default {
       this.btnDisabled = true
       this.btnLoading = true
       return new Promise((resolve, reject) => {
-        InfoDictDisables(data).then(response => {
+        SystemDictDisables(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

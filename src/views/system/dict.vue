@@ -108,14 +108,14 @@
 
 <script>
 import store from '@/store'
-import DictAdd from '@/services/info/DictAdd'
-import DictMain from '@/services/info/DictMain'
-import DictEdit from '@/services/info/DictEdit'
-import DictStatus from '@/services/info/DictStatus'
-import DictBatchDisable from '@/services/info/DictBatchDisable'
+import DictAdd from '@/services/system/DictAdd'
+import DictMain from '@/services/system/DictMain'
+import DictEdit from '@/services/system/DictEdit'
+import DictStatus from '@/services/system/DictStatus'
+import DictBatchDisable from '@/services/system/DictBatchDisable'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
-import { InfoDictDelete, InfoDictList } from '@/api/info'
+import { SystemDictDelete, SystemDictList } from '@/api/system'
 
 export default {
   name: 'InfoDict',
@@ -229,7 +229,7 @@ export default {
         'offset': (this.pageCur - 1) * this.pageSize || 0
       }
       return new Promise((resolve, reject) => {
-        InfoDictList(data).then(response => {
+        SystemDictList(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100 || status_id === 101) {
             this.tableData = data.list
@@ -379,7 +379,7 @@ export default {
         }
         this.btnDisabled = true
         return new Promise((resolve, reject) => {
-          InfoDictDelete(data).then(response => {
+          SystemDictDelete(data).then(response => {
             const { status_id, message } = response
             if (status_id === 100) {
               this.$message({

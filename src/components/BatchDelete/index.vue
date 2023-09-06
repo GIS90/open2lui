@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { InfoDictDeletes, InfoApiDeletes } from '@/api/info'
+import { SystemDictDeletes, SystemApiDeletes } from '@/api/system'
 import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
 import { searchSqlbaseDeletes } from '@/api/search'
 import { officeExcelResultDeletes, officeExcelSourceDeletes, officePDFDeletes } from '@/api/office'
@@ -226,7 +226,7 @@ export default {
     // info > dict
     deleteInfoDict(data) {
       return new Promise((resolve, reject) => {
-        InfoDictDeletes(data).then(response => {
+        SystemDictDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
@@ -250,7 +250,7 @@ export default {
     // info > api
     deleteInfoApi(data) {
       return new Promise((resolve, reject) => {
-        InfoApiDeletes(data).then(response => {
+        SystemApiDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

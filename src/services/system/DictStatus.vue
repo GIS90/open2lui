@@ -16,7 +16,7 @@
 
 <script>
 import store from '@/store'
-import { InfoDictStatus } from '@/api/info'
+import { SystemDictStatus } from '@/api/system'
 
 export default {
   name: 'DictStatus',
@@ -60,7 +60,7 @@ export default {
         'status': value
       }
       return new Promise((resolve, reject) => {
-        InfoDictStatus(data).then(response => {
+        SystemDictStatus(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

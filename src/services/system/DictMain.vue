@@ -121,7 +121,7 @@
 
 <script>
 import store from '@/store'
-import { InfoDictAdd, InfoDictNames } from '@/api/info'
+import { SystemDictAdd, SystemDictNames } from '@/api/system'
 
 const validateName = (rule, value, callback) => {
   if (value.length < 1) {
@@ -296,7 +296,7 @@ export default {
         'rtx_id': store.getters.rtx_id
       }
       return new Promise((resolve, reject) => {
-        InfoDictNames(params).then(response => {
+        SystemDictNames(params).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             this.enumNames = data
@@ -322,7 +322,7 @@ export default {
             'type': 2
           }
           return new Promise((resolve, reject) => {
-            InfoDictAdd(data).then(response => {
+            SystemDictAdd(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
