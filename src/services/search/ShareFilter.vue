@@ -4,6 +4,8 @@
       <!-- 搜索内容 -->
       <el-form-item label="搜索内容">
         <el-input
+          id="content"
+          ref="searchContent"
           v-model="searchData.content"
           style="width: 100%;height: 100%"
           type="text"
@@ -21,6 +23,7 @@
       <!-- 分享用户 -->
       <el-form-item label="分享用户">
         <el-select
+          ref="searchUser"
           v-model.trim="searchData.create_rtx"
           style="width: 100%"
           :size="selectAttrs.size"
@@ -33,7 +36,7 @@
           :collapse-tags="selectAttrs.collapseTags"
           placeholder="请选择分享用户"
         >
-          <el-option v-for="(item, index) in userList" :key="index" :label="item.value" :value="item.key">
+          <el-option v-for="(item, index) in userList" :key="index" :label="item.value" :value="item.key" :style="{'width': elOptWidth}">
             <span class="select-opt-left">{{ item.value }}</span>
             <span class="select-opt-right">{{ item.key }}</span>
           </el-option>
@@ -44,6 +47,7 @@
       <!-- 创建时间 -->
       <el-form-item label="创建日期">
         <el-date-picker
+          ref="searchDate"
           v-model="create_date"
           :disabled="disabled"
           :clearable="pickerAttrs.clearable"
@@ -149,13 +153,17 @@ export default {
       // search input limit
       searchLimit: {
         content: 50
-      }
+      },
+      // el-select width
+      elOptWidth: '100%'
     }
   },
   computed: {},
   watch: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.elOptWidth = (this.$refs.searchContent.$el.offsetWidth - 70) + 'px'
+  },
   methods: {
     getPickerOptions() {
       return {
