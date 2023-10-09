@@ -194,7 +194,7 @@ export default {
       addDialogStatus: false, // 新增dialog状态
       setDialogStatus: false, // 设置dialog状态
       viewDialogStatus: false, // 查看dialog状态
-      deleteSource: 'info-api', // delete source
+      deleteSource: 'system-api', // delete source
       deleteConfirm: false, // 删除确认dialog状态
       searchType: 'primary', // search button type: primary, success, default is primary
       searchIcon: 'i-double-arrow-down', // search button icon
