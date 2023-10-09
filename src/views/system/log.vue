@@ -6,9 +6,6 @@
       <el-button id="btn-select" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="manualSelectALL">
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
-      <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
-        <svg-icon icon-class="i_delete" />  删除
-      </el-button>
       <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
         <svg-icon :icon-class="searchIcon" />  {{ searchBtnText }}
       </el-button>
@@ -19,11 +16,10 @@
         </el-tooltip>
       </span>
     </el-row>
-    <!--Search查询条件区域
+    <!--Search查询条件区域-->
     <div v-if="searchStatus" class="searchBox">
-      <api-filter :user-list="userList" :type-list="typeList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+      <log-filter :user-list="userList" :type-list="typeList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
     </div>
-    -->
 
     <!--Table表格-->
     <div id="data-container" class="table-sty">
@@ -46,9 +42,10 @@
       >
         <el-table-column fixed="left" type="selection" width="70" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="rtx_id" label="用户RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="系统用户" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="ip" label="IP" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="blueprint" label="BluePrint" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="apiname" label="ApiName" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="endpoint" label="EndPoint" width="240" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="method" label="Method" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="path" label="请求路径" width="240" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -64,13 +61,6 @@
             <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="100" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
-          <template slot-scope="scope">
-            <el-tooltip class="table-handle-icon" effect="dark" content="删除" placement="top">
-              <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
       </el-table>
     </div>
 
@@ -83,21 +73,19 @@
       @pagin-current-change="paginCurrentChange"
     />
 
-    <!-- 批量删除 -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
 <script>
+import LogFilter from '@/services/system/LogFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
-import { SystemLogDelete, SystemLogList } from '@/api/system'
-import BatchDelete from '@/components/BatchDelete'
+import { SystemLogList } from '@/api/system'
 
 export default {
   name: 'InfoApi',
   components: {
-    'batch-delete': BatchDelete,
+    'log-filter': LogFilter,
     'public-pagination': Pagination
   },
   emits: [],
@@ -298,55 +286,11 @@ export default {
     },
     paginSizeChange(pageSize) { // pageSize 改变时会触发
       this.pageSize = pageSize
-      this.getTableList()
+      this.getTableList(2)
     },
     paginCurrentChange(page) { // currentPage 改变时会触发
       this.pageCur = page
-      this.getTableList()
-    },
-    closeDeleteDialog(isRefresh) { // 关闭删除Dialog
-      this.deleteConfirm = false
-      if (isRefresh) {
-        this.getTableList()
-      }
-    },
-    openDeleteDialog() { // 打开删除Dialog
-      if (this.selectList.length === 0) {
-        this.$message({
-          message: '请选择删除的数据',
-          type: 'warning',
-          duration: 2.0 * 1000
-        })
-        return false
-      }
-      this.deleteConfirm = true
-    },
-    rowHandleDelete(index, row) { // table row 删除
-      if (row?.md5_id) {
-        const data = {
-          'rtx_id': store.getters.rtx_id,
-          'md5': row.md5_id
-        }
-        this.btnDisabled = true
-        return new Promise((resolve, reject) => {
-          SystemLogDelete(data).then(response => {
-            const { status_id, message } = response
-            if (status_id === 100) {
-              this.$message({
-                message: '删除成功' || message,
-                type: 'success',
-                duration: 2.0 * 1000
-              })
-              this.getTableList()
-            }
-            resolve(response)
-          }).catch(error => {
-            reject(error)
-          }).finally(() => {
-            this.btnDisabled = false
-          })
-        })
-      }
+      this.getTableList(2)
     },
     showSearch() {
       this.searchStatus = !this.searchStatus
