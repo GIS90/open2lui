@@ -215,3 +215,30 @@ export function SystemDepartDrag(data) {
     data
   })
 }
+
+// 日志列表
+export function SystemLogList(data) {
+  return request({
+    url: '/system/log_list',
+    method: 'post',
+    data
+  })
+}
+
+// 日志单个删除
+export function SystemLogDelete(data) {
+  return request({
+    url: '/system/log_delete',
+    method: 'post',
+    data
+  })
+}
+
+// 日志批量删除
+export function SystemLogDeletes(data) {
+  return request({
+    url: '/system/log_deletes',
+    method: 'post',
+    data
+  })
+}

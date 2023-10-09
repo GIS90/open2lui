@@ -26,7 +26,7 @@
 
 <script>
 import store from '@/store'
-import { SystemDictDeletes, SystemApiDeletes } from '@/api/system'
+import { SystemDictDeletes, SystemApiDeletes, SystemLogDeletes } from '@/api/system'
 import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
 import { searchSqlbaseDeletes } from '@/api/search'
 import { officeExcelResultDeletes, officeExcelSourceDeletes, officePDFDeletes } from '@/api/office'
@@ -111,10 +111,12 @@ export default {
         this.deleteNotifyQywx(data)
       } else if (this.source === 'notify-qywx-robot') {
         this.deleteNotifyQywxRobot(data)
-      } else if (this.source === 'info-dict') {
-        this.deleteInfoDict(data)
-      } else if (this.source === 'info-api') {
-        this.deleteInfoApi(data)
+      } else if (this.source === 'system-dict') {
+        this.deleteSystemDict(data)
+      } else if (this.source === 'system-api') {
+        this.deleteSystemApi(data)
+      } else if (this.source === 'system-log') {
+        this.deleteSystemLog(data)
       } else if (this.source === 'search-sqlbase') {
         this.deleteSearchSqlbase(data)
       } else if (this.source === 'office-excel-source') {
@@ -223,8 +225,8 @@ export default {
         })
       })
     },
-    // info > dict
-    deleteInfoDict(data) {
+    // system > dict
+    deleteSystemDict(data) {
       return new Promise((resolve, reject) => {
         SystemDictDeletes(data).then(response => {
           const { status_id, message } = response
@@ -247,10 +249,34 @@ export default {
         })
       })
     },
-    // info > api
-    deleteInfoApi(data) {
+    // system > api
+    deleteSystemApi(data) {
       return new Promise((resolve, reject) => {
         SystemApiDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // system > log
+    deleteSystemLog(data) {
+      return new Promise((resolve, reject) => {
+        SystemLogDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({
