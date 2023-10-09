@@ -185,7 +185,7 @@ export default {
       oprSelectMd5: '', // 当前选择数据的md5-id
       disableConfirm: false, // 批量禁用确认dialog状态
       deleteConfirm: false, // 批量删除确认dialog状态
-      deleteSource: 'info-dict', // delete source
+      deleteSource: 'system-dict', // delete source
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
       mainDialogStatus: false, // 维护dialog
