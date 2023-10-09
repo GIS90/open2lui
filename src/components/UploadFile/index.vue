@@ -62,7 +62,7 @@
             <div class="el-upload__tip">
               <!-- 提示说明 支持html显示-->
               <p v-html="tips" />
-              <p>上传文件数量： <strong>{{ fileList.length }}</strong>（{{ uploadAttrs.limit>0 ? '单次上传限制'+uploadAttrs.limit : '无限制' }}）</p>
+              <p>上传文件数量： <strong style="color: red">{{ fileList.length }}</strong>（{{ uploadAttrs.limit>0 ? '单次上传限制'+uploadAttrs.limit : '无限制' }}）</p>
             </div>
           </template>
         </el-upload>
