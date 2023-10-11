@@ -45,7 +45,7 @@
                   <el-button icon="el-icon-minus" size="mini" circle @click="decrease(item.name)" />
                 </el-col>
                 <el-col :span="20">
-                  <el-progress :percentage="item.value" :color="customColors" :type="item.type" class="progress-item-shape-p" />
+                  <el-progress :percentage="item.value" :color="customColors" :type="item.type" :format="formatPercent" class="progress-item-shape-p" />
                 </el-col>
                 <el-col :span="2">
                   <el-button icon="el-icon-plus" size="mini" circle @click="increase(item.name)" />
@@ -117,9 +117,16 @@ export default {
         itBack: { id: 2, name: 'itBack', text: '后台', type: 'line', value: 65 },
         itOps: { id: 3, name: 'itOps', text: '运维', type: 'line', value: 35 },
         itFish: { id: 4, name: 'itFish', text: '摸鱼', type: 'line', value: 50 },
-        itLive: { id: 5, name: 'itLive', text: '又是元气满满的一天', type: 'dashboard', value: 99 }
+        itLive: { id: 5, name: 'itLive', text: '能量值', type: 'dashboard', value: 99 }
       }
     }
+  },
+  created() {},
+  mounted() {
+    this.$nextTick(() => {
+      // 初始化IT值
+      this.initITValues()
+    })
   },
   methods: {
     updateAvatar(value) {
@@ -130,6 +137,11 @@ export default {
     },
     closeRandomAvatar() {
       this.randomStatus = false
+    },
+    initITValues() {
+      for (const item in this.itValues) {
+        this.itValues[item].value = localStorage[item] ? parseInt(localStorage[item]) : 20 ?? 20
+      }
     },
     formatPercent(percentage) {
       return percentage === 100 ? '满' : `${percentage}%`
@@ -145,6 +157,7 @@ export default {
         value = 0
       }
       this.itValues[progress].value = value
+      localStorage[progress] = value
     },
     increase(progress) {
       let value = this.itValues[progress]?.value ?? 0
@@ -157,6 +170,7 @@ export default {
         value = 0
       }
       this.itValues[progress].value = value
+      localStorage[progress] = value
     }
   }
 }
