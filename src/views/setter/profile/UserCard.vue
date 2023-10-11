@@ -37,21 +37,21 @@
       <div class="user-skills user-bio-section">
         <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>IT技能</span></div>
         <div class="user-bio-section-body">
-          <div class="progress-item">
-            <span>Vue</span>
-            <el-progress :percentage="40" />
-          </div>
-          <div class="progress-item">
-            <span>JavaScript</span>
-            <el-progress :percentage="30" />
-          </div>
-          <div class="progress-item">
-            <span>Python</span>
-            <el-progress :percentage="85" />
-          </div>
-          <div class="progress-item">
-            <span>摸鱼</span>
-            <el-progress :percentage="100" status="success" />
+          <div v-for="item in itValues" :key="item.id" class="progress-item">
+            <span class="progress-item-label">{{ item.text }}</span>
+            <div class="progress-item-shape">
+              <el-row :gutter="10">
+                <el-col :span="2">
+                  <el-button icon="el-icon-minus" size="mini" circle @click="decrease(item.name)" />
+                </el-col>
+                <el-col :span="20">
+                  <el-progress :percentage="item.value" :color="customColors" :type="item.type" class="progress-item-shape-p" />
+                </el-col>
+                <el-col :span="2">
+                  <el-button icon="el-icon-plus" size="mini" circle @click="increase(item.name)" />
+                </el-col>
+              </el-row>
+            </div>
           </div>
         </div>
       </div>
@@ -103,7 +103,22 @@ export default {
         height: '150px',
         width: '150px'
       },
-      randomStatus: false // 随机头像功能状态
+      randomStatus: false, // 随机头像功能状态
+      customColors: [
+        { color: '#1989fa', percentage: 20 },
+        { color: '#5cb87a', percentage: 40 },
+        { color: '#6f7ad3', percentage: 60 },
+        { color: '#e6a23c', percentage: 80 },
+        { color: '#f56c6c', percentage: 100 }
+      ],
+      // IT values
+      itValues: {
+        itHtml: { id: 1, name: 'itHtml', text: '前端', type: 'line', value: 40 },
+        itBack: { id: 2, name: 'itBack', text: '后台', type: 'line', value: 65 },
+        itOps: { id: 3, name: 'itOps', text: '运维', type: 'line', value: 35 },
+        itFish: { id: 4, name: 'itFish', text: '摸鱼', type: 'line', value: 50 },
+        itLive: { id: 5, name: 'itLive', text: '又是元气满满的一天', type: 'dashboard', value: 99 }
+      }
     }
   },
   methods: {
@@ -115,6 +130,33 @@ export default {
     },
     closeRandomAvatar() {
       this.randomStatus = false
+    },
+    formatPercent(percentage) {
+      return percentage === 100 ? '满' : `${percentage}%`
+    },
+    decrease(progress) {
+      let value = this.itValues[progress]?.value ?? 0
+      value -= 1
+      // 0 <= 百分比 <= 100
+      if (value > 100) {
+        value = 100
+      }
+      if (value < 0) {
+        value = 0
+      }
+      this.itValues[progress].value = value
+    },
+    increase(progress) {
+      let value = this.itValues[progress]?.value ?? 0
+      value += 1
+      // 0 <= 百分比 <= 100
+      if (value > 100) {
+        value = 100
+      }
+      if (value < 0) {
+        value = 0
+      }
+      this.itValues[progress].value = value
     }
   }
 }
@@ -182,5 +224,23 @@ export default {
 .avatar-btn {
   padding: 13px 25px !important;
   //background-color: #0a76a4 !important;
+}
+
+// IT样式
+.progress-item {
+  margin-top: 15px;
+}
+
+.progress-item-label {
+  font-weight: 400;
+}
+
+.progress-item-shape {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.progress-item-shape-p {
+  margin-top: 5px;
 }
 </style>
