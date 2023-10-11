@@ -144,7 +144,8 @@ export default {
         drag: true, // 是否启用拖拽上传
         listType: 'text', // 文件列表的类型 "text" | "picture" | "picture-card"
         autoUpload: false, // 是否自动上传文件
-        limit: process.env.VUE_APP_UPLOAD_FILES_LIMIT ? process.env.VUE_APP_UPLOAD_FILES_LIMIT - 0 : 20, // 允许上传文件的最大数量, 0无限制
+        // limit: process.env.VUE_APP_UPLOAD_FILES_LIMIT ? process.env.VUE_APP_UPLOAD_FILES_LIMIT - 0 : 20, // 允许上传文件的最大数量, 0无限制
+        limit: process.env?.VUE_APP_UPLOAD_FILES_LIMIT ?? 20, // 允许上传文件的最大数量, 0无限制
         disabled: false
       },
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
