@@ -90,6 +90,11 @@
 - npm install，等待即可（时间可能有点久，喝个咖啡）。
 - 如果有错误根据错误提示去解决，无错误执行下一步。
 - npm run dev，还有一些其他lint、build、test、new等其他参数，可以参考package.json中的scripts模块。
+  
+- > 高版本node.js启动npm run dev   
+  
+  设置环境变量：export NODE_OPTIONS=--openssl-legacy-provider
+
 
 > ## 开发特定点
 
