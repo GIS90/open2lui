@@ -91,7 +91,7 @@
 - 如果有错误根据错误提示去解决，无错误执行下一步。
 - npm run dev，还有一些其他lint、build、test、new等其他参数，可以参考package.json中的scripts模块。
   
-- > 高版本node.js启动npm run dev   
+- > 高版本node.js[版本>=17.x]启动npm run dev   
   
   设置环境变量：export NODE_OPTIONS=--openssl-legacy-provider
 
@@ -181,15 +181,11 @@
 
 > ## 感谢
 
-图标采用的阿里iconfont
-地址：https://www.iconfont.cn/
+- 图标采用的阿里iconfont，地址：https://www.iconfont.cn/
 
 
+- 再次感谢***Panjiachen***以及***脚手架的其他贡献者***，在这里页推荐大家使用这个VUE前端脚手架：https://panjiachen.github.io/vue-element-admin-site/zh/guide/
 
-> ## 感谢
-
-再次感谢***Panjiachen***以及***脚手架的其他贡献者***，在这里页推荐大家使用这个VUE前端脚手架：   
-https://panjiachen.github.io/vue-element-admin-site/zh/guide/
 
 > ## 联系方式
 
