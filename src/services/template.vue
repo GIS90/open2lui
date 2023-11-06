@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  extends: [],
   name: 'Template',
   components: {},
   emits: [],
