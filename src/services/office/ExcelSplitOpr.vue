@@ -57,7 +57,7 @@
           </el-form-item>
           <el-form-item label="拆分方式">
             <el-tooltip placement="top" effect="light">
-              <div slot="content">行：按表格Sheet页数据<span class="info_red">行</span>拆分，一行是一个新的文件或者Sheet页<br>列：按表格Sheet页数据<span class="info_red">列</span>拆分，一列是一个新的文件或者Sheet页</div>
+              <div slot="content">行：按表格Sheet页数据<span class="info_red">行</span>拆分，按行拆分是一个新的文件或者Sheet页<br>列：按表格Sheet页数据<span class="info_red">列</span>拆分，按列拆分是一个新的文件或者Sheet页</div>
               <el-select
                 v-model="splitTypeIndex"
                 style="width: 100%"
@@ -79,9 +79,22 @@
               </el-select>
             </el-tooltip>
           </el-form-item>
+          <el-form-item label="拆分行数">
+            <el-input
+              v-model.trim="splitNum"
+              type="text"
+              placeholder="数据的条数（不包含表头），默认1"
+              :size="inputAttrs.size"
+              :clearable="inputAttrs.clear"
+              :show-word-limit="inputAttrs.limit"
+              :disabled="disabled"
+              prefix-icon="el-icon-edit"
+              oninput="this.value=this.value.replace(/[^\d]/g,'');"
+            />
+          </el-form-item>
           <el-form-item label="存储方式">
             <el-tooltip placement="top" effect="light">
-              <div slot="content">多表一Sheet：生成N个.xlsx文件，每个文件只有一个Sheet页，文件以ZIP压缩格式进行下载<br>一表多Sheet：生成一个新的.xlsx文件，一行/列的数据是文件中的Sheet页</div>
+              <div slot="content">多表一Sheet：生成N个.xlsx文件，每个文件只有一个Sheet页，文件以ZIP压缩格式进行下载<br>一表多Sheet：生成一个新的.xlsx文件，按行/列拆分的数据是文件中的Sheet页</div>
               <el-select
                 v-model="splitStoreIndex"
                 style="width: 100%"
@@ -201,7 +214,7 @@ export default {
         title: '拆分',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '10%', // Dialog CSS 中的 margin-top 值
+        top: '5%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
@@ -239,6 +252,7 @@ export default {
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // initialize split parameters
       name: '', // 新文件名称
+      splitNum: 1, // 拆分数据行数，默认1
       sheetIndex: this.tableRow.setSheetIndex || '0', // 新文件Sheet选择索引
       splitStoreIndex: '', // 存储方式索引
       splitTypeIndex: '', // 行列索引
@@ -272,6 +286,7 @@ export default {
     handleOpen() {
       if (this.curMd5 !== this.tableRow.md5) {
         this.name = ''
+        this.splitNum = 1
         this.sheetIndex = ''
         this.splitTypeIndex = ''
         this.splitStoreIndex = ''
@@ -332,6 +347,7 @@ export default {
         'md5': this.tableRow.md5,
         'name': this.name,
         'sheet': this.sheetIndex,
+        'num': this.splitNum || 1,
         'store': this.splitStoreIndex,
         'split': this.splitTypeIndex,
         'columns': this.splitColumnIndexList,
