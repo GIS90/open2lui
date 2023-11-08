@@ -72,7 +72,7 @@
       <!-- dialog footer -->
       <template #footer>
         <span class="dialog-footer">
-          <el-button class="dialog-footer-tip"> 呵呵呵 </el-button>
+          <el-checkbox v-model="uploadSuccessAutoClose" class="dialog-footer-auto-close" @change="changeAutoClose">是否上传成功后关闭</el-checkbox>
           <el-button v-show="fileList.length>0" :disabled="uploadBtnAttrs.disabled" @click="handleClear">
             清空
           </el-button>
@@ -174,7 +174,9 @@ export default {
         loading: false
       },
       // 是否上传过文件状态
-      isUpload: false
+      isUpload: false,
+      // 是否上传成功后关闭
+      uploadSuccessAutoClose: false
     }
   },
   computed: {},
@@ -185,7 +187,10 @@ export default {
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    // localStore读取设置是否上传成功后自动关闭
+    this.uploadSuccessAutoClose = localStorage.getItem('uploadSuccessAutoClose') ? Boolean(localStorage.getItem('uploadSuccessAutoClose')) : false
+  },
   methods: {
     getUploadTip() { // upload tip内容，支持html
       // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
@@ -268,6 +273,14 @@ export default {
         type: status_id === 100 ? 'success' : 'warning',
         duration: 2 * 1000
       })
+
+      // 成功上传后设置自动关闭
+      if (status_id === 100 && this.uploadSuccessAutoClose) {
+        // 延迟
+        setTimeout(() => {
+          this.$emit('close-file-upload', this.isUpload)
+        }, 2000)
+      }
     },
     uploadExceed(files, UploadFiles) {
       /* 文件上传超过限制的hook */
@@ -339,6 +352,14 @@ export default {
             this.handleClear()
           }
           resolve(response)
+
+          // 成功上传后设置自动关闭
+          if (this.uploadSuccessAutoClose) {
+            // 延迟
+            setTimeout(() => {
+              this.$emit('close-file-upload', this.isUpload)
+            }, 2000)
+          }
         }).catch(error => {
           reject(error)
         }).finally(() => {
@@ -347,14 +368,17 @@ export default {
           this.uploadBtnAttrs.loading = false
         })
       })
+    },
+    changeAutoClose(v) {
+      this.uploadSuccessAutoClose = v
+      localStorage.setItem('uploadSuccessAutoClose', v)
     }
   }
 }
 </script>
 
 <style scoped>
-.dialog-footer-tip {
-  /*display: flex;*/
-  /*align-items: center;*/
+.dialog-footer-auto-close {
+  margin-right: 20px;
 }
 </style>
