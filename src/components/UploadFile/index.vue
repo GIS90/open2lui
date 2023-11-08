@@ -239,7 +239,7 @@ export default {
       /* 初始化fileList */
       this.fileList = []
       // localStore读取设置是否上传成功后自动关闭
-      this.uploadSuccessAutoClose = localStorage.getItem('uploadSuccessAutoClose') ? eval(localStorage.getItem('uploadSuccessAutoClose')) : false
+      this.uploadSuccessAutoClose = localStorage.getItem('uploadSuccessAutoClose') === 'true'
     },
     handleClear() {
       /* 手动清空上传文件 */
