@@ -6,10 +6,11 @@
       </el-button>
     </div>
     <div id="guide-data-container" class="guide-data-container">
-      <typewriter v-show="show" ref="typewriter" class="tl" :interval="80">
+      <typewriter v-show="showTip" ref="typewriter" class="tl" :interval="80">
         <aside>
           <p>系统向导页面是对本系统对初次使用人员的一个引导，方便用户了解系统的基础信息、菜单简介、功能介绍、团队等信息。使用者也可以跳过此引导直接进行使用，每个功能会有相应的功能使用简介。</p>
           <p>更多系统详情请参考下列《{{ title }}系统说明》。</p>
+          <p class="info_red">未完待续。。。。。。</p>
         </aside>
       </typewriter>
     </div>
@@ -31,7 +32,7 @@ export default {
   data() {
     return {
       driver: null,
-      show: false,
+      showTip: false,
       info: baseInfo || {
         name: 'OpenTool-Z',
         version: 'V1.2.1',
@@ -70,7 +71,7 @@ export default {
     // 打印效果
     this.$nextTick(() => {
       setTimeout(() => {
-        this.print()
+        this.printer()
       }, 1200)
     })
   },
@@ -79,8 +80,8 @@ export default {
       this.driver.defineSteps(steps)
       this.driver.start()
     },
-    print() {
-      this.show = true
+    printer() {
+      this.showTip = true
       this.$refs.typewriter.$emit('typewrite')
     }
   }
