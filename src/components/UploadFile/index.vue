@@ -187,10 +187,7 @@ export default {
     }
   },
   created() {},
-  mounted() {
-    // localStore读取设置是否上传成功后自动关闭
-    this.uploadSuccessAutoClose = localStorage.getItem('uploadSuccessAutoClose') ? Boolean(localStorage.getItem('uploadSuccessAutoClose')) : false
-  },
+  mounted() {},
   methods: {
     getUploadTip() { // upload tip内容，支持html
       // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
@@ -241,6 +238,8 @@ export default {
       this.fullScreenStatus = false
       /* 初始化fileList */
       this.fileList = []
+      // localStore读取设置是否上传成功后自动关闭
+      this.uploadSuccessAutoClose = localStorage.getItem('uploadSuccessAutoClose') ? eval(localStorage.getItem('uploadSuccessAutoClose')) : false
     },
     handleClear() {
       /* 手动清空上传文件 */
