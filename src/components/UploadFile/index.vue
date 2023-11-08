@@ -72,6 +72,7 @@
       <!-- dialog footer -->
       <template #footer>
         <span class="dialog-footer">
+          <el-button class="dialog-footer-tip"> 呵呵呵 </el-button>
           <el-button v-show="fileList.length>0" :disabled="uploadBtnAttrs.disabled" @click="handleClear">
             清空
           </el-button>
@@ -146,7 +147,7 @@ export default {
         listType: 'text', // 文件列表的类型 "text" | "picture" | "picture-card"
         autoUpload: false, // 是否自动上传文件
         // limit: process.env.VUE_APP_UPLOAD_FILES_LIMIT ? process.env.VUE_APP_UPLOAD_FILES_LIMIT - 0 : 20, // 允许上传文件的最大数量, 0无限制
-        limit: process.env?.VUE_APP_UPLOAD_FILES_LIMIT ?? 20, // 允许上传文件的最大数量, 0无限制
+        limit: parseInt(process.env?.VUE_APP_UPLOAD_FILES_LIMIT ?? 20), // 允许上传文件的最大数量, 0无限制
         disabled: false
       },
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
@@ -352,5 +353,8 @@ export default {
 </script>
 
 <style scoped>
-
+.dialog-footer-tip {
+  /*display: flex;*/
+  /*align-items: center;*/
+}
 </style>
