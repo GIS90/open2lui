@@ -87,7 +87,7 @@
               :size="inputAttrs.size"
               :clearable="inputAttrs.clear"
               :show-word-limit="inputAttrs.limit"
-              :disabled="disabled"
+              :disabled="splitRowDisabled"
               prefix-icon="el-icon-edit"
               oninput="this.value=this.value.replace(/[^\d]/g,'');"
             />
@@ -249,6 +249,7 @@ export default {
         placeholder: '' // 默认显示内容
       },
       disabled: false, // 禁用组件
+      splitRowDisabled: false, // 拆分行数组件状态
       labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // initialize split parameters
       name: '', // 新文件名称
@@ -276,7 +277,11 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    splitTypeIndex(newVal) {
+      this.splitRowDisabled = newVal === '2'
+    }
+  },
   created() {},
   mounted() {},
   methods: {
@@ -356,6 +361,8 @@ export default {
 
       // 组件状态
       this.disabled = true
+      this.splitRowDisabled = true
+
       // loading
       const loading = this.$loading({
         target: document.querySelector('#main-opr-div'), // DOM
@@ -385,6 +392,7 @@ export default {
         }).catch(error => {
           // 关闭loading
           this.disabled = false
+          this.splitRowDisabled = false
           loading.close()
           reject(error)
         })
