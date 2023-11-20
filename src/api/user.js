@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 用户登录验证
 export function login(data) {
   return request({
-    url: '/manage/login',
+    url: '/access/login',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function login(data) {
 // 退出
 export function logout() {
   return request({
-    url: '/manage/logout',
+    url: '/access/logout',
     method: 'post'
   })
 }
