@@ -102,7 +102,7 @@ export function userAdd(data) {
 export function batchDeleteUser(data) {
   return request({
     url: '/auth/user_del_m',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -111,7 +111,7 @@ export function batchDeleteUser(data) {
 export function changeUserStatus(data) {
   return request({
     url: '/auth/user_status',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
