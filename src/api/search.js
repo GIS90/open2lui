@@ -31,7 +31,7 @@ export function searchSqlbaseList(data) {
 export function searchSqlbaseDelete(data) {
   return request({
     url: '/search/sqlbase_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -40,7 +40,7 @@ export function searchSqlbaseDelete(data) {
 export function searchSqlbaseDeletes(data) {
   return request({
     url: '/search/sqlbase_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
