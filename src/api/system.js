@@ -22,7 +22,7 @@ export function SystemDictStatus(data) {
 export function SystemDictDelete(data) {
   return request({
     url: '/system/dict_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -31,7 +31,7 @@ export function SystemDictDelete(data) {
 export function SystemDictDeletes(data) {
   return request({
     url: '/system/dict_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -94,7 +94,7 @@ export function SystemApiList(data) {
 export function SystemApiDelete(data) {
   return request({
     url: '/system/api_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -103,7 +103,7 @@ export function SystemApiDelete(data) {
 export function SystemApiDeletes(data) {
   return request({
     url: '/system/api_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
