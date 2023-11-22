@@ -181,10 +181,10 @@ export function SystemDepartAdd(data) {
 }
 
 // 删除部门
-export function SystemDepartRemove(data) {
+export function SystemDepartDelete(data) {
   return request({
-    url: '/system/depart_remove',
-    method: 'post',
+    url: '/system/depart_delete',
+    method: 'delete',
     data
   })
 }

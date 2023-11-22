@@ -93,7 +93,7 @@
 import store from '@/store'
 import DepartAdd from '@/services/system/DepartAdd'
 import DepartEdit from '@/services/system/DepartEdit'
-import { SystemDepartList, SystemDepartRemove,
+import { SystemDepartList, SystemDepartDelete,
   SystemDepartDetail, SystemDepartDrag } from '@/api/system'
 
 export default {
@@ -250,7 +250,7 @@ export default {
         md5: nodeData.md5_id
       }
       return new Promise((resolve, reject) => {
-        SystemDepartRemove(data).then(response => {
+        SystemDepartDelete(data).then(response => {
           // 后台软删除
           const { status_id, message } = response
           if (status_id === 100) {
