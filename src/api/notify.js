@@ -13,7 +13,7 @@ export function notifyDtalkList(data) {
 export function notifyDtalkDelete(data) {
   return request({
     url: '/notify/dtalk_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -22,7 +22,7 @@ export function notifyDtalkDelete(data) {
 export function notifyDtalkDeletes(data) {
   return request({
     url: '/notify/dtalk_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -76,7 +76,7 @@ export function notifyDtalkRobotAdd(data) {
 export function notifyDtalkRobotDelete(data) {
   return request({
     url: '/notify/dtalk_robot_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -85,7 +85,7 @@ export function notifyDtalkRobotDelete(data) {
 export function notifyDtalkRobotDeletes(data) {
   return request({
     url: '/notify/dtalk_robot_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -166,7 +166,7 @@ export function notifyQywxRobotAdd(data) {
 export function notifyQywxRobotDelete(data) {
   return request({
     url: '/notify/qywx_robot_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -175,7 +175,7 @@ export function notifyQywxRobotDelete(data) {
 export function notifyQywxRobotDeletes(data) {
   return request({
     url: '/notify/qywx_robot_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -229,7 +229,7 @@ export function notifyQywxList(data) {
 export function notifyQywxDelete(data) {
   return request({
     url: '/notify/qywx_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -238,7 +238,7 @@ export function notifyQywxDelete(data) {
 export function notifyQywxDeletes(data) {
   return request({
     url: '/notify/qywx_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
