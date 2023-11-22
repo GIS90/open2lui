@@ -40,7 +40,7 @@ export function roleDetail(params) {
 export function batchDeleteRole(data) {
   return request({
     url: '/auth/role_del_m',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -49,7 +49,7 @@ export function batchDeleteRole(data) {
 export function roleDelete(data) {
   return request({
     url: '/auth/role_del',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
