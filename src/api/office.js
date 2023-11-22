@@ -22,7 +22,7 @@ export function officeExcelSourceUpdate(data) {
 export function officeExcelSourceDelete(data) {
   return request({
     url: '/office/excel_source_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -31,7 +31,7 @@ export function officeExcelSourceDelete(data) {
 export function officeExcelSourceDeletes(data) {
   return request({
     url: '/office/excel_source_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -67,7 +67,7 @@ export function officeExcelResultUpdate(data) {
 export function officeExcelResultDelete(data) {
   return request({
     url: '/office/excel_result_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -76,7 +76,7 @@ export function officeExcelResultDelete(data) {
 export function officeExcelResultDeletes(data) {
   return request({
     url: '/office/excel_result_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -139,7 +139,7 @@ export function officePDFUpdate(data) {
 export function officePDFDelete(data) {
   return request({
     url: '/office/office_pdf_delete',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
@@ -148,7 +148,7 @@ export function officePDFDelete(data) {
 export function officePDFDeletes(data) {
   return request({
     url: '/office/office_pdf_deletes',
-    method: 'post',
+    method: 'delete',
     data
   })
 }
