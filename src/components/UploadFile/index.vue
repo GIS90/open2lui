@@ -353,7 +353,7 @@ export default {
           resolve(response)
 
           // 成功上传后设置自动关闭
-          if (this.uploadSuccessAutoClose) {
+          if (status_id === 100 && this.uploadSuccessAutoClose) {
             // 延迟
             setTimeout(() => {
               this.$emit('close-file-upload', this.isUpload)
