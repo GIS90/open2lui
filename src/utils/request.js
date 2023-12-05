@@ -56,8 +56,8 @@ service.interceptors.response.use(
    *
    * status_id == 100 api no error, return data
    * status_id == 101 api no error, return data is null
-   * status_id > 101 and status_id < 500 api no error, return data is error
-   * status_id > 500 api is error
+   * status_id > 101 and status_id < 900 api no error, return data is error
+   * status_id >= 900 api is error
    */
   response => {
     const res = response.data
@@ -65,17 +65,17 @@ service.interceptors.response.use(
     // if the custom status_id is not 100, it is judged as an error.
     if (res.status_id !== 100) {
       // status_id大于500均为Server故障
-      if (res.status_id >= 500) {
+      if (res.status_id >= 900) {
         Message({
           message: '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'error',
           duration: 3 * 1000
         })
-        // status_id 大于500属于API服务端发生故障
+        // status_id 大于900属于API服务端发生故障
         return Promise.reject(new Error(res.message || 'Error'))
       } else {
         Message({
-          message: res.message || '系统发生故障，请联系管理员：mingliang.gao',
+          message: res.message || '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'warning',
           duration: 3 * 1000
         })
@@ -84,6 +84,7 @@ service.interceptors.response.use(
       // return Promise.reject(new Error(res.message || 'Error'))
       return res
     } else {
+      // 100 成功请求
       return res
     }
   },
