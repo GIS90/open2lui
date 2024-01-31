@@ -187,7 +187,7 @@ export default {
         title: '新增',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '5%', // Dialog CSS 中的 margin-top 值
+        top: '2%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
@@ -217,11 +217,11 @@ export default {
       },
       selectAttrs: { // select attrs
         size: 'medium', // 大小：''/medium/small/mini
-        multiple: false, // 多选
+        multiple: true, // 多选
         clearable: true, // 清空选择
         filterable: true, // 搜索功能
         collapseTags: false, // 多个合并成一个
-        limit: 1, // 多选时用户最多可以选择的项目数，为 0 则不限制
+        limit: 0, // 多选时用户最多可以选择的项目数，为 0 则不限制
         noDataText: '暂无数据', // 选项为空时显示的文字
         placeholder: '请选择管理员' // 默认显示内容
       },
