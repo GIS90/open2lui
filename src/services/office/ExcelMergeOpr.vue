@@ -18,7 +18,7 @@
       @close="handleClose"
       @open="handleOpen"
     >
-      <div style="font-weight: bold;">合并文件数量：<span class="info_red">{{ list.length }}</span></div>
+      <div class="merge-title">合并文件数量：<span class="info_red">{{ list.length }}</span></div>
       <!-- form -->
       <div id="main-opr-div" style="text-align: center;margin-top: 20px;">
         <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
@@ -205,5 +205,8 @@ export default {
 </script>
 
 <style scoped>
-
+.merge-title {
+  font-size: 18px;
+  font-weight: bold;
+}
 </style>
