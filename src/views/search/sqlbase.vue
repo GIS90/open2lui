@@ -10,7 +10,7 @@
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
-        <svg-icon icon-class="i_delete" />  删除
+        <svg-icon icon-class="i_delete" />  批量删除
       </el-button>
       <el-button id="btn-search" class="btn-margin" :type="searchType" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="btnDisabled" @click="showSearch">
         <svg-icon :icon-class="searchIcon" />  {{ searchBtnText }}

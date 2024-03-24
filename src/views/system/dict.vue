@@ -16,7 +16,7 @@
         <svg-icon icon-class="i_disable" />  禁用
       </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDelete">
-        <svg-icon icon-class="i_delete" />  删除
+        <svg-icon icon-class="i_delete" />  批量删除
       </el-button>
       <!-- 右侧icon -->
       <span style="float: right">

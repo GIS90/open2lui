@@ -10,7 +10,7 @@
         <svg-icon icon-class="i_select" />  {{ selBtnText }}
       </el-button>
       <el-button id="btn-delete" class="btn-margin" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :size="btnBaseAttrs.size" :disabled="btnDisabled" @click="openDeleteDialog">
-        <svg-icon icon-class="i_delete" />  注销
+        <svg-icon icon-class="i_disable" />  批量注销
       </el-button>
       <!-- 右侧icon -->
       <span style="float: right">
