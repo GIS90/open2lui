@@ -104,24 +104,34 @@ export default {
       this.btnDisabled = true
       this.btnLoading = true
       if (this.source === 'notify-dtalk') {
+        // 消息通知 > 钉钉绩效
         this.deleteNotifyDtalk(data)
       } else if (this.source === 'notify-dtalk-robot') {
+        // 消息通知 > 钉钉绩效 > 钉钉绩效机器人
         this.deleteNotifyDtalkRobot(data)
       } else if (this.source === 'notify-qywx') {
+        // 消息通知 > 企微通知
         this.deleteNotifyQywx(data)
       } else if (this.source === 'notify-qywx-robot') {
+        // 消息通知 > 企微通知 > 企微通知机器人
         this.deleteNotifyQywxRobot(data)
       } else if (this.source === 'system-dict') {
+        // 系统维护 > 数据字典
         this.deleteSystemDict(data)
       } else if (this.source === 'system-api') {
+        // 系统维护 > 后台API
         this.deleteSystemApi(data)
       } else if (this.source === 'search-sqlbase') {
+        // 知识平台 > SQL仓库
         this.deleteSearchSqlbase(data)
       } else if (this.source === 'office-excel-source') {
+        // 文档工具 > 表格合并 && 表格拆分
         this.deleteOfficeExcelSource(data)
       } else if (this.source === 'office-excel-result') {
+        // 文档工具 > 表格历史
         this.deleteOfficeExcelResult(data)
       } else if (this.source === 'office-pdf') {
+        // 文档工具 > PDF转WORD
         this.deleteOfficePDF2WORD(data)
       } else {
         return false
