@@ -44,7 +44,7 @@
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        :default-sort="{ prop: 'create_time', order: 'descending' }"
+        :default-sort="{ prop: 'id', order: 'ascending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
@@ -54,16 +54,10 @@
       >
         <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="left" label="创建时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
-          <template slot-scope="scope">
-            <i class="el-icon-time" />
-            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="set_sheet_name" label="合并Sheet" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="name" label="文件名称" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="set_sheet_name" label="操作Sheet" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="ftypev" label="类别" width="140" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column label="Sheet数" :align="tableRowAttrs.align" width="180" sortable>
+        <el-table-column label="Sheet数" :align="tableRowAttrs.align" width="180">
           <template slot-scope="scope">
             <el-popover v-if="scope.row.sheet_names.length > 0" trigger="hover" placement="top" width="220">
               <div v-for="(item, index) in scope.row.sheet_names" :key="index">
@@ -76,7 +70,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="numopr" label="操作次数" width="140" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="rtx_id" label="上传人RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="rtx_id" label="上传用户RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" min-width="260" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
