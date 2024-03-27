@@ -1,26 +1,8 @@
 <template>
   <el-form :label-position="labelPosition" label-width="auto" style="width: 100%">
-    <!-- 文件名称 -->
-    <el-row :gutter="20">
-      <el-col :span="24">
-        <el-form-item label="文件名称">
-          <el-input
-            v-model="searchData.name"
-            style="width: 100%"
-            placeholder="支持文件名称模糊查询"
-            :maxlength="inputAttrs.length"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            prefix-icon="el-icon-edit"
-            :disabled="disabled"
-          />
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <!-- 操作类型 -->
     <el-row :gutter="20">
       <!-- 操作类型 -->
-      <el-col :span="24">
+      <el-col :span="12">
         <el-form-item label="操作类型">
           <el-select
             v-model="searchData.type"
@@ -38,10 +20,8 @@
           </el-select>
         </el-form-item>
       </el-col>
-    </el-row>
-    <!-- 创建日期 -->
-    <el-row :gutter="20">
-      <el-col :span="24">
+      <!-- 创建日期 -->
+      <el-col :span="12">
         <el-form-item label="创建日期">
           <el-date-picker
             v-model="create_date"
@@ -63,14 +43,31 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <!--查询-->
-    <el-row>
-      <el-button id="btn-q-search" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="filterQuery">
-        <svg-icon icon-class="search" />  查询
-      </el-button>
-      <el-button id="btn-q-clear" type="info" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="clearQuery">
-        <svg-icon icon-class="i-reset" />  重置
-      </el-button>
+    <el-row :gutter="20">
+      <!-- 文件名称 -->
+      <el-col :span="12">
+        <el-form-item label="文件名称">
+          <el-input
+            v-model="searchData.name"
+            style="width: 100%"
+            placeholder="支持文件名称模糊查询"
+            :maxlength="inputAttrs.length"
+            :clearable="inputAttrs.clear"
+            :show-word-limit="inputAttrs.limit"
+            prefix-icon="el-icon-edit"
+            :disabled="disabled"
+          />
+        </el-form-item>
+      </el-col>
+      <!--查询-->
+      <el-col :span="12">
+        <el-button id="btn-q-search" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="filterQuery">
+          <svg-icon icon-class="search" />  查询
+        </el-button>
+        <el-button id="btn-q-clear" type="info" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="clearQuery">
+          <svg-icon icon-class="i-reset" />  重置
+        </el-button>
+      </el-col>
     </el-row>
   </el-form>
 </template>
