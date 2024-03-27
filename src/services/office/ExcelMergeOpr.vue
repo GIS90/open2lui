@@ -119,7 +119,7 @@ export default {
         cp: 'right' // controls-position: right top
       },
       disabled: false, // 禁用组件
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       formData: {
         name: '', // 新文件名称
         blank: 0 // 合并设置：合并文件之间的空行数

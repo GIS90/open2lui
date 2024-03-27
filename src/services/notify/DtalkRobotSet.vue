@@ -165,7 +165,7 @@ export default {
     return {
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       dialogAttrs: {
         title: '编辑',
         width: '45%', // Dialog 的宽度

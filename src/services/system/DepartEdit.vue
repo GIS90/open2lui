@@ -121,7 +121,7 @@ export default {
     return {
       loading: false, // 组件loading，主要用于button
       disabled: false, // 禁用组件
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       inputAttrs: { // input attrs
         size: 'medium', // 大小：medium / small / mini / ''
         clear: true, // 可清空的输入框

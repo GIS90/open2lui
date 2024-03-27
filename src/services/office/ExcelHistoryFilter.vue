@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       create_date: '', // 创建日期
       searchData: { // 高级筛选
         name: '', // 名称

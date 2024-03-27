@@ -225,7 +225,7 @@ export default {
     return {
       loading: false, // 组件loading，主要用于button
       disabled: true, // 禁用组件
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示

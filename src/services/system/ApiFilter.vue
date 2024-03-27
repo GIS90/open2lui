@@ -177,7 +177,7 @@ export default {
   inject: {},
   data() {
     return {
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // button attributes
       btnBaseAttrs: {
         size: 'medium', // 大小 medium / small / mini / ''

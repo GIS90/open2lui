@@ -70,7 +70,7 @@ export default {
       oldPassword: '', // 老密码
       newPassword: '', // 新密码
       confirmPassword: '', // 验证密码
-      labelPosition: 'left' // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right' // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
     }
   },
   computed: {

@@ -250,7 +250,7 @@ export default {
       },
       disabled: false, // 禁用组件
       splitRowDisabled: false, // 拆分行数组件状态
-      labelPosition: 'left', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
+      labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       // initialize split parameters
       name: '', // 新文件名称
       splitNum: 1, // 拆分数据行数，默认1
