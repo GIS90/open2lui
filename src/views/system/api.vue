@@ -47,25 +47,20 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" width="70" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="left" label="创建时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
-          <template slot-scope="scope">
-            <i class="el-icon-time" />
-            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="blueprint" label="BluePrint" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="apiname" label="ApiName" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="endpoint" label="EndPoint" width="240" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="path" label="请求地址" width="240" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="type" label="类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="short" label="简述" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="long" label="说明" width="360" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="order_id" label="排序ID" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="create_rtx" label="创建人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="update_rtx" label="最新更新人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="update_time" label="最新更新人时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="blueprint" label="BluePrint" width="160" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="apiname" label="ApiName" width="160" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="endpoint" label="EndPoint" width="220" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="path" label="请求地址" width="220" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="type" label="类型" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="short" label="简述" width="240" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="long" label="说明" width="320" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="order_id" label="排序ID" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="创建人RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="update_rtx" label="最新更新人RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="update_time" label="最新更新人时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" min-width="260" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">

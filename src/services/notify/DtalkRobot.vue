@@ -56,7 +56,7 @@
           :highlight-current-row="tableAttrs.hcr"
           :border="tableAttrs.border"
           style="width: 100%"
-          :default-sort="{ prop: 'create_time', order: 'descending' }"
+          :default-sort="{ prop: 'id', order: 'ascending' }"
           :empty-text="tableAttrs.emptyText"
           :header-cell-style="setTableHeaderStyle"
           @select="selectRow"
@@ -188,7 +188,7 @@ export default {
       tableAttrs: {
         stripe: true, // 是否为斑马纹 true/false
         border: false, // 是否带有纵向边框 true/false
-        size: 'medium', // 尺寸 medium / small / mini / ''
+        size: 'small', // 尺寸 medium / small / mini / ''
         fit: true, // 列的宽度是否自撑开 true/false
         showHeader: true, // 是否显示表头 true/false
         hcr: true, // 是否要高亮当前行highlight-current-row true/false

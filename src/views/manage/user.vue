@@ -33,7 +33,7 @@
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        :default-sort="{ prop: 'create_time', order: 'descending' }"
+        :default-sort="{ prop: 'id', order: 'ascending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
@@ -41,27 +41,27 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" width="70" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
-          <template slot-scope="scope">
-            <i class="el-icon-time" />
-            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column fixed="left" prop="rtx_id" label="RTX名称" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="avatar" label="头像" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
           <template slot-scope="scope">
             <el-avatar :size="avatarAttrs.size" :src="scope.row.avatar" :shape="avatarAttrs.shape" :alt="avatarAttrs.alt" :fit="avatarAttrs.fit" />
           </template>
         </el-table-column>
-        <el-table-column fixed="left" prop="rtx_id" label="RTX名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="name" label="姓名" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="phone" label="电话" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="email" label="邮箱" width="270" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="department" label="部门" width="270" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="350" sortable :header-align="tableRowAttrs.align" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="create_rtx" label="创建者RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="delete_time" label="注销时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="name" label="姓名" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="phone" label="电话" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="email" label="邮箱" width="260" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="department" label="部门" width="260" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="introduction" label="描述" width="320" sortable :header-align="tableRowAttrs.align" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="创建者RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column label="创建时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="delete_time" label="注销时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="200">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">

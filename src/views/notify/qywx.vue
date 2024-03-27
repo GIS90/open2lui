@@ -42,27 +42,22 @@
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
         :empty-text="tableAttrs.emptyText"
-        :default-sort="{ prop: 'create_time', order: 'descending' }"
+        :default-sort="{ prop: 'id', order: 'ascending' }"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
         @select="selectRow"
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" width="70" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="left" label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
-          <template slot-scope="scope">
-            <i class="el-icon-time" />
-            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="title" label="标题" width="280" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="title" label="标题" width="260" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="content" label="消息内容" width="420" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="type_name" label="消息类型" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="count" label="发送次数" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="count" label="发送次数" width="150" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="last_send_time" label="最新发送时间" width="220" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="rtx_id" label="创建人RTX" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column prop="rtx_id" label="创建人RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" min-width="420" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">

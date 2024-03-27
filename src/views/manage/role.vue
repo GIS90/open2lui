@@ -33,7 +33,7 @@
         :show-header="tableAttrs.showHeader"
         :highlight-current-row="tableAttrs.hcr"
         :border="tableAttrs.border"
-        :default-sort="{ prop: 'create_time', order: 'descending' }"
+        :default-sort="{ prop: 'id', order: 'ascending' }"
         :empty-text="tableAttrs.emptyText"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
@@ -41,18 +41,13 @@
         @selection-change="selectChange"
         @select-all="selectAll"
       >
-        <el-table-column fixed="left" type="selection" width="70" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
+        <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="left" label="创建时间" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
-          <template slot-scope="scope">
-            <i class="el-icon-time" />
-            <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="engname" label="RTX名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="engname" label="RTX名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="chnname" label="中文名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="introduction" label="描述" width="350" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="330">
+        <el-table-column prop="introduction" label="描述" width="360" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="320">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />
@@ -146,7 +141,7 @@ export default {
       tableAttrs: {
         rowKey: 'md5-id',
         stripe: true, // 是否为斑马纹 true/false
-        border: false, // 是否带有纵向边框 true/false
+        border: true, // 是否带有纵向边框 true/false
         size: 'medium', // 尺寸 medium / small / mini / ''
         fit: true, // 列的宽度是否自撑开 true/false
         showHeader: true, // 是否显示表头 true/false
