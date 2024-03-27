@@ -18,8 +18,8 @@
   >
     <span class="dialog-text">确认删除选择的数据吗？</span>
     <span slot="footer" class="dialog-footer">
-      <el-button :disabled="btnDisabled" @click="cancelDelete">取 消</el-button>
-      <el-button :disabled="btnDisabled" :loading="btnLoading" type="primary" @click="confirmDelete">确 定</el-button>
+      <el-button :disabled="btnDisabled" @click="cancelDelete">取消</el-button>
+      <el-button :disabled="btnDisabled" :loading="btnLoading" type="primary" @click="confirmDelete">确定</el-button>
     </span>
   </el-dialog>
 </template>
