@@ -279,7 +279,7 @@ export default {
       this.formData.type = ''
       this.formData.short = ''
       this.formData.long = ''
-      this.formData.order_id = undefined // 1
+      this.formData.order_id = 1 // 1
       this.$nextTick(() => {
         // 重置表单状态
         this.getTypeList()

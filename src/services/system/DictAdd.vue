@@ -256,7 +256,7 @@ export default {
       this.formData.key = ''
       this.formData.value = ''
       this.formData.description = ''
-      this.formData.order_id = undefined // 1
+      this.formData.order_id = 1 // 1
       this.$nextTick(() => {
         // 重置表单状态
         this.$refs.formData.resetFields()

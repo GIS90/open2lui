@@ -274,7 +274,7 @@ export default {
       this.formData.key = ''
       this.formData.value = ''
       this.formData.description = ''
-      this.formData.order_id = undefined // 1
+      this.formData.order_id = 1 // 1
 
       this.$nextTick(() => {
         // 维护模式：枚举RTX

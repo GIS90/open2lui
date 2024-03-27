@@ -526,7 +526,7 @@ export default {
       this.formData.affix = ''
       this.formData.breadcrumb = ''
       this.formData.shortcut = ''
-      this.formData.order_id = undefined
+      this.formData.order_id = 1
       // 初始化非全屏
       this.fullScreenStatus = false
       this.$nextTick(() => {
