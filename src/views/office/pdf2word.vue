@@ -17,6 +17,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -80,7 +81,7 @@
     <public-pagination :page="pageCur" :size="pageSize" :total="pageTotal" @pagin-size-change="paginSizeChange" @pagin-current-change="paginCurrentChange" />
 
     <!-- 删除dialog -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 文件设置dg -->
     <office-pdf-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -95,6 +96,7 @@ import store from '@/store'
 import OfficePDFSet from '@/services/office/OfficePDFSet'
 import OfficePDFToWord from '@/services/office/OfficePDFToWord'
 import UploadFile from '@/components/UploadFile'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
 import { officePDFDelete, officePdf2WordList } from '@/api/office'
@@ -107,7 +109,8 @@ export default {
     'office-pdf-set': OfficePDFSet,
     'office-pdf-to-word': OfficePDFToWord,
     'public-upload-file': UploadFile,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -167,7 +170,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       toDialogStatus: false, // PDF转WORD-dialog状态
-      deleteSource: 'office-pdf', // delete source
+      pageSourceId: 'office-pdf', // delete source
       deleteConfirm: false // 删除确认dialog状态
     }
   },
