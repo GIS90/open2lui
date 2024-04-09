@@ -62,7 +62,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="delete_time" label="注销时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="200">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="160">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -72,7 +72,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="200">
+        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="180">
           <template slot-scope="scope">
             <user-status :row="scope.row" />
           </template>

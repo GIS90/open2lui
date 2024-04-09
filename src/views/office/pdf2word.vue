@@ -55,7 +55,7 @@
         <el-table-column prop="pages" label="指标页列表" width="240" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="上传用户RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="400">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="260">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
               <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />

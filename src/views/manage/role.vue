@@ -47,7 +47,7 @@
         <el-table-column prop="chnname" label="中文名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="introduction" label="描述" width="360" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="320">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="220">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleDetail(scope.$index, scope.row)" />

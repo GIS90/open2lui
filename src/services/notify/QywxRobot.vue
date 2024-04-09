@@ -77,7 +77,7 @@
               <span style="margin-left: 20px">{{ scope.row.create_time }}</span>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="320">
+          <el-table-column fixed="right" label="操作" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" width="200">
             <template slot-scope="scope">
               <el-tooltip class="table-handle-icon" effect="dark" content="设置" placement="top">
                 <i class="el-icon-setting" @click="rowHandleEdit(scope.$index, scope.row)" />

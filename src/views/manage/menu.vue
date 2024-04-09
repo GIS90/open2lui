@@ -68,7 +68,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="create_rtx" label="创建者RTX" width="200" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="200">
+        <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="160">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleEdit(scope.$index, scope.row, 'detail')" />
@@ -78,7 +78,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="200">
+        <el-table-column fixed="right" label="状态管理" :align="tableRowAttrs.align" width="180">
           <template slot-scope="scope">
             <menu-status :row="scope.row" />
           </template>
