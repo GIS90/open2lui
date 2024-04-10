@@ -43,7 +43,7 @@
               v-model="formData.type"
               style="width: 100%"
               placeholder="请选择下载方式"
-              :disabled="disabled"
+              :disabled="btnDisabled"
               :filterable="selectAttrs.filterable"
               :multiple="selectAttrs.multiple"
               :multiple-limit="selectAttrs.limit"
@@ -76,7 +76,7 @@
               v-model="formData.format"
               style="width: 100%"
               placeholder="请选择文件格式"
-              :disabled="disabled"
+              :disabled="btnDisabled"
               :filterable="selectAttrs.filterable"
               :multiple="selectAttrs.multiple"
               :multiple-limit="selectAttrs.limit"
@@ -258,8 +258,12 @@ export default {
         'rtx_id': store.getters.rtx_id,
         'list': this.selectList,
         'source': this.source,
-        ...this.formData
+        'file_name': this.formData.name,
+        'file_format': this.formData.format,
+        'file_type': this.formData.type
+        // ...this.formData
       }
+
       // 如果下载选择数据，判断list是否有数据
       if (this.formData.type === 'Select' && this.selectList.length === 0) {
         this.$message({
@@ -299,6 +303,7 @@ export default {
                   position: 'top-right', // 位置：top-right/top-left/bottom-right/bottom-left
                   showClose: false // 是否显示关闭按钮
                 })
+                this.closeDialog()
               }
               resolve(response)
             }).catch(error => {

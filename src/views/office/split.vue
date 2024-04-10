@@ -20,6 +20,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableData(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceIdDownload" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -104,7 +105,7 @@
     <excel-split-opr :show="splitDialogStatus" :table-row="oprSelectData" @close-file-split="closeFileSplit" />
 
     <!-- 删除dialog -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
@@ -116,6 +117,7 @@ import ExcelSplitOpr from '@/services/office/ExcelSplitOpr'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { officeExcelSourceList, officeExcelSourceDelete } from '@/api/office'
 
 export default {
@@ -126,7 +128,8 @@ export default {
     'excel-split-opr': ExcelSplitOpr,
     'batch-delete': BatchDelete,
     'public-upload-file': UploadFile,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -187,7 +190,8 @@ export default {
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
       splitDialogStatus: false, // 拆分dialog状态
-      deleteSource: 'office-excel-source', // delete source
+      pageSourceId: 'office-excel-source', // page source id
+      pageSourceIdDownload: 'office-excel-source-split', // download id
       deleteConfirm: false // 删除确认dialog状态
     }
   },

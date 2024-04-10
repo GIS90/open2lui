@@ -170,7 +170,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       toDialogStatus: false, // PDF转WORD-dialog状态
-      pageSourceId: 'office-pdf', // delete source
+      pageSourceId: 'office-pdf', // page source id
       deleteConfirm: false // 删除确认dialog状态
     }
   },

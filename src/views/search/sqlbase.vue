@@ -20,6 +20,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
     <!--Search查询条件区域
@@ -73,7 +74,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="database_value" label="数据库" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="text" label="消息内容" width="380" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="text" label="文档内容" width="380" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="count" label="浏览次数" width="140" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="rtx_id" label="创建人RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -113,7 +114,7 @@
     <sql-base-add :show="addDialogStatus" @close-add-dg="closeAddDialog" />
 
     <!-- 批量删除 -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 编辑 -->
     <sql-base-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -132,6 +133,7 @@ import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { searchSqlbaseDelete, searchSqlbaseList } from '@/api/search'
 import BatchDelete from '@/components/BatchDelete'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 
 export default {
   name: 'SearchSqlBase',
@@ -141,7 +143,8 @@ export default {
     'sql-base-view': SqlBaseView,
     'sql-base-filter': SqlBaseFilter,
     'batch-delete': BatchDelete,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   emits: [],
   props: {},
@@ -219,7 +222,7 @@ export default {
       addDialogStatus: false, // 新增dialog状态
       setDialogStatus: false, // 设置dialog状态
       viewDialogStatus: false, // 查看dialog状态
-      deleteSource: 'search-sqlbase', // delete source
+      pageSourceId: 'search-sqlbase', // page source id
       deleteConfirm: false, // 删除确认dialog状态
       searchType: 'primary', // search button type: primary, success, default is primary
       searchIcon: 'i-double-arrow-down', // search button icon

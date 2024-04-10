@@ -17,6 +17,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableData(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -103,7 +104,7 @@
     <excel-history-set :show="setDialogStatus" :table-row="oprSelectData" @close-history-set="closeHistorySet" />
 
     <!-- 删除dialog -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
   </div>
 </template>
 
@@ -113,6 +114,7 @@ import ExcelHistorySet from '@/services/office/ExcelHistorySet'
 import ExcelHistoryFilter from '@/services/office/ExcelHistoryFilter'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { officeExcelResultDelete, officeExcelResultList } from '@/api/office'
 
 export default {
@@ -122,7 +124,8 @@ export default {
     'excel-history-set': ExcelHistorySet,
     'batch-delete': BatchDelete,
     'excel-history-filter': ExcelHistoryFilter,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -179,7 +182,7 @@ export default {
       tableData: [], // table data
       oprSelectData: {}, // 当前选择data
       setDialogStatus: false, // 设置dialog状态
-      deleteSource: 'office-excel-result', // delete source
+      pageSourceId: 'office-excel-result', // page source id
       deleteConfirm: false, // 删除确认dialog状态
       searchType: 'primary', // search button type: primary, success, default is primary
       searchIcon: 'i-double-arrow-down', // search button icon
