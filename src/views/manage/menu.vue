@@ -245,10 +245,22 @@ export default {
         })
       })
     },
-    setTableHeaderStyle() { // table title样式
-      return {
-        background: '#eee',
-        color: '#606266'
+    setTableHeaderStyle({ row, column, rowIndex, columnIndex }) { // table title样式
+      if (column.label === '操作') {
+        return {
+          background: '#dfebf7',
+          color: '#000000'
+        }
+      } else if (column.label === '状态管理') {
+        return {
+          background: '#a7e796',
+          color: '#000000'
+        }
+      } else {
+        return {
+          background: '#eee',
+          color: '#606266'
+        }
       }
     },
     setTableRowStyle({ row, rowIndex }) { // table row样式
