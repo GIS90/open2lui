@@ -26,6 +26,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -115,7 +116,7 @@
     />
 
     <!-- 批量删除 -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 设置 -->
     <dtalk-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -135,6 +136,7 @@ import DtalkSend from '@/services/notify/DtalkSend'
 import UploadFile from '@/components/UploadFile'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { notifyDtalkList, notifyDtalkDelete } from '@/api/notify'
 
 export default {
@@ -147,7 +149,8 @@ export default {
     'dtalk-robot': DtalkRobot,
     'dtalk-send': DtalkSend,
     'public-pagination': Pagination,
-    'public-upload-file': UploadFile
+    'public-upload-file': UploadFile,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -208,7 +211,7 @@ export default {
       oprSelectRowMd5: '', // 当前选择data-md5
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态(dtalk信息发送)
-      deleteSource: 'notify-dtalk', // delete source
+      pageSourceId: 'notify-dtalk', // page source id
       deleteConfirm: false, // 删除确认dialog状态
       robotDialogStatus: false, // Robot配置dg状态
       dtalkTemplateFile: 'http://2lstore.pygo2.top/templates/钉钉消息通知模板V1.0.xls' // dtalk模板文件

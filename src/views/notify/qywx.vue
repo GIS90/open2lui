@@ -20,6 +20,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -99,7 +100,7 @@
     />
 
     <!-- 批量删除 -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDeleteDialog" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 编辑 -->
     <qywx-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
@@ -122,6 +123,7 @@ import QywxSend from '@/services/notify/QywxSend'
 import QywxSendBack from '@/services/notify/QywxSendBack'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { notifyQywxList, notifyQywxDelete } from '@/api/notify'
 
 export default {
@@ -133,7 +135,8 @@ export default {
     'qywx-send-back': QywxSendBack,
     'qywx-robot': QywxRobot,
     'batch-delete': BatchDelete,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   emits: [],
   props: {},
@@ -196,7 +199,7 @@ export default {
       setDialogStatus: false, // 设置dialog状态
       sendDialogStatus: false, // send-dialog状态
       sendTempDialogStatus: false, // send-temp-dialog状态(临时)
-      deleteSource: 'notify-qywx', // delete source
+      pageSourceId: 'notify-qywx', // page source id
       deleteConfirm: false, // 删除确认dialog状态
       robotDialogStatus: false, // Robot配置dg状态
       sendBackDialogStatus: false // 撤销消息对话框状态
