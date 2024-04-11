@@ -23,6 +23,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -49,8 +50,8 @@
         <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="left" prop="name" label="RTX名称" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="key" label="KEY" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="value" label="VALUE" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="key" label="字典KEY" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="value" label="字典VALUE" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="description" label="描述" width="350" sortable :header-align="tableRowAttrs.align" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="order_id" label="排序" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_rtx" label="创建者RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -97,7 +98,7 @@
     <dict-batch-disable :show="disableConfirm" :list="selectList" @close-disable="closeDisable" />
 
     <!-- 批量删除 -->
-    <batch-delete :show="deleteConfirm" :list="selectList" :source="deleteSource" @close-delete-dialog="closeDelete" />
+    <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDelete" />
   </div>
 </template>
 
@@ -110,6 +111,7 @@ import DictStatus from '@/services/system/DictStatus'
 import DictBatchDisable from '@/services/system/DictBatchDisable'
 import Pagination from '@/components/Pagination'
 import BatchDelete from '@/components/BatchDelete'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { SystemDictDelete, SystemDictList } from '@/api/system'
 
 export default {
@@ -122,7 +124,8 @@ export default {
     'batch-delete': BatchDelete,
     'dict-batch-disable': DictBatchDisable,
     'dict-status': DictStatus,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -180,7 +183,7 @@ export default {
       oprSelectMd5: '', // 当前选择数据的md5-id
       disableConfirm: false, // 批量禁用确认dialog状态
       deleteConfirm: false, // 批量删除确认dialog状态
-      deleteSource: 'system-dict', // delete source
+      pageSourceId: 'system-dict', // page source id
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
       mainDialogStatus: false, // 维护dialog

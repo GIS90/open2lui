@@ -22,6 +22,7 @@
           <el-tooltip effect="dark" content="刷新" placement="top">
             <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="refreshTree" />
           </el-tooltip>
+          <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" />
         </span>
       </el-col>
     </el-row>
@@ -93,6 +94,7 @@
 import store from '@/store'
 import DepartAdd from '@/services/system/DepartAdd'
 import DepartEdit from '@/services/system/DepartEdit'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { SystemDepartList, SystemDepartDelete,
   SystemDepartDetail, SystemDepartDrag } from '@/api/system'
 
@@ -101,7 +103,8 @@ export default {
   emits: [],
   components: {
     'depart-add': DepartAdd,
-    'depart-edit': DepartEdit
+    'depart-edit': DepartEdit,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -161,7 +164,8 @@ export default {
       userList: [], // 用户列表
       showEdit: false, // 是否显示编辑
       editNode: {}, // 编辑的节点信息
-      filterText: '' // 过滤内容
+      filterText: '', // 过滤内容
+      pageSourceId: 'system-depart' // page source id
     }
   },
   computed: {},

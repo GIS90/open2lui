@@ -264,8 +264,10 @@ export default {
         // ...this.formData
       }
 
-      // 如果下载选择数据，判断list是否有数据
-      if (this.formData.type === 'Select' && this.selectList.length === 0) {
+      // 如果下载选择数据，判断list是否有数据（特殊无选择功能不支持选择性数据下载）
+      if (this.formData.type === 'Select' &&
+        this.selectList.length === 0 &&
+        !['system-depart', 'manage-menu'].includes(this.source)) {
         this.$message({
           message: '已选择下载方式需要选择数据，当前暂无选择数据',
           type: 'warning',

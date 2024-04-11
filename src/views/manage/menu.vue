@@ -16,6 +16,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" />
       </span>
     </el-row>
 
@@ -110,6 +111,7 @@ import MenuDetail from '@/services/manage/MenuDetail'
 import MenuAdd from '@/services/manage/MenuAdd'
 import MenuSet from '@/services/manage/MenuSet'
 import MenuStatus from '@/services/manage/MenuStatus'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { getMenuList } from '@/api/manage'
 
 export default {
@@ -121,7 +123,8 @@ export default {
     'menu-detail': MenuDetail,
     'menu-add': MenuAdd,
     'menu-set': MenuSet,
-    'menu-status': MenuStatus
+    'menu-status': MenuStatus,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -190,7 +193,8 @@ export default {
       deleteConfirm: false, // 删除确认dialog状态
       detailDialogStatus: false, // 详情dialog
       setDialogStatus: false, // 编辑dialog
-      addDialogStatus: false // 新增dialog
+      addDialogStatus: false, // 新增dialog
+      pageSourceId: 'manage-menu' // page source id
     }
   },
   computed: {},

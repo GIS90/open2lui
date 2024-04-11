@@ -17,6 +17,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -46,6 +47,7 @@
         <el-table-column fixed="left" prop="engname" label="RTX名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="chnname" label="中文名称" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="introduction" label="描述" width="360" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="create_rtx" label="创建者RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column fixed="right" label="操作" :align="tableRowAttrs.align" min-width="220">
           <template slot-scope="scope">
@@ -100,6 +102,7 @@ import RoleSet from '@/services/manage/RoleSet'
 import RoleBatchDelete from '@/services/manage/RoleBatchDelete'
 import RoleAuth from '@/services/manage/RoleAuth'
 import Pagination from '@/components/Pagination'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { roleDelete, getRoleList } from '@/api/manage'
 import { adminRoleRtx } from '@/settings.js'
 
@@ -112,7 +115,8 @@ export default {
     'role-set': RoleSet,
     'role-auth': RoleAuth,
     'role-batch-delete': RoleBatchDelete,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -174,7 +178,8 @@ export default {
       detailDialogStatus: false, // 角色详情dialog
       setDialogStatus: false, // 角色设置dialog
       addDialogStatus: false, // 新增角色dialog
-      authDialogStatus: false // 角色权限dialog
+      authDialogStatus: false, // 角色权限dialog
+      pageSourceId: 'manage-role' // page source id
     }
   },
   computed: {},

@@ -17,6 +17,7 @@
         <el-tooltip effect="dark" content="刷新" placement="top">
           <el-button icon="el-icon-refresh" :plain="btnIconAttrs.plain" :size="btnIconAttrs.size" :disabled="btnDisabled" :circle="btnIconAttrs.circle" @click="getTableList(2)" />
         </el-tooltip>
+        <icon-download-excel :source="pageSourceId" :disabled="btnDisabled" :select-list="selectList" />
       </span>
     </el-row>
 
@@ -111,6 +112,7 @@ import UserStatus from '@/services/manage/UserStatus'
 import UserDetail from '@/services/manage/UserDetail'
 import UserResetPw from '@/services/manage/UserResetPw'
 import Pagination from '@/components/Pagination'
+import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { getUserList } from '@/api/manage'
 
 export default {
@@ -122,7 +124,8 @@ export default {
     'user-status': UserStatus,
     'user-detail': UserDetail,
     'user-reset-pw': UserResetPw,
-    'public-pagination': Pagination
+    'public-pagination': Pagination,
+    'icon-download-excel': IconDownloadExcel
   },
   props: {},
   data() {
@@ -190,7 +193,8 @@ export default {
       pwDialogStatus: false, // 重置密码dialog
       setDialogStatus: false, // 编辑dialog
       addDialogStatus: false, // 新增dialog
-      userStatus: true // 状态管理
+      userStatus: true, // 状态管理
+      pageSourceId: 'manage-user' // page source id
     }
   },
   computed: {},
