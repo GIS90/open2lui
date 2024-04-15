@@ -234,9 +234,9 @@ export default {
       this.$emit('close-file-upload', this.isUpload)
     },
     handleOpen() {
-      // 初始化非全屏
+      // 非全屏
       this.fullScreenStatus = false
-      /* 初始化fileList */
+      // 文件列表
       this.fileList = []
       // localStore读取设置是否上传成功后自动关闭
       this.uploadSuccessAutoClose = localStorage.getItem('uploadSuccessAutoClose') === 'true'
