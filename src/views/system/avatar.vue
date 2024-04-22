@@ -25,7 +25,7 @@
     </el-row>
     <!--Search查询条件区域-->
     <div v-if="searchStatus" class="searchBox">
-      <api-filter :user-list="userList" :type-list="typeList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
+      <avatar-filter :type-list="typeList" :user-list="userList" :disabled="btnDisabled" @filter-search-result="filterSearchResult" />
     </div>
 
     <!--Table表格-->
@@ -101,7 +101,7 @@
 <script>
 import ApiSet from '@/services/system/ApiSet'
 import ApiView from '@/services/system/ApiView'
-import ApiFilter from '@/services/system/ApiFilter'
+import AvatarFilter from '@/services/system/AvatarFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
 import { SystemAvatarDelete, SystemAvatarList } from '@/api/system'
@@ -114,7 +114,7 @@ export default {
   components: {
     'api-set': ApiSet,
     'api-view': ApiView,
-    'api-filter': ApiFilter,
+    'avatar-filter': AvatarFilter,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination,
     'public-upload-file': UploadFile,
@@ -201,11 +201,11 @@ export default {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX，多个
-        label: [], // 标签
+        type: [], // 类型，多个
         content: '' // 模糊查询搜索内容
       },
       userList: [], // user list
-      labelList: [] // label list
+      typeList: [] // type list
     }
   },
   computed: {},
@@ -314,7 +314,7 @@ export default {
             this.pageTotal = data.total
             // filter参数传入
             this.userList = data.user
-            this.labelList = data.label
+            this.typeList = data.type
           }
           // 手动刷新提示
           if ([2, 3].includes(type) && status_id === 100) {
@@ -392,8 +392,9 @@ export default {
         this.rowDelete(index, row)
       }).catch(() => {
         this.$message({
+          message: '已取消删除',
           type: 'info',
-          message: '已取消删除'
+          duration: 2.0 * 1000
         })
       })
     },

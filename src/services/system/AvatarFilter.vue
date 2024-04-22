@@ -20,42 +20,6 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <!-- BluePrint -->
-      <el-col :span="12">
-        <el-form-item label="BluePrint">
-          <el-input
-            v-model="searchData.blueprint"
-            style="width: 100%;height: 100%"
-            type="text"
-            :clearable="inputAttrs.clear"
-            :maxlength="searchLimit.blueprint"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-            placeholder="请输入搜索的BluePrint"
-          />
-        </el-form-item>
-      </el-col>
-      <!-- ApiName -->
-      <el-col :span="12">
-        <el-form-item label="ApiName">
-          <el-input
-            v-model="searchData.apiname"
-            style="width: 100%;height: 100%"
-            type="text"
-            :clearable="inputAttrs.clear"
-            :maxlength="searchLimit.apiname"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-            placeholder="请输入搜索的ApiName"
-          />
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
       <!-- 创建用户 -->
       <el-col :span="12">
         <el-form-item label="创建用户">
@@ -84,37 +48,7 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <!-- 接口类型 -->
-      <el-col :span="12">
-        <el-form-item label="接口类型">
-          <el-select
-            v-model="searchData.type"
-            style="width: 100%"
-            :size="selectAttrs.size"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="selectAttrs.limit"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-            placeholder="请选择接口类型"
-          >
-            <el-option
-              v-for="(item, index) in typeList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <!-- 创建时间 -->
+      <!-- 创建日期 -->
       <el-col :span="12">
         <el-form-item label="创建日期">
           <el-date-picker
@@ -136,7 +70,34 @@
           />
         </el-form-item>
       </el-col>
-      <!--查询-->
+    </el-row>
+    <el-row :gutter="20">
+      <!-- 头像分类 -->
+      <el-col :span="12">
+        <el-form-item label="头像分类">
+          <el-select
+            v-model="searchData.type"
+            style="width: 100%"
+            :size="selectAttrs.size"
+            :disabled="disabled"
+            :filterable="selectAttrs.filterable"
+            :multiple="selectAttrs.multiple"
+            :multiple-limit="selectAttrs.limit"
+            :clearable="selectAttrs.clearable"
+            :no-data-text="selectAttrs.noDataText"
+            :collapse-tags="selectAttrs.collapseTags"
+            placeholder="请选择头像分类"
+          >
+            <el-option
+              v-for="(item, index) in typeList"
+              :key="index"
+              :label="item.value"
+              :value="item.key"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <!-- 查询 -->
       <el-col :span="12">
         <el-button id="btn-q-search" :size="btnBaseAttrs.size" :plain="btnBaseAttrs.plain" :round="btnBaseAttrs.round" :disabled="disabled" @click.prevent.stop="filterQuery">
           <svg-icon icon-class="search" />  查询
@@ -151,11 +112,11 @@
 
 <script>
 export default {
-  name: 'ApiFilter',
+  name: 'AvatarFilter',
   components: {},
   emits: ['filter-search-result'],
   props: {
-    // 接口类型
+    // 类型
     typeList: {
       type: Array,
       require: true,
@@ -227,15 +188,11 @@ export default {
         create_time_start: '', // 起始创建时间
         create_time_end: '', // 结束创建时间
         create_rtx: [], // 创建用户RTX，多个
-        blueprint: '', // bluePrint
-        apiname: '', // apiName
-        type: [], // API类型，多个
+        type: [], // 类型，多个
         content: '' // 模糊查询搜索内容
       },
       // search input limit
       searchLimit: {
-        blueprint: 25,
-        apiname: 35,
         content: 55
       }
     }
@@ -290,8 +247,6 @@ export default {
       this.searchData.create_time_end = ''
       this.searchData.create_rtx = []
       this.searchData.type = []
-      this.searchData.blueprint = ''
-      this.searchData.apiname = ''
       this.searchData.content = ''
       this.$notify({
         title: '消息', // 标题
