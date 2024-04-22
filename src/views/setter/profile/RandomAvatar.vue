@@ -224,6 +224,10 @@ export default {
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
+      if (this.curImage) {
+        this.$refs[this.curImage][0].classList.remove('viewer-select-image')
+        this.curImage = ''
+      }
     },
     closeDialog() { // 关闭dialog
       this.$emit('close-random-avatar', false)
