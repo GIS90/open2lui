@@ -224,3 +224,39 @@ export function SystemLogList(data) {
     data
   })
 }
+
+// 头像管理列表
+export function SystemAvatarList(data) {
+  return request({
+    url: '/system/avatar_list',
+    method: 'post',
+    data
+  })
+}
+
+// 头像管理单个删除
+export function SystemAvatarDelete(data) {
+  return request({
+    url: '/system/avatar_delete',
+    method: 'delete',
+    data
+  })
+}
+
+// 头像管理批量删除
+export function SystemAvatarDeletes(data) {
+  return request({
+    url: '/system/avatar_deletes',
+    method: 'delete',
+    data
+  })
+}
+
+// 头像管理上传
+export function SystemAvatarUpload(data) {
+  return request({
+    url: '/system/avatar_upload',
+    method: 'post',
+    data
+  })
+}

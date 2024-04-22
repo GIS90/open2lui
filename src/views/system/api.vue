@@ -113,7 +113,7 @@ import BatchDelete from '@/components/BatchDelete'
 import IconDownloadExcel from '@/components/IconDownloadExcel'
 
 export default {
-  name: 'InfoApi',
+  name: 'SystemApi',
   components: {
     'api-add': ApiAdd,
     'api-set': ApiSet,

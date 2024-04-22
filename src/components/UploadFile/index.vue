@@ -32,7 +32,7 @@
         </div>
       </template>
       <!-- dialog > upload -->
-      <div style="text-align: center;">
+      <div :class="[fileType !== '8' ? 'dialog-content-center' : 'dialog-content-left']">
         <el-upload
           ref="uploadRef"
           :action="getUploadUrl()"
@@ -55,15 +55,34 @@
           :on-change="uploadChange"
           :on-exceed="uploadExceed"
           :before-upload="beforeUpload"
+          :on-preview="handlePictureCardPreview"
         >
           <i class="el-icon-upload" />
-          <div class="el-upload__text">拖拽或者 <em>点击上传</em></div>
+
           <template #tip>
-            <div class="el-upload__tip">
+            <!-- 文件类型 -->
+            <div v-if="['1', '2', '6', '7'].includes(fileType)" class="el-upload__tip avatar-remark">
+              <div class="el-upload__text"><em>拖拽或者点击上传</em></div>
               <!-- 提示说明 支持html显示-->
               <p v-html="tips" />
               <p>上传文件数量： <strong style="color: red">{{ fileList.length }}</strong>（{{ uploadAttrs.limit>0 ? '单次上传限制'+uploadAttrs.limit : '无限制' }}）</p>
               <el-divider><i class="el-icon-menu">  文件列表</i></el-divider>
+            </div>
+            <!-- 图片类型 -->
+            <div v-if="['8'].includes(fileType)" class="el-upload__tip avatar-remark">
+              <div>上传文件数量： <strong style="color: red">{{ fileList.length }}</strong></div>
+              <el-alert type="warning" show-icon class="avatar-remark-alert">
+                <ol class="avatar-remark-alert-ul">
+                  <li>仅支持<span class="info_red">jpg/jpeg/png</span>格式文件上传，且不超过<span class="info_red">2M</span>（2048KB）。</li>
+                  <li>单次上传最大限制<span class="info_red">{{ uploadAttrs.limit }}</span>个。</li>
+                  <li>上传成功后，对单张图片可进行信息完善、裁剪编辑等操作，暂不支持批量操作。</li>
+                </ol>
+              </el-alert>
+
+              <!-- 图片预览 -->
+              <el-dialog :visible.sync="dialogVisible" z-index="1000">
+                <img width="100%" :src="dialogImageUrl">
+              </el-dialog>
             </div>
           </template>
         </el-upload>
@@ -110,7 +129,7 @@ export default {
         return [true, false].includes(value)
       }
     },
-    // 上传文件类型: 1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
+    // 上传文件类型: 1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 8-image, 99-other
     fileType: {
       type: String,
       require: true,
@@ -142,9 +161,9 @@ export default {
       },
       uploadAttrs: {
         multiple: true, // 是否支持多选文件
-        showFileList: true, // 是否显示已上传文件列表
-        drag: true, // 是否启用拖拽上传
-        listType: 'text', // 文件列表的类型 "text" | "picture" | "picture-card"
+        showFileList: this.getShowFileList(), // 是否显示已上传文件列表
+        drag: this.getDrag(), // 是否启用拖拽上传
+        listType: this.getListType(), // 文件列表的类型 "text" | "picture" | "picture-card"
         autoUpload: false, // 是否自动上传文件
         // limit: process.env.VUE_APP_UPLOAD_FILES_LIMIT ? process.env.VUE_APP_UPLOAD_FILES_LIMIT - 0 : 20, // 允许上传文件的最大数量, 0无限制
         limit: parseInt(process.env?.VUE_APP_UPLOAD_FILES_LIMIT ?? 20), // 允许上传文件的最大数量, 0无限制
@@ -155,9 +174,9 @@ export default {
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
         title: '上传',
-        width: '55%', // Dialog 的宽度
+        width: this.getDialogWidth(), // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
-        top: '5%', // Dialog CSS 中的 margin-top 值
+        top: '3%', // Dialog CSS 中的 margin-top 值
         modal: true, // 遮罩层
         lockScroll: true, // 是否在 Dialog 出现时将 body 滚动锁定
         openDelay: 0, // Dialog 打开的延时时间，单位毫秒
@@ -176,7 +195,9 @@ export default {
       // 是否上传过文件状态
       isUpload: false,
       // 是否上传成功后关闭
-      uploadSuccessAutoClose: false
+      uploadSuccessAutoClose: false,
+      dialogImageUrl: '', // 当前选择的图片URL
+      dialogVisible: false // 是否显示当前选择图片
     }
   },
   computed: {},
@@ -189,8 +210,43 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
+    getDialogContentStyle() {
+      if (['1', '2', '6', '7'].includes(this.fileType)) {
+        return 'dialog-content-center'
+      } else if (['8'].includes(this.fileType)) {
+        return 'dialog-content-left'
+      }
+    },
+    getDialogWidth() {
+      if (['1', '2', '6', '7'].includes(this.fileType)) {
+        return '55%'
+      } else if (['8'].includes(this.fileType)) {
+        return '75%'
+      }
+    },
+    getShowFileList() {
+      if (['1', '2', '6', '7'].includes(this.fileType)) {
+        return true
+      } else if (['8'].includes(this.fileType)) {
+        return true
+      }
+    },
+    getDrag() {
+      if (['1', '2', '6', '7'].includes(this.fileType)) {
+        return true
+      } else if (['8'].includes(this.fileType)) {
+        return false
+      }
+    },
+    getListType() {
+      if (['1', '2', '6', '7'].includes(this.fileType)) {
+        return 'text'
+      } else if (['8'].includes(this.fileType)) {
+        return 'picture-card'
+      }
+    },
     getUploadTip() { // upload tip内容，支持html
-      // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       if (this.fileType === '1') {
         return '<strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。'
       } else if (this.fileType === '2') {
@@ -205,6 +261,8 @@ export default {
         return '<strong>提示</strong>：仅支持<span class=\"info_red\">.pdf</span>格式文件上传。'
       } else if (this.fileType === '7') {
         return '<strong>提示</strong>：支持<span class="info_red">.xls</span>、<span class="info_red">.xlsx</span>格式文件上传，.xls格式文件条数最大支持为<strong>65535</strong>行，超出请上传.xlxs格式数据。'
+      } else if (this.fileType === '8') {
+        return ''
       } else {
         return ''
       }
@@ -221,6 +279,8 @@ export default {
         return '.txt'
       } else if (this.fileType === '6') {
         return '.pdf'
+      } else if (this.fileType === '8') {
+        return '.jpg,.jpeg,.png'
       } else {
         return ''
       }
@@ -306,6 +366,12 @@ export default {
       /* 文件上传前的hook，主要用来格式、大小验证 */
       return uploadFile?.name ? validExcelFile(uploadFile.name) : true
     },
+    handlePictureCardPreview(file) {
+      if (this.fileType === '8') {
+        this.dialogImageUrl = file.url
+        this.dialogVisible = true
+      }
+    },
     manualUpload() {
       /* 手动上传的hook */
       // not found upload file
@@ -377,6 +443,38 @@ export default {
 </script>
 
 <style scoped>
+.dialog-footer-auto-close {
+  margin-right: 20px;
+}
+
+.dialog-content-center{
+  text-align: center;
+}
+
+.dialog-content-left{
+  text-align: left;
+}
+
+.avatar-remark {
+  font-size: 15px !important;
+  margin-top: 25px;
+}
+
+.avatar-remark-alert{
+  margin-top: 25px;
+}
+
+.avatar-remark-alert-ul {
+  list-style-type: upper-roman;
+}
+
+.avatar-remark-alert-ul li {
+  margin-top: 10px;
+  font-size: 15px;
+  color: black;
+  line-height: 1.5;
+}
+
 .dialog-footer-auto-close {
   margin-right: 20px;
 }

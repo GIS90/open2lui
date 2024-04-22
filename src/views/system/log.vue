@@ -85,7 +85,7 @@ import { SystemLogList } from '@/api/system'
 import IconDownloadExcel from '@/components/IconDownloadExcel'
 
 export default {
-  name: 'InfoApi',
+  name: 'SystemApi',
   components: {
     'log-filter': LogFilter,
     'public-pagination': Pagination,

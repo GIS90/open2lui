@@ -115,7 +115,7 @@ import IconDownloadExcel from '@/components/IconDownloadExcel'
 import { SystemDictDelete, SystemDictList } from '@/api/system'
 
 export default {
-  name: 'InfoDict',
+  name: 'SystemDict',
   emits: [],
   components: {
     'dict-add': DictAdd,

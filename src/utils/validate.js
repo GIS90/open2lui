@@ -136,3 +136,15 @@ export function isIncludeChar(str, char) {
 
   return str.includes(char)
 }
+
+/**
+ * @param {string} str
+ * @returns {Boolean}
+ * desc: 验证是否为excel文件格式，目前只支持.xls, .xlsx
+ */
+export function validImageFile(str) {
+  const fileExt = ['jpg', 'jpeg', 'png']
+  const fileNames = str.split('.')
+  const fileSuffix = fileNames[fileNames.length - 1]
+  return fileExt.includes(fileSuffix)
+}

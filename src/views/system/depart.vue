@@ -99,7 +99,7 @@ import { SystemDepartList, SystemDepartDelete,
   SystemDepartDetail, SystemDepartDrag } from '@/api/system'
 
 export default {
-  name: 'InfoDepart',
+  name: 'SystemDepart',
   emits: [],
   components: {
     'depart-add': DepartAdd,

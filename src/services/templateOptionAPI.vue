@@ -7,7 +7,7 @@
 <script>
 export default {
   extends: [],
-  name: 'templateOptionAPI',
+  name: 'TemplateOptionAPI',
   components: {},
   emits: [],
   props: {},
