@@ -129,7 +129,18 @@ export default {
         return [true, false].includes(value)
       }
     },
-    // 上传文件类型: 1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 8-image, 99-other
+    // --------------------------------------------------- //
+    // 上传文件类型：                                        //
+    //     1：文档工具->表格合并                              //
+    //     2：文档工具->表格拆分                              //
+    //     3：word                                         //
+    //     4：ppt                                          //
+    //     5：text                                         //
+    //     6：文档工具->PDF转WORD                            //
+    //     7：消息通知->钉钉绩效                              //
+    //     8：系统维护->头像管理                              //
+    //     99：other                                       //
+    // --------------------------------------------------- //
     fileType: {
       type: String,
       require: true,
@@ -138,7 +149,6 @@ export default {
   },
   data() {
     return {
-      // 依据上传文件类型定制tip，1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
       tips: this.getUploadTip(),
       fileList: [], // 文件列表
       isManualUpload: true, // 是否手动上传，值为false：upload组件自带的每次只上传一个，多文件为循环上传
@@ -210,7 +220,6 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    // 上传文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
     getDialogContentStyle() {
       if (['1', '2', '6', '7'].includes(this.fileType)) {
         return 'dialog-content-center'

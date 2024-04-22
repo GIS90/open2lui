@@ -115,7 +115,7 @@ export default {
   props: {},
   data() {
     return {
-      fileType: '6', // 文件类型：1-excel merge, 2-excel split, 3-word, 4-ppt, 5-text, 6-pdf, 7-dtalk, 99-other
+      fileType: '6', // 文件类型：具体明细参考UploadFile组件
       selBtnText: '全选', // 选择按钮内容
       btnDisabled: false, // 按钮禁用状态
       // button attributes

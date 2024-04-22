@@ -125,7 +125,7 @@ export default {
   inject: {},
   data() {
     return {
-      fileType: '8',
+      fileType: '8', // 文件类型：具体明细参考UploadFile组件
       selBtnText: '全选', // 选择按钮内容
       btnDisabled: false, // 按钮禁用状态
       // button attributes
