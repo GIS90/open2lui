@@ -366,6 +366,21 @@ export default {
       }
     },
     rowHandleDelete(index, row) { // table row 删除
+      this.$confirm('此操作将永久删除该行数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.rowDelete(index, row)
+      }).catch(() => {
+        this.$message({
+          message: '已取消删除操作',
+          type: 'info',
+          duration: 2.0 * 1000
+        })
+      })
+    },
+    rowDelete(index, row) {
       if (row?.md5_id) {
         const data = {
           'rtx_id': store.getters.rtx_id,
