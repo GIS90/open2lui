@@ -236,6 +236,21 @@ export default {
     },
     // 节点删除
     nodeRemove(node, nodeData) {
+      this.$confirm('此操作将永久删除该节点数据, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.nodeRealRemove(node, nodeData)
+      }).catch(() => {
+        this.$message({
+          message: '已取消删除操作',
+          type: 'info',
+          duration: 2.0 * 1000
+        })
+      })
+    },
+    nodeRealRemove(node, nodeData) {
       if (!node || !nodeData) {
         return false
       }
