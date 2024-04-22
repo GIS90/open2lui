@@ -114,7 +114,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <!-- 创建日期 -->
+      <!-- 创建时间 -->
       <el-col :span="12">
         <el-form-item label="创建日期">
           <el-date-picker
