@@ -278,6 +278,16 @@ export default {
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
+      // 数据初始化
+      // detail
+      this.formData.blueprint = ''
+      this.formData.apiname = ''
+      this.formData.type = ''
+      this.formData.short = ''
+      this.formData.long = ''
+      this.formData.order_id = 1
+      this.typeList = []
+      // 请求
       this.$nextTick(() => {
         // 重置表单状态
         this.getDNewInfo()
