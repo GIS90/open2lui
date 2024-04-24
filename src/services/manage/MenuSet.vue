@@ -518,19 +518,30 @@ export default {
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    closeDialog() {
-      this.$emit('close-set-menu', false)
+    closeDialog(refresh) {
+      this.$emit('close-set-menu', refresh)
     },
     openDialog() { // 初始化数据 && 枚举列表
+      if (!this.rowMd5) {
+        this.closeDialog(false)
+        return false
+      }
+
       // 初始化非全屏
       this.fullScreenStatus = false
+      // 初始化数据
+      this.formData = {}
+      this.levelEnum = []
+      this.boolEnum = []
+      this.menuSelect = {}
+      // 请求
       this.$nextTick(() => {
-        this.getDNewInfo()
+        this.getDetail()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
     },
-    getDNewInfo() {
+    getDetail() {
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
@@ -544,6 +555,8 @@ export default {
             this.levelEnum = data.level_enmus
             this.boolEnum = data.bool_enmus
             this.menuSelect = data.menu_options
+          } else {
+            this.closeDialog(true)
           }
           resolve(response)
         }).catch(error => {
@@ -587,7 +600,7 @@ export default {
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-set-menu', true)
+                this.closeDialog(true)
               }
               resolve(response)
             }).catch(error => {

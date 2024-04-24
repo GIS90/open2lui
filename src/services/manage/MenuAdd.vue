@@ -445,7 +445,7 @@ export default {
         affix: '',
         breadcrumb: '',
         shortcut: '',
-        order_id: undefined
+        order_id: 1
       },
       formDataRules: {
         name: [
@@ -490,9 +490,9 @@ export default {
           { required: true, message: '请选择是否设置快捷入口', trigger: ['blur', 'change'] }
         ]
       },
-      menuSelect: {}, // menu select list
-      levelEnum: [],
-      boolEnum: []
+      menuSelect: {}, // 菜单
+      levelEnum: [], // 级别枚举
+      boolEnum: [] // bool枚举
     }
   },
   computed: {},
@@ -527,15 +527,18 @@ export default {
       this.formData.breadcrumb = ''
       this.formData.shortcut = ''
       this.formData.order_id = 1
+      this.levelEnum = [] // 级别枚举
+      this.boolEnum = [] // bool没觉
+      this.menuSelect = {} // 菜单
       // 初始化非全屏
       this.fullScreenStatus = false
       this.$nextTick(() => {
-        this.getDNewInfo()
+        this.getInit()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
     },
-    getDNewInfo() {
+    getInit() {
       // 获取初始化枚举列表
       const params = {
         'rtx_id': store.getters.rtx_id,

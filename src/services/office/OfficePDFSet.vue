@@ -170,17 +170,25 @@ export default {
     changeStatus(value) {
       this.formData.mode = value
     },
+    closeDialog(refresh) { // 关闭dg
+      this.$emit('close-set-dg', refresh)
+    },
     openDialog() { // 初始化操作，获取最新数据
       if (!this.rowMd5) {
-        this.$emit('close-set-dg', true)
+        this.closeDialog(true)
         return false
       }
-      this.getDNewInfo()
+      // 初始化数据
+      this.formData.start = ''
+      this.formData.end = ''
+      this.formData.pages = ''
+      this.formData.mode = true
+      // 请求
+      this.$nextTick(() => {
+        this.getDetail()
+      })
     },
-    closeDialog() { // 关闭dg
-      this.$emit('close-set-dg', false)
-    },
-    getDNewInfo() {
+    getDetail() {
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
@@ -194,7 +202,7 @@ export default {
             this.formData.pages = data.pages
             this.formData.mode = data.mode
           } else {
-            this.$emit('close-set-dg')
+            this.closeDialog(true)
           }
           resolve(response)
         }).catch(error => {
@@ -250,7 +258,7 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.$emit('close-set-dg', true)
+            this.closeDialog(true)
           }
           resolve(response)
         }).catch(error => {

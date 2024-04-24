@@ -206,26 +206,31 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog(refresh) { // 关闭dg
+      this.$emit('close-set-role', refresh)
+    },
     openDialog() { // 初始化操作，获取最新数据
       if (!this.rowMd5) {
-        this.$emit('close-set-role', true)
+        this.closeDialog(true)
         return false
       }
       // 初始化非全屏
       this.fullScreenStatus = false
+      // 初始化数据
+      this.formData.engname = ''
+      this.formData.chnname = ''
+      this.formData.introduction = ''
+      // 请求
       this.$nextTick(() => {
-        this.getRoleInfo()
+        this.getDetail()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
     },
-    closeDialog() { // 关闭dg
-      this.$emit('close-set-role', false)
-    },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
-    },
-    getRoleInfo() { // 获取role最新数据
+    getDetail() { // 获取role最新数据
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
@@ -238,7 +243,7 @@ export default {
             this.formData.chnname = data.chnname
             this.formData.introduction = data.introduction
           } else {
-            this.$emit('close-set-role')
+            this.closeDialog(true)
           }
           resolve(response)
         }).catch(error => {
@@ -267,7 +272,7 @@ export default {
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-set-role', true)
+                this.closeDialog(true)
               }
               resolve(response)
             }).catch(error => {

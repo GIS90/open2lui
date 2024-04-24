@@ -319,6 +319,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog() { // 关闭dialog
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
+      this.$emit('close-add-user', false)
+    },
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
@@ -331,20 +339,12 @@ export default {
       this.formData.role = []
 
       this.$nextTick(() => {
-        this.initRoles()
+        this.getInit()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
     },
-    closeDialog() { // 关闭dialog
-      // 清空表单状态
-      this.$refs.formData.clearValidate()
-      this.$emit('close-add-user', false)
-    },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
-    },
-    initRoles() { // 获取roles列表，初始化
+    getInit() { // 获取roles列表，初始化
       return new Promise((resolve, reject) => {
         initRoleSelect().then(response => {
           const { status_id, data } = response

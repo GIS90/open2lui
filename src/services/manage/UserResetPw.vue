@@ -14,12 +14,12 @@
     :show-close="dialogAttrs.showClose"
     :draggable="dialogAttrs.draggable"
     :center="dialogAttrs.center"
-    @close="cancel"
+    @close="close"
   >
     <p style="font-size: 1.5rem;">用户RTX：<span class="info_red">{{ rtxId }}</span></p>
-    <p style="font-size: 1rem;">初始密码为abc1234，确认重置吗？</p>
+    <p style="font-size: 1.1rem;">初始密码为abc1234，确认重置吗？</p>
     <span slot="footer" class="dialog-footer">
-      <el-button :disabled="btnDisabled" @click="cancel">取 消</el-button>
+      <el-button :disabled="btnDisabled" @click="close">取 消</el-button>
       <el-button :disabled="btnDisabled" :loading="btnLoading" type="primary" @click="confirm">确 定</el-button>
     </span>
   </el-dialog>
@@ -73,12 +73,12 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    cancel() { // 取消
+    close() { // 取消
       this.$emit('close-pw-user')
     },
     confirm() { // 确认重置密码
       if (!this.rtxId) {
-        this.$emit('close-pw-user')
+        this.close()
       }
       const params = {
         'rtx_id': this.rtxId
@@ -92,7 +92,7 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.$emit('close-pw-user')
+            this.close()
           }
           resolve(response)
         }).catch(error => {

@@ -143,14 +143,28 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    openDialog() { // 初始化操作
-      this.initAuthTree()
-    },
-    closeDialog() { // 关闭dialog
-      this.$emit('close-auth-role', false)
-    },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog(refresh) { // 关闭dialog
+      this.$emit('close-auth-role', refresh)
+    },
+    openDialog() { // 初始化操作
+      if (!this.rowMd5) {
+        this.closeDialog(false)
+        return false
+      }
+
+      // 初始化非全屏
+      this.fullScreenStatus = false
+      // 初始化数据
+      this.menuTree = [] // menu tree
+      this.defaultExpandedKeys = [] // 默认展开的keys
+      this.defaultCheckedKeys = [] // 默认选择的keys
+      this.$nextTick(() => {
+        // 重置表单状态
+        this.initAuthTree()
+      })
     },
     saveAuthRole() { // 提交权限
       // const halfChecked = this.$refs.menuTree.getHalfCheckedKeys() // 半选状态，主要是有子节点的
@@ -172,7 +186,7 @@ export default {
               type: 'success',
               duration: 2.0 * 1000
             })
-            this.$emit('close-auth-role', false)
+            this.closeDialog(true)
           }
           resolve(response)
         }).catch(error => {
@@ -185,10 +199,6 @@ export default {
       })
     },
     initAuthTree() { // 获取权限tree
-      if (!this.rowMd5) {
-        this.$emit('close-auth-role', false)
-        return false
-      }
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
@@ -201,7 +211,7 @@ export default {
             this.defaultCheckedKeys = data.auths
             this.defaultExpandedKeys = data.expand
           } else {
-            this.$emit('close-auth-role', false)
+            this.closeDialog(true)
           }
           resolve(response)
         }).catch(error => {

@@ -175,24 +175,25 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    closeDialog() {
-      this.$emit('close-detail-role')
-    },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
+    closeDialog() {
+      this.$emit('close-detail-role')
+    },
     openDialog() {
       if (!this.rowMd5) {
-        this.$emit('close-detail-role')
+        this.closeDialog()
         return false
       }
       // 初始化非全屏
       this.fullScreenStatus = false
+      this.role = {}
       this.$nextTick(() => {
-        this.getDNewInfo()
+        this.getDetail()
       })
     },
-    getDNewInfo() {
+    getDetail() {
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5
@@ -203,7 +204,7 @@ export default {
           if (status_id === 100) {
             this.role = data
           } else {
-            this.$emit('close-detail-role')
+            this.closeDialog()
           }
           resolve(response)
         }).catch(error => {
