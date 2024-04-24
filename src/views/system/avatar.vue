@@ -65,7 +65,7 @@
               <i class="el-icon-document" @click="rowHandleView(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-scissors" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -87,11 +87,11 @@
     <!-- 文件上传 -->
     <public-upload-file :dialog="addDialogStatus" :file-type="fileType" @close-file-upload="closeAddDialog" />
 
+    <!-- 详情 -->
+    <avatar-view :show="viewDialogStatus" :row-md5="oprSelectRowMd5" @close-view-dg="closeViewDialog" />
+
     <!-- 编辑 -->
     <api-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
-
-    <!-- 详情 -->
-    <api-view :show="viewDialogStatus" :row-md5="oprSelectRowMd5" @close-view-dg="closeViewDialog" />
 
     <!-- 批量删除 -->
     <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
@@ -100,7 +100,7 @@
 
 <script>
 import ApiSet from '@/services/system/ApiSet'
-import ApiView from '@/services/system/ApiView'
+import AvatarView from '@/services/system/AvatarView'
 import AvatarFilter from '@/services/system/AvatarFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
@@ -113,7 +113,7 @@ export default {
   name: 'SystemAvatar',
   components: {
     'api-set': ApiSet,
-    'api-view': ApiView,
+    'avatar-view': AvatarView,
     'avatar-filter': AvatarFilter,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination,

@@ -34,30 +34,15 @@
       <!--content-->
       <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto" style="width: 100%">
         <!-- 配置信息 -->
-        <el-divider content-position="left">配置信息</el-divider>
+        <el-divider content-position="left">基础信息</el-divider>
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="BluePrint" prop="blueprint">
+          <el-col :span="24">
+            <el-form-item label="名称" prop="name">
               <el-input
-                v-model.trim="formData.blueprint"
+                v-model.trim="formData.name"
                 type="text"
-                placeholder="请输入BluePrint（英文）"
-                :maxlength="formDataLimit.blueprint"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="ApiName" prop="apiname">
-              <el-input
-                v-model.trim="formData.apiname"
-                type="text"
-                placeholder="请输入ApiName（英文）"
-                :maxlength="formDataLimit.apiname"
+                placeholder="请输入名称"
+                :maxlength="formDataLimit.name"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -67,81 +52,140 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- 基础信息 -->
-        <el-divider content-position="left">基础信息</el-divider>
-        <el-form-item label="类型" prop="type">
-          <el-select
-            v-model="formData.type"
-            style="width: 100%"
-            :size="selectAttrs.size"
-            :placeholder="selectAttrs.placeholder"
-            :disabled="disabled"
-            :filterable="selectAttrs.filterable"
-            :multiple="selectAttrs.multiple"
-            :multiple-limit="formDataLimit.type"
-            :clearable="selectAttrs.clearable"
-            :no-data-text="selectAttrs.noDataText"
-            :collapse-tags="selectAttrs.collapseTags"
-          >
-            <el-option
-              v-for="(item, index) in typeList"
-              :key="index"
-              :label="item.value"
-              :value="item.key"
-            >
-              <span class="select-opt-left">{{ item.value }}</span>
-              <span class="select-opt-right">{{ item.key }}</span>
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="简述" prop="short">
-          <el-input
-            v-model.trim="formData.short"
-            type="text"
-            placeholder="请输入API简述"
-            :maxlength="formDataLimit.short"
-            :clearable="inputAttrs.clear"
-            :show-word-limit="inputAttrs.limit"
-            :size="inputAttrs.size"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
-        <el-form-item label="说明" prop="long">
-          <el-input
-            v-model="formData.long"
-            type="textarea"
-            placeholder="请输入API说明"
-            :rows="textAreaAttrs.rows"
-            :maxlength="formDataLimit.long"
-            :clearable="textAreaAttrs.clear"
-            :show-word-limit="textAreaAttrs.limit"
-            :prefix-icon="inputAttrs.prefixIcon"
-            :disabled="disabled"
-          />
-        </el-form-item>
-        <el-form-item label="排序ID" prop="order_id">
-          <el-input-number
-            v-model="formData.order_id"
-            style="width: 100%"
-            :controls="numberAttrs.controls"
-            :controls-position="numberAttrs.controlsPosition"
-            :min="numberAttrs.min"
-            :max="numberAttrs.max"
-            :step="numberAttrs.step"
-            :size="numberAttrs.size"
-            :disabled="disabled"
-          />
-        </el-form-item>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="类型" prop="type">
+              <el-select
+                v-model="formData.type"
+                style="width: 100%"
+                :size="selectAttrs.size"
+                placeholder=""
+                :disabled="disabled"
+                :filterable="selectAttrs.filterable"
+                :multiple="selectAttrs.multiple"
+                :multiple-limit="formDataLimit.type"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+              >
+                <el-option
+                  v-for="(item, index) in typeList"
+                  :key="index"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <span class="select-opt-left">{{ item.value }}</span>
+                  <span class="select-opt-right">{{ item.key }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="标签" prop="label">
+              <el-input
+                v-model.trim="formData.label"
+                type="text"
+                placeholder=""
+                :maxlength="formDataLimit.label"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="现存URL" prop="url">
+              <el-input
+                v-model.trim="formData.url"
+                type="text"
+                placeholder="请输入URL地址"
+                :maxlength="formDataLimit.label"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="初始URL" prop="or_url">
+              <el-input
+                v-model.trim="formData.or_url"
+                type="text"
+                placeholder="请输入URL地址"
+                :maxlength="formDataLimit.label"
+                :clearable="inputAttrs.clear"
+                :show-word-limit="inputAttrs.limit"
+                :size="inputAttrs.size"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="设置次数" prop="count">
+              <el-input-number
+                v-model="formData.count"
+                style="width: 100%"
+                :controls="numberAttrs.controls"
+                :controls-position="numberAttrs.controlsPosition"
+                :min="numberAttrs.min"
+                :max="numberAttrs.max"
+                :step="numberAttrs.step"
+                :size="numberAttrs.size"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="排序ID" prop="order_id">
+              <el-input-number
+                v-model="formData.order_id"
+                style="width: 100%"
+                :controls="numberAttrs.controls"
+                :controls-position="numberAttrs.controlsPosition"
+                :min="numberAttrs.min"
+                :max="numberAttrs.max"
+                :step="numberAttrs.step"
+                :size="numberAttrs.size"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="简介" prop="summary">
+              <el-input
+                v-model="formData.summary"
+                type="textarea"
+                placeholder="请输入简介"
+                :rows="textAreaAttrs.rows"
+                :maxlength="formDataLimit.summary"
+                :clearable="textAreaAttrs.clear"
+                :show-word-limit="textAreaAttrs.limit"
+                :prefix-icon="inputAttrs.prefixIcon"
+                :disabled="disabled"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!-- 其他信息 -->
         <el-divider content-position="left">其他信息</el-divider>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="创建人RTX" prop="create_rtx">
+            <el-form-item label="创建人RTX" prop="rtx_id">
               <el-input
-                v-model.trim="formData.create_rtx"
+                v-model.trim="formData.rtx_id"
                 type="text"
-                :maxlength="formDataLimit.create_rtx"
+                :maxlength="formDataLimit.rtx_id"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
                 :size="inputAttrs.size"
@@ -180,9 +224,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="更新时间" prop="update_rtx">
+            <el-form-item label="更新时间" prop="update_time">
               <el-input
-                v-model.trim="formData.update_rtx"
+                v-model.trim="formData.update_time"
                 type="text"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"
@@ -200,10 +244,10 @@
 
 <script>
 import store from '@/store'
-import { SystemApiDetail } from '@/api/system'
+import { SystemAvatarDetail } from '@/api/system'
 
 export default {
-  name: 'ApiView',
+  name: 'AvatarView',
   emits: ['close-view-dg'],
   components: {},
   props: {
@@ -269,7 +313,7 @@ export default {
         collapseTags: false, // 多个合并成一个
         limit: 1, // 多选时用户最多可以选择的项目数，为 0 则不限制
         noDataText: '暂无数据', // 选项为空时显示的文字
-        placeholder: '请选择API类型' // 默认显示内容
+        placeholder: '' // 默认显示内容
       },
       numberAttrs: { // input number attrs
         size: '', // 大小：large, small
@@ -281,25 +325,23 @@ export default {
         placeholder: '请输入排序ID'
       },
       formData: {
-        blueprint: '',
-        apiname: '',
+        name: '',
         type: '',
-        short: '',
-        long: '',
-        order_id: 1,
-        create_rtx: '',
+        summary: '',
+        label: [],
+        url: '',
+        or_url: '',
+        count: '',
+        rtx_id: '',
         create_time: '',
         update_rtx: '',
-        update_time: ''
+        update_time: '',
+        order_id: 1
       },
       formDataLimit: {
-        blueprint: '25',
-        apiname: '35',
-        short: '55',
-        long: '120',
-        type: 1,
-        create_rtx: '25',
-        update_rtx: '25'
+        name: '55',
+        summary: '200',
+        label: '55'
       },
       typeList: []
     }
@@ -317,6 +359,22 @@ export default {
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
+      // 数据初始化
+      this.formData.name = ''
+      this.formData.type = ''
+      this.formData.summary = ''
+      this.formData.label = []
+      this.formData.url = ''
+      this.formData.or_url = ''
+      this.formData.count = ''
+      this.formData.url = ''
+      this.formData.rtx_id = ''
+      this.formData.create_time = ''
+      this.formData.update_rtx = ''
+      this.formData.update_time = ''
+      this.formData.order_id = 1
+      this.typeList = []
+      // 请求初始化
       this.$nextTick(() => {
         // 重置表单状态
         this.getDNewInfo()
@@ -337,20 +395,23 @@ export default {
         'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        SystemApiDetail(data).then(response => {
+        SystemAvatarDetail(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
             // detail
-            this.formData.blueprint = data.detail.blueprint
-            this.formData.apiname = data.detail.apiname
+            this.formData.name = data.detail.name
             this.formData.type = data.detail.type
-            this.formData.short = data.detail.short
-            this.formData.long = data.detail.long
-            this.formData.order_id = data.detail.order_id
-            this.formData.create_rtx = data.detail.create_rtx
+            this.formData.summary = data.detail.summary
+            this.formData.label = data.detail.label
+            this.formData.url = data.detail.url
+            this.formData.or_url = data.detail.or_url
+            this.formData.count = data.detail.count
+            this.formData.url = data.detail.url
+            this.formData.rtx_id = data.detail.rtx_id
             this.formData.create_time = data.detail.create_time
             this.formData.update_rtx = data.detail.update_rtx
             this.formData.update_time = data.detail.update_time
+            this.formData.order_id = data.detail.order_id
             // type list
             this.typeList = data.type
           } else {

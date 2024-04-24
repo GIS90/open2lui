@@ -180,9 +180,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="更新时间" prop="update_rtx">
+            <el-form-item label="更新时间" prop="update_time">
               <el-input
-                v-model.trim="formData.update_rtx"
+                v-model.trim="formData.update_time"
                 type="text"
                 :clearable="inputAttrs.clear"
                 :show-word-limit="inputAttrs.limit"

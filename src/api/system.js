@@ -253,9 +253,9 @@ export function SystemAvatarDeletes(data) {
 }
 
 // 头像管理上传
-export function SystemAvatarUpload(data) {
+export function SystemAvatarDetail(data) {
   return request({
-    url: '/system/avatar_upload',
+    url: '/system/avatar_detail',
     method: 'post',
     data
   })
