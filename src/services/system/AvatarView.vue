@@ -82,17 +82,29 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="标签" prop="label">
-              <el-input
-                v-model.trim="formData.label"
-                type="text"
+              <el-select
+                v-model="formData.label"
+                style="width: 100%"
+                :size="selectAttrs.size"
                 placeholder=""
-                :maxlength="formDataLimit.label"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
                 :disabled="disabled"
-              />
+                :filterable="selectAttrs.filterable"
+                :multiple="true"
+                :multiple-limit="formDataLimit.label"
+                :clearable="selectAttrs.clearable"
+                :no-data-text="selectAttrs.noDataText"
+                :collapse-tags="selectAttrs.collapseTags"
+              >
+                <el-option
+                  v-for="(item, index) in typeList"
+                  :key="index"
+                  :label="item.value"
+                  :value="item.key"
+                >
+                  <span class="select-opt-left">{{ item.value }}</span>
+                  <span class="select-opt-right">{{ item.key }}</span>
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -341,7 +353,7 @@ export default {
       formDataLimit: {
         name: '55',
         summary: '200',
-        label: '55'
+        label: 0
       },
       typeList: []
     }
