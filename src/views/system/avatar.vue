@@ -59,10 +59,13 @@
         <el-table-column prop="create_time" label="创建时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="update_rtx" label="最新更新人RTX" width="180" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="update_time" label="最新更新人时间" width="200" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="right" label="操作" min-width="160" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
+        <el-table-column fixed="right" label="操作" min-width="200" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleView(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="预览" placement="top">
+              <i class="el-icon-view" @click="rowHandlePreview(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
               <i class="el-icon-scissors" @click="rowHandleEdit(scope.$index, scope.row)" />
@@ -95,12 +98,16 @@
 
     <!-- 批量删除 -->
     <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
+
+    <!-- 图片预览 -->
+    <avatar-preview :show="selectImageVisible" :image-url="selectImageUrl" @close-preview-dg="closePreviewDialog" />
   </div>
 </template>
 
 <script>
 import ApiSet from '@/services/system/ApiSet'
 import AvatarView from '@/services/system/AvatarView'
+import AvatarPreview from '@/services/system/AvatarPreview'
 import AvatarFilter from '@/services/system/AvatarFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
@@ -114,6 +121,7 @@ export default {
   components: {
     'api-set': ApiSet,
     'avatar-view': AvatarView,
+    'avatar-preview': AvatarPreview,
     'avatar-filter': AvatarFilter,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination,
@@ -205,7 +213,9 @@ export default {
         content: '' // 模糊查询搜索内容
       },
       userList: [], // user list
-      typeList: [] // type list
+      typeList: [], // type list
+      selectImageUrl: '', // 当前选择的图片URL
+      selectImageVisible: false // 是否显示当前选择图片
     }
   },
   computed: {},
@@ -383,6 +393,12 @@ export default {
         this.viewDialogStatus = true
       }
     },
+    rowHandlePreview(index, row) { // table view 设置dialog
+      if (row?.url) {
+        this.selectImageUrl = row.url
+        this.selectImageVisible = true
+      }
+    },
     rowHandleDelete(index, row) { // table row 删除
       this.$confirm('此操作将永久删除该行数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -436,6 +452,9 @@ export default {
       if (isRefresh) {
         this.getTableList()
       }
+    },
+    closePreviewDialog() { // 关闭预览
+      this.selectImageVisible = false
     },
     showSearch() {
       this.searchStatus = !this.searchStatus

@@ -54,8 +54,8 @@
           :on-remove="uploadRemove"
           :on-change="uploadChange"
           :on-exceed="uploadExceed"
-          :before-upload="beforeUpload"
           :on-preview="handlePictureCardPreview"
+          :before-upload="beforeUpload"
         >
           <i class="el-icon-upload" />
 
@@ -373,6 +373,9 @@ export default {
     },
     beforeUpload(uploadFile) {
       /* 文件上传前的hook，主要用来格式、大小验证 */
+      console.log('============')
+      console.log(uploadFile)
+      console.log(uploadFile.type, uploadFile.size)
       return uploadFile?.name ? validExcelFile(uploadFile.name) : true
     },
     handlePictureCardPreview(file) {
