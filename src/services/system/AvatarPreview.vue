@@ -6,9 +6,9 @@
 
 <script>
 export default {
+  extends: [],
   name: 'TemplateOptionAPI',
   components: {},
-  extends: [],
   emits: [],
   props: {},
   inject: {},
