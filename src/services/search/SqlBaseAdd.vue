@@ -442,6 +442,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog() { // 关闭dg
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
+      this.$emit('close-add-dg', false)
+    },
     openDialog() { // 初始化操作，获取最新数据
       // 初始化非全屏
       this.fullScreenStatus = false
@@ -454,19 +462,14 @@ export default {
       this.formData.time = new Date() // 默认当前时间
       this.formData.recommend = 0
       this.formData.database = ''
+      this.userList = []
+      this.dataBaseList = []
+      // 请求
       this.$nextTick(() => {
         this.getEnumList()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
-    },
-    closeDialog() { // 关闭dg
-      // 清空表单状态
-      this.$refs.formData.clearValidate()
-      this.$emit('close-add-dg', false)
-    },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
     },
     getEnumList() {
       const data = {

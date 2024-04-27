@@ -270,6 +270,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog() { // 关闭dialog
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
+      this.$emit('close-add-dg', false)
+    },
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
@@ -286,14 +294,6 @@ export default {
         this.getTypeList()
         this.$refs.formData.resetFields()
       })
-    },
-    closeDialog() { // 关闭dialog
-      // 清空表单状态
-      this.$refs.formData.clearValidate()
-      this.$emit('close-add-dg', false)
-    },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
     },
     getTypeList() {
       const params = {

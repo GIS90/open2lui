@@ -403,6 +403,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog() { // 关闭dg
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
+      this.$emit('close-set-dg', true)
+    },
     openDialog() { // 初始化操作，获取最新数据
       // 初始化操作，获取最新数据
       if (!this.rowMd5) {
@@ -411,21 +419,25 @@ export default {
       }
       // 初始化全屏
       this.fullScreenStatus = true
+      // 初始化数据
+      this.formData.title = ''
+      this.formData.label = []
+      this.formData.html = ''
+      this.formData.text = ''
+      this.formData.author = ''
+      this.formData.time = ''
+      this.formData.recommend = 0
+      this.formData.database = ''
+      this.userList = []
+      this.dataBaseList = []
+      // 请求
       this.$nextTick(() => {
-        this.getDNewInfo()
+        this.getDetail()
         // 重置表单状态
         this.$refs.formData.resetFields()
       })
     },
-    closeDialog() { // 关闭dg
-      // 清空表单状态
-      this.$refs.formData.clearValidate()
-      this.$emit('close-set-dg', true)
-    },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
-    },
-    getDNewInfo() {
+    getDetail() {
       const data = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5,

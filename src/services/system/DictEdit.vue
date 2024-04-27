@@ -267,23 +267,26 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    openDialog() { // 初始化操作
-      // 初始化非全屏
-      this.fullScreenStatus = false
-      this.fetchNew() // 信息初始化
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
     },
     closeDialog() { // 关闭dialog
       // 清空表单状态
       this.$refs.formData.clearValidate()
       this.$emit('close-edit', false)
     },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
-    },
-    fetchNew() { // 最新数据详情
+    openDialog() { // 初始化操作
       if (!this.md5) {
         this.$emit('close-edit', false)
       }
+      // 初始化非全屏
+      this.fullScreenStatus = false
+      // 请求
+      this.$nextTick(() => {
+        this.getDetail() // 信息初始化
+      })
+    },
+    getDetail() { // 最新数据详情
       const params = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.md5

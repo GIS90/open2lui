@@ -314,6 +314,14 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    handleFull() { // 是否全屏model
+      this.fullScreenStatus = !this.fullScreenStatus
+    },
+    closeDialog() { // 关闭dialog
+      // 清空表单状态
+      this.$refs.formData.clearValidate()
+      this.$emit('close-view-dg', false)
+    },
     openDialog() { // 初始化操作
       // 初始化非全屏
       this.fullScreenStatus = false
@@ -332,19 +340,11 @@ export default {
       // 请求
       this.$nextTick(() => {
         // 重置表单状态
-        this.getDNewInfo()
+        this.getDetail()
         this.$refs.formData.resetFields()
       })
     },
-    closeDialog() { // 关闭dialog
-      // 清空表单状态
-      this.$refs.formData.clearValidate()
-      this.$emit('close-view-dg', false)
-    },
-    handleFull() { // 是否全屏model
-      this.fullScreenStatus = !this.fullScreenStatus
-    },
-    getDNewInfo() {
+    getDetail() {
       const data = {
         'rtx_id': store.getters.rtx_id,
         'md5': this.rowMd5

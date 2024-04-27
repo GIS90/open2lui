@@ -298,7 +298,10 @@ export default {
         this.splitColumnIndexList = ['9999']
         this.headerIndex = '1'
       }
-      this.initParams()
+      // 请求
+      this.$nextTick(() => {
+        this.initParams()
+      })
     },
     submitSplit() { // split
       // check: sheet index

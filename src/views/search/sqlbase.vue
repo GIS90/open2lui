@@ -81,18 +81,18 @@
         <el-table-column fixed="right" label="操作" min-width="160" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align">
           <template slot-scope="scope">
             <div v-if="scope.row.edit === 'true'">
-              <el-tooltip class="table-handle-icon" effect="dark" content="编辑" placement="top">
-                <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
-              </el-tooltip>
-              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="详情" placement="top">
+              <el-tooltip class="table-handle-icon" effect="dark" content="查看" placement="top">
                 <i class="el-icon-view" @click="rowHandleView(scope.$index, scope.row)" />
+              </el-tooltip>
+              <el-tooltip class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
+                <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
               </el-tooltip>
               <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
                 <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
               </el-tooltip>
             </div>
             <div v-else>
-              <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
+              <el-tooltip class="table-handle-icon" effect="dark" content="查看" placement="top">
                 <i class="el-icon-view" @click="rowHandleView(scope.$index, scope.row)" />
               </el-tooltip>
             </div>
