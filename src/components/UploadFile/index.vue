@@ -112,7 +112,7 @@
 import { uploadMulFiles } from '@/api/common'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-import { validExcelFile } from '@/utils/validate'
+// import { validExcelFile } from '@/utils/validate'
 // const path = require('path')
 
 export default {
@@ -372,11 +372,8 @@ export default {
       this.fileList = uploadFiles
     },
     beforeUpload(uploadFile) {
-      /* 文件上传前的hook，主要用来格式、大小验证 */
-      console.log('============')
-      console.log(uploadFile)
-      console.log(uploadFile.type, uploadFile.size)
-      return uploadFile?.name ? validExcelFile(uploadFile.name) : true
+      /* 文件上传前的hook，主要用来格式、大小验证 uploadFile.type, uploadFile.size */
+      // return uploadFile?.name ? validExcelFile(uploadFile.name) : true
     },
     handlePictureCardPreview(file) {
       if (this.fileType === '8') {
