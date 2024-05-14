@@ -352,7 +352,8 @@ export default {
     },
     uploadExceed(files, UploadFiles) {
       /* 文件上传超过限制的hook */
-      this.$message({
+      this.$notify({
+        title: '提示',
         message: '文件个数超过上传限制',
         type: 'warning',
         duration: 2.0 * 1000
@@ -361,7 +362,8 @@ export default {
     uploadRemove(uploadFile, uploadFiles) {
       /* 文件移除列表成功的hook */
       this.fileList = uploadFiles
-      this.$message({
+      this.$notify({
+        title: '提示',
         message: uploadFile?.name ? uploadFile.name + '移除列表成功' : '文件移除列表成功',
         type: 'success',
         duration: 2.0 * 1000
@@ -376,6 +378,7 @@ export default {
       // return uploadFile?.name ? validExcelFile(uploadFile.name) : true
     },
     handlePictureCardPreview(file) {
+      // 只有图片类型支持预览
       if (this.fileType === '8') {
         this.dialogImageUrl = file.url
         this.dialogVisible = true
