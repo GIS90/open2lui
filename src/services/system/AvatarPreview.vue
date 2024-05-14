@@ -37,7 +37,7 @@
     </div>
 
     <!--footer-->
-    <template #footer>
+    <template v-if="isFooter" #footer>
       <span class="dialog-footer">
         <el-button type="primary" plain @click.prevent.stop="closeDialog">
           确定
@@ -66,6 +66,14 @@ export default {
       type: String,
       require: true,
       default: ''
+    },
+    isFooter: {
+      type: Boolean,
+      require: true,
+      default: false,
+      validator(value) {
+        return [true, false].includes(value)
+      }
     }
   },
   inject: {},

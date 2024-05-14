@@ -100,7 +100,7 @@
     <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
     <!-- 图片预览 -->
-    <avatar-preview :show="selectImageVisible" :image-url="selectImageUrl" @close-preview-dg="closePreviewDialog" />
+    <avatar-preview :show="selectImageVisible" :image-url="selectImageUrl" :is-footer="selectShowFooter" @close-preview-dg="closePreviewDialog" />
   </div>
 </template>
 
@@ -215,7 +215,8 @@ export default {
       userList: [], // user list
       typeList: [], // type list
       selectImageUrl: '', // 当前选择的图片URL
-      selectImageVisible: false // 是否显示当前选择图片
+      selectImageVisible: false, // 是否显示当前选择图片
+      selectShowFooter: false // 是否显示Footer
     }
   },
   computed: {},
