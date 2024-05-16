@@ -260,3 +260,12 @@ export function SystemAvatarDetail(data) {
     data
   })
 }
+
+// 头像管理上传
+export function SystemAvatarUpdate(data) {
+  return request({
+    url: '/system/avatar_update',
+    method: 'post',
+    data
+  })
+}

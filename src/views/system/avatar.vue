@@ -68,7 +68,7 @@
               <i class="el-icon-view" @click="rowHandlePreview(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
-              <i class="el-icon-scissors" @click="rowHandleEdit(scope.$index, scope.row)" />
+              <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -94,7 +94,7 @@
     <avatar-view :show="viewDialogStatus" :row-md5="oprSelectRowMd5" @close-view-dg="closeViewDialog" />
 
     <!-- 编辑 -->
-    <api-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
+    <avatar-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
 
     <!-- 批量删除 -->
     <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import ApiSet from '@/services/system/ApiSet'
+import AvatarSet from '@/services/system/AvatarSet'
 import AvatarView from '@/services/system/AvatarView'
 import AvatarPreview from '@/services/system/AvatarPreview'
 import AvatarFilter from '@/services/system/AvatarFilter'
@@ -119,7 +119,7 @@ import UploadFile from '@/components/UploadFile'
 export default {
   name: 'SystemAvatar',
   components: {
-    'api-set': ApiSet,
+    'avatar-set': AvatarSet,
     'avatar-view': AvatarView,
     'avatar-preview': AvatarPreview,
     'avatar-filter': AvatarFilter,

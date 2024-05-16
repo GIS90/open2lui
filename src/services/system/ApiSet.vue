@@ -349,7 +349,7 @@ export default {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '新增成功' || message,
+                  message: '更新成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })

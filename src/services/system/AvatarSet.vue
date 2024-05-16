@@ -32,9 +32,8 @@
         </div>
       </template>
       <!--content-->
-      <el-form ref="formData" :label-position="labelPosition" :model="formData" label-width="auto" style="width: 100%">
+      <el-form ref="formData" :label-position="labelPosition" :model="formData" :rules="formDataRules" label-width="auto" style="width: 100%">
         <!-- 配置信息 -->
-        <el-divider content-position="left">基础信息</el-divider>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="名称" prop="name">
@@ -53,13 +52,13 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="类型" prop="type">
               <el-select
                 v-model="formData.type"
                 style="width: 100%"
                 :size="selectAttrs.size"
-                placeholder=""
+                placeholder="请选择类型"
                 :disabled="disabled"
                 :filterable="selectAttrs.filterable"
                 :multiple="selectAttrs.multiple"
@@ -80,13 +79,17 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
             <el-form-item label="标签" prop="label">
               <el-select
                 v-model="formData.label"
                 style="width: 100%"
                 :size="selectAttrs.size"
-                placeholder=""
+                placeholder="请选择标签，可进行自定义，回车结束"
+                allow-create
+                default-first-option
                 :disabled="disabled"
                 :filterable="selectAttrs.filterable"
                 :multiple="true"
@@ -96,65 +99,24 @@
                 :collapse-tags="selectAttrs.collapseTags"
               >
                 <el-option
-                  v-for="(item, index) in typeList"
+                  v-for="(item, index) in labelList"
                   :key="index"
                   :label="item.value"
                   :value="item.key"
-                >
-                  <span class="select-opt-left">{{ item.value }}</span>
-                  <span class="select-opt-right">{{ item.key }}</span>
-                </el-option>
+                />
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="现存URL" prop="url">
-              <el-input
-                v-model.trim="formData.url"
-                type="text"
-                placeholder="请输入URL地址"
-                :maxlength="formDataLimit.label"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="初始URL" prop="or_url">
-              <el-input
-                v-model.trim="formData.or_url"
-                type="text"
-                placeholder="请输入URL地址"
-                :maxlength="formDataLimit.label"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
+          <el-col :span="24">
+            <el-form-item>
+              <strong>注：</strong>可进行自定义标签，输入后按回车键结束，标签最多55个字符！
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="设置次数" prop="count">
-              <el-input
-                v-model.trim="formData.count"
-                type="text"
-                placeholder="0"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-form-item label="排序ID" prop="order_id">
               <el-input-number
                 v-model="formData.order_id"
@@ -187,78 +149,25 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- 其他信息 -->
-        <el-divider content-position="left">其他信息</el-divider>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="创建人RTX" prop="rtx_id">
-              <el-input
-                v-model.trim="formData.rtx_id"
-                type="text"
-                :maxlength="formDataLimit.rtx_id"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="创建时间" prop="create_time">
-              <el-input
-                v-model.trim="formData.create_time"
-                type="text"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="更新人RTX" prop="update_rtx">
-              <el-input
-                v-model.trim="formData.update_rtx"
-                type="text"
-                :maxlength="formDataLimit.update_rtx"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="更新时间" prop="update_time">
-              <el-input
-                v-model.trim="formData.update_time"
-                type="text"
-                :clearable="inputAttrs.clear"
-                :show-word-limit="inputAttrs.limit"
-                :size="inputAttrs.size"
-                :prefix-icon="inputAttrs.prefixIcon"
-                :disabled="disabled"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
       </el-form>
+      <!--footer-->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button :disabled="disabled" @click="closeDialog()">取消</el-button>
+          <el-button :disabled="disabled" :loading="loading" type="primary" @click.native.prevent="submit()">确定</el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import store from '@/store'
-import { SystemAvatarDetail } from '@/api/system'
+import { SystemAvatarUpdate, SystemAvatarDetail } from '@/api/system'
 
 export default {
-  name: 'AvatarView',
-  emits: ['close-view-dg'],
+  name: 'AvatarSet',
+  emits: ['close-set-dg'],
   components: {},
   props: {
     show: {
@@ -278,13 +187,13 @@ export default {
   data() {
     return {
       loading: false, // 组件loading，主要用于button
-      disabled: true, // 禁用组件
+      disabled: false, // 禁用组件
       labelPosition: 'right', // label-position 属性可以改变表单域标签的位置，可选值为 top、left、right
       fullScreenStatus: false, // DIALOG是否全屏状态，默认false
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '详情',
+        title: '编辑',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -339,13 +248,6 @@ export default {
         type: '',
         summary: '',
         label: [],
-        url: '',
-        or_url: '',
-        count: '',
-        rtx_id: '',
-        create_time: '',
-        update_rtx: '',
-        update_time: '',
         order_id: 1
       },
       formDataLimit: {
@@ -353,7 +255,21 @@ export default {
         summary: '200',
         label: 0
       },
-      typeList: []
+      formDataRules: {
+        name: [
+          { required: true, message: '请输入名称', trigger: ['blur', 'change'] },
+          { min: 1, max: 55, message: '名称最大长度为55', trigger: ['blur', 'change'] }
+        ],
+        type: [
+          { required: true, message: '请选择类型', trigger: ['blur', 'change'] }
+        ],
+        summary: [
+          { required: true, message: '请输入简介', trigger: ['blur', 'change'] },
+          { min: 1, max: 200, message: '简介最大长度为200', trigger: ['blur', 'change'] }
+        ]
+      },
+      typeList: [], // 类型列表
+      labelList: [] // 标签列表
     }
   },
   computed: {},
@@ -372,7 +288,7 @@ export default {
     closeDialog() { // 关闭dialog
       // 清空表单状态
       this.$refs.formData.clearValidate()
-      this.$emit('close-view-dg', false)
+      this.$emit('close-set-dg', false)
     },
     openDialog() { // 初始化操作
       // 初始化非全屏
@@ -382,16 +298,9 @@ export default {
       this.formData.type = ''
       this.formData.summary = ''
       this.formData.label = []
-      this.formData.url = ''
-      this.formData.or_url = ''
-      this.formData.count = ''
-      this.formData.url = ''
-      this.formData.rtx_id = ''
-      this.formData.create_time = ''
-      this.formData.update_rtx = ''
-      this.formData.update_time = ''
       this.formData.order_id = 1
       this.typeList = []
+      this.labelList = []
       // 请求初始化
       this.$nextTick(() => {
         // 重置表单状态
@@ -411,19 +320,13 @@ export default {
             // detail
             this.formData.name = data.detail.name
             this.formData.type = data.detail.type
-            this.formData.summary = data.detail.summary
             this.formData.label = data.detail.label
-            this.formData.url = data.detail.url
-            this.formData.or_url = data.detail.or_url
-            this.formData.count = data.detail.count
-            this.formData.url = data.detail.url
-            this.formData.rtx_id = data.detail.rtx_id
-            this.formData.create_time = data.detail.create_time
-            this.formData.update_rtx = data.detail.update_rtx
-            this.formData.update_time = data.detail.update_time
+            this.formData.summary = data.detail.summary
             this.formData.order_id = data.detail.order_id
             // type list
             this.typeList = data.type
+            // label list
+            this.labelList = data.label
           } else {
             this.$emit('close-view-dg', false)
           }
@@ -431,6 +334,45 @@ export default {
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+    submit() {
+      this.$refs.formData.validate(valid => {
+        if (valid) {
+          this.disabled = true
+          this.loading = true
+          const data = {
+            'rtx_id': store.getters.rtx_id,
+            'md5': this.rowMd5,
+            'name': this.formData.name,
+            'type': this.formData.type,
+            'label': this.formData.label,
+            'summary': this.formData.summary,
+            'order_id': this.formData.order_id
+          }
+          return new Promise((resolve, reject) => {
+            SystemAvatarUpdate(data).then(response => {
+              const { status_id, message } = response
+              if (status_id === 100) {
+                this.$message({
+                  message: '更新成功' || message,
+                  type: 'success',
+                  duration: 2.0 * 1000
+                })
+                this.$emit('close-set-dg', true)
+              }
+              resolve(response)
+            }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              // 重置按钮状态
+              this.disabled = false
+              this.loading = false
+              // 清空表单状态
+              this.$refs.formData.clearValidate()
+            })
+          })
+        }
       })
     }
   }
