@@ -87,6 +87,8 @@
                 style="width: 100%"
                 :size="selectAttrs.size"
                 placeholder=""
+                allow-create
+                default-first-option
                 :disabled="disabled"
                 :filterable="selectAttrs.filterable"
                 :multiple="true"
@@ -96,14 +98,11 @@
                 :collapse-tags="selectAttrs.collapseTags"
               >
                 <el-option
-                  v-for="(item, index) in typeList"
+                  v-for="(item, index) in labelList"
                   :key="index"
                   :label="item.value"
                   :value="item.key"
-                >
-                  <span class="select-opt-left">{{ item.value }}</span>
-                  <span class="select-opt-right">{{ item.key }}</span>
-                </el-option>
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -176,7 +175,7 @@
               <el-input
                 v-model="formData.summary"
                 type="textarea"
-                placeholder="请输入简介"
+                placeholder="暂无简介"
                 :rows="textAreaAttrs.rows"
                 :maxlength="formDataLimit.summary"
                 :clearable="textAreaAttrs.clear"
@@ -353,7 +352,8 @@ export default {
         summary: '200',
         label: 0
       },
-      typeList: []
+      typeList: [], // 类型列表
+      labelList: [] // 标签列表
     }
   },
   computed: {},
@@ -392,6 +392,7 @@ export default {
       this.formData.update_time = ''
       this.formData.order_id = 1
       this.typeList = []
+      this.labelList = []
       // 请求初始化
       this.$nextTick(() => {
         // 重置表单状态
@@ -424,6 +425,8 @@ export default {
             this.formData.order_id = data.detail.order_id
             // type list
             this.typeList = data.type
+            // label list
+            this.labelList = data.label
           } else {
             this.$emit('close-view-dg', false)
           }
