@@ -53,6 +53,9 @@
         :border="tableAttrs.border"
         :default-sort="{ prop: 'id', order: 'ascending' }"
         :empty-text="tableAttrs.emptyText"
+        :show-summary="tableAttrs.showSum"
+        :sum-text="tableAttrs.sumText"
+        :summary-method="setTableSummary"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
         @select="selectRow"
@@ -283,6 +286,30 @@ export default {
     },
     manualSelectALL() { // 手工table row 全选
       this.$refs.multipleTableRef.toggleAllSelection()
+    },
+    setTableSummary({ columns, data }) { // table summary
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+        } else if ([5, 6].includes(index)) {
+          const values = data.map(item => Number(item[column.property]))
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+          }
+        } else {
+          sums[index] = ''
+        }
+      })
+
+      return sums
     },
     setTableHeaderStyle({ row, column, rowIndex, columnIndex }) { // table title样式
       if (column.label === '操作') {

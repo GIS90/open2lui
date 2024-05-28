@@ -42,6 +42,9 @@
         :border="tableAttrs.border"
         :default-sort="{ prop: 'order_id', order: 'asc' }"
         :empty-text="tableAttrs.emptyText"
+        :show-summary="tableAttrs.showSum"
+        :sum-text="tableAttrs.sumText"
+        :summary-method="setTableSummary"
         :header-cell-style="setTableHeaderStyle"
         :row-style="setTableRowStyle"
         @select="selectRow"
@@ -173,7 +176,7 @@ export default {
         hcr: true, // 是否要高亮当前行highlight-current-row true/false
         height: 450, // 高度
         maxHeight: 450, // 最大高度(属性为Table指定最大高度，此时若表格所需的高度大于最大高度，则会显示一个滚动条。)
-        showSum: false, // 表尾合计
+        showSum: true, // 表尾合计
         sumText: '统计', // 合计行第一列的文
         emptyText: '暂无数据' // 空数据时显示的文本内容
       },
@@ -281,6 +284,30 @@ export default {
     },
     manualSelectALL() { // 手工table row 全选
       this.$refs.multipleTableRef.toggleAllSelection()
+    },
+    setTableSummary({ columns, data }) { // table summary
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+        } else if ([5].includes(index)) {
+          const values = data.map(item => Number(item[column.property]))
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr)
+              if (!isNaN(value)) {
+                return prev + curr
+              } else {
+                return prev
+              }
+            }, 0)
+          }
+        } else {
+          sums[index] = ''
+        }
+      })
+
+      return sums
     },
     setTableHeaderStyle({ row, column, rowIndex, columnIndex }) { // table title样式
       if (column.label === '操作') {
