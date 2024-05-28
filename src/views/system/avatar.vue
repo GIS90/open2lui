@@ -53,8 +53,15 @@
       >
         <el-table-column fixed="left" type="selection" width="80" :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" />
         <el-table-column fixed="left" prop="id" label="序号" width="100" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column fixed="left" prop="name" label="名称" width="240" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
-        <el-table-column prop="label" label="标签" width="240" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column fixed="left" prop="name" label="名称" width="220" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="type_name" label="类型" width="140" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
+        <el-table-column prop="label" label="标签" width="350" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot">
+          <template slot-scope="scope">
+            <el-tag v-for="(item, index) in scope.row.label" :key="index" :type="tagTypeList[item.index]" effect="dark" class="tag-label">
+              {{ item.type }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="summary" label="简介" width="280" sortable :header-align="tableRowAttrs.headerAlign" align="left" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="count" label="设置次数" width="140" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
         <el-table-column prop="order_id" label="排序ID" width="140" sortable :header-align="tableRowAttrs.headerAlign" :align="tableRowAttrs.align" :show-overflow-tooltip="tableRowAttrs.sot" />
@@ -190,6 +197,7 @@ export default {
         headerAlign: 'center', // 表头对齐方式，若不设置该项，则使用表格的对齐方式 left / center / right
         sot: true // showOverflowTooltip 多余的内容会在hover时以tooltip的形式显示出来
       },
+      tagTypeList: ['success', 'info', 'warning', 'danger'], // tag类型列表
       // pagination attrs
       pageCur: 1, // 当前page
       pageSize: 15, // 每页显示条目个数
@@ -500,5 +508,9 @@ export default {
 <style scoped>
 .searchBox{
   margin-top: 20px;
+}
+
+.tag-label {
+  margin: 0 5px 0 5px;
 }
 </style>
