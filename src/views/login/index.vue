@@ -21,7 +21,6 @@
           autocomplete="on"
         />
       </el-form-item>
-
       <!-- 密码 -->
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
@@ -46,13 +45,20 @@
           </span>
         </el-form-item>
       </el-tooltip>
+
+      <!-- 验证模式 -->
+      <el-switch v-model="mode" class="custom-switch" active-color="#ff4949" inactive-color="#13ce66" active-text="拼图模式" inactive-text="滑动模式" />
       <!--滑动验证模块-->
-      <el-row class="slide-verify">
+      <div v-show="!mode" class="slide-verify">
         <slide-check :success-fun="sliderVerifySuccess" :error-fun="sliderVerifyError" />
-      </el-row>
+      </div>
+      <!--拼图验证模块-->
+      <div v-show="mode" class="pintu-verify">
+        <pintu-check :show="isPintuShow" @close-pintu-check="closePintuCheck" />
+      </div>
 
       <!--提交-->
-      <el-button :disabled="!isPass" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-top: 30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -60,16 +66,19 @@
 <script>
 import { loginTitle } from '@/settings.js'
 import SliderCheck from './components/SliderCheck.vue'
+import PintuCheck from './components/PintuCheck.vue'
 
 const validateUsername = (rule, value, callback) => {
   if (!value) {
-    callback(new Error('请输入用户名RTX账户/电话/邮箱'))
+    callback(new Error('请输入用户RTX账户/电话/邮箱'))
   } else {
     callback()
   }
 }
 const validatePassword = (rule, value, callback) => {
-  if (value.length < 6) {
+  if (!value) {
+    callback(new Error('请输入用户密码'))
+  } else if (value.length < 6) {
     callback(new Error('密码不能少于6位'))
   } else {
     callback()
@@ -79,7 +88,8 @@ const validatePassword = (rule, value, callback) => {
 export default {
   name: 'Login',
   components: {
-    'slide-check': SliderCheck
+    'slide-check': SliderCheck,
+    'pintu-check': PintuCheck
   },
   data() {
     return {
@@ -98,7 +108,10 @@ export default {
       redirect: undefined,
       otherQuery: {},
       loginTitle: loginTitle || 'OPENTOOL-Z智行工具箱',
-      isPass: false
+      mode: false, // 验证模式：true-滑动模式 false-拼图模式
+      isPass: false,
+      isPintuShow: false,
+      isSliderPass: false // 记录滑动值
     }
   },
   watch: {
@@ -111,6 +124,15 @@ export default {
         }
       },
       immediate: true
+    },
+    mode(newVal, oldVal) {
+      // 模式切换
+      this.isPass = false
+
+      // 如果是滑动验证，并且已通过，更新isPass为通过
+      if (!newVal && this.isSliderPass) {
+        this.isPass = true
+      }
     }
   },
   created() {
@@ -142,10 +164,20 @@ export default {
       })
     },
     handleLogin() {
-      // sliderVerify验证
+      // 拼图模式验证
+      if (this.mode && !this.isPass) {
+        this.isPintuShow = true
+        return
+      }
+
+      // 验证是否通过
       if (!this.isPass) {
+        let message = '请拖动滑块，拖动到最右边' // 默认为滑动模式提示
+        if (this.mode) {
+          message = '请拖动滑块完成拼图' // 拼图模式提示
+        }
         this.$message({
-          message: '请拖动滑块，拖动到最右边',
+          message: message,
           type: 'error',
           duration: 2 * 1000
         })
@@ -183,10 +215,16 @@ export default {
     // 滑块验证失败回调
     sliderVerifySuccess() {
       this.isPass = true
+      this.isSliderPass = true
     },
     // 滑块验证失败回调
     sliderVerifyError() {
       this.isPass = false
+    },
+    // 关闭拼图验证
+    closePintuCheck(value) {
+      this.isPass = value // 是否通过
+      this.isPintuShow = false
     }
   }
 }
@@ -330,7 +368,7 @@ $light_gray:#eee;
   }
 }
 .slide-verify {
-  margin: 20px 0 30px 0;
+  margin: 20px 0 0 0;
 }
 
 .titleName {
@@ -352,4 +390,11 @@ $light_gray:#eee;
   margin-left: -1rem;
   text-shadow: 5px 5px 5px black, 0px 0px 2px red, 2px 2px 3px green;
 }
+
+.custom-switch {
+  text-align: center;
+  display: block;
+}
+
+.pintu-verify {}
 </style>
