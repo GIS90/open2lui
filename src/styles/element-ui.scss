@@ -147,3 +147,20 @@
   color: #FFFFFF;
   font-size: 15px !important;
 }
+
+// ------------------------- el-switch -------------------------
+/* 修改Element UI Switch关闭时的文字颜色 */
+.el-switch__label--left span {
+  color: #FFFFFF;
+}
+.el-switch__label--left.is-active span{
+  color: #1890ff !important;
+}
+
+/* 修改Element UI Switch开启时的文字颜色 */
+.el-switch__label--right span {
+  color: #FFFFFF;
+}
+.el-switch__label--right.is-active span{
+  color: #1890ff !important;
+}
