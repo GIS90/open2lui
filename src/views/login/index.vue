@@ -163,30 +163,31 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // submit提交
     handleLogin() {
-      // 拼图模式验证
-      if (this.mode && !this.isPass) {
-        this.isPintuShow = true
-        return
-      }
-
-      // 验证是否通过
-      if (!this.isPass) {
-        let message = '请拖动滑块，拖动到最右边' // 默认为滑动模式提示
-        if (this.mode) {
-          message = '请拖动滑块完成拼图' // 拼图模式提示
-        }
-        this.$message({
-          message: message,
-          type: 'error',
-          duration: 2 * 1000
-        })
-        return
-      }
-
-      // submit提交
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          // ==============================================================================
+          // 拼图模式验证
+          if (this.mode && !this.isPass) {
+            this.isPintuShow = true
+            return
+          }
+
+          // 验证是否通过
+          if (!this.isPass) {
+            let message = '请拖动滑块，拖动到最右边' // 默认为滑动模式提示
+            if (this.mode) {
+              message = '请拖动滑块完成拼图' // 拼图模式提示
+            }
+            this.$message({
+              message: message,
+              type: 'error',
+              duration: 2 * 1000
+            })
+            return
+          }
+          // ==============================================================================
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then((response) => {
