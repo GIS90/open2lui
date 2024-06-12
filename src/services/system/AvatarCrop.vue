@@ -40,10 +40,7 @@
         <!-- 预览 -->
         <div class="avatar-image-crop-preview">
           <el-divider><i class="el-icon-view">  预览</i></el-divider>
-          <!--
-          <img id="avatar-image-crop-preview-image" width="200px" :src="imageUrl">
-          <div id="avatar-image-crop-preview-image"></div>
-          -->
+          <div class="avatar-image-crop-preview-image" />
         </div>
 
         <!-- 操作 -->
@@ -213,10 +210,13 @@ export default {
         url: '',
         orUrl: ''
       },
+      // = = = = = = = = = = = = = = = = = = cropper = = = = = = = = = = = = = = = = = =
+      // cropper官网：https://fengyuanchen.github.io/cropperjs/
       cropper: null, // 定义cropper对象
       // cropper配置
       cropperOption: {
-        viewMode: 1, // 显示模式：0-裁剪框不可移动 1-裁剪框可移动 2-裁剪框自由移动
+        viewMode: 1, // 显示模式
+        preview: '.avatar-image-crop-preview-image', // 预览DIV-ID
         aspectRatio: 2 / 2, // 裁剪框宽高比例
         autoCropArea: 0.8, // 裁剪区域大小（相对于原始图片大小）
         movable: true, // 裁剪框是否可移动
@@ -239,6 +239,7 @@ export default {
         arrowX: 1,
         arrowY: 1
       }
+      // = = = = = = = = = = = = = = = = = = cropper = = = = = = = = = = = = = = = = = =
     }
   },
   computed: {},
@@ -318,8 +319,9 @@ export default {
     crop() {
       if (this.cropper) {
         this.data = null
-        this.cropper.clear()
-        this.cropper.crop()
+        // this.cropper.clear()
+        const a = this.cropper.crop()
+        console.log(a)
 
         // setTimeout(() => {
         //   this.cropper.disable()
@@ -417,9 +419,12 @@ export default {
   margin-left: 5%;
 }
 
-#avatar-image-crop-preview-image{
+.avatar-image-crop-preview-image{
   margin-top: 15px;
   width: 200px;
+  height: 200px;
+  overflow: hidden;
+  margin-left: 15%;
 }
 
 .operation-line {
