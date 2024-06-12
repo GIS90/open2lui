@@ -74,11 +74,11 @@
             <el-tooltip class="table-handle-icon" effect="dark" content="详情" placement="top">
               <i class="el-icon-document" @click="rowHandleView(scope.$index, scope.row)" />
             </el-tooltip>
-            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="预览" placement="top">
-              <i class="el-icon-view" @click="rowHandlePreview(scope.$index, scope.row)" />
-            </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="编辑" placement="top">
               <i class="el-icon-edit" @click="rowHandleEdit(scope.$index, scope.row)" />
+            </el-tooltip>
+            <el-tooltip class="table-handle-icon icon-item" effect="dark" content="裁剪" placement="top">
+              <i class="el-icon-scissors" @click="rowHandleCrop(scope.$index, scope.row)" />
             </el-tooltip>
             <el-tooltip class="table-handle-icon icon-item" effect="dark" content="删除" placement="top">
               <i class="el-icon-delete" @click="rowHandleDelete(scope.$index, scope.row)" />
@@ -109,15 +109,15 @@
     <!-- 批量删除 -->
     <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
-    <!-- 图片预览 -->
-    <avatar-preview :show="selectImageVisible" :image-url="selectImageUrl" :is-footer="selectShowFooter" @close-preview-dg="closePreviewDialog" />
+    <!-- 图片裁剪 -->
+    <avatar-crop :show="selectImageVisible" :row-md5="oprSelectRowMd5" :image-url="selectImageUrl" @close-crop-dg="closeCropDialog" />
   </div>
 </template>
 
 <script>
 import AvatarSet from '@/services/system/AvatarSet'
 import AvatarView from '@/services/system/AvatarView'
-import AvatarPreview from '@/services/system/AvatarPreview'
+import AvatarCrop from '@/services/system/AvatarCrop'
 import AvatarFilter from '@/services/system/AvatarFilter'
 import Pagination from '@/components/Pagination'
 import store from '@/store'
@@ -131,7 +131,7 @@ export default {
   components: {
     'avatar-set': AvatarSet,
     'avatar-view': AvatarView,
-    'avatar-preview': AvatarPreview,
+    'avatar-crop': AvatarCrop,
     'avatar-filter': AvatarFilter,
     'batch-delete': BatchDelete,
     'public-pagination': Pagination,
@@ -226,8 +226,7 @@ export default {
       userList: [], // user list
       typeList: [], // type list
       selectImageUrl: '', // 当前选择的图片URL
-      selectImageVisible: false, // 是否显示当前选择图片
-      selectShowFooter: false // 是否显示Footer
+      selectImageVisible: false // 是否显示当前选择图片
     }
   },
   computed: {},
@@ -429,8 +428,9 @@ export default {
         this.viewDialogStatus = true
       }
     },
-    rowHandlePreview(index, row) { // table view 设置dialog
-      if (row?.url) {
+    rowHandleCrop(index, row) { // table view 设置dialog
+      if (row?.md5_id && row?.url) {
+        this.oprSelectRowMd5 = row.md5_id
         this.selectImageUrl = row.url
         this.selectImageVisible = true
       }
@@ -489,7 +489,7 @@ export default {
         this.getTableList()
       }
     },
-    closePreviewDialog() { // 关闭预览
+    closeCropDialog() { // 关闭预览
       this.selectImageVisible = false
     },
     showSearch() {

@@ -375,6 +375,10 @@ export default {
       this.$emit('close-view-dg', false)
     },
     openDialog() { // 初始化操作
+      // 无md5-id
+      if (!this.rowMd5) {
+        this.closeDialog()
+      }
       // 初始化非全屏
       this.fullScreenStatus = false
       // 数据初始化
@@ -417,7 +421,6 @@ export default {
             this.formData.url = data.detail.url
             this.formData.or_url = data.detail.or_url
             this.formData.count = data.detail.count
-            this.formData.url = data.detail.url
             this.formData.rtx_id = data.detail.rtx_id
             this.formData.create_time = data.detail.create_time
             this.formData.update_rtx = data.detail.update_rtx

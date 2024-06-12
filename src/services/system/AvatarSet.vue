@@ -291,6 +291,10 @@ export default {
       this.$emit('close-set-dg', false)
     },
     openDialog() { // 初始化操作
+      // 无md5-id
+      if (!this.rowMd5) {
+        this.closeDialog()
+      }
       // 初始化非全屏
       this.fullScreenStatus = false
       // 数据初始化
