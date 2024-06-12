@@ -105,6 +105,16 @@
         </el-tooltip>
       </el-button-group>
       <el-button-group class="operation-group-box">
+        <!-- 左右翻转 -->
+        <el-tooltip class="item" effect="dark" content="左右翻转" placement="bottom">
+          <el-button plain type="primary" icon="el-icon-c-scale-to-original" @click="scaleX" />
+        </el-tooltip>
+        <!-- 上下翻转 -->
+        <el-tooltip class="item" effect="dark" content="上下翻转" placement="bottom">
+          <el-button plain type="primary" icon="el-icon-d-caret" @click="scaleY" />
+        </el-tooltip>
+      </el-button-group>
+      <el-button-group class="operation-group-box">
         <!-- 左移动 -->
         <el-tooltip class="item" effect="dark" content="左移动" placement="bottom">
           <el-button plain type="primary" icon="el-icon-back" @click="move(-1*cropperConfig.x, 0)" />
@@ -225,7 +235,9 @@ export default {
         scale: 0.1, // 缩放比例
         angle: 30, // 旋转角度
         x: 10, // X偏移量
-        y: 10 // Y偏移量
+        y: 10, // Y偏移量
+        arrowX: 1,
+        arrowY: 1
       }
     }
   },
@@ -361,6 +373,24 @@ export default {
         this.$message.error('图片没有准备就绪')
       }
     },
+    // 左右翻转
+    scaleX() {
+      if (this.cropper) {
+        this.cropperConfig.arrowX = -1 * this.cropperConfig.arrowX
+        this.cropper.scaleX(this.cropperConfig.arrowX)
+      } else {
+        this.$message.error('图片没有准备就绪')
+      }
+    },
+    // 上下翻转
+    scaleY() {
+      if (this.cropper) {
+        this.cropperConfig.arrowY = -1 * this.cropperConfig.arrowY
+        this.cropper.scaleY(this.cropperConfig.arrowY)
+      } else {
+        this.$message.error('图片没有准备就绪')
+      }
+    },
     // 锁定
     lock(value) {
       if (this.cropper) {
@@ -401,7 +431,7 @@ export default {
 }
 
 .operation-group-box {
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .avatar-image-config {
