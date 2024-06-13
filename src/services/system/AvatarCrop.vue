@@ -51,6 +51,7 @@
             type="number"
             step="0.1"
             inputmode="decimal"
+            :disabled="disabled"
           >
             <template slot="prepend">缩放比例</template>
           </el-input>
@@ -58,6 +59,7 @@
             v-model="cropperConfig.angle"
             class="operation-line"
             type="number"
+            :disabled="disabled"
           >
             <template slot="prepend">旋转角度</template>
           </el-input>
@@ -65,6 +67,7 @@
             v-model="cropperConfig.x"
             class="operation-line"
             type="number"
+            :disabled="disabled"
           >
             <template slot="prepend">X偏移量</template>
             <template slot="append">PX</template>
@@ -73,6 +76,7 @@
             v-model="cropperConfig.y"
             class="operation-line"
             type="number"
+            :disabled="disabled"
           >
             <template slot="prepend">Y偏移量</template>
             <template slot="append">PX</template>
@@ -84,59 +88,59 @@
       <el-button-group>
         <!-- 放大 -->
         <el-tooltip class="item" effect="dark" content="放大" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-zoom-in" @click="zoom(cropperConfig.scale)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-zoom-in" @click="zoom(cropperConfig.scale)" />
         </el-tooltip>
         <!-- 缩小 -->
         <el-tooltip class="item" effect="dark" content="缩小" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-zoom-out" @click="zoom(-1*cropperConfig.scale)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-zoom-out" @click="zoom(-1*cropperConfig.scale)" />
         </el-tooltip>
       </el-button-group>
       <el-button-group class="operation-group-box">
         <!-- 向左旋转 -->
         <el-tooltip class="item" effect="dark" content="向左旋转" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-refresh-left" @click="rotate(-1*cropperConfig.angle)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-refresh-left" @click="rotate(-1*cropperConfig.angle)" />
         </el-tooltip>
         <!-- 向右旋转 -->
         <el-tooltip class="item" effect="dark" content="向右旋转" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-refresh-right" @click="rotate(cropperConfig.angle)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-refresh-right" @click="rotate(cropperConfig.angle)" />
         </el-tooltip>
       </el-button-group>
       <el-button-group class="operation-group-box">
         <!-- 左右翻转 -->
         <el-tooltip class="item" effect="dark" content="左右翻转" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-c-scale-to-original" @click="scaleX" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-c-scale-to-original" @click="scaleX" />
         </el-tooltip>
         <!-- 上下翻转 -->
         <el-tooltip class="item" effect="dark" content="上下翻转" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-d-caret" @click="scaleY" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-d-caret" @click="scaleY" />
         </el-tooltip>
       </el-button-group>
       <el-button-group class="operation-group-box">
         <!-- 左移动 -->
         <el-tooltip class="item" effect="dark" content="左移动" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-back" @click="move(-1*cropperConfig.x, 0)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-back" @click="move(-1*cropperConfig.x, 0)" />
         </el-tooltip>
         <!-- 右移动 -->
         <el-tooltip class="item" effect="dark" content="右移动" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-right" @click="move(cropperConfig.x, 0)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-right" @click="move(cropperConfig.x, 0)" />
         </el-tooltip>
         <!-- 上移动 -->
         <el-tooltip class="item" effect="dark" content="上移动" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-top" @click="move(0, -1*cropperConfig.y)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-top" @click="move(0, -1*cropperConfig.y)" />
         </el-tooltip>
         <!-- 下移动 -->
         <el-tooltip class="item" effect="dark" content="下移动" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-bottom" @click="move(0, cropperConfig.y)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-bottom" @click="move(0, cropperConfig.y)" />
         </el-tooltip>
       </el-button-group>
       <el-button-group class="operation-group-box">
         <!-- 锁定 -->
         <el-tooltip class="item" effect="dark" content="锁定" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-lock" @click="lock(true)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-lock" @click="lock(true)" />
         </el-tooltip>
         <!-- 解锁 -->
         <el-tooltip class="item" effect="dark" content="解锁" placement="bottom">
-          <el-button plain type="primary" icon="el-icon-unlock" @click="lock(false)" />
+          <el-button :disabled="disabled" plain type="primary" icon="el-icon-unlock" @click="lock(false)" />
         </el-tooltip>
       </el-button-group>
     </el-row>
@@ -144,7 +148,8 @@
     <!--footer-->
     <template #footer>
       <span class="dialog-footer">
-        <el-button :disabled="disabled" icon="el-icon-close" @click="closeDialog()">取消</el-button>
+        <!--<el-button :disabled="disabled" type="danger" icon="el-icon-refresh" @click="restore()">恢复原图</el-button>-->
+        <el-button :disabled="disabled" type="info" icon="el-icon-close" @click="closeDialog()">取消</el-button>
         <el-button :disabled="disabled" type="primary" icon="el-icon-refresh" @click="reset()">重置</el-button>
         <el-button :disabled="disabled" type="success" icon="el-icon-scissors" @click="crop()">裁剪</el-button>
       </span>
@@ -157,6 +162,7 @@ import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import store from '@/store'
 import { SystemAvatarDetail } from '@/api/system'
+import { uploadMulFiles } from '@/api/common'
 
 export default {
   name: 'AvatarCrop',
@@ -215,20 +221,30 @@ export default {
       cropper: null, // 定义cropper对象
       // cropper配置
       cropperOption: {
+        // 初始化参数
         viewMode: 1, // 显示模式
         preview: '.avatar-image-crop-preview-image', // 预览DIV-ID
         aspectRatio: 2 / 2, // 裁剪框宽高比例
-        autoCropArea: 0.8, // 裁剪区域大小（相对于原始图片大小）
-        movable: true, // 裁剪框是否可移动
-        scalable: true, // 裁剪框是否可缩放图片（改变长宽）
-        zoomable: true, // 裁剪框是否可缩放图片（改变聚焦）
-        rotatable: true, // 裁剪框是否可翻转
+        autoCrop: true, // 初始化是否自动生成crop
+        autoCropArea: 0.7, // 裁剪区域大小（相对于原始图片大小）
+        modal: true, // 是否显示黑框背景
+        movable: true, // 是否可移动背景图片
+        scalable: true, // 背景图片是否可缩放
+        zoomable: true, // 背景图片是否可放大
+        rotatable: true, // 背景图片是否可翻转
         guides: true, // 是否显示裁剪框虚线
         background: true, // 是否显示背景网格
         cropBoxMovable: true, // 是否允许裁剪框推动
         cropBoxResizable: true, // 是否允许裁剪框缩放
         minCropBoxHeight: 200, // 裁剪框最小高度
-        minCropBoxWidth: 200 // 裁剪框最小宽度
+        minCropBoxWidth: 200, // 裁剪框最小宽度
+        // 初始化方法
+        // ready: (event) => {}, // 插件准备完执行函数
+        // cropstart: (event) => {}, // 裁剪框开始移动执行函数
+        // cropmove: (event) => {}, // 裁剪框移动时执行函数
+        // cropend: (event) => {}, // 裁剪框结束移动执行函数
+        // zoom: (event) => {}, // 裁剪框缩放执行函数
+        crop: (event) => {} // 裁剪框变化执行函数
       },
       // 操纵配置
       cropperConfig: {
@@ -260,12 +276,12 @@ export default {
       this.$emit('close-crop-dg', false)
     },
     openDialog() {
+      if (!this.rowMd5) {
+        this.closeDialog()
+      }
       // 销毁cropper对象
       if (this.cropper) {
         this.destroyCropper()
-      }
-      if (!this.rowMd5) {
-        this.closeDialog()
       }
       // 初始化非全屏
       this.fullScreenStatus = false
@@ -294,7 +310,7 @@ export default {
               this.createCropper()
             }
           } else {
-            this.$emit('close-view-dg', false)
+            this.closeDialog()
           }
           resolve(response)
         }).catch(error => {
@@ -318,21 +334,49 @@ export default {
     // 裁剪
     crop() {
       if (this.cropper) {
-        this.data = null
-        // this.cropper.clear()
-        const a = this.cropper.crop()
-        console.log(a)
+        this.cropper.getCroppedCanvas().toBlob((blob) => {
+          this.disabled = true
+          // 参数
+          const uploadForm = new FormData()
+          uploadForm.append('rtx_id', this.$store.getters.rtx_id)
+          uploadForm.append('file_type', 9) // 9-avatar-crop
+          uploadForm.append('md5', this.rowMd5)
+          uploadForm.append(this.imageObject.name, blob, this.imageObject.name)
 
-        // setTimeout(() => {
-        //   this.cropper.disable()
-        // }, 3000)
-        // setTimeout(() => {
-        //   this.cropper.enable()
-        // }, 6000)
+          return new Promise((resolve, reject) => {
+            uploadMulFiles(uploadForm).then(response => {
+              const { status_id, message } = response
+              if (status_id === 100) {
+                this.$message({
+                  message: '图片裁剪成功' || message,
+                  type: 'success',
+                  duration: 2.0 * 1000
+                })
+              }
+              resolve(response)
 
-        // setTimeout(() => {
-        //   this.cropper.destroy()
-        // }, 3000)
+              // 成功上传后设置自动关闭
+              if (status_id === 100) {
+                // 延迟
+                setTimeout(() => {
+                  this.$emit('close-crop-dg', true) // 关闭 && 刷新数据
+                }, 2000)
+              }
+            }).catch(error => {
+              reject(error)
+            }).finally(() => {
+              this.disabled = false
+            })
+          })
+        }, 'image/png')
+      } else {
+        this.$message.error('图片没有准备就绪')
+      }
+    },
+    // 恢复原图
+    restore() {
+      if (this.cropper) {
+        this.cropper.destroy()
       } else {
         this.$message.error('图片没有准备就绪')
       }
@@ -346,7 +390,7 @@ export default {
         this.$message.error('图片没有准备就绪')
       }
     },
-    // 移动底图
+    // 移动
     move(x, y) {
       if (this.cropper) {
         this.cropper.move(x, y)
@@ -354,7 +398,7 @@ export default {
         this.$message.error('图片没有准备就绪')
       }
     },
-    // 缩放（放大缩小）
+    // 缩放
     zoom(ratio) {
       if (this.cropper) {
         this.cropper.zoom(ratio)
@@ -424,7 +468,9 @@ export default {
   width: 200px;
   height: 200px;
   overflow: hidden;
+  /*text-align: center !important;*/
   margin-left: 15%;
+  border-radius: 100px;
 }
 
 .operation-line {

@@ -489,8 +489,11 @@ export default {
         this.getTableList()
       }
     },
-    closeCropDialog() { // 关闭预览
+    closeCropDialog(isRefresh) { // 关闭预览
       this.selectImageVisible = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     },
     showSearch() {
       this.searchStatus = !this.searchStatus
