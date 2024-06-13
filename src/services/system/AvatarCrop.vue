@@ -81,6 +81,14 @@
             <template slot="prepend">Y偏移量</template>
             <template slot="append">PX</template>
           </el-input>
+          <el-switch
+            v-model="cropperConfig.mode"
+            class="operation-line"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            active-text="生成新图片"
+            inactive-text="原图片更新"
+          />
         </div>
       </el-col>
     </el-row>
@@ -253,7 +261,8 @@ export default {
         x: 10, // X偏移量
         y: 10, // Y偏移量
         arrowX: 1,
-        arrowY: 1
+        arrowY: 1,
+        mode: true // 图片保存模式
       }
       // = = = = = = = = = = = = = = = = = = cropper = = = = = = = = = = = = = = = = = =
     }
@@ -285,6 +294,7 @@ export default {
       }
       // 初始化非全屏
       this.fullScreenStatus = false
+      this.cropperConfig.mode = true
       // 最新数据
       this.$nextTick(() => {
         // 重置表单状态
@@ -341,6 +351,7 @@ export default {
           uploadForm.append('rtx_id', this.$store.getters.rtx_id)
           uploadForm.append('file_type', 9) // 9-avatar-crop
           uploadForm.append('md5', this.rowMd5)
+          uploadForm.append('mode', this.cropperConfig.mode)
           uploadForm.append(this.imageObject.name, blob, this.imageObject.name)
 
           return new Promise((resolve, reject) => {
