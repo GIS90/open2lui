@@ -224,7 +224,7 @@ export default {
         // 初始化参数
         viewMode: 1, // 显示模式
         preview: '.avatar-image-crop-preview-image', // 预览DIV-ID
-        aspectRatio: 2 / 2, // 裁剪框宽高比例
+        aspectRatio: 2 / 2, // 裁剪框宽高比例，设置NaN未自由比例
         autoCrop: true, // 初始化是否自动生成crop
         autoCropArea: 0.7, // 裁剪区域大小（相对于原始图片大小）
         modal: true, // 是否显示黑框背景
