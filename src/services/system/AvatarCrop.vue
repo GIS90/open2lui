@@ -45,7 +45,7 @@
 
         <!-- 操作 -->
         <div class="avatar-image-config">
-          <el-divider><i class="el-icon-edit">  配置</i></el-divider>
+          <el-divider><i class="el-icon-s-tools">  配置</i></el-divider>
           <el-input
             v-model="cropperConfig.scale"
             type="number"
@@ -69,7 +69,7 @@
             type="number"
             :disabled="disabled"
           >
-            <template slot="prepend">X偏移量</template>
+            <template slot="prepend">X 偏移量</template>
             <template slot="append">PX</template>
           </el-input>
           <el-input
@@ -78,7 +78,7 @@
             type="number"
             :disabled="disabled"
           >
-            <template slot="prepend">Y偏移量</template>
+            <template slot="prepend">Y 偏移量</template>
             <template slot="append">PX</template>
           </el-input>
           <el-switch
