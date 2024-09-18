@@ -20,6 +20,9 @@ const routerMappings = {
   systemApi: () => import('@/views/system/api.vue'),
   systemAvatar: () => import('@/views/system/avatar.vue'),
   systemLog: () => import('@/views/system/log.vue'),
+  // other
+  otherViolentMessage: () => import('@/views/other/viomessage.vue'),
+  otherTopologyRelation: () => import('@/views/other/torelation.vue'),
   // manage
   manageUser: () => import('@/views/manage/user.vue'),
   manageRole: () => import('@/views/manage/role.vue'),
