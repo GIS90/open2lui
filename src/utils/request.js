@@ -69,15 +69,26 @@ service.interceptors.response.use(
         Message({
           message: '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'error',
-          duration: 3 * 1000
+          duration: 2.5 * 1000
         })
         // status_id 大于900属于API服务端发生故障
         return Promise.reject(new Error(res.message || 'Error'))
+      } else if ([205, 208, 209].includes(res.status_id)) {
+        // Token ERROR
+        Message({
+          message: res.message || '用户Token验证失败，请退出重新登录',
+          type: 'warning',
+          duration: 2 * 1000
+        })
+
+        setTimeout(function() {
+          window.location.href = '/login'
+        }, 2000)
       } else {
         Message({
           message: res.message || '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'warning',
-          duration: 3 * 1000
+          duration: 2.5 * 1000
         })
       }
 
