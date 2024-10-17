@@ -61,7 +61,7 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    // console.log(response)
+    console.log(res)
     // if the custom status_id is not 100, it is judged as an error.
     if (res.status_id !== 100) {
       // status_id大于500均为Server故障
@@ -81,11 +81,12 @@ service.interceptors.response.use(
           duration: 2 * 1000
         })
 
-        setTimeout(function() {
-          store.dispatch('user/logout')
-          window.location.href = '/login'
-        }, 2000)
+        window.location.href = '/login'
+        // setTimeout(function() {
+        //   window.location.href = '/login'
+        // }, 2200)
       } else {
+        // 非系统异常
         Message({
           message: res.message || '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'warning',

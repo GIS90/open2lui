@@ -62,10 +62,10 @@ const actions = {
       getInfo(state.token).then(response => {
         const { status_id, data } = response
         if (status_id !== 100) {
-          reject('验证失败，请重新登录')
+          reject('用户验证失败，请重新登录')
         }
         if (!data) {
-          reject('验证失败，请重新登录')
+          reject('用户验证失败，请重新登录')
         }
 
         // api数据结构包含user、token，解构赋值
