@@ -82,6 +82,7 @@ service.interceptors.response.use(
         })
 
         setTimeout(function() {
+          store.dispatch('user/logout')
           window.location.href = '/login'
         }, 2000)
       } else {
