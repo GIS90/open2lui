@@ -56,22 +56,22 @@ service.interceptors.response.use(
    *
    * status_id == 100 api no error, return data
    * status_id == 101 api no error, return data is null
+   * status_id in [205, 208, 209] api no error, token is error
    * status_id > 101 and status_id < 900 api no error, return data is error
    * status_id >= 900 api is error
    */
   response => {
     const res = response.data
-    console.log(res)
     // if the custom status_id is not 100, it is judged as an error.
     if (res.status_id !== 100) {
-      // status_id大于500均为Server故障
+      // status_id 大于900属于API服务端发生故障
       if (res.status_id >= 900) {
         Message({
           message: '服务端发生故障，请联系管理员：mingliang.gao',
           type: 'error',
           duration: 2.5 * 1000
         })
-        // status_id 大于900属于API服务端发生故障
+
         return Promise.reject(new Error(res.message || 'Error'))
       } else if ([205, 208, 209].includes(res.status_id)) {
         // Token ERROR
@@ -81,10 +81,10 @@ service.interceptors.response.use(
           duration: 2 * 1000
         })
 
-        window.location.href = '/login'
-        // setTimeout(function() {
-        //   window.location.href = '/login'
-        // }, 2200)
+        // window.location.href = '/login'
+        setTimeout(function() {
+          window.location.href = '/login'
+        }, 2200)
       } else {
         // 非系统异常
         Message({
