@@ -27,7 +27,7 @@
 <script>
 import store from '@/store'
 import { SystemDictDeletes, SystemApiDeletes, SystemAvatarDeletes } from '@/api/system'
-import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes } from '@/api/notify'
+import { notifyDtalkDeletes, notifyDtalkRobotDeletes, notifyQywxDeletes, notifyQywxRobotDeletes, notifyMessageDeletes } from '@/api/notify'
 import { searchSqlbaseDeletes } from '@/api/search'
 import { officeExcelResultDeletes, officeExcelSourceDeletes, officePDFDeletes } from '@/api/office'
 
@@ -115,6 +115,9 @@ export default {
       } else if (this.source === 'notify-qywx-robot') {
         // 消息通知 > 企微通知 > 企微通知机器人
         this.deleteNotifyQywxRobot(data)
+      } else if (this.source === 'notify-message') {
+        // 消息通知 > 短信通知
+        this.deleteNotifyMessage(data)
       } else if (this.source === 'system-dict') {
         // 系统维护 > 数据字典
         this.deleteSystemDict(data)
@@ -216,6 +219,30 @@ export default {
     deleteNotifyQywxRobot(data) {
       return new Promise((resolve, reject) => {
         notifyQywxRobotDeletes(data).then(response => {
+          const { status_id, message } = response
+          if (status_id === 100) {
+            this.$message({
+              message: '删除成功' || message,
+              type: 'success',
+              duration: 2.0 * 1000
+            })
+          }
+          this.$emit('close-delete-dialog', true)
+          resolve(response)
+        }).catch(error => {
+          this.$emit('close-delete-dialog', true)
+          reject(error)
+        }).finally(() => {
+          // 重置按钮状态
+          this.btnDisabled = false
+          this.btnLoading = false
+        })
+      })
+    },
+    // notify > message
+    deleteNotifyMessage(data) {
+      return new Promise((resolve, reject) => {
+        notifyMessageDeletes(data).then(response => {
           const { status_id, message } = response
           if (status_id === 100) {
             this.$message({

@@ -332,3 +332,66 @@ export function qywxUploadTempFile(data) {
     data
   })
 }
+
+// 初始化新增message枚举数据
+export function notifyMessageAddInit(params) {
+  return request({
+    url: '/notify/sms_add_init',
+    method: 'get',
+    params
+  })
+}
+
+// 新增短信消息
+export function notifyMessageAdd(data) {
+  return request({
+    url: '/notify/sms_add',
+    method: 'post',
+    data
+  })
+}
+
+// 获取短信消息数据
+export function notifyMessageList(data) {
+  return request({
+    url: '/notify/sms_list',
+    method: 'post',
+    data
+  })
+}
+
+// 删除短信消息单条记录
+export function notifyMessageDelete(data) {
+  return request({
+    url: '/notify/sms_delete',
+    method: 'delete',
+    data
+  })
+}
+
+// 删除短信消息多条记录
+export function notifyMessageDeletes(data) {
+  return request({
+    url: '/notify/sms_deletes',
+    method: 'delete',
+    data
+  })
+}
+
+// 短信消息详情
+export function notifyMessageDetail(data) {
+  return request({
+    url: '/notify/sms_detail',
+    method: 'post',
+    data
+  })
+}
+
+// 更新短信消息数据
+export function notifyMessageUpdate(data) {
+  return request({
+    url: '/notify/sms_update',
+    method: 'post',
+    data
+  })
+}
