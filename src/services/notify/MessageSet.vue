@@ -87,6 +87,16 @@
             :disabled="disabled"
           />
         </el-form-item>
+        <el-form-item label="是否发送" prop="send">
+          <el-switch
+            v-model="formData.send"
+            active-color="#ff4949"
+            inactive-color="#13ce66"
+            active-text="已发送"
+            inactive-text="未发送"
+            disabled
+          />
+        </el-form-item>
       </el-form>
       <!--footer-->
       <template #footer>
@@ -101,7 +111,7 @@
 
 <script>
 import store from '@/store'
-import { notifyMessageAddInit, notifyMessageAdd } from '@/api/notify'
+import { notifyMessageDetail, notifyMessageUpdate } from '@/api/notify'
 
 const validateUser = (rule, value, callback) => {
   if (value.includes('；')) {
@@ -112,9 +122,9 @@ const validateUser = (rule, value, callback) => {
 }
 
 export default {
-  name: 'MessageAdd',
+  name: 'MessageSet',
   components: {},
-  emits: ['close-add-dg'],
+  emits: ['close-set-dg'],
   props: {
     show: {
       type: Boolean,
@@ -123,6 +133,11 @@ export default {
       validator(value) {
         return [true, false].includes(value)
       }
+    },
+    rowMd5: {
+      type: String,
+      require: true,
+      default: ''
     }
   },
   data() {
@@ -135,7 +150,7 @@ export default {
       fullScreenIcon: 'el-icon-full-screen', // DIALOG全屏图标
       fullScreenText: '全屏', // DIALOG全屏文本提示
       dialogAttrs: {
-        title: '新增',
+        title: '编辑',
         width: '65%', // Dialog 的宽度
         fullScreen: false, // 是否为全屏 Dialog
         top: '5%', // Dialog CSS 中的 margin-top 值
@@ -171,7 +186,8 @@ export default {
         mass: '0', // 是否群发：0-单人发送 1-多人发送
         title: '', // 标题
         content: '', // 内容
-        user: '' // 接收人列表
+        user: '', // 接收人列表
+        send: false // 是否发送：False-未发送 True-已发送
       },
       formDataLimit: {
         title: 55,
@@ -212,40 +228,44 @@ export default {
   mounted() {},
   methods: {
     openDialog() { // 初始化操作，获取最新数据
+      // 初始化操作，获取最新数据
+      if (!this.rowMd5) {
+        this.$emit('close-set-dg', true)
+        return false
+      }
       this.fullScreenStatus = false // 初始化非全屏
-      this.formDataLimit.user = this.formData.mass === '0' ? 11 : 2000
-
-      // 初始化数据为空
-      this.formData.title = ''
-      this.formData.content = ''
-      this.formData.user = ''
 
       // 初始化枚举数据
       this.$nextTick(() => {
-        this.getInitData()
-        // 重置表单状态
-        this.$refs.formData.resetFields()
+        this.getDNewInfo()
       })
     },
     closeDialog() { // 关闭dg
       // 清空表单状态
       this.$refs.formData.clearValidate()
-      this.$emit('close-add-dg', false)
+      this.$emit('close-set-dg', false)
     },
     handleFull() { // 是否全屏model
       this.fullScreenStatus = !this.fullScreenStatus
     },
-    getInitData() {
-      const params = {
-        'rtx_id': store.getters.rtx_id
+    getDNewInfo() {
+      const data = {
+        'rtx_id': store.getters.rtx_id,
+        'md5': this.rowMd5
       }
       return new Promise((resolve, reject) => {
-        notifyMessageAddInit(params).then(response => {
+        notifyMessageDetail(data).then(response => {
           const { status_id, data } = response
           if (status_id === 100) {
-            this.boolList = data.bool // 枚举
+            this.formData.title = data.detail.title
+            this.formData.content = data.detail.content
+            this.formData.user = data.detail.user
+            this.formData.mass = data.detail.mass
+            this.formData.send = data.detail.send
+
+            this.formDataLimit.user = data.detail.mass === '0' ? 11 : 2000
           } else {
-            this.$emit('close-add-dg', false)
+            this.$emit('close-set-dg', false)
           }
           resolve(response)
         }).catch(error => {
@@ -270,6 +290,7 @@ export default {
           this.loading = true
           const data = {
             'rtx_id': store.getters.rtx_id,
+            'md5': this.rowMd5,
             'mass': this.formData.mass !== '0',
             'title': this.formData.title,
             'content': this.formData.content,
@@ -277,15 +298,15 @@ export default {
           }
 
           return new Promise((resolve, reject) => {
-            notifyMessageAdd(data).then(response => {
+            notifyMessageUpdate(data).then(response => {
               const { status_id, message } = response
               if (status_id === 100) {
                 this.$message({
-                  message: '新增成功' || message,
+                  message: '编辑成功' || message,
                   type: 'success',
                   duration: 2.0 * 1000
                 })
-                this.$emit('close-add-dg', true)
+                this.$emit('close-set-dg', true)
               }
               resolve(response)
             }).catch(error => {

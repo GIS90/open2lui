@@ -97,6 +97,9 @@
     <!-- 批量删除 -->
     <batch-delete :show="deleteConfirm" :list="selectList" :source="pageSourceId" @close-delete-dialog="closeDeleteDialog" />
 
+    <!-- 新增 -->
+    <message-set :show="setDialogStatus" :row-md5="oprSelectRowMd5" @close-set-dg="closeSetDialog" />
+
   </div>
 </template>
 
@@ -108,6 +111,7 @@ import store from '@/store'
 import { notifyMessageDelete, notifyMessageList } from '@/api/notify'
 import MessageTip from '@/services/notify/MessageTip'
 import MessageAdd from '@/services/notify/MessageAdd'
+import MessageSet from '@/services/notify/MessageSet'
 
 export default {
   name: 'NotifyMessage',
@@ -116,7 +120,8 @@ export default {
     'batch-delete': BatchDelete,
     'icon-download-excel': IconDownloadExcel,
     'message-tip': MessageTip,
-    'message-add': MessageAdd
+    'message-add': MessageAdd,
+    'message-set': MessageSet
   },
   directives: {},
   emits: [],
@@ -335,11 +340,18 @@ export default {
         this.setDialogStatus = true
       }
     },
-    rowHandleSend(index, row) { // 打开发送dtalk dg
-      if (row?.md5_id) {
-        this.oprSelectRowMd5 = row.md5_id
-        this.sendDialogStatus = true
-      }
+    rowHandleSend(index, row) { // 打开发送dg
+      this.$message({
+        message: '功能开发中。。。请等待',
+        type: 'info',
+        duration: 2.0 * 1000
+      })
+      return
+
+      // if (row?.md5_id) {
+      //   this.oprSelectRowMd5 = row.md5_id
+      //   this.sendDialogStatus = true
+      // }
     },
     rowHandleDelete(index, row) { // table row 删除
       this.$confirm('此操作将永久删除该行数据, 是否继续?', '提示', {
@@ -414,6 +426,12 @@ export default {
         return false
       }
       this.deleteConfirm = true
+    },
+    closeSetDialog(isRefresh) { // 关闭设置dg
+      this.setDialogStatus = false
+      if (isRefresh) {
+        this.getTableList()
+      }
     }
   },
   template: '',
