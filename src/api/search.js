@@ -58,7 +58,7 @@ export function searchSqlbaseDetail(data) {
 export function searchSqlbaseUpdate(data) {
   return request({
     url: '/search/sqlbase_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }

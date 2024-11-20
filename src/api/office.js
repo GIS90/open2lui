@@ -13,7 +13,7 @@ export function officeExcelSourceList(data) {
 export function officeExcelSourceUpdate(data) {
   return request({
     url: '/office/excel_source_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -58,7 +58,7 @@ export function officeExcelResultList(data) {
 export function officeExcelResultUpdate(data) {
   return request({
     url: '/office/excel_result_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -130,7 +130,7 @@ export function officePDFDetail(data) {
 export function officePDFUpdate(data) {
   return request({
     url: '/office/office_pdf_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }

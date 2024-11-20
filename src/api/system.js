@@ -58,7 +58,7 @@ export function SystemDictDetail(data) {
 export function SystemDictUpdate(data) {
   return request({
     url: '/system/dict_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -121,7 +121,7 @@ export function SystemApiDetail(data) {
 export function SystemApiUpdate(data) {
   return request({
     url: '/system/api_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -157,7 +157,7 @@ export function SystemDepartList(data) {
 export function SystemDepartUpdateTree(data) {
   return request({
     url: '/system/depart_update_tree',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -202,7 +202,7 @@ export function SystemDepartDetail(data) {
 export function SystemDepartUpdate(data) {
   return request({
     url: '/system/depart_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -265,7 +265,7 @@ export function SystemAvatarDetail(data) {
 export function SystemAvatarUpdate(data) {
   return request({
     url: '/system/avatar_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }

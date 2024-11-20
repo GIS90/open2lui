@@ -48,7 +48,7 @@ export function getTimeLine(data) {
 export function updateInfo(data) {
   return request({
     url: '/user/update',
-    method: 'post',
+    method: 'put',
     data
   })
 }

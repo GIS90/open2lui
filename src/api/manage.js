@@ -22,7 +22,7 @@ export function roleAdd(data) {
 export function roleUpdate(data) {
   return request({
     url: '/auth/role_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -129,7 +129,7 @@ export function userDetail(params) {
 export function userUpdate(data) {
   return request({
     url: '/auth/user_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -191,7 +191,7 @@ export function menuDetail(data) {
 export function menuUpdate(data) {
   return request({
     url: '/auth/menu_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }

@@ -40,7 +40,7 @@ export function notifyDtalkDetail(data) {
 export function notifyDtalkUpdate(data) {
   return request({
     url: '/notify/dtalk_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -103,7 +103,7 @@ export function notifyDtalkRobotDetail(data) {
 export function notifyDtalkRobotUpdate(data) {
   return request({
     url: '/notify/dtalk_robot_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -193,7 +193,7 @@ export function notifyQywxRobotDetail(data) {
 export function notifyQywxRobotUpdate(data) {
   return request({
     url: '/notify/qywx_robot_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -274,7 +274,7 @@ export function notifyQywxDetail(data) {
 export function notifyQywxUpdate(data) {
   return request({
     url: '/notify/qywx_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -391,7 +391,7 @@ export function notifyMessageDetail(data) {
 export function notifyMessageUpdate(data) {
   return request({
     url: '/notify/sms_update',
-    method: 'post',
+    method: 'put',
     data
   })
 }
