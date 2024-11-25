@@ -11,7 +11,8 @@ export default {
   extends: [],
   emits: [],
   props: {},
-  inject: {},
+  provide: {},
+  inject: [],
   data() {
     return {}
   },
