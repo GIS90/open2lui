@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    模板内容
+    选项式API模板内容
   </div>
 </template>
 
