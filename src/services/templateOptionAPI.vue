@@ -17,9 +17,15 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
-  mounted() {},
   methods: {},
+  beforeCreate() {},
+  created() {},
+  beforeMount() {},
+  mounted() {},
+  beforeUpdate() {},
+  updated() {},
+  beforeDestroy() {},
+  destroyed() {},
   setup() {}
 }
 </script>
